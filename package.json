@@ -1,8 +1,8 @@
 {
-  "name": "test-create-react-app",
+  "name": "frozen-gem",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://vetterh1.github.io/test-create-react-app/",
+  "homepage": "https://vetterh1.github.io/FrozenGem/",
   "dependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

@@ -1,6 +1,6 @@
 {
-  "short_name": "LAV test",
-  "name": "LAV Create React App Test",
+  "short_name": "Frozen Gem",
+  "name": "Super simple system to add & retreive your freezer content",
   "icons": [
     {
       "src": "favicon.ico",
