@@ -26,7 +26,7 @@ class App extends Component {
               <h5 className="header col s12 light">Super simple system to add &amp; retreive your freezer content</h5>
             </div>
             <div className="row center">
-              <a href="http://materializecss.com/getting-started.html" id="download-button" className="btn-large waves-effect waves-light orange black-text">Get Started</a>
+              <a href="http://materializecss.com/getting-started.html" id="download-button" className="btn-large waves-effect waves-light amber black-text">Get Started</a>
             </div>
           </div>
         </div>
@@ -66,7 +66,7 @@ class App extends Component {
           <br /><br />
         </div>
 
-        <footer className="page-footer orange">
+        <footer className="page-footer amber lighten-3">
           <div className="container">
             <div className="row">
               <div className="col l6 s12">
