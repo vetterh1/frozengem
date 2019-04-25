@@ -2,13 +2,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from "react-router";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Auth from '../auth/Auth';
 import { withStyles } from '@material-ui/core/styles';
+import Auth from '../auth/Auth';
 import LoginInBar from '../auth/LoginInBar';
-import { withRouter } from "react-router";
 
 const styles = {
   root: {
@@ -37,8 +37,9 @@ class MainAppBar extends React.Component {
 
 
   render() {
-    const { classes, location } = this.props;
-    const onMainPage = location.pathname === '/';
+    const { classes } = this.props;
+    // const { classes, location } = this.props;
+    // const onMainPage = location.pathname === '/';
 
     return (
       <div className={classes.root}>
