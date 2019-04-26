@@ -8,6 +8,11 @@ import About from './About';
 import MainAppBar from '../navigation/MainAppBar';
 import MainPageContent from './MainPageContent';
 import AddContainer from './AddContainer';
+import Pusher from 'pusher-js';
+
+//
+// Auth init
+//
 
 const auth = new Auth();
 
@@ -16,6 +21,28 @@ const handleAuthentication = (nextState) => {
     auth.handleAuthentication();
   }
 };
+
+
+
+//
+// Pusher socket init
+//
+
+// Enable pusher logging - don't include this in production
+Pusher.logToConsole = true;
+
+const pusher = new Pusher('e5759208f6ccb0542038', {
+  cluster: 'eu',
+  forceTLS: true
+});
+
+const channel = pusher.subscribe('my-channel');
+channel.bind('my-event', function(data) {
+  alert(JSON.stringify(data));
+});
+
+
+
 
 const NotFound = () => <h2>404 error - This page has not been found!</h2>;
 
@@ -62,7 +89,7 @@ class App extends React.Component {
 
 App.propTypes = {
     // auth: PropTypes.instanceOf(Auth).isRequired,
-    classes: PropTypes.object.isRequired,
+    // classes: PropTypes.object.isRequired,
 };
 
 export default withMyTheme(App);
