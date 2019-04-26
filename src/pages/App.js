@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { withStyles } from '@material-ui/core/styles';
-import withRoot from '../withRoot';
+import withMyTheme from '../withMyTheme';
 import Auth from '../auth/Auth';
 import Callback from '../auth/Callback';
 import About from './About';
@@ -21,39 +20,13 @@ const handleAuthentication = (nextState) => {
 const NotFound = () => <h2>404 error - This page has not been found!</h2>;
 
 
-
-const styles = theme => ({
-  root: {
-    textAlign: 'center',
-    paddingTop: theme.spacing.unit * 20,
-  },
-});
-
-
-
 class App extends React.Component {
-  state = {
-  };
-
 
   render() {
-
     return (
       <Router>
 
         <MainAppBar auth={auth} />
-        {/* <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            <Link to="/topics">Topics</Link>
-          </li>
-        </ul> */}
-
 
         <Switch>
           <Route
@@ -80,7 +53,6 @@ class App extends React.Component {
             component={NotFound}
             auth={auth}
           />
-
         </Switch>          
 
       </Router>
@@ -93,7 +65,7 @@ App.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withRoot(withStyles(styles)(App));
+export default withMyTheme(App);
 
 
 //         <footer className="page-footer amber lighten-3">

@@ -39,8 +39,8 @@ const theme = createMuiTheme({
 //   paletteType: 'light',
 // });
 
-function withRoot(Component) {
-  function WithRoot(props) {
+function withMyTheme(Component) {
+  function withMyTheme(props) {
     // MuiThemeProvider makes the theme available down the React tree
     // thanks to React context.
     return (
@@ -52,7 +52,7 @@ function withRoot(Component) {
     );
   }
 
-  return WithRoot;
+  return withMyTheme;
 }
 
-export default withRoot;
+export default withMyTheme;

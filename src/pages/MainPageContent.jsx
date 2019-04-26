@@ -8,18 +8,10 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { AcUnit, AccessTime, NoteAdd } from '@material-ui/icons'
+import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
 
 const styles = theme => ({
-   heroUnit: {
-    marginTop: theme.spacing(4),
-  },
-  heroContent: {
-    maxWidth: 600,
-    margin: '0 auto',
-  },
-  heroButtons: {
-    marginTop: theme.spacing(4),
-  },
+  
 
   layout: {
     width: 'auto',
@@ -51,25 +43,21 @@ class MainPageContent extends React.Component {
     return (
       <Container maxWidth="md">
 
-        <div className={classes.heroUnit}>
-          <div className={classes.heroContent}>
-            <Typography component="h1" variant="h2" align="center" color="primary" gutterBottom>
-              Frozen Gem
-            </Typography>
-            <Typography variant="h5" align="center" color="textSecondary" paragraph>
-              Super simple system to add &amp; retreive your freezer content
-            </Typography>
-            <div className={classes.heroButtons}>
-              <Grid container spacing={10} justify="center">
-                <Grid item>
-                  <Button variant="contained" color="primary" component={Link} to="/add">
-                  Get Started
-                  </Button>
-                </Grid>
-              </Grid>
-            </div>
-          </div>
-        </div>
+        <Box mt={5} display="flex" flexDirection="column" >
+          <Typography component="h1" variant="h2" color="primary" align="center" gutterBottom>
+            Frozen Gem
+          </Typography>
+          <Typography variant="h5" color="secondary" align="center" gutterBottom >
+            Super simple system to add &amp; retreive your freezer content
+          </Typography>
+          <Grid container justify="center">
+            <Grid item>
+              <Button variant="contained" color="primary" component={Link} to="/add">
+              Get Started
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
 
         <div className={classes.layout}>
           <Grid container spacing={5}>
