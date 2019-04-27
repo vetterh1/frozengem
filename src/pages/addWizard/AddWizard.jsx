@@ -6,7 +6,6 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
-import Paper from '@material-ui/core/Paper';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -17,6 +16,10 @@ import SizeForm from './SizeForm';
 import LocationForm from './LocationForm';
 import EndForm from './EndForm';
 
+// import MobileStepper from '@material-ui/core/MobileStepper';
+// import Button from '@material-ui/core/Button';
+// import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+// import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 
 const styles = theme => ({
   layout: {
@@ -149,10 +152,7 @@ class AddWizard extends React.Component {
 
     return (
 
-        <Paper className={classes.paper}>
-          <Typography component="h1" variant="h4" align="center">
-            Checkout
-          </Typography>
+        <React.Fragment>
           <Stepper activeStep={activeStep} className={classes.stepper}>
             {steps.map(label => (
               <Step key={label}>
@@ -192,7 +192,7 @@ class AddWizard extends React.Component {
               </React.Fragment>
             )}
           </React.Fragment>
-        </Paper>
+        </React.Fragment>
 
 
 
