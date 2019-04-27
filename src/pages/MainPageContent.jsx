@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Auth from '../auth/Auth';
 import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
@@ -11,9 +10,6 @@ import { AcUnit, AccessTime, NoteAdd } from '@material-ui/icons'
 import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
 
 const styles = theme => ({
-  container: {
-    flexGrow: 1,
-  },
   layout: {
     width: 'auto',
     padding: `${theme.spacing(8)}px 0`,
@@ -42,7 +38,7 @@ class MainPageContent extends React.Component {
     const { classes } = this.props;
 
     return (
-      <Container maxWidth="md" className={classes.container}>
+      <React.Fragment>
 
         <Box mt={5} display="flex" flexDirection="column" >
           <Typography component="h1" variant="h2" color="primary" align="center" gutterBottom>
@@ -105,7 +101,7 @@ class MainPageContent extends React.Component {
           </Grid>
         </div>   
 
-        </Container>
+        </React.Fragment>
     );
   }
 }

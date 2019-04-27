@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from "react-router";
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -30,7 +31,7 @@ function MadeWithLove() {
 
 const useStyles = makeStyles(theme => ({
   footer: {
-    padding: theme.spacing(4),
+    padding: theme.spacing(3),
     marginTop: theme.spacing(4),
     margingBottom: "0px",
     backgroundColor: theme.palette.secondary.light,
@@ -42,17 +43,18 @@ const useStyles = makeStyles(theme => ({
 
 
 
-function Footer() {
+function Footer(props) {
   const classes = useStyles();
+  const onMainPage = props.location.pathname === '/';
 
   return (
     <footer className={classes.footer}>
       <Container maxWidth="md" className={classes.footerContainer}>
-        <WhyFrozenGem />
+        {onMainPage && <WhyFrozenGem />}
         <MadeWithLove />
       </Container>
     </footer>
   );
 }
 
-export default Footer;
+export default withRouter(Footer);

@@ -2,10 +2,11 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import withMyTheme from '../withMyTheme';
+import Container from '@material-ui/core/Container';
 import Auth from '../auth/Auth';
 import Callback from '../auth/Callback';
 import About from './About';
-import MainAppBar from '../navigation/MainAppBar';
+import Header from '../navigation/Header';
 import Footer from '../navigation/Footer';
 import MainPageContent from './MainPageContent';
 import AddContainer from './AddContainer';
@@ -49,6 +50,8 @@ pusher.disconnect();
 const NotFound = () => <h2>404 error - This page has not been found!</h2>;
 
 
+
+
 class App extends React.Component {
 
   render() {
@@ -57,42 +60,48 @@ class App extends React.Component {
       flexDirection: "column",
       minHeight: "100vh",
     };
+    const containerStyle = {
+      flexGrow: 1,
+    };
 
     return (
       <Router basename={process.env.PUBLIC_URL}>
 
         <div style={divStyle}>
 
-          <MainAppBar auth={auth} />
+          <Header auth={auth} />
 
-          <Switch>
-            <Route
-              exact path="/callback"
-              component={(props) => {
-                handleAuthentication(props);
-                return <Callback {...props} />;
-              }}
-            />
-            <Route
-              exact path="/add"
-              component={props => <AddContainer auth={auth} {...props} />}
-            />
-            <Route
-              exact path="/about"
-              component={() => <About />}
-            />
-            <Route
-              exact path="/"
-              component={props => <MainPageContent auth={auth} {...props} />}
-            />
-            <Route
-              exact path="*"
-              component={NotFound}
-              auth={auth}
-            />
-          </Switch>          
+          <Container maxWidth="md"  style={containerStyle}>
 
-          <Footer />
+            <Switch>
+              <Route
+                exact path="/callback"
+                component={(props) => {
+                  handleAuthentication(props);
+                  return <Callback {...props} />;
+                }}
+              />
+              <Route
+                exact path="/add"
+                component={props => <AddContainer auth={auth} {...props} />}
+              />
+              <Route
+                exact path="/about"
+                component={() => <About />}
+              />
+              <Route
+                exact path="/"
+                component={props => <MainPageContent auth={auth} {...props} />}
+              />
+              <Route
+                exact path="*"
+                component={NotFound}
+                auth={auth}
+              />
+            </Switch>          
+          </Container>
+
+          <Footer location={this.props.location} />
         </div>
       </Router>
     );

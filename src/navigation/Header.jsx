@@ -28,7 +28,7 @@ const styles = theme => ({
 });
 
 
-class MainAppBar extends React.Component {
+class Header extends React.Component {
   static propTypes = {
     auth: PropTypes.instanceOf(Auth).isRequired,
     classes: PropTypes.object.isRequired,
@@ -73,4 +73,4 @@ class MainAppBar extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(MainAppBar));
+export default withStyles(styles)(withRouter(Header));
