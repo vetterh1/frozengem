@@ -2,7 +2,8 @@
   "name": "frozen-gem",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://vetterh1.github.io/frozengem/",
+  "homepage": ".",
+  "homepage-github": "https://vetterh1.github.io/frozengem/",
   "dependencies": {
     "@material-ui/core": "^4.0.0-alpha.8",
     "@material-ui/icons": "^3.0.2",
