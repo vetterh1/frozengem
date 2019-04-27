@@ -9,7 +9,7 @@ import About from './About';
 import Header from '../navigation/Header';
 import Footer from '../navigation/Footer';
 import MainPageContent from './MainPageContent';
-import AddContainer from './AddContainer';
+import AddWizard from './addWizard/AddWizard';
 import Pusher from 'pusher-js';
 
 //
@@ -83,7 +83,7 @@ class App extends React.Component {
               />
               <Route
                 exact path="/add"
-                component={props => <AddContainer auth={auth} {...props} />}
+                component={props => <AddWizard auth={auth} {...props} />}
               />
               <Route
                 exact path="/about"
