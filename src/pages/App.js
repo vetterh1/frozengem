@@ -59,7 +59,7 @@ class App extends React.Component {
     };
 
     return (
-      <Router>
+      <Router basename={process.env.PUBLIC_URL}>
 
         <div style={divStyle}>
 

@@ -56,7 +56,10 @@ class MainAppBar extends React.Component {
             FrozenGem
           </Typography>
           <nav>
-            <Button color="inherit" component={Link} to="/">
+          <Button color="inherit" component={Link} to="/">
+              HomeSLASH
+            </Button>
+            <Button color="inherit" component={Link} to="">
               Home
             </Button>
             <Button color="inherit" component={Link} to="/add">
