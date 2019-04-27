@@ -11,8 +11,9 @@ import { AcUnit, AccessTime, NoteAdd } from '@material-ui/icons'
 import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
 
 const styles = theme => ({
-  
-
+  container: {
+    flexGrow: 1,
+  },
   layout: {
     width: 'auto',
     padding: `${theme.spacing(8)}px 0`,
@@ -41,20 +42,22 @@ class MainPageContent extends React.Component {
     const { classes } = this.props;
 
     return (
-      <Container maxWidth="md">
+      <Container maxWidth="md" className={classes.container}>
 
         <Box mt={5} display="flex" flexDirection="column" >
           <Typography component="h1" variant="h2" color="primary" align="center" gutterBottom>
             Frozen Gem
           </Typography>
-          <Typography variant="h5" color="secondary" align="center" gutterBottom >
+          <Typography variant="h5" align="center" gutterBottom >
             Super simple system to add &amp; retreive your freezer content
           </Typography>
           <Grid container justify="center">
             <Grid item>
-              <Button variant="contained" color="primary" component={Link} to="/add">
-              Get Started
-              </Button>
+              <Box mt={2} mb={4}>
+                <Button variant="contained" color="secondary" component={Link} to="/add">
+                  Get Started
+                </Button>
+              </Box>
             </Grid>
           </Grid>
         </Box>
@@ -108,38 +111,3 @@ class MainPageContent extends React.Component {
 }
 
 export default withStyles(styles)(MainPageContent);
-
-
-
-
-
-//         <div className="container">
-//           <div className="section">
-
-//             {/* <!--   Icon Section   --> */}
-//             <div className="row">
-//               <div className="col s12 l4">
-//                 <div className="icon-block">
-//                   <h2 className="center indigo-text text-darken-3"><i className="medium material-icons">ac_unit</i></h2>
-//                   <h5 className="center indigo-text text-darken-3">Don't waste food</h5>
-//                   <p className="light">Always know what you have in your freezer. You just need to use our simple tag system. Reminders will then tell you what to get out before it stays for too long.</p>
-//                 </div>
-//               </div>
-
-//               <div className="col s12 l4">
-//                 <div className="icon-block">
-//                   <h2 className="center indigo-text text-darken-3"><i className="medium material-icons">access_time</i></h2>
-//                   <h5 className="center indigo-text text-darken-3">Don't waste time</h5>
-//                   <p className="light">Adding a produce will take you less than 30s. For the retreival, you've nothing to do! We'll be sending you reminders with proposals of what you should take.</p>
-//                 </div>
-//               </div>
-
-//               <div className="col s12 l4">
-//                 <div className="icon-block">
-//                   <h2 className="center indigo-text text-darken-3"><i className="medium material-icons">note_add</i></h2>
-//                   <h5 className="center indigo-text text-darken-3">Easy to work with</h5>
-//                   <p className="light">We have worked hard to create a super simple process. A combination of easy to use app / page &amp; regular sticky notes makes adding or retreiving food a trivial task.</p>
-//                 </div>
-//               </div>
-//             </div>
-
