@@ -4,11 +4,7 @@ import PropTypes from 'prop-types';
 import Auth from '../../auth/Auth';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
-
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
+import { withStyles, withTheme } from '@material-ui/core/styles';
 import CategoryForm from './CategoryForm';
 import DetailsForm from './DetailsForm';
 import ContainerForm from './ContainerForm';
@@ -16,56 +12,17 @@ import SizeForm from './SizeForm';
 import LocationForm from './LocationForm';
 import EndForm from './EndForm';
 
-// import MobileStepper from '@material-ui/core/MobileStepper';
-// import Button from '@material-ui/core/Button';
-// import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-// import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import MobileStepper from '@material-ui/core/MobileStepper';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 
 const styles = theme => ({
-  layout: {
-    width: 'auto',
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
-      width: 1100,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
-  },
-  cardGrid: {
-    padding: `${theme.spacing.unit * 8}px 0`,
-  },
-  card: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
-  },
-  cardContent: {
-    flexGrow: 1,
-  },
-  paper: {
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(3),
-    padding: theme.spacing(2),
-    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      marginTop: theme.spacing(6),
-      marginBottom: theme.spacing(6),
-      padding: theme.spacing(3),
-    },
-  },
-  stepper: {
-    padding: theme.spacing(3, 0, 5),
-  },
-  buttons: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-  },
   button: {
-    marginTop: theme.spacing(3),
-    marginLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+    paddingLeft: theme.spacing(2),
+  },  
+  divWizard: {
+    marginTop: theme.spacing(2),
   },
 });
 
@@ -151,16 +108,7 @@ class AddWizard extends React.Component {
     // if (!isAuthenticated()) return (<LoginBanner auth={this.props.auth} />);
 
     return (
-
-        <React.Fragment>
-          <Stepper activeStep={activeStep} className={classes.stepper}>
-            {steps.map(label => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          <React.Fragment>
+          <div className={classes.divWizard}>
             {activeStep === steps.length ? (
               <React.Fragment>
                 <Typography variant="h5" gutterBottom>
@@ -174,33 +122,35 @@ class AddWizard extends React.Component {
             ) : (
               <React.Fragment>
                 {getStepContent(activeStep)}
-                <div className={classes.buttons}>
-                  {activeStep !== 0 && (
-                    <Button onClick={this.handleBack} className={classes.button}>
+
+                <MobileStepper
+                  variant="dots"
+                  steps={6}
+                  position="static"
+                  activeStep={activeStep}
+                  className={classes.root}
+                  nextButton={
+                    <Button size="small" onClick={this.handleNext} variant="contained" color="primary" className={classes.button}>
+                      {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+                      {this.props.theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+                    </Button>
+                  }
+                  backButton={
+                    <Button size="small" onClick={this.handleBack} disabled={activeStep === 0}>
+                      {this.props.theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
                       Back
                     </Button>
-                  )}
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
-                  </Button>
-                </div>
+                  }
+                />                
               </React.Fragment>
             )}
-          </React.Fragment>
-        </React.Fragment>
-
-
-
+          </div>
+        
       );
   }
 }
 
-export default withStyles(styles)(AddWizard);
+export default withStyles(styles, { withTheme: true })(AddWizard);
 
 
 
