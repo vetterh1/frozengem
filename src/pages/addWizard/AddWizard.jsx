@@ -3,14 +3,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Auth from '../../auth/Auth';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import { withStyles, withTheme } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import CategoryForm from './CategoryForm';
 import DetailsForm from './DetailsForm';
 import ContainerForm from './ContainerForm';
 import SizeForm from './SizeForm';
 import LocationForm from './LocationForm';
-import EndForm from './EndForm';
+import Results from './Results';
 
 import MobileStepper from '@material-ui/core/MobileStepper';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
@@ -31,7 +30,7 @@ const logAddWizard = log.getLogger('logAddWizard');
 logAddWizard.setLevel('debug');
 logAddWizard.debug('--> entering AddWizard.jsx');
 
-const steps = ['Category', 'Details', 'Container', 'Size', 'Location', 'EndForm'];
+const steps = ['Category', 'Details', 'Container', 'Size', 'Location'];
 
 function getStepContent(step) {
   switch (step) {
@@ -43,10 +42,8 @@ function getStepContent(step) {
       return <ContainerForm />;
     case 3:
       return <SizeForm />;
-      case 4:
+    case 4:
       return <LocationForm />;
-      case 5:
-      return <EndForm />;
     default:
       throw new Error('Unknown step');
   }
@@ -110,15 +107,7 @@ class AddWizard extends React.Component {
     return (
           <div className={classes.divWizard}>
             {activeStep === steps.length ? (
-              <React.Fragment>
-                <Typography variant="h5" gutterBottom>
-                  Thank you for your order.
-                </Typography>
-                <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order confirmation, and will
-                  send you an update when your order has shipped.
-                </Typography>
-              </React.Fragment>
+              <Results />
             ) : (
               <React.Fragment>
                 {getStepContent(activeStep)}
@@ -131,7 +120,7 @@ class AddWizard extends React.Component {
                   className={classes.root}
                   nextButton={
                     <Button size="small" onClick={this.handleNext} variant="contained" color="primary" className={classes.button}>
-                      {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+                      {activeStep === steps.length - 1 ? 'Get your code' : 'Next'}
                       {this.props.theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
                     </Button>
                   }

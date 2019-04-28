@@ -1,6 +1,7 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -25,24 +26,30 @@ CategoryForm.defaultProps = {
 function CategoryForm(props) {
   const { classes, categories } = props;
   return (
-    <React.Fragment>
-      <Typography variant="h5" >
-        Select a category
-      </Typography>
+    <Grid container spacing={3}>
+      <Grid item>
+        <Typography variant="h5">
+          Category
+        </Typography>
+      </Grid>
 
-      <List className={classes.list}>
-        {categories.map((category, index) => (
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar>
-                {category.code}
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={category.name} secondary={category.label} />
-          </ListItem>
-        ))}
-    </List>
-    </React.Fragment>
+      <Grid item container xs={12}>
+        <Grid item xs={12} md={6}>
+          <List className={classes.list}>
+            {categories.map((category, index) => (
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    {category.code}
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={category.name} secondary={category.label} />
+              </ListItem>
+            ))}
+          </List>
+        </Grid>
+      </Grid>
+    </Grid>
   );
 }
 
