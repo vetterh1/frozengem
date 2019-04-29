@@ -21,7 +21,7 @@ class CategoryForm extends React.Component {
     handleChange: PropTypes.func.isRequired,
   }
 
-  handleClick = (index) => { this.props.handleChange({name:'category', value: index}, true); };
+  handleClick = (id) => { this.props.handleChange({name:'category', value: id}, true); };
 
   render() {
   const { classes } = this.props;
@@ -39,8 +39,8 @@ class CategoryForm extends React.Component {
             <Grid item container xs={12}>
               <Grid item xs={12} md={6}>
                 <List className={classes.list}>
-                  {categories && categories.map((category, index) => (
-                    <ListItem button onClick={this.handleClick.bind(this, index)} selected={this.props.state.category === index} >
+                  {categories && categories.map((category) => (
+                    <ListItem button onClick={this.handleClick.bind(this, category.id)} selected={this.props.state.category === category.id} >
                       <ListItemAvatar>
                         <Avatar>
                           {category.id}

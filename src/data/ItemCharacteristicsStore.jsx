@@ -2,17 +2,35 @@ import React from "react";
 
 
 const defaultCharacteristics = {
-    version: 5,    
+    version: 13,    
     categories: [
         {name: 'Bread', label: '', id: 'B'},
         {name: 'Vegetables', label: '', id: 'V'},
         {name: 'Soup', label: '', id: 'S'},
+        {name: 'Plat', label: '', id: 'P'},
         {name: 'Meat', label: '', id: 'M'},
+        {name: 'Fish', label: '', id: 'F'},
+        {name: 'Desert', label: '', id: 'D'},        
+        {name: 'Ice cream', label: '', id: 'I'},
     ],
     details:[
-        {name: 'White', label: '', id: 'BW'},
-        {name: 'Grey', label: '', id: 'BG'},
-        {name: 'Cereal', label: '', id: 'BC'},
+        {name: 'Homemade', label: '', id: 'DHOM', parentIds:['all'] },
+        {name: 'Cooked', label: '', id: 'DCOO', parentIds:['V', 'S', 'M', 'P', 'F'] },
+        {name: 'Raw', label: '', id: 'DRAW', parentIds:['V', 'S', 'M', 'P', 'F'] },
+        {name: 'White', label: '', id: 'DWHI', parentIds:['B'] },
+        {name: 'Grey', label: '', id: 'DGRE', parentIds:['B']},
+        {name: 'Cereal', label: '', id: 'DCER', parentIds:['B']},
+        {name: 'Cake', label: '', id: 'DCAK', parentIds:['D']},
+        {name: 'Pie', label: '', id: 'DPIE', parentIds:['D']},
+        {name: 'Vanilla', label: '', id: 'DVAN', parentIds:['D', 'I']},
+        {name: 'Strawberry', label: '', id: 'DSTR', parentIds:['D', 'I']},
+        {name: 'Chocolate', label: '', id: 'DCHO', parentIds:['D', 'I']},
+        {name: 'Chicken', label: '', id: 'DCHI', parentIds:['S', 'M', 'P']},
+        {name: 'Beef', label: '', id: 'DBEE', parentIds:['S', 'M', 'P']},
+        {name: 'Pork', label: '', id: 'DPOR', parentIds:['S', 'M', 'P']},
+        {name: 'Veal', label: '', id: 'DVEA', parentIds:['M', 'P']},
+        {name: 'Fish', label: '', id: 'DVEA', parentIds:['S', 'P']},
+        {name: 'Vegetarian', label: '', id: 'DVEG', parentIds:['S', 'P']},
     ],
     containers:[
         {name: 'Plastic box', label: 'ex: Tupperware', id: 'P'},
@@ -21,12 +39,12 @@ const defaultCharacteristics = {
         {name: 'Aluminium foil', label: '', id: 'F'},
     ],  
     colors:[
-        {name: 'Transparent', label: '', id: 'T'},
-        {name: 'White', label: '', id: 'W'},
-        {name: 'Blue', label: '', id: 'B'},
-        {name: 'Green', label: '', id: 'G'},
-        {name: 'Red', label: '', id: 'R'},
-        {name: 'Other', label: '', id: 'O'},
+        {name: 'Transparent', label: '', id: 'T', parentIds:['P'] },
+        {name: 'White', label: '', id: 'W', parentIds:['P']},
+        {name: 'Blue', label: '', id: 'B', parentIds:['P']},
+        {name: 'Green', label: '', id: 'G', parentIds:['P']},
+        {name: 'Red', label: '', id: 'R', parentIds:['P']},
+        {name: 'Other', label: '', id: 'O', parentIds:['P']},
     ],
     locations:[
         {name: 'Top', label: 'Higher section', id: 'T'},
@@ -38,10 +56,10 @@ const defaultCharacteristics = {
         {name: 'Basement', label: 'Basement freezer', id: 'B'},
     ],
     sizes:[
-        {name: '1', label: '1 portion', id: '1'},
-        {name: '2 / 3', label: '2 to 3 portions', id: '2'},
-        {name: '4 / 5', label: '4 to 5 portions', id: '4'},
-        {name: '6+', label: '6 or more', id: '6'},
+        {name: '1', label: '1 serving', id: '1'},
+        {name: '2+', label: '2 to 3 servings', id: '2'},
+        {name: '4+', label: '4 to 5 servings', id: '4'},
+        {name: '6+', label: '6 or more servings', id: '6'},
     ]        
 };
 

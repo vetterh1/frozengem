@@ -29,13 +29,16 @@ class DetailsForm extends React.Component {
     }    
   
     handleTextChange(event) { this.props.handleChange({name:'name', value: event.target.value}, false);  }
-    handleClick = (index) => { this.props.handleChange({name:'details', value: index}, false); };
+    handleClick = (id) => { this.props.handleChange({name:'details', value: id}, false); };
   
     render() {
       const { classes } = this.props;
+      const parentId = this.props.state.category;
+      console.log("parentId:", parentId)
       return (
       <ItemCharacteristicsConsumer>
         {({ details }) => {
+          const filteredItems = details.filter(detail => detail.parentIds.find(oneParentId => oneParentId === 'all' || oneParentId == parentId));
           return (
             <Grid container spacing={3}>
               <Grid item>
@@ -61,14 +64,14 @@ class DetailsForm extends React.Component {
                 </Grid>
                 <Grid item xs={12} md={6}>
                 <List className={classes.list}>
-                {details.map((detail, index) => (
-                  <ListItem button onClick={this.handleClick.bind(this, index)} selected={this.props.state.details === index} >
+                {filteredItems.map((item) => (
+                  <ListItem button onClick={this.handleClick.bind(this, item.id)} >
                     <ListItemAvatar>
                       <Avatar>
-                        {detail.id}
+                        {item.id}
                       </Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary={detail.name} secondary={detail.label} />
+                    <ListItemText primary={item.name} secondary={item.label} />
                   </ListItem>
                   ))}
                 </List>
