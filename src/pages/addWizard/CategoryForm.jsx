@@ -8,48 +8,48 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 
+import { ItemCharacteristicsConsumer } from "../../data/ItemCharacteristicsStore";
+
 
 
 const styles = theme => ({
 });
 
-CategoryForm.defaultProps = { 
-  categories:[
-    {name: 'Bread', label: '...bread', code: 'B'},
-    {name: 'Vegetable', label: 'Raw veggies', code: 'V'},
-    {name: 'Soup', label: 'Homemade soup', code: 'S'},
-    {name: 'Meat', label: '...meat', code: 'M'},
-  ]
-};
 
 
 function CategoryForm(props) {
-  const { classes, categories } = props;
+  const { classes } = props;
   return (
-    <Grid container spacing={3}>
-      <Grid item>
-        <Typography variant="h5">
-          Category
-        </Typography>
-      </Grid>
+    <ItemCharacteristicsConsumer>
+      {({ categories }) => {
+        return (
+          <Grid container spacing={3}>
+            <Grid item>
+              <Typography variant="h5">
+                Category
+            </Typography>
+            </Grid>
 
-      <Grid item container xs={12}>
-        <Grid item xs={12} md={6}>
-          <List className={classes.list}>
-            {categories.map((category, index) => (
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar>
-                    {category.code}
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={category.name} secondary={category.label} />
-              </ListItem>
-            ))}
-          </List>
-        </Grid>
-      </Grid>
-    </Grid>
+            <Grid item container xs={12}>
+              <Grid item xs={12} md={6}>
+                <List className={classes.list}>
+                  {categories && categories.map((category, index) => (
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar>
+                          {category.code}
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText primary={category.name} secondary={category.label} />
+                    </ListItem>
+                  ))}
+                </List>
+              </Grid>
+            </Grid>
+          </Grid>
+        );
+      }}
+    </ItemCharacteristicsConsumer>
   );
 }
 

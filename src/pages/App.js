@@ -12,6 +12,8 @@ import MainPageContent from './MainPageContent';
 import AddWizard from './addWizard/AddWizard';
 import Pusher from 'pusher-js';
 
+import { ItemCharacteristicsStore } from "../data/ItemCharacteristicsStore";
+
 //
 // Auth init
 //
@@ -65,45 +67,47 @@ class App extends React.Component {
     };
 
     return (
-      <Router basename={process.env.PUBLIC_URL}>
+      <ItemCharacteristicsStore>
+        <Router basename={process.env.PUBLIC_URL}>
 
-        <div style={divStyle}>
+          <div style={divStyle}>
 
-          <Header auth={auth} />
+            <Header auth={auth} />
 
-          <Container maxWidth="md"  style={containerStyle}>
+            <Container maxWidth="md"  style={containerStyle}>
 
-            <Switch>
-              <Route
-                exact path="/callback"
-                component={(props) => {
-                  handleAuthentication(props);
-                  return <Callback {...props} />;
-                }}
-              />
-              <Route
-                exact path="/add"
-                component={props => <AddWizard auth={auth} {...props} />}
-              />
-              <Route
-                exact path="/about"
-                component={() => <About />}
-              />
-              <Route
-                exact path="/"
-                component={props => <MainPageContent auth={auth} {...props} />}
-              />
-              <Route
-                exact path="*"
-                component={NotFound}
-                auth={auth}
-              />
-            </Switch>          
-          </Container>
+              <Switch>
+                <Route
+                  exact path="/callback"
+                  component={(props) => {
+                    handleAuthentication(props);
+                    return <Callback {...props} />;
+                  }}
+                />
+                <Route
+                  exact path="/add"
+                  component={props => <AddWizard auth={auth} {...props} />}
+                />
+                <Route
+                  exact path="/about"
+                  component={() => <About />}
+                />
+                <Route
+                  exact path="/"
+                  component={props => <MainPageContent auth={auth} {...props} />}
+                />
+                <Route
+                  exact path="*"
+                  component={NotFound}
+                  auth={auth}
+                />
+              </Switch>          
+            </Container>
 
-          <Footer location={this.props.location} />
-        </div>
-      </Router>
+            <Footer location={this.props.location} />
+          </div>
+        </Router>
+      </ItemCharacteristicsStore>
     );
   }
 }
