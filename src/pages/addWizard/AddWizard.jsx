@@ -15,6 +15,8 @@ import MobileStepper from '@material-ui/core/MobileStepper';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 
+import stringifyOnce from '../../utils/stringifyOnce.js'
+
 const styles = theme => ({
   button: {
     paddingRight: theme.spacing(1),
@@ -32,18 +34,18 @@ logAddWizard.debug('--> entering AddWizard.jsx');
 
 const steps = ['Category', 'Details', 'Container', 'Size', 'Location'];
 
-function getStepContent(step) {
+function getStepContent(step, state, handleChange) {
   switch (step) {
     case 0:
-      return <CategoryForm />;
+      return <CategoryForm handleChange={handleChange} state={state} />;
     case 1:
-      return <DetailsForm />;
+      return <DetailsForm handleChange={handleChange} state={state} />;
     case 2:
-      return <ContainerForm />;
+      return <ContainerForm handleChange={handleChange} state={state} />;
     case 3:
-      return <SizeForm />;
+      return <SizeForm handleChange={handleChange} state={state} />;
     case 4:
-      return <LocationForm />;
+      return <LocationForm handleChange={handleChange} state={state} />;
     default:
       throw new Error('Unknown step');
   }
@@ -59,21 +61,22 @@ class AddWizard extends React.Component {
     super(props);
     this.state = {
       activeStep: 0,
-      category: '',
-      details:  '',
-      container: '',
-      size: '', 
-      location: '',
     };
     this.handleNext = this.handleNext.bind(this);
     this.handleBack = this.handleBack.bind(this);
+    this.handleChange = this.handleChange.bind(this)
+
   }
 
-  handleChange = event => {
-    const {name, value} = event.target
+  handleChange = (change, autoNext) => {
+    const {name, value} = change;
+    // alert(`Results: \n 
+    // change: ${stringifyOnce(change)} \n 
+    // name: ${name} \n 
+    // value: ${value}`);
     this.setState({
       [name]: value
-    })    
+    }, autoNext ? this.handleNext : null)    
   }
    
   handleSubmit = event => {
@@ -107,10 +110,16 @@ class AddWizard extends React.Component {
     return (
           <div className={classes.divWizard}>
             {activeStep === steps.length ? (
-              <Results />
+              <React.Fragment>
+                <p>
+                  {stringifyOnce(this.state)}
+                </p>
+                <Results />
+              </React.Fragment>
+
             ) : (
               <React.Fragment>
-                {getStepContent(activeStep)}
+                {getStepContent(activeStep, this.state, this.handleChange)}
 
                 <MobileStepper
                   variant="dots"

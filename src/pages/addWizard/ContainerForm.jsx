@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -16,9 +17,17 @@ const styles = theme => ({
 
 
 
-function ContainerForm(props) {
-  const { classes } = props;
-  return (
+class ContainerForm extends React.Component {
+    static propTypes = {
+      handleChange: PropTypes.func.isRequired,
+    }
+
+    handleClickContainer = (index) => { this.props.handleChange({name:'container', value: index}, false); };
+    handleClickColor = (index) => { this.props.handleChange({name:'color', value: index}, false); };
+  
+  render() {
+    const { classes } = this.props;
+    return (
     <ItemCharacteristicsConsumer>
       {({ containers, colors }) => {
         return (
@@ -33,10 +42,10 @@ function ContainerForm(props) {
               <Grid item xs={12} md={6}>
                 <List className={classes.list}>
                   {containers.map((container, index) => (
-                    <ListItem>
+                    <ListItem button onClick={this.handleClickContainer.bind(this, index)} selected={this.props.state.container === index}>
                       <ListItemAvatar>
                         <Avatar>
-                          {container.code}
+                          {container.id}
                         </Avatar>
                       </ListItemAvatar>
                       <ListItemText primary={container.name} secondary={container.label} />
@@ -48,10 +57,10 @@ function ContainerForm(props) {
               <Grid item xs={12} md={6}>
                 <List className={classes.list}>
                   {colors.map((color, index) => (
-                    <ListItem>
+                    <ListItem button onClick={this.handleClickColor.bind(this, index)} selected={this.props.state.color === index}>
                       <ListItemAvatar>
                         <Avatar>
-                          {color.code}
+                          {color.id}
                         </Avatar>
                       </ListItemAvatar>
                       <ListItemText primary={color.name} secondary={color.label} />
@@ -63,7 +72,8 @@ function ContainerForm(props) {
           </Grid>
         );
       }}
-    </ItemCharacteristicsConsumer>  );
+    </ItemCharacteristicsConsumer>
+  )};
 }
 
 export default withStyles(styles)(ContainerForm);

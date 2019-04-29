@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -15,10 +16,15 @@ import { ItemCharacteristicsConsumer } from "../../data/ItemCharacteristicsStore
 const styles = theme => ({
 });
 
+class CategoryForm extends React.Component {
+  static propTypes = {
+    handleChange: PropTypes.func.isRequired,
+  }
 
+  handleClick = (index) => { this.props.handleChange({name:'category', value: index}, true); };
 
-function CategoryForm(props) {
-  const { classes } = props;
+  render() {
+  const { classes } = this.props;
   return (
     <ItemCharacteristicsConsumer>
       {({ categories }) => {
@@ -34,10 +40,10 @@ function CategoryForm(props) {
               <Grid item xs={12} md={6}>
                 <List className={classes.list}>
                   {categories && categories.map((category, index) => (
-                    <ListItem>
+                    <ListItem button onClick={this.handleClick.bind(this, index)} selected={this.props.state.category === index} >
                       <ListItemAvatar>
                         <Avatar>
-                          {category.code}
+                          {category.id}
                         </Avatar>
                       </ListItemAvatar>
                       <ListItemText primary={category.name} secondary={category.label} />
@@ -50,7 +56,7 @@ function CategoryForm(props) {
         );
       }}
     </ItemCharacteristicsConsumer>
-  );
+  )};
 }
 
 export default withStyles(styles)(CategoryForm);

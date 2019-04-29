@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -16,9 +17,16 @@ const styles = theme => ({
 
 
 
-function SizeForm(props) {
-  const { classes } = props;
-  return (
+class SizeForm extends React.Component {
+    static propTypes = {
+      handleChange: PropTypes.func.isRequired,
+    }
+  
+    handleClick = (index) => { this.props.handleChange({name:'size', value: index}, true); };
+  
+    render() {
+    const { classes } = this.props;
+    return (
     <ItemCharacteristicsConsumer>
       {({ sizes }) => {
         return (    
@@ -33,10 +41,10 @@ function SizeForm(props) {
               <Grid item xs={12} md={6}>
                 <List className={classes.list}>
                   {sizes.map((size, index) => (
-                    <ListItem>
+                    <ListItem button onClick={this.handleClick.bind(this, index)} selected={this.props.state.size === index}>
                       <ListItemAvatar>
                         <Avatar>
-                          {size.code}
+                          {size.id}
                         </Avatar>
                       </ListItemAvatar>
                       <ListItemText primary={size.name} secondary={size.label} />
@@ -48,7 +56,8 @@ function SizeForm(props) {
           </Grid>
         );
       }}
-    </ItemCharacteristicsConsumer>  );
+    </ItemCharacteristicsConsumer> 
+  )};
 }
 
 export default withStyles(styles)(SizeForm);

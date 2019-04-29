@@ -2,46 +2,46 @@ import React from "react";
 
 
 const defaultCharacteristics = {
-    version: 4,    
+    version: 5,    
     categories: [
-        {name: 'Bread', label: '', code: 'B'},
-        {name: 'Vegetables', label: '', code: 'V'},
-        {name: 'Soup', label: '', code: 'S'},
-        {name: 'Meat', label: '', code: 'M'},
+        {name: 'Bread', label: '', id: 'B'},
+        {name: 'Vegetables', label: '', id: 'V'},
+        {name: 'Soup', label: '', id: 'S'},
+        {name: 'Meat', label: '', id: 'M'},
     ],
     details:[
-        {name: 'White', label: '', code: 'BW'},
-        {name: 'Grey', label: '', code: 'BG'},
-        {name: 'Cereal', label: '', code: 'BC'},
+        {name: 'White', label: '', id: 'BW'},
+        {name: 'Grey', label: '', id: 'BG'},
+        {name: 'Cereal', label: '', id: 'BC'},
     ],
     containers:[
-        {name: 'Plastic box', label: 'ex: Tupperware', code: 'P'},
-        {name: 'Aluminium box', label: 'ex: Doggy box', code: 'A'},
-        {name: 'Plastic bag', label: 'ex: Ziplog', code: 'B'},
-        {name: 'Aluminium foil', label: '', code: 'F'},
+        {name: 'Plastic box', label: 'ex: Tupperware', id: 'P'},
+        {name: 'Aluminium box', label: 'ex: Doggy box', id: 'A'},
+        {name: 'Plastic bag', label: 'ex: Ziplog', id: 'B'},
+        {name: 'Aluminium foil', label: '', id: 'F'},
     ],  
     colors:[
-        {name: 'Transparent', label: '', code: 'T'},
-        {name: 'White', label: '', code: 'W'},
-        {name: 'Blue', label: '', code: 'B'},
-        {name: 'Green', label: '', code: 'G'},
-        {name: 'Red', label: '', code: 'R'},
-        {name: 'Other', label: '', code: 'O'},
+        {name: 'Transparent', label: '', id: 'T'},
+        {name: 'White', label: '', id: 'W'},
+        {name: 'Blue', label: '', id: 'B'},
+        {name: 'Green', label: '', id: 'G'},
+        {name: 'Red', label: '', id: 'R'},
+        {name: 'Other', label: '', id: 'O'},
     ],
     locations:[
-        {name: 'Top', label: 'Higher section', code: 'T'},
-        {name: 'Middle', label: 'Middle section', code: 'M'},
-        {name: 'Bottom', label: 'Lower section', code: 'B'},
+        {name: 'Top', label: 'Higher section', id: 'T'},
+        {name: 'Middle', label: 'Middle section', id: 'M'},
+        {name: 'Bottom', label: 'Lower section', id: 'B'},
     ],  
     freezers:[
-        {name: 'Kitchen', label: 'Kitchen freezer', code: 'K'},
-        {name: 'Basement', label: 'Basement freezer', code: 'B'},
+        {name: 'Kitchen', label: 'Kitchen freezer', id: 'K'},
+        {name: 'Basement', label: 'Basement freezer', id: 'B'},
     ],
     sizes:[
-        {name: '1', label: '1 portion', code: '1'},
-        {name: '2 / 3', label: '2 to 3 portions', code: '2'},
-        {name: '4 / 5', label: '4 to 5 portions', code: '4'},
-        {name: '6+', label: '6 or more', code: '6'},
+        {name: '1', label: '1 portion', id: '1'},
+        {name: '2 / 3', label: '2 to 3 portions', id: '2'},
+        {name: '4 / 5', label: '4 to 5 portions', id: '4'},
+        {name: '6+', label: '6 or more', id: '6'},
     ]        
 };
 
