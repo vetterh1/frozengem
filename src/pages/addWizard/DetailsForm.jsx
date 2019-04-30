@@ -22,23 +22,16 @@ class DetailsForm extends React.Component {
     }
 
 
-    constructor(props) {
-      super(props);
-      this.state = {
-      };
-    }    
-  
     handleTextChange(event) { this.props.handleChange({name:'name', value: event.target.value}, false);  }
     handleClick = (id) => { this.props.handleChange({name:'details', value: id}, false); };
   
     render() {
-      const { classes } = this.props;
-      const parentId = this.props.state.category;
-      console.log("parentId:", parentId)
+      const { classes, state } = this.props;
+      const parentId = state.category;
       return (
       <ItemCharacteristicsConsumer>
         {({ details }) => {
-          const filteredItems = details.filter(detail => detail.parentIds.find(oneParentId => oneParentId === 'all' || oneParentId == parentId));
+          const filteredItems = details.filter(detail => detail.parentIds.find(oneParentId => oneParentId === 'all' || oneParentId === parentId));
           return (
             <Grid container spacing={3}>
               <Grid item>
@@ -54,7 +47,7 @@ class DetailsForm extends React.Component {
                     <InputLabel htmlFor="name">Name (optional)</InputLabel>
                     <Input
                       id="name"
-                      value={this.props.state.name}
+                      value={state.name}
                       onChange={this.handleTextChange.bind(this)}
                       aria-describedby="name-text"
                       fullWidth
