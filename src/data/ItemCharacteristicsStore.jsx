@@ -63,7 +63,7 @@ const defaultCharacteristics = {
     ]        
 };
 
-const Context = React.createContext();
+export const Context = React.createContext();
 
 export const ActionTypes = {
     // LOAD: "LOAD"

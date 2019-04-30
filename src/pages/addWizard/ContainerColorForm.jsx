@@ -8,7 +8,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import { ItemCharacteristicsConsumer } from "../../data/ItemCharacteristicsStore";
+import { ItemCharacteristicsConsumer, Context } from "../../data/ItemCharacteristicsStore";
 
 
 
@@ -17,31 +17,39 @@ const styles = theme => ({
 
 
 
-class ContainerForm extends React.Component {
+class ContainerColorForm extends React.Component {
     static propTypes = {
       handleChange: PropTypes.func.isRequired,
     }
 
-    handleClickContainer = (index) => { this.props.handleChange({name:'container', value: index}, true); };
+    componentDidMount() {
+      console.log("ContainerColorForm::componentDidMount");
+
+      const { state } = this.props;
+      const parentId = state.container;
+      // Is there any color for the selected container?
+      const filteredItems = this.context.colors.filter(color => color.parentIds.find(oneParentId => oneParentId === parentId));
+      if(filteredItems.length <= 0) {this.handleClickColor( null);}
+    }
+
+    handleClickColor = (index) => { this.props.handleChange({name:'color', value: index}, true); };
   
   render() {
     const { classes, state } = this.props;
     return (
     <ItemCharacteristicsConsumer>
-      {({ containers }) => {
+      {({ colors }) => {
         return (
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Typography variant="h5">
-                Container
+                Container color
               </Typography>
             </Grid>
-
-            <Grid item container xs={12}>
               <Grid item xs={12} md={6}>
                 <List className={classes.list}>
-                  {containers.map((item, index) => (
-                    <ListItem button onClick={this.handleClickContainer.bind(this, item.id)} selected={state.container === item.id}>
+                  {colors.map((item, index) => (
+                    <ListItem button onClick={this.handleClickColor.bind(this, index)} selected={state.color === item.id}>
                       <ListItemAvatar>
                         <Avatar>
                           {item.id}
@@ -53,11 +61,11 @@ class ContainerForm extends React.Component {
                 </List>
               </Grid>
             </Grid>
-          </Grid>
         );
       }}
     </ItemCharacteristicsConsumer>
   )};
 }
+ContainerColorForm.contextType = Context;
 
-export default withStyles(styles)(ContainerForm);
+export default withStyles(styles)(ContainerColorForm);

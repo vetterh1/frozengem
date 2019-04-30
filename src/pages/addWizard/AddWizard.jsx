@@ -7,6 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import CategoryForm from './CategoryForm';
 import DetailsForm from './DetailsForm';
 import ContainerForm from './ContainerForm';
+import ContainerColorForm from './ContainerColorForm';
 import SizeForm from './SizeForm';
 import LocationForm from './LocationForm';
 import Results from './Results';
@@ -32,7 +33,7 @@ const logAddWizard = log.getLogger('logAddWizard');
 logAddWizard.setLevel('debug');
 logAddWizard.debug('--> entering AddWizard.jsx');
 
-const steps = ['Category', 'Details', 'Container', 'Size', 'Location'];
+const steps = ['Category', 'Details', 'Container', 'Color', 'Size', 'Location'];
 
 function getStepContent(step, state, handleChange, handleArrayToggle) {
   switch (step) {
@@ -43,8 +44,10 @@ function getStepContent(step, state, handleChange, handleArrayToggle) {
     case 2:
       return <ContainerForm handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} />;
     case 3:
-      return <SizeForm handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} />;
+      return <ContainerColorForm handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} />;
     case 4:
+      return <SizeForm handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} />;
+    case 5:
       return <LocationForm handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} />;
     default:
       throw new Error('Unknown step');
@@ -136,7 +139,7 @@ class AddWizard extends React.Component {
 
                 <MobileStepper
                   variant="dots"
-                  steps={6}
+                  steps={steps.length}
                   position="static"
                   activeStep={activeStep}
                   className={classes.root}
