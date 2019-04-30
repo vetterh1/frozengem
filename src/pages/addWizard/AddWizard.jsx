@@ -34,12 +34,12 @@ logAddWizard.debug('--> entering AddWizard.jsx');
 
 const steps = ['Category', 'Details', 'Container', 'Size', 'Location'];
 
-function getStepContent(step, state, handleChange) {
+function getStepContent(step, state, handleChange, handleChangeToArray) {
   switch (step) {
     case 0:
       return <CategoryForm handleChange={handleChange} state={state} />;
     case 1:
-      return <DetailsForm handleChange={handleChange} state={state} />;
+      return <DetailsForm handleChange={handleChange} handleChangeToArray={handleChangeToArray} state={state} />;
     case 2:
       return <ContainerForm handleChange={handleChange} state={state} />;
     case 3:
@@ -61,22 +61,31 @@ class AddWizard extends React.Component {
     super(props);
     this.state = {
       activeStep: 0,
+      details: [],
     };
     this.handleNext = this.handleNext.bind(this);
     this.handleBack = this.handleBack.bind(this);
     this.handleChange = this.handleChange.bind(this)
+    this.handleChangeToArray = this.handleChangeToArray.bind(this)
 
   }
 
   handleChange = (change, autoNext) => {
     const {name, value} = change;
-    // alert(`Results: \n 
-    // change: ${stringifyOnce(change)} \n 
-    // name: ${name} \n 
-    // value: ${value}`);
-    this.setState({
-      [name]: value
-    }, autoNext ? this.handleNext : null)    
+    this.setState({[name]: value}, autoNext ? this.handleNext : null)    
+  }
+
+  handleChangeToArray = (change) => {
+    const {name, value} = change;
+    const existingValues = this.state[name];
+    const alreadyExists = existingValues.find(valueInList => valueInList === value);
+    let newValues;
+    if(alreadyExists){
+      newValues = existingValues.filter(valueInList => valueInList !== value);
+    } else {
+      newValues = [...existingValues, value];
+    }
+    this.setState({[name]: newValues})    
   }
    
   handleSubmit = event => {
@@ -119,7 +128,7 @@ class AddWizard extends React.Component {
 
             ) : (
               <React.Fragment>
-                {getStepContent(activeStep, this.state, this.handleChange)}
+                {getStepContent(activeStep, this.state, this.handleChange, this.handleChangeToArray)}
 
                 <MobileStepper
                   variant="dots"

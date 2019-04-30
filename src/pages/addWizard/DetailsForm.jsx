@@ -23,7 +23,7 @@ class DetailsForm extends React.Component {
 
 
     handleTextChange(event) { this.props.handleChange({name:'name', value: event.target.value}, false);  }
-    handleClick = (id) => { this.props.handleChange({name:'details', value: id}, false); };
+    handleClick = (id) => { this.props.handleChangeToArray({name:'details', value: id}); };
   
     render() {
       const { classes, state } = this.props;
@@ -58,7 +58,7 @@ class DetailsForm extends React.Component {
                 <Grid item xs={12} md={6}>
                 <List className={classes.list}>
                 {filteredItems.map((item) => (
-                  <ListItem button onClick={this.handleClick.bind(this, item.id)} >
+                  <ListItem button onClick={this.handleClick.bind(this, item.id)} selected={state.details.find(detail => detail === item.id)}>
                     <ListItemAvatar>
                       <Avatar>
                         {item.id}
