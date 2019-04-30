@@ -34,18 +34,18 @@ logAddWizard.debug('--> entering AddWizard.jsx');
 
 const steps = ['Category', 'Details', 'Container', 'Size', 'Location'];
 
-function getStepContent(step, state, handleChange, handleChangeToArray) {
+function getStepContent(step, state, handleChange, handleArrayToggle) {
   switch (step) {
     case 0:
-      return <CategoryForm handleChange={handleChange} state={state} />;
+      return <CategoryForm handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} />;
     case 1:
-      return <DetailsForm handleChange={handleChange} handleChangeToArray={handleChangeToArray} state={state} />;
+      return <DetailsForm handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} />;
     case 2:
-      return <ContainerForm handleChange={handleChange} state={state} />;
+      return <ContainerForm handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} />;
     case 3:
-      return <SizeForm handleChange={handleChange} state={state} />;
+      return <SizeForm handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} />;
     case 4:
-      return <LocationForm handleChange={handleChange} state={state} />;
+      return <LocationForm handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} />;
     default:
       throw new Error('Unknown step');
   }
@@ -66,16 +66,20 @@ class AddWizard extends React.Component {
     this.handleNext = this.handleNext.bind(this);
     this.handleBack = this.handleBack.bind(this);
     this.handleChange = this.handleChange.bind(this)
-    this.handleChangeToArray = this.handleChangeToArray.bind(this)
+    this.handleArrayToggle = this.handleArrayToggle.bind(this)
 
   }
 
+  // Set the received value in the state 
+  // (replacing any existing one)
   handleChange = (change, autoNext) => {
     const {name, value} = change;
     this.setState({[name]: value}, autoNext ? this.handleNext : null)    
   }
 
-  handleChangeToArray = (change) => {
+  // Add the received value to the state value lists if it does not exist yet
+  // If it already exists: remove it
+  handleArrayToggle = (change) => {
     const {name, value} = change;
     const existingValues = this.state[name];
     const alreadyExists = existingValues.find(valueInList => valueInList === value);
@@ -128,7 +132,7 @@ class AddWizard extends React.Component {
 
             ) : (
               <React.Fragment>
-                {getStepContent(activeStep, this.state, this.handleChange, this.handleChangeToArray)}
+                {getStepContent(activeStep, this.state, this.handleChange, this.handleArrayToggle)}
 
                 <MobileStepper
                   variant="dots"

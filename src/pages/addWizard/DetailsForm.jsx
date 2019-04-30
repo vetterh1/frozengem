@@ -23,11 +23,14 @@ class DetailsForm extends React.Component {
 
 
     handleTextChange(event) { this.props.handleChange({name:'name', value: event.target.value}, false);  }
-    handleClick = (id) => { this.props.handleChangeToArray({name:'details', value: id}); };
+    handleClick = (id) => { this.props.handleArrayToggle({name:'details', value: id}); };
   
     render() {
       const { classes, state } = this.props;
       const parentId = state.category;
+      // Note on filtering: we only display items that are linked to an already selected parent.
+      // (there can be multiple parents, or the special value 'all')
+      // Note on the button click: we support multi-select, so we have toggle the individual values in the state (as an array)
       return (
       <ItemCharacteristicsConsumer>
         {({ details }) => {
