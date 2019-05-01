@@ -9,11 +9,24 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import { ItemCharacteristicsConsumer } from "../../data/ItemCharacteristicsStore";
-import stringifyOnce from '../../utils/stringifyOnce.js'
+// import stringifyOnce from '../../utils/stringifyOnce.js'
 
 
 
-const styles = theme => ({
+const styles = () => ({
+  gridContainer: {
+    display: "flex",
+    flexDirection: "column",
+    flex: "1 1 auto", 
+  },
+  divNav: {
+    display: "flex",
+    flexGrow: 0,
+  },  
+  gridMainContent: {
+    display: "flex",
+    flexGrow: 1,
+  },
 });
 
 class CategoryForm extends React.Component {
@@ -22,45 +35,56 @@ class CategoryForm extends React.Component {
   }
 
   handleClick = (id) => {
-    const {handleChange, lastStep, nextStep} = this.props;
+    const {handleChange, nextStep} = this.props;
     handleChange({name:'category', value: id}); 
     nextStep(); 
   };
 
   render() {
-  const { classes } = this.props;
-  return (
-    <ItemCharacteristicsConsumer>
-      {({ categories }) => {
-          return (
-          <Grid container spacing={3}>
-            <Grid item>
-              <Typography variant="h5">
-                Category
-            </Typography>
-            </Grid>
+    const { classes } = this.props;
+    return (
+      <ItemCharacteristicsConsumer>
+        {({ categories }) => {
+            return (
+              <React.Fragment>
+                <Grid container spacing={3} className={classes.gridContainer}>
 
-            <Grid item container xs={12}>
-              <Grid item xs={12} md={6}>
-                <List className={classes.list}>
-                  {categories && categories.map((category) => (
-                    <ListItem button onClick={this.handleClick.bind(this, category.id)} selected={this.props.state.category === category.id} >
-                      <ListItemAvatar>
-                        <Avatar>
-                          {category.id}
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText primary={category.name} secondary={category.label} />
-                    </ListItem>
-                  ))}
-                </List>
-              </Grid>
-            </Grid>
-          </Grid>
-        );
-      }}
-    </ItemCharacteristicsConsumer>
-  )};
+                  <Grid item>
+                    <Typography variant="h5">
+                      Category
+                  </Typography>
+                  </Grid>
+
+                  <Grid item container xs={12} className={classes.gridMainContent}>
+                    <Grid item xs={12} md={6}>
+                      <List className={classes.list}>
+                        {categories && categories.map((category) => (
+                          <ListItem button onClick={this.handleClick.bind(this, category.id)} selected={this.props.state.category === category.id} key={category.id}>
+                            <ListItemAvatar>
+                              <Avatar>
+                                {category.id}
+                              </Avatar>
+                            </ListItemAvatar>
+                            <ListItemText primary={category.name} secondary={category.label} />
+                          </ListItem>
+                        ))}
+                      </List>
+                    </Grid>
+                  </Grid>
+
+                  <Grid item className={classes.divNav}>
+                    <Typography variant="h5">
+                      test
+                    </Typography>
+                  </Grid>
+
+                </Grid>
+
+            </React.Fragment>
+          );
+        }}
+      </ItemCharacteristicsConsumer>
+    )};
 }
 
 export default withStyles(styles)(CategoryForm);

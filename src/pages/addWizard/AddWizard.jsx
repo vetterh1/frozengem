@@ -19,8 +19,19 @@ const styles = theme => ({
     paddingRight: theme.spacing(1),
     paddingLeft: theme.spacing(2),
   },  
-  divWizard: {
+  divWizardPage: {
     marginTop: theme.spacing(2),
+    display: "flex",
+    flexDirection: "column",
+    flex: "1 1 auto", 
+  },
+  divWizard: {
+    display: "flex",
+    flexGrow: 1,
+  },  
+  divNav: {
+    display: "flex",
+    flexGrow: 0,
   },
 });
 
@@ -82,8 +93,8 @@ class AddWizard extends React.Component {
     // if (!isAuthenticated()) return (<LoginBanner auth={this.props.auth} />);
 
     return (
-          <div className={classes.divWizard}>
-            <StepWizard>
+          <div className={classes.divWizardPage}>
+            <StepWizard className={classes.divWizard}>
               <CategoryForm handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
               <DetailsForm handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
               {/* <ContainerForm handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} />
@@ -91,6 +102,9 @@ class AddWizard extends React.Component {
               <SizeForm handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} />
               <LocationForm handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} /> */}
             </StepWizard>
+            <div className={classes.divNav}>
+            test
+            </div>
           </div>
       );
   }

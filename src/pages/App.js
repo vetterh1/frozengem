@@ -63,6 +63,7 @@ class App extends React.Component {
       minHeight: "100vh",
     };
     const containerStyle = {
+      display: "flex",
       flexGrow: 1,
     };
 
