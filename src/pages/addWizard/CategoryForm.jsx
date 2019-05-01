@@ -8,8 +8,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-
 import { ItemCharacteristicsConsumer } from "../../data/ItemCharacteristicsStore";
+import stringifyOnce from '../../utils/stringifyOnce.js'
 
 
 
@@ -21,14 +21,18 @@ class CategoryForm extends React.Component {
     handleChange: PropTypes.func.isRequired,
   }
 
-  handleClick = (id) => { this.props.handleChange({name:'category', value: id}, true); };
+  handleClick = (id) => {
+    const {handleChange, lastStep, nextStep} = this.props;
+    handleChange({name:'category', value: id}); 
+    nextStep(); 
+  };
 
   render() {
   const { classes } = this.props;
   return (
     <ItemCharacteristicsConsumer>
       {({ categories }) => {
-        return (
+          return (
           <Grid container spacing={3}>
             <Grid item>
               <Typography variant="h5">

@@ -1,4 +1,14 @@
 import React from "react";
+import * as log from 'loglevel';
+import stringifyOnce from '../utils/stringifyOnce.js'
+
+const logItemCharacteristicsStore = log.getLogger('logItemCharacteristicsStore');
+// loglevelServerSend(logItemCharacteristicsStore); // a setLevel() MUST be run AFTER this!
+logItemCharacteristicsStore.setLevel('debug');
+logItemCharacteristicsStore.debug('--> entering ItemCharacteristicsStore.jsx');
+
+
+
 
 
 const defaultCharacteristics = {
@@ -121,6 +131,8 @@ export class ItemCharacteristicsStore extends React.Component {
         }
 
         this.setState(itemCharacteristics);
+
+        console.log('ItemCharacteristicsStore: itemCharacteristics', stringifyOnce(itemCharacteristics));
     }
 
     save() {

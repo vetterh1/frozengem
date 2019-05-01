@@ -12,6 +12,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import { ItemCharacteristicsConsumer } from "../../data/ItemCharacteristicsStore";
+import stringifyOnce from '../../utils/stringifyOnce.js'
 
 const styles = theme => ({
 });
@@ -22,7 +23,7 @@ class DetailsForm extends React.Component {
     }
 
 
-    handleTextChange(event) { this.props.handleChange({name:'name', value: event.target.value}, false);  }
+    handleTextChange(event) { this.props.handleChange({name:'name', value: event.target.value});  }
     handleClick = (id) => { this.props.handleArrayToggle({name:'details', value: id}); };
   
     render() {
@@ -34,7 +35,7 @@ class DetailsForm extends React.Component {
       return (
       <ItemCharacteristicsConsumer>
         {({ details }) => {
-          const filteredItems = details.filter(detail => detail.parentIds.find(oneParentId => oneParentId === 'all' || oneParentId === parentId));
+          const filteredItems = !details || !parentId ? [] : details.filter(detail => detail.parentIds.find(oneParentId => oneParentId === 'all' || oneParentId === parentId));
           return (
             <Grid container spacing={3}>
               <Grid item>
