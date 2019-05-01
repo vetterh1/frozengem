@@ -25,14 +25,10 @@ const styles = theme => ({
     flexDirection: "column",
     flex: "1 1 auto", 
   },
-  divWizard: {
+  maxHeight: {
     display: "flex",
     flexGrow: 1,
   },  
-  divNav: {
-    display: "flex",
-    flexGrow: 0,
-  },
 });
 
 const logAddWizard = log.getLogger('logAddWizard');
@@ -94,7 +90,7 @@ class AddWizard extends React.Component {
 
     return (
           <div className={classes.divWizardPage}>
-            <StepWizard className={classes.divWizard}>
+            <StepWizard className={classes.maxHeight}>
               <CategoryForm handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
               <DetailsForm handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
               {/* <ContainerForm handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} />
@@ -102,9 +98,6 @@ class AddWizard extends React.Component {
               <SizeForm handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} />
               <LocationForm handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} /> */}
             </StepWizard>
-            <div className={classes.divNav}>
-            test
-            </div>
           </div>
       );
   }

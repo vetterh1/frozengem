@@ -64,6 +64,7 @@ class App extends React.Component {
     };
     const containerStyle = {
       display: "flex",
+      flexDirection: "column",
       flexGrow: 1,
     };
 
