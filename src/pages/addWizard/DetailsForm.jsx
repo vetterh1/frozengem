@@ -85,3 +85,5 @@ class DetailsForm extends React.Component {
 }
 
 export default withStyles(styles)(DetailsForm);
+
+

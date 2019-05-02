@@ -28,6 +28,10 @@ const styles = theme => ({
   maxHeight: {
     display: "flex",
     flexGrow: 1,
+  },
+  normalHeight: {
+    display: "flex",
+    flexGrow: 0,
   },  
 });
 
@@ -98,6 +102,9 @@ class AddWizard extends React.Component {
               <SizeForm handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} />
               <LocationForm handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} /> */}
             </StepWizard>
+            <div className={classes.normalHeight}>
+            ---
+            </div>
           </div>
       );
   }
