@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { Context } from "../../data/ItemCharacteristicsStore";
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import ItemsList from "./ItemsList";
+import {ItemsList} from "./WizUtilComponents";
 
 
 
@@ -30,7 +28,7 @@ class CategoryForm extends React.Component {
     return (
       <div className={"flex-max-height flex-direction-column"}>
 
-        <div className={"flex-normal-height flex-direction-column"}>
+        <div className={"flex-normal-height flex-direction-column margin-down"}>
           <Typography variant="h5">
             Category
           </Typography>
@@ -40,17 +38,7 @@ class CategoryForm extends React.Component {
         </div>
 
         <ItemsList items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
-       
-        <div className={"flex-normal-height flex-right"}>
-          <Typography variant="h5" >
-            <Button color="primary" component={Link} to="/">
-              Cancel
-            </Button>
-            <Button variant="contained" color="primary" onClick={this.handleNext.bind(this)} className={"margin-left"}>
-              Continue
-            </Button>
-          </Typography>
-        </div>
+
       </div>
 
     )

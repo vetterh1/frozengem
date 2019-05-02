@@ -53,6 +53,7 @@ class AddWizard extends React.Component {
     this.state = {
       activeStep: 0,
       details: [],
+      name: "",
     };
 
     this.handleChange = this.handleChange.bind(this)
@@ -102,9 +103,9 @@ class AddWizard extends React.Component {
               <SizeForm handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} />
               <LocationForm handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} /> */}
             </StepWizard>
-            <div className={classes.normalHeight}>
+            {/* <div className={classes.normalHeight}>
             ---
-            </div>
+            </div> */}
           </div>
       );
   }

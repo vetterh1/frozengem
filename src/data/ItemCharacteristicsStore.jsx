@@ -12,7 +12,7 @@ logItemCharacteristicsStore.debug('--> entering ItemCharacteristicsStore.jsx');
 
 
 const defaultCharacteristics = {
-    version: 13,    
+    version: 14,    
     categories: [
         {name: 'Bread', label: '', id: 'B'},
         {name: 'Vegetables', label: '', id: 'V'},
@@ -39,7 +39,7 @@ const defaultCharacteristics = {
         {name: 'Beef', label: '', id: 'DBEE', parentIds:['S', 'M', 'P']},
         {name: 'Pork', label: '', id: 'DPOR', parentIds:['S', 'M', 'P']},
         {name: 'Veal', label: '', id: 'DVEA', parentIds:['M', 'P']},
-        {name: 'Fish', label: '', id: 'DVEA', parentIds:['S', 'P']},
+        {name: 'Fish', label: '', id: 'DFIS', parentIds:['S', 'P']},
         {name: 'Vegetarian', label: '', id: 'DVEG', parentIds:['S', 'P']},
     ],
     containers:[

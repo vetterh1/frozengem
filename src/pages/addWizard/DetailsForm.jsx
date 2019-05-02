@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { Context } from "../../data/ItemCharacteristicsStore";
 import Typography from '@material-ui/core/Typography';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import Button from '@material-ui/core/Button';
-import ItemsList from "./ItemsList";
+import {ItemsList, NextButton, PreviousButton} from "./WizUtilComponents";
 
 
 class DetailsForm extends React.Component {
@@ -18,6 +16,7 @@ class DetailsForm extends React.Component {
 
   handleTextChange(event) { this.props.handleChange({name:'name', value: event.target.value});  }
   handleClick = (id) => { this.props.handleArrayToggle({name:'details', value: id}); };
+  handlePrevious = () => { this.props.handleChange({ name: 'details', value: [] }); this.props.previousStep(); };
   handleNext = () => { this.props.nextStep(); };
 
 
@@ -33,16 +32,16 @@ class DetailsForm extends React.Component {
     return (
       <div className={"flex-max-height flex-direction-column"}>
 
-        <div className={"flex-normal-height flex-direction-column"}>
+        <div className={"flex-normal-height flex-direction-column margin-down"}>
           <Typography variant="h5">
             Details
           </Typography>
           <Typography>
-            Select a category...
+            Enter a name and some details...
           </Typography>
         </div>
 
-        <FormControl className={"flex-normal-height flex-direction-column"}>
+        <FormControl className={"flex-normal-height flex-direction-column big-margin-down"}>
           <InputLabel htmlFor="name">Name (optional)</InputLabel>
           <Input
             id="name"
@@ -57,14 +56,8 @@ class DetailsForm extends React.Component {
         <ItemsList items={items} itemInState={itemInState} itemInStateIsAnArray={true} handleClick={this.handleClick} />
 
         <div className={"flex-normal-height flex-right"}>
-          <Typography variant="h5" >
-            <Button color="primary" component={Link} to="/">
-              Cancel
-            </Button>
-            <Button variant="contained" color="primary" onClick={this.handleNext.bind(this)} className={"margin-left"}>
-              Continue
-            </Button>
-          </Typography>
+          <NextButton onClick={this.handleNext.bind(this)}/>
+          <PreviousButton onClick={this.handlePrevious.bind(this)}/>
         </div>
       </div>
 

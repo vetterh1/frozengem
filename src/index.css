@@ -1,13 +1,15 @@
-body {
-}
-
-code {
-}
-
 .margin-left {
   margin-left: 15px !important;
 }
   
+.margin-down {
+  margin-bottom: 15px !important;
+}
+  
+.big-margin-down {
+  margin-bottom: 30px !important;
+}
+
 .flex-direction-column {
   flex-direction: column;
 }
