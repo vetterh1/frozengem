@@ -3,3 +3,27 @@ body {
 
 code {
 }
+
+.margin-left {
+  margin-left: 15px !important;
+}
+  
+.flex-direction-column {
+  flex-direction: column;
+}
+  
+.flex-max-height {
+  display: flex;
+  flex-grow: 1;
+}
+  
+.flex-normal-height {
+  display: flex;
+  flex-grow: 0;
+}
+  
+.flex-right {
+  display: flex;
+  flex-direction: row-reverse;
+}
+  

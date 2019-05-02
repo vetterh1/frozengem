@@ -1,89 +1,76 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { Context } from "../../data/ItemCharacteristicsStore";
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
-import { ItemCharacteristicsConsumer } from "../../data/ItemCharacteristicsStore";
-// import stringifyOnce from '../../utils/stringifyOnce.js'
+import InputLabel from '@material-ui/core/InputLabel';
+import Button from '@material-ui/core/Button';
+import ItemsList from "./ItemsList";
 
-const styles = theme => ({
-});
 
 class DetailsForm extends React.Component {
-    static propTypes = {
-      handleChange: PropTypes.func.isRequired,
-    }
+  static propTypes = {
+    handleChange: PropTypes.func.isRequired,
+  }
+
+  handleTextChange(event) { this.props.handleChange({name:'name', value: event.target.value});  }
+  handleClick = (id) => { this.props.handleArrayToggle({name:'details', value: id}); };
+  handleNext = () => { this.props.nextStep(); };
 
 
-    handleTextChange(event) { this.props.handleChange({name:'name', value: event.target.value});  }
-    handleClick = (id) => { this.props.handleArrayToggle({name:'details', value: id}); };
-    handleNext(event) { this.props.nextStep(); }
-    handlePrevious(event) { this.props.previousStep(); }
+  render() {
+    // State is NOT stored in this wizard tab, but in the parent (wizard component)
+    const { state } = this.props;
+    const parentId = state.category;
+    // Get the categories to display from the context
+    // and the (possibly) already selected category from the props.state (state from parent)
+    let { details } = this.context;
+    const { details: itemInState } = this.props.state;    
+    const items = !details || !parentId ? [] : details.filter(detail => detail.parentIds.find(oneParentId => oneParentId === 'all' || oneParentId === parentId));
+    return (
+      <div className={"flex-max-height flex-direction-column"}>
 
+        <div className={"flex-normal-height flex-direction-column"}>
+          <Typography variant="h5">
+            Details
+          </Typography>
+          <Typography>
+            Select a category...
+          </Typography>
+        </div>
 
-    render() {
-      const { classes, state } = this.props;
-      const parentId = state.category;
-      // Note on filtering: we only display items that are linked to an already selected parent.
-      // (there can be multiple parents, or the special value 'all')
-      // Note on the button click: we support multi-select, so we have toggle the individual values in the state (as an array)
-      return (
-        <ItemCharacteristicsConsumer>
-          {({ details }) => {
-            const filteredItems = !details || !parentId ? [] : details.filter(detail => detail.parentIds.find(oneParentId => oneParentId === 'all' || oneParentId === parentId));
-            return (
-              <Grid container spacing={3}>
-                <Grid item>
-                  <Typography variant="h5">
-                    Details
-                  </Typography>
-                </Grid>
+        <FormControl className={"flex-normal-height flex-direction-column"}>
+          <InputLabel htmlFor="name">Name (optional)</InputLabel>
+          <Input
+            id="name"
+            value={state.name}
+            onChange={this.handleTextChange.bind(this)}
+            aria-describedby="name-text"
+            fullWidth
+          />
+          <FormHelperText id="name-text">To help you remember what it is</FormHelperText>
+        </FormControl>
 
-                <Grid item container xs={12}>
-                  <Grid item xs={12} md={6}>
+        <ItemsList items={items} itemInState={itemInState} itemInStateIsAnArray={true} handleClick={this.handleClick} />
 
-                    <FormControl className={classes.formControl}>
-                      <InputLabel htmlFor="name">Name (optional)</InputLabel>
-                      <Input
-                        id="name"
-                        value={state.name}
-                        onChange={this.handleTextChange.bind(this)}
-                        aria-describedby="name-text"
-                        fullWidth
-                      />
-                      <FormHelperText id="name-text">To help you remember what it is</FormHelperText>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={12} md={6}>
-                  <List className={classes.list}>
-                  {filteredItems.map((item) => (
-                    <ListItem button onClick={this.handleClick.bind(this, item.id)} selected={state.details.find(detail => detail === item.id)} key={item.id}>
-                      <ListItemAvatar>
-                        <Avatar>
-                          {item.id}
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText primary={item.name} secondary={item.label} />
-                    </ListItem>
-                    ))}
-                  </List>
-                </Grid>
-              </Grid>
-            </Grid>
-            );
-          }}
-        </ItemCharacteristicsConsumer>
-      )};
+        <div className={"flex-normal-height flex-right"}>
+          <Typography variant="h5" >
+            <Button color="primary" component={Link} to="/">
+              Cancel
+            </Button>
+            <Button variant="contained" color="primary" onClick={this.handleNext.bind(this)} className={"margin-left"}>
+              Continue
+            </Button>
+          </Typography>
+        </div>
+      </div>
+
+    )
+  };
 }
+DetailsForm.contextType = Context;
 
-export default withStyles(styles)(DetailsForm);
-
-
+export default DetailsForm;
