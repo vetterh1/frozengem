@@ -5,8 +5,9 @@
   "homepage-test": ".",
   "homepage": "https://vetterh1.github.io/frozengem/",
   "dependencies": {
-    "@material-ui/core": "^4.0.0-alpha.8",
+    "@material-ui/core": "^4.0.0-beta.0",
     "@material-ui/icons": "^3.0.2",
+    "@material-ui/styles": "^4.0.0-beta.0",
     "auth0-js": "^9.10.2",
     "clsx": "^1.0.4",
     "formik": "^1.5.4",
