@@ -6,10 +6,11 @@ import Auth from '../../auth/Auth';
 import { withStyles } from '@material-ui/core/styles';
 import CategoryForm from './CategoryForm';
 import DetailsForm from './DetailsForm';
-// import ContainerForm from './ContainerForm';
-// import ContainerColorForm from './ContainerColorForm';
-// import SizeForm from './SizeForm';
-// import LocationForm from './LocationForm';
+import ContainerForm from './ContainerForm';
+import ContainerColorForm from './ContainerColorForm';
+import SizeForm from './SizeForm';
+import FreezerForm from './FreezerForm';
+import LocationForm from './LocationForm';
 // import Results from './Results';
 import StepWizard from 'react-step-wizard';
 // import stringifyOnce from '../../utils/stringifyOnce.js'
@@ -98,10 +99,11 @@ class AddWizard extends React.Component {
             <StepWizard className={classes.maxHeight}>
               <CategoryForm handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
               <DetailsForm handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
-              {/* <ContainerForm handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} />
-              <ContainerColorForm handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} />
-              <SizeForm handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} />
-              <LocationForm handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} /> */}
+              <ContainerForm handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
+              <ContainerColorForm handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
+              <SizeForm handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
+              <FreezerForm handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
+              <LocationForm handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
             </StepWizard>
             {/* <div className={classes.normalHeight}>
             ---

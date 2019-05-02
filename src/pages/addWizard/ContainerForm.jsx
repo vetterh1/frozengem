@@ -1,63 +1,64 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Context } from "../../data/ItemCharacteristicsStore";
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
-import { ItemCharacteristicsConsumer } from "../../data/ItemCharacteristicsStore";
-
-
-
-const styles = theme => ({
-});
+import {ItemsList, PreviousButton} from "./WizUtilComponents";
 
 
 
 class ContainerForm extends React.Component {
-    static propTypes = {
-      handleChange: PropTypes.func.isRequired,
+  static propTypes = {
+    handleChange: PropTypes.func.isRequired,
+  }
+
+  handleClick = (id) => {
+    const { handleChange, currentStep, nextStep, goToStep } = this.props;
+    let { colors } = this.context;
+
+    // Update the wizard with the container id
+    handleChange({ name: 'container', value: id });
+
+    // Look if this chosen container supports colors
+    const containerHasColors = colors.filter(color => color.parentIds.find(oneParentId => oneParentId === id)).length > 0;
+    if(containerHasColors) {
+      nextStep();
     }
+    else {
+      goToStep(currentStep + 2);
+    }
+  };
 
-    handleClickContainer = (index) => { this.props.handleChange({name:'container', value: index}, true); };
-  
+  handlePrevious = () => { this.props.handleChange({ name: 'container', value: undefined }); this.props.previousStep(); };
+
+
+
   render() {
-    const { classes, state } = this.props;
+    // Get the containers to display from the context
+    // and the (possibly) already selected container from the props.state (state from parent)
+    let { containers: items } = this.context;
+    const { container: itemInState } = this.props.state;
     return (
-    <ItemCharacteristicsConsumer>
-      {({ containers }) => {
-        return (
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Typography variant="h5">
-                Container
-              </Typography>
-            </Grid>
+      <div className={"flex-max-height flex-direction-column"}>
 
-            <Grid item container xs={12}>
-              <Grid item xs={12} md={6}>
-                <List className={classes.list}>
-                  {containers.map((item, index) => (
-                    <ListItem button onClick={this.handleClickContainer.bind(this, item.id)} selected={state.container === item.id}>
-                      <ListItemAvatar>
-                        <Avatar>
-                          {item.id}
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText primary={item.name} secondary={item.label} />
-                    </ListItem>
-                  ))}
-                </List>
-              </Grid>
-            </Grid>
-          </Grid>
-        );
-      }}
-    </ItemCharacteristicsConsumer>
-  )};
+        <div className={"flex-normal-height flex-direction-column margin-down"}>
+          <Typography variant="h5">
+            Container
+          </Typography>
+          <Typography>
+            Select a container...
+          </Typography>
+        </div>
+
+        <ItemsList items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
+
+        <div className={"flex-normal-height flex-right"}>
+          <PreviousButton onClick={this.handlePrevious.bind(this)}/>
+        </div>
+      </div>
+
+    )
+  };
 }
+ContainerForm.contextType = Context;
 
-export default withStyles(styles)(ContainerForm);
+export default ContainerForm;

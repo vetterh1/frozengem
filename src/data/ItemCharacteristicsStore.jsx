@@ -56,21 +56,21 @@ const defaultCharacteristics = {
         {name: 'Red', label: '', id: 'R', parentIds:['P']},
         {name: 'Other', label: '', id: 'O', parentIds:['P']},
     ],
-    locations:[
-        {name: 'Top', label: 'Higher section', id: 'T'},
-        {name: 'Middle', label: 'Middle section', id: 'M'},
-        {name: 'Bottom', label: 'Lower section', id: 'B'},
-    ],  
-    freezers:[
-        {name: 'Kitchen', label: 'Kitchen freezer', id: 'K'},
-        {name: 'Basement', label: 'Basement freezer', id: 'B'},
-    ],
     sizes:[
         {name: '1', label: '1 serving', id: '1'},
         {name: '2+', label: '2 to 3 servings', id: '2'},
         {name: '4+', label: '4 to 5 servings', id: '4'},
         {name: '6+', label: '6 or more servings', id: '6'},
-    ]        
+    ],  
+    freezers:[
+        {name: 'Kitchen', label: 'Kitchen freezer', id: 'K'},
+        {name: 'Basement', label: 'Basement freezer', id: 'B'},
+    ],
+    locations:[
+        {name: 'Top', label: 'Higher section', id: 'T'},
+        {name: 'Middle', label: 'Middle section', id: 'M'},
+        {name: 'Bottom', label: 'Lower section', id: 'B'},
+    ]
 };
 
 export const Context = React.createContext();

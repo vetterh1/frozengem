@@ -17,8 +17,6 @@ class CategoryForm extends React.Component {
     nextStep();
   };
 
-  handleNext = () => { this.props.nextStep(); };
-
 
   render() {
     // Get the categories to display from the context

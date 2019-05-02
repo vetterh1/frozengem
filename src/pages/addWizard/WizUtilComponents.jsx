@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button';
 export const ItemsList = ({ items, itemInState, itemInStateIsAnArray, handleClick }) => (
   <List className={"flex-max-height flex-direction-column big-margin-down"}>
   {items && items.map((item, index, theArray) => (
-    <React.Fragment>
+    <React.Fragment key={`frag-${item.id}`}>
       <ListItem 
         button 
         onClick={handleClick.bind(this, item.id)} 
@@ -22,7 +22,7 @@ export const ItemsList = ({ items, itemInState, itemInStateIsAnArray, handleClic
         {/* <ListItemAvatar> <Avatar> {item.id} </Avatar> </ListItemAvatar> */}
         <ListItemText primary={item.name} secondary={item.label} />
       </ListItem>
-      {index < theArray.length-1 && <Divider key={`divider-${item.id}`}/>}
+      {index < theArray.length-1 && <Divider />}
     </React.Fragment>
   ))}
   </List>

@@ -1,78 +1,52 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Context } from "../../data/ItemCharacteristicsStore";
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
-import { ItemCharacteristicsConsumer } from "../../data/ItemCharacteristicsStore";
+import {ItemsList, PreviousButton} from "./WizUtilComponents";
 
-
-
-const styles = theme => ({
-});
 
 
 class LocationForm extends React.Component {
-    static propTypes = {
-      handleChange: PropTypes.func.isRequired,
-    }
-  
-    handleClickLocation = (index) => { this.props.handleChange({name:'location', value: index}, false); };
-    handleClickFreezer = (index) => { this.props.handleChange({name:'freezer', value: index}, false); };
-  
-    render() {
-    const { classes } = this.props;
+  static propTypes = {
+    handleChange: PropTypes.func.isRequired,
+  }
+
+  handleClick = (id) => {
+    const { handleChange, nextStep } = this.props;
+    handleChange({ name: 'location', value: id });
+    nextStep();
+  };
+
+  handlePrevious = () => { this.props.handleChange({ name: 'location', value: undefined }); this.props.previousStep(); };
+
+
+  render() {
+    // Get the locations to display from the context
+    // and the (possibly) already selected location from the props.state (state from parent)
+    let { locations: items } = this.context;
+    const { location: itemInState } = this.props.state;
     return (
-    <ItemCharacteristicsConsumer>
-      {({ locations, freezers }) => {
-        return (    
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Typography variant="h5">
-                Location
-              </Typography>
-            </Grid>
+      <div className={"flex-max-height flex-direction-column"}>
 
-            <Grid item container xs={12}>
-              <Grid item xs={12} md={6}>
-                <List className={classes.list}>
-                  {locations.map((location, index) => (
-                    <ListItem button onClick={this.handleClickLocation.bind(this, index)} selected={this.props.state.location === index}>
-                      <ListItemAvatar>
-                        <Avatar>
-                          {location.id}
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText primary={location.name} secondary={location.label} />
-                    </ListItem>
-                  ))}
-                </List>
-              </Grid>
+        <div className={"flex-normal-height flex-direction-column margin-down"}>
+          <Typography variant="h5">
+            Location
+          </Typography>
+          <Typography>
+            Select a location...
+          </Typography>
+        </div>
 
-              <Grid item xs={12} md={6}>
-                <List className={classes.list}>
-                  {freezers.map((freezer, index) => (
-                    <ListItem button onClick={this.handleClickFreezer.bind(this, index)} selected={this.props.state.freezer === index}>
-                      <ListItemAvatar>
-                        <Avatar>
-                          {freezer.id}
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText primary={freezer.name} secondary={freezer.label} />
-                    </ListItem>
-                  ))}
-                </List>
-              </Grid>
-            </Grid>
-          </Grid>
-        );
-      }}
-    </ItemCharacteristicsConsumer>
-  )};
+        <ItemsList items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
+
+        <div className={"flex-normal-height flex-right"}>
+          <PreviousButton onClick={this.handlePrevious.bind(this)}/>
+        </div>
+      </div>
+
+    )
+  };
 }
+LocationForm.contextType = Context;
 
-export default withStyles(styles)(LocationForm);
+export default LocationForm;

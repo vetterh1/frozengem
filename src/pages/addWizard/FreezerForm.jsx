@@ -6,38 +6,34 @@ import {ItemsList, PreviousButton} from "./WizUtilComponents";
 
 
 
-class ContainerColorForm extends React.Component {
+class FreezerForm extends React.Component {
   static propTypes = {
     handleChange: PropTypes.func.isRequired,
   }
 
   handleClick = (id) => {
     const { handleChange, nextStep } = this.props;
-    handleChange({ name: 'color', value: id });
+    handleChange({ name: 'freezer', value: id });
     nextStep();
   };
 
-  handlePrevious = () => { this.props.handleChange({ name: 'color', value: undefined }); this.props.previousStep(); };
+  handlePrevious = () => { this.props.handleChange({ name: 'freezer', value: undefined }); this.props.previousStep(); };
 
 
   render() {
-    // State is NOT stored in this wizard tab, but in the parent (wizard component)
-    const { state } = this.props;
-    const parentId = state.container;
-    // Get the colors to display from the context
-    // and the (possibly) already selected color from the props.state (state from parent)
-    let { colors } = this.context;
-    const { colors: itemInState } = this.props.state;    
-    const items = !colors || !parentId ? [] : colors.filter(color => color.parentIds.find(oneParentId => oneParentId === parentId));
+    // Get the freezers to display from the context
+    // and the (possibly) already selected freezer from the props.state (state from parent)
+    let { freezers: items } = this.context;
+    const { freezer: itemInState } = this.props.state;
     return (
       <div className={"flex-max-height flex-direction-column"}>
 
         <div className={"flex-normal-height flex-direction-column margin-down"}>
           <Typography variant="h5">
-            Color
+            Freezer
           </Typography>
           <Typography>
-            Select a color...
+            Select a freezer...
           </Typography>
         </div>
 
@@ -51,6 +47,6 @@ class ContainerColorForm extends React.Component {
     )
   };
 }
-ContainerColorForm.contextType = Context;
+FreezerForm.contextType = Context;
 
-export default ContainerColorForm;
+export default FreezerForm;
