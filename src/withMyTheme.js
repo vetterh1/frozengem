@@ -19,23 +19,25 @@ const theme = createMuiTheme({
       main: amber[500],
       dark: amber[700],
     },
+    typography: {
+      htmlFontSize: 18,
+      fontSize: 18,
+      fontFamily: [
+        '-apple-system',
+        'BlinkMacSystemFont',
+        '"Segoe UI"',
+        'Roboto',
+        '"Helvetica Neue"',
+        'Arial',
+        'sans-serif',
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+      ].join(','),
+    },    
   },
 });
 
-// function getTheme(theme) {
-//   return createMuiTheme({
-//     palette: {
-//       type: theme.paletteType,
-//       background: {
-//         default: theme.paletteType === 'light' ? #000' : '#fff',
-//       },
-//     },
-//   });
-// }
-
-// const theme = getTheme({
-//   paletteType: 'light',
-// });
 
 function withMyTheme(Component) {
   function withMyTheme(props) {
