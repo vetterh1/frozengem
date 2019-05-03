@@ -31,8 +31,8 @@ function MadeWithLove() {
 
 const useStyles = makeStyles(theme => ({
   footer: {
-    padding: theme.spacing(3),
-    marginTop: theme.spacing(4),
+    padding: theme.spacing(2),
+    marginTop: theme.spacing(2),
     margingBottom: "0px",
     backgroundColor: theme.palette.secondary.light,
   },

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Context } from "../../data/ItemCharacteristicsStore";
 import Typography from '@material-ui/core/Typography';
-import {ItemsList, PreviousButton} from "./WizUtilComponents";
+import {ItemsList, WizNavBar} from "./WizUtilComponents";
 
 
 
@@ -51,9 +51,8 @@ class ContainerForm extends React.Component {
 
         <ItemsList items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
 
-        <div className={"flex-normal-height flex-right"}>
-          <PreviousButton onClick={this.handlePrevious.bind(this)}/>
-        </div>
+        <WizNavBar onClickNext={null} onClickPrevious={this.handlePrevious.bind(this)} />
+
       </div>
 
     )

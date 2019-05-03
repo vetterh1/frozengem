@@ -6,7 +6,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import {ItemsList, NextButton, PreviousButton} from "./WizUtilComponents";
+import {ItemsList, WizNavBar} from "./WizUtilComponents";
 
 
 class DetailsForm extends React.Component {
@@ -55,10 +55,8 @@ class DetailsForm extends React.Component {
 
         <ItemsList items={items} itemInState={itemInState} itemInStateIsAnArray={true} handleClick={this.handleClick} />
 
-        <div className={"flex-normal-height flex-right"}>
-          <NextButton onClick={this.handleNext.bind(this)}/>
-          <PreviousButton onClick={this.handlePrevious.bind(this)}/>
-        </div>
+        <WizNavBar onClickNext={this.handleNext.bind(this)} onClickPrevious={this.handlePrevious.bind(this)} />
+        
       </div>
 
     )

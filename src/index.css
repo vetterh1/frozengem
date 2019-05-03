@@ -9,8 +9,19 @@
 .big-margin-down {
   margin-bottom: 30px !important;
 }
+  
+.flex-direction-row-reverse {
+  display: flex;
+  flex-direction: row-reverse;
+}  
+
+.flex-direction-row {
+  display: flex;
+  flex-direction: row;
+}
 
 .flex-direction-column {
+  display: flex;
   flex-direction: column;
 }
   
@@ -24,8 +35,12 @@
   flex-grow: 0;
 }
   
-.flex-right {
+.flex-justifiy-around {
   display: flex;
-  flex-direction: row-reverse;
+  justify-content: space-around;
+}  
+
+.flex-justifiy-between {
+  display: flex;
+  justify-content: space-between;
 }
-  

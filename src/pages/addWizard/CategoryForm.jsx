@@ -24,7 +24,7 @@ class CategoryForm extends React.Component {
     let { categories: items } = this.context;
     const { category: itemInState } = this.props.state;
     return (
-      <div className={"flex-max-height flex-direction-column"}>
+      <div className={"this-is-a-step flex-max-height flex-direction-column"}>
 
         <div className={"flex-normal-height flex-direction-column margin-down"}>
           <Typography variant="h5">

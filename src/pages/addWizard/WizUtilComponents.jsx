@@ -35,13 +35,20 @@ export const CancelButton = () => (
 );
 
 export const PreviousButton = ({onClick}) => (
-  <Button color="primary" onClick={onClick} className={"margin-left"}>
+  <Button color="primary" onClick={onClick}>
       Back
   </Button>
 );
 
 export const NextButton = ({onClick}) => (
-  <Button variant="contained" color="primary" onClick={onClick} className={"margin-left"}>
+  <Button variant="contained" color="primary" onClick={onClick}>
       Continue
   </Button>
+);
+
+export const WizNavBar = ({onClickPrevious, onClickNext}) => (
+        <div className={"flex-normal-height flex-direction-row flex-justifiy-between"}>
+          {onClickPrevious && <PreviousButton onClick={onClickPrevious}/>}
+          {onClickNext && <NextButton onClick={onClickNext}/>}
+        </div>
 );

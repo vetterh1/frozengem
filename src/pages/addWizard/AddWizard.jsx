@@ -96,7 +96,7 @@ class AddWizard extends React.Component {
 
     return (
           <div className={classes.divWizardPage}>
-            <StepWizard className={classes.maxHeight}>
+            <StepWizard className={"flex-max-height flex-direction-column"} classNameWrapper={'flex-max-height flex-direction-column'}>
               <CategoryForm handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
               <DetailsForm handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
               <ContainerForm handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />

@@ -16,7 +16,7 @@
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
-    "react-step-wizard": "^5.3.0",
+    "react-step-wizard": "github:vetterh1/react-step-wizard",
     "source-map-explorer": "^1.8.0"
   },
   "scripts": {
