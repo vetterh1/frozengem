@@ -41,11 +41,8 @@ class ContainerForm extends React.Component {
       <div className={"flex-max-height flex-direction-column"}>
 
         <div className={"flex-normal-height flex-direction-column margin-down"}>
-          <Typography variant="h5">
-            Container
-          </Typography>
-          <Typography>
-            Select a container...
+          <Typography variant="h6">
+            What container are you using?
           </Typography>
         </div>
 

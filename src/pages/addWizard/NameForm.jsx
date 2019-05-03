@@ -14,6 +14,7 @@ class DetailsForm extends React.Component {
     handleChange: PropTypes.func.isRequired,
   }
 
+  handleTextChange(event) { this.props.handleChange({name:'name', value: event.target.value});  }
   handleClick = (id) => { this.props.handleArrayToggle({name:'details', value: id}); };
   handlePrevious = () => { this.props.handleChange({ name: 'details', value: [] }); this.props.previousStep(); };
   handleNext = () => { this.props.nextStep(); };
@@ -23,25 +24,39 @@ class DetailsForm extends React.Component {
     // State is NOT stored in this wizard tab, but in the parent (wizard component)
     const { state } = this.props;
     const parentId = state.category;
-    // Get the details & categories to display from the context
+    // Get the categories to display from the context
     // and the (possibly) already selected category from the props.state (state from parent)
-    let { details, categories } = this.context;
+    let { details } = this.context;
     const { details: itemInState } = this.props.state;    
     const items = !details || !parentId ? [] : details.filter(detail => detail.parentIds.find(oneParentId => oneParentId === 'all' || oneParentId === parentId));
-    const parentName = !categories || !parentId  ? "item" : categories.find(category => category.id === parentId).name;
     return (
       <div className={"flex-max-height flex-direction-column"}>
 
         <div className={"flex-normal-height flex-direction-column margin-down"}>
-          <Typography variant="h6">
-            Tell us a little bit more about your {parentName.toLowerCase()}...
+          <Typography variant="h5">
+            Details
+          </Typography>
+          <Typography>
+            Enter a name and some details...
           </Typography>
         </div>
+
+        <FormControl className={"flex-normal-height flex-direction-column big-margin-down"}>
+          <InputLabel htmlFor="name">Name (optional)</InputLabel>
+          <Input
+            id="name"
+            value={state.name}
+            onChange={this.handleTextChange.bind(this)}
+            aria-describedby="name-text"
+            fullWidth
+          />
+          <FormHelperText id="name-text">To help you remember what it is</FormHelperText>
+        </FormControl>
 
         <ItemsList items={items} itemInState={itemInState} itemInStateIsAnArray={true} handleClick={this.handleClick} />
 
         <WizNavBar onClickNext={this.handleNext.bind(this)} onClickPrevious={this.handlePrevious.bind(this)} />
-
+        
       </div>
 
     )

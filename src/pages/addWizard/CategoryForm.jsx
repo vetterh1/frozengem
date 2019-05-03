@@ -27,11 +27,8 @@ class CategoryForm extends React.Component {
       <div className={"this-is-a-step flex-max-height flex-direction-column"}>
 
         <div className={"flex-normal-height flex-direction-column margin-down"}>
-          <Typography variant="h5">
-            Category
-          </Typography>
-          <Typography>
-            Select a category...
+          <Typography variant="h6">
+            What are you storing?
           </Typography>
         </div>
 

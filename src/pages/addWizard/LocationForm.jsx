@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Context } from "../../data/ItemCharacteristicsStore";
 import Typography from '@material-ui/core/Typography';
-import {ItemsList, PreviousButton} from "./WizUtilComponents";
+import {ItemsList, WizNavBar} from "./WizUtilComponents";
 
 
 
@@ -29,19 +29,15 @@ class LocationForm extends React.Component {
       <div className={"flex-max-height flex-direction-column"}>
 
         <div className={"flex-normal-height flex-direction-column margin-down"}>
-          <Typography variant="h5">
-            Location
-          </Typography>
-          <Typography>
-            Select a location...
+          <Typography variant="h6">
+            Where exactly do you store it?
           </Typography>
         </div>
 
         <ItemsList items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
 
-        <div className={"flex-normal-height flex-right"}>
-          <PreviousButton onClick={this.handlePrevious.bind(this)}/>
-        </div>
+        <WizNavBar onClickNext={null} onClickPrevious={this.handlePrevious.bind(this)} />
+
       </div>
 
     )
