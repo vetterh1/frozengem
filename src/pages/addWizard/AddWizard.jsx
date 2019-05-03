@@ -2,7 +2,6 @@ import * as log from 'loglevel';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Auth from '../../auth/Auth';
-// import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import CategoryForm from './CategoryForm';
 import DetailsForm from './DetailsForm';
@@ -11,7 +10,7 @@ import ContainerColorForm from './ContainerColorForm';
 import SizeForm from './SizeForm';
 import FreezerForm from './FreezerForm';
 import LocationForm from './LocationForm';
-// import Results from './Results';
+import Results from './Results';
 import StepWizard from 'react-step-wizard';
 // import stringifyOnce from '../../utils/stringifyOnce.js'
 
@@ -48,14 +47,25 @@ class AddWizard extends React.Component {
     auth: PropTypes.instanceOf(Auth).isRequired,
   }
 
+  defaultState = {
+    category: null,
+    details: [],
+    container: null,
+    color: null,
+    size: null,
+    freezer: null,
+    location: null,
+    name: "",
+    expirationDate: "1968-12-21",
+  };
+
+  resetState = () => {
+    this.setState({...this.defaultState});
+  }
 
   constructor(props) {
     super(props);
-    this.state = {
-      activeStep: 0,
-      details: [],
-      name: "",
-    };
+    this.state = {...this.defaultState};
 
     this.handleChange = this.handleChange.bind(this)
     this.handleArrayToggle = this.handleArrayToggle.bind(this)
@@ -96,14 +106,15 @@ class AddWizard extends React.Component {
 
     return (
           <div className={classes.divWizardPage}>
-            <StepWizard className={"flex-max-height flex-direction-column"} classNameWrapper={'flex-max-height flex-direction-column'}>
-              <CategoryForm handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
-              <DetailsForm handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
-              <ContainerForm handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
-              <ContainerColorForm handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
-              <SizeForm handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
-              <FreezerForm handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
-              <LocationForm handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
+            <StepWizard isHashEnabled className={"flex-max-height flex-direction-column"} classNameWrapper={'flex-max-height flex-direction-column'}>
+              <CategoryForm  hashKey={'category'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
+              <DetailsForm hashKey={'details'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
+              <ContainerForm hashKey={'container'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
+              <ContainerColorForm hashKey={'color'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
+              <SizeForm hashKey={'size'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
+              <FreezerForm hashKey={'freezer'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
+              <LocationForm hashKey={'location'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
+              <Results hashKey={'results'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} resetState={this.resetState} state={this.state} />
             </StepWizard>
             {/* <div className={classes.normalHeight}>
             ---

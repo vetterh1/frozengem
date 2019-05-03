@@ -2,10 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-
 
 
 const styles = theme => ({
@@ -34,15 +35,22 @@ class Results extends React.Component {
     };
   }
 
+  handleAddNew() { this.props.resetState(); this.props.firstStep();}
+  handleTextChange(event) { this.props.handleChange({name: 'name', value: event.target.value});  }
+  handleDateChange(event) { this.props.handleChange({name: 'expirationDate', value: event.target.value});  }
+
 
   render() {
-    const { classes } = this.props;
+    // State is NOT stored in this wizard tab, but in the parent (wizard component)
+    const { classes, state } = this.props;
 
     return (
-      <Grid container spacing={5}>
-        <Grid item>
-          <Typography variant="h3">
-            Code: BW542
+
+      <div className={"flex-max-height flex-direction-column"}>
+
+        <div className={"flex-normal-height flex-direction-column margin-down margin-top"}>
+          <Typography variant="h3" className={"margin-down"}>
+            BW542
           </Typography>
           <Typography variant="subtitle1">
             <ul>
@@ -51,29 +59,42 @@ class Results extends React.Component {
             </ul>
             We'll send you a reminder in 4 months
           </Typography>
-        </Grid>
+        </div>
 
-        <Grid item container xs={12}>
-          <Grid item xs={12} md={6}>
+        <FormControl className={"flex-normal-height flex-direction-column huge-margin-down"}>
+          <InputLabel htmlFor="name">Name (optional)</InputLabel>
+          <Input
+            id="name"
+            value={state.name}
+            onChange={this.handleTextChange.bind(this)}
+            aria-describedby="name-text"
+            fullWidth
+          />
+          <FormHelperText id="name-text">To help you remember what it is</FormHelperText>
+        </FormControl>
+
+        <div className={"flex-normal-height flex-direction-column huge-margin-down"}>
             <TextField
               id="date"
               label="Change expiration date (optional)"
               type="date"
-              defaultValue="2019-08-23"
+              defaultValue={state.expirationDate}
+              onChange={this.handleDateChange.bind(this)}
               fullWidth
             />
-          </Grid>
-        </Grid>
+        </div>
 
-        <Grid item xs={12} className={classes.buttons}>
-            <Button variant="contained" color="secondary" component={Link} to="/add" className={classes.button}>
+        <div className={"flex-normal-height flex-direction-row flex-justifiy-between"}>
+          <Button variant="contained" color="secondary" onClick={this.handleAddNew.bind(this)} className={classes.button}>
             Add a new item
-            </Button> 
-            <Button variant="contained" color="primary" component={Link} to="/" className={classes.button}>
-              Home
-            </Button>             
-        </Grid>          
-      </Grid>
+          </Button> 
+          <Button variant="contained" color="primary" component={Link} to="/" className={classes.button}>
+            Back Home
+          </Button>   
+        </div>
+
+      </div>
+
     );
   }
 }

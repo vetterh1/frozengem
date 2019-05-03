@@ -2,12 +2,24 @@
   margin-left: 15px !important;
 }
   
+.margin-top {
+  margin-top: 15px !important;
+}
+.big-margin-top {
+  margin-top: 30px !important;
+}  
+.huge-margin-top {
+  margin-top: 50px !important;
+}
+  
 .margin-down {
   margin-bottom: 15px !important;
 }
-  
 .big-margin-down {
   margin-bottom: 30px !important;
+}  
+.huge-margin-down {
+  margin-bottom: 50px !important;
 }
   
 .flex-direction-row-reverse {
