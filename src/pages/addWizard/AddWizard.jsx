@@ -116,9 +116,6 @@ class AddWizard extends React.Component {
               <LocationForm hashKey={'location'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
               <Results hashKey={'results'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} resetState={this.resetState} state={this.state} />
             </StepWizard>
-            {/* <div className={classes.normalHeight}>
-            ---
-            </div> */}
           </div>
       );
   }

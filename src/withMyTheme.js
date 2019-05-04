@@ -19,9 +19,9 @@ const theme = createMuiTheme({
       main: amber[500],
       dark: amber[700],
     },
-    typography: {
-      htmlFontSize: 18,
-      fontSize: 18,
+    typographyKO: {
+      htmlFontSize: 20,
+      fontSize: 20,
       fontFamily: [
         '-apple-system',
         'BlinkMacSystemFont',
@@ -34,6 +34,13 @@ const theme = createMuiTheme({
         '"Segoe UI Emoji"',
         '"Segoe UI Symbol"',
       ].join(','),
+    },    
+    typography: {
+      // Use the system font instead of the default Roboto font.
+      fontFamily: [
+        '"Lato"',
+        'sans-serif'
+      ].join(',')
     },    
   },
 });
