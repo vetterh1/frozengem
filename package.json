@@ -14,6 +14,8 @@
     "pusher-js": "^4.4.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-intl": "^2.8.0",
+    "react-intl.macro": "^0.3.6",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
     "react-step-wizard": "github:vetterh1/react-step-wizard",
@@ -26,6 +28,8 @@
     "test": "CI=true react-scripts test",
     "test:coverage": "npm test -- --coverage",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "i18n:extract": "MESSAGE_DIR='./.messages' react-scripts build",
+    "i18n:manageTranslations": "node ./translationRunner.js",
     "eject-be-careful-cannot-be-reverted": "react-scripts eject"
   },
   "eslintConfig": {
@@ -36,5 +40,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "react-intl-translations-manager": "^5.0.3"
+  }
 }

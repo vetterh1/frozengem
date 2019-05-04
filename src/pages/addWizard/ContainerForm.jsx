@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Context } from "../../data/ItemCharacteristicsStore";
-import Typography from '@material-ui/core/Typography';
-import {ItemsList, WizNavBar} from "./WizUtilComponents";
+import {ItemsList, WizNavBar, WizPageTitle} from "./WizUtilComponents";
 
 
 
@@ -39,17 +38,9 @@ class ContainerForm extends React.Component {
     const { container: itemInState } = this.props.state;
     return (
       <div className={"flex-max-height flex-direction-column"}>
-
-        <div className={"flex-normal-height flex-direction-column margin-down"}>
-          <Typography variant="h6">
-            What container are you using?
-          </Typography>
-        </div>
-
+        <WizPageTitle id="add.container.title" defaultMessage="What container are you using?" variable1="" />
         <ItemsList items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
-
         <WizNavBar onClickNext={null} onClickPrevious={this.handlePrevious.bind(this)} />
-
       </div>
 
     )

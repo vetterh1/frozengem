@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Context } from "../../data/ItemCharacteristicsStore";
-import Typography from '@material-ui/core/Typography';
-import {ItemsList, WizNavBar} from "./WizUtilComponents";
-
-
+import {ItemsList, WizNavBar, WizPageTitle} from "./WizUtilComponents";
 
 class FreezerForm extends React.Component {
   static propTypes = {
@@ -27,17 +24,9 @@ class FreezerForm extends React.Component {
     const { freezer: itemInState } = this.props.state;
     return (
       <div className={"flex-max-height flex-direction-column"}>
-
-        <div className={"flex-normal-height flex-direction-column margin-down"}>
-          <Typography variant="h6">
-            In which freezer are you storing it?
-          </Typography>
-        </div>
-
+        <WizPageTitle id="add.freezer.title" defaultMessage="In which freezer are you storing it?" variable1="" />
         <ItemsList items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
-
         <WizNavBar onClickNext={null} onClickPrevious={this.handlePrevious.bind(this)} />
-
       </div>
 
     )

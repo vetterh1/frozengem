@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from "react-router";
 import Typography from '@material-ui/core/Typography';
+import { FormattedMessage } from 'react-intl.macro';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
@@ -9,10 +10,11 @@ function WhyFrozenGem() {
   return (
     <React.Fragment>
       <Typography component="h4" gutterBottom>
-        Why?
+        <FormattedMessage id="footer.why" defaultMessage="Why" />
+        
       </Typography>
       <Typography gutterBottom >
-        This project was started out of despair. Despair everytime we discard food because we don't remember what it is, when it was added. Despair every other night when we don't know what to cook... even though we know we have put so many good homemade leftovers in the freezer... but not / badly labelled!
+        <FormattedMessage id="footer.whyanswer" defaultMessage="This project was started out of despair. Despair everytime we discard food because we don't remember what it is, when it was added. Despair every other night when we don't know what to cook... even though we know we have put so many good homemade leftovers in the freezer... but not / badly labelled!" />
       </Typography>
     </React.Fragment>
   );
@@ -21,7 +23,7 @@ function WhyFrozenGem() {
 function MadeWithLove() {
   return (
     <Typography variant="body2" color="textSecondary">
-      {'Built with love by '}
+      <FormattedMessage id="footer.builtby" defaultMessage="Built with love by " />
       <Link color="inherit" href="https://www.linkedin.com/in/lvetter">
         Laurent Vetterhoeffer
       </Link>

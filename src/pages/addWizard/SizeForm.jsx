@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Context } from "../../data/ItemCharacteristicsStore";
-import Typography from '@material-ui/core/Typography';
-import {ItemsList, WizNavBar} from "./WizUtilComponents";
+import {ItemsList, WizNavBar, WizPageTitle} from "./WizUtilComponents";
 
 
 
@@ -38,17 +37,9 @@ class SizeForm extends React.Component {
     const { size: itemInState } = this.props.state;
     return (
       <div className={"flex-max-height flex-direction-column"}>
-
-        <div className={"flex-normal-height flex-direction-column margin-down"}>
-          <Typography variant="h6">
-            How much quantity are you storing?
-          </Typography>
-        </div>
-
+        <WizPageTitle id="add.size.title" defaultMessage="How much quantity are you storing?" variable1="" />
         <ItemsList items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
-
         <WizNavBar onClickNext={null} onClickPrevious={this.handlePrevious.bind(this)} />
-
       </div>
 
     )

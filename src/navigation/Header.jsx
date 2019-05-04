@@ -8,6 +8,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { FormattedMessage } from 'react-intl.macro';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
@@ -59,7 +60,7 @@ class Header extends React.Component {
         <Toolbar className={classes.toolbar} disableGutters>
           <Button color="inherit" component={Link} to="/" className={classes.toolbarTitle}>
             <Typography variant="body1" color="inherit" noWrap>
-              FrozenGem
+              <FormattedMessage id="header.title" defaultMessage="FrozenGem" />
             </Typography>
           </Button>
           <nav>

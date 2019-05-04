@@ -10,6 +10,7 @@ logItemCharacteristicsStore.debug('--> entering ItemCharacteristicsStore.jsx');
 
 
 
+// (!) Should arrive localized from server (!)
 
 const defaultCharacteristics = {
     version: 14,    

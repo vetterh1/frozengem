@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Context } from "../../data/ItemCharacteristicsStore";
-import Typography from '@material-ui/core/Typography';
-import {ItemsList, WizNavBar} from "./WizUtilComponents";
+import {ItemsList, WizNavBar, WizPageTitle} from "./WizUtilComponents";
 
 
 
@@ -32,17 +31,9 @@ class ContainerColorForm extends React.Component {
     const parentName = !containers || !parentId  ? "item" : containers.find(container => container.id === parentId).name;
     return (
       <div className={"flex-max-height flex-direction-column"}>
-
-        <div className={"flex-normal-height flex-direction-column margin-down"}>
-          <Typography variant="h6">
-            What color is your {parentName.toLowerCase()}?
-          </Typography>
-        </div>
-
+        <WizPageTitle id="add.color.title" defaultMessage="What color is your {variable1}?" variable1={parentName.toLowerCase()} />
         <ItemsList items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
-
         <WizNavBar onClickNext={null} onClickPrevious={this.handlePrevious.bind(this)} />
-
       </div>
 
     )

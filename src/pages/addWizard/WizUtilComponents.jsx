@@ -7,6 +7,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import { FormattedMessage } from 'react-intl.macro';
 
 
 export const ItemsList = ({ items, itemInState, itemInStateIsAnArray, handleClick }) => (
@@ -28,27 +30,45 @@ export const ItemsList = ({ items, itemInState, itemInStateIsAnArray, handleClic
   </List>
 );
 
+
+
+
+export const WizPageTitle = ({id, defaultMessage, variable1}) => (
+  <div className={"flex-normal-height flex-direction-column margin-down"}>
+    <Typography variant="h6">
+      <FormattedMessage
+        id={id}
+        defaultMessage={defaultMessage}
+        values={{variable1}}
+      />    
+    </Typography>
+  </div>
+);
+
+
+
+
 export const CancelButton = () => (
   <Button color="primary" component={Link} to="/">
-      Cancel
+    <FormattedMessage id="button.cancel" defaultMessage="Cancel" />
   </Button>
 );
 
 export const PreviousButton = ({onClick}) => (
   <Button color="primary" onClick={onClick}>
-      Back
+    <FormattedMessage id="button.back" defaultMessage="Back" />
   </Button>
 );
 
 export const NextButton = ({onClick}) => (
   <Button variant="contained" color="primary" onClick={onClick}>
-      Continue
+    <FormattedMessage id="button.continue" defaultMessage="Continue" />
   </Button>
 );
 
 export const WizNavBar = ({onClickPrevious, onClickNext}) => (
-        <div className={"flex-normal-height flex-direction-row flex-justifiy-between"}>
-          {onClickPrevious && <PreviousButton onClick={onClickPrevious}/>}
-          {onClickNext && <NextButton onClick={onClickNext}/>}
-        </div>
+  <div className={"flex-normal-height flex-direction-row flex-justifiy-between"}>
+    {onClickPrevious && <PreviousButton onClick={onClickPrevious}/>}
+    {onClickNext && <NextButton onClick={onClickNext}/>}
+  </div>
 );

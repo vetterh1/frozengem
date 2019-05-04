@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Context } from "../../data/ItemCharacteristicsStore";
-import Typography from '@material-ui/core/Typography';
-import {ItemsList} from "./WizUtilComponents";
+import {ItemsList, WizPageTitle} from "./WizUtilComponents";
 
 
 
@@ -24,16 +23,9 @@ class CategoryForm extends React.Component {
     let { categories: items } = this.context;
     const { category: itemInState } = this.props.state;
     return (
-      <div className={"this-is-a-step flex-max-height flex-direction-column"}>
-
-        <div className={"flex-normal-height flex-direction-column margin-down"}>
-          <Typography variant="h6">
-            What are you storing?
-          </Typography>
-        </div>
-
+      <div className={"flex-max-height flex-direction-column"}>
+        <WizPageTitle id="add.category.title" defaultMessage="What are you storing?" variable1="" />
         <ItemsList items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
-
       </div>
 
     )

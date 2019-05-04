@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
+import { FormattedMessage } from 'react-intl.macro';
 import { withStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -43,26 +44,26 @@ class Results extends React.Component {
   render() {
     // State is NOT stored in this wizard tab, but in the parent (wizard component)
     const { classes, state } = this.props;
-
+    const month = "3";
     return (
 
       <div className={"flex-max-height flex-direction-column"}>
 
         <div className={"flex-normal-height flex-direction-column margin-down margin-top"}>
           <Typography variant="h3" className={"margin-down"}>
-            BW542
+            B8
           </Typography>
           <Typography variant="subtitle1">
             <ul>
-              <li>Write down this code on a sticker</li>
-              <li>Stick it to your container</li>
+              <li><FormattedMessage id="add.results.explanation1" defaultMessage="Write down this code on a sticker" /></li>
+              <li><FormattedMessage id="add.results.explanation2" defaultMessage="Stick it to your container" /></li>
             </ul>
-            We'll send you a reminder in 4 months
+            <FormattedMessage id="add.results.explanation3" defaultMessage="We'll send you a reminder in {month} months" values={{month}} />
           </Typography>
         </div>
 
         <FormControl className={"flex-normal-height flex-direction-column huge-margin-down"}>
-          <InputLabel htmlFor="name">Name (optional)</InputLabel>
+          <InputLabel htmlFor="name"><FormattedMessage id="add.results.name.label" defaultMessage="Name (optional)" /></InputLabel>
           <Input
             id="name"
             value={state.name}
@@ -86,10 +87,10 @@ class Results extends React.Component {
 
         <div className={"flex-normal-height flex-direction-row flex-justifiy-between"}>
           <Button variant="contained" color="secondary" onClick={this.handleAddNew.bind(this)} className={classes.button}>
-            Add a new item
+          <FormattedMessage id="button.addnew" defaultMessage="Add a new item" />
           </Button> 
           <Button variant="contained" color="primary" component={Link} to="/" className={classes.button}>
-            Back Home
+            <FormattedMessage id="button.backhome" defaultMessage="Back Home" />
           </Button>   
         </div>
 
