@@ -2,6 +2,7 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { IntlProvider, addLocaleData } from "react-intl";
+import translations from '../i18n/locales';
 import frLocaleData from "react-intl/locale-data/fr";
 import withMyTheme from '../withMyTheme';
 import Container from '@material-ui/core/Container';
@@ -79,8 +80,16 @@ class App extends React.Component {
       flexGrow: 1,
     };
 
+    const localeProp = 'fr';
+
+
     return (
-      <IntlProvider locale="en">
+      <IntlProvider
+        locale={localeProp}
+        defaultLocale="en"
+        key={localeProp}
+        messages={translations[localeProp]}
+      >      
         <ItemCharacteristicsStore>
           <Router basename={process.env.PUBLIC_URL}>
 

@@ -32,11 +32,18 @@ export const ItemsList = ({ items, itemInState, itemInStateIsAnArray, handleClic
 
 
 
+// temporary work-around (see https://github.com/yahoo/babel-plugin-react-intl/issues/119)
+function FormattedMessageFixed(props) {
+  return <FormattedMessage {...props} />;
+}
+
+export default FormattedMessageFixed;
+
 
 export const WizPageTitle = ({id, defaultMessage, variable1}) => (
   <div className={"flex-normal-height flex-direction-column margin-down"}>
     <Typography variant="h6">
-      <FormattedMessage
+      <FormattedMessageFixed
         id={id}
         defaultMessage={defaultMessage}
         values={{variable1}}

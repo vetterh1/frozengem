@@ -46,7 +46,7 @@ class MainPageContent extends React.Component {
             <FormattedMessage id="app.title" defaultMessage="FrozenGem" />
           </Typography>
           <Typography variant="h5" align="center" gutterBottom >
-            <FormattedMessage id="app.subtitle" defaultMessage="Super simple system to add &amp; retreive your freezer content" />
+            <FormattedMessage id="app.subtitle" defaultMessage="Super simple system to always know what you have in your freezer" />
           </Typography>
           <Grid container justify="center">
             <Grid item>
