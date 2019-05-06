@@ -8,8 +8,8 @@ import Divider from '@material-ui/core/Divider';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-// import { FormattedMessage } from 'react-intl.macro';
-import { injectIntl, FormattedMessage } from "react-intl";
+import { FormattedMessage } from 'react-intl.macro';
+import { injectIntl } from "react-intl";
 
 
 export const ItemsList = ({ items, itemInState, itemInStateIsAnArray, handleClick }) => (
@@ -32,13 +32,6 @@ export const ItemsList = ({ items, itemInState, itemInStateIsAnArray, handleClic
 );
 
 
-
-// temporary work-around (see https://github.com/yahoo/babel-plugin-react-intl/issues/119)
-export function FormattedMessageFixed(props) {
-  return <FormattedMessage {...props} />;
-}
-
-
 const WizPageTitleInt = ({message, values, intl}) => (
   <div className={"flex-normal-height flex-direction-column margin-down"}>
     <Typography variant="h6">
@@ -47,7 +40,6 @@ const WizPageTitleInt = ({message, values, intl}) => (
   </div>
 );
 export const WizPageTitle = injectIntl(WizPageTitleInt);
-
 
 
 
@@ -76,3 +68,4 @@ export const WizNavBar = ({onClickPrevious, onClickNext}) => (
     {onClickNext && <NextButton onClick={onClickNext}/>}
   </div>
 );
+

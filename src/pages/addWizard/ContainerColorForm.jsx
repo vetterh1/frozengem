@@ -7,7 +7,7 @@ import { defineMessages } from 'react-intl.macro';
 const messages = defineMessages({
   title: {
     id: 'add.color.title',
-    defaultMessage: 'What color is your {variable1}?',
+    defaultMessage: 'What color is your {container}?',
     description: 'What color is your...',
   },
 });
@@ -39,7 +39,7 @@ class ContainerColorForm extends React.Component {
     const parentName = !containers || !parentId  ? "item" : containers.find(container => container.id === parentId).name;
     return (
       <div className={"flex-max-height flex-direction-column"}>
-        <WizPageTitle message={messages.title} variable1={parentName.toLowerCase()} />
+        <WizPageTitle message={messages.title} values={{container: parentName.toLowerCase()}} />
         <ItemsList items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
         <WizNavBar onClickNext={null} onClickPrevious={this.handlePrevious.bind(this)} />
       </div>
