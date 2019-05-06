@@ -2,7 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Context } from "../../data/ItemCharacteristicsStore";
 import {ItemsList, WizNavBar, WizPageTitle} from "./WizUtilComponents";
+import { defineMessages } from 'react-intl.macro';
 
+const messages = defineMessages({
+  title: {
+    id: 'add.size.title',
+    defaultMessage: 'How much quantity are you storing?',
+    description: 'How much quantity are you storing?',
+  },
+});
 
 
 class SizeForm extends React.Component {
@@ -37,7 +45,7 @@ class SizeForm extends React.Component {
     const { size: itemInState } = this.props.state;
     return (
       <div className={"flex-max-height flex-direction-column"}>
-        <WizPageTitle id="add.size.title" defaultMessage="How much quantity are you storing?" variable1="" />
+        <WizPageTitle message={messages.title} variable1="" />
         <ItemsList items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
         <WizNavBar onClickNext={null} onClickPrevious={this.handlePrevious.bind(this)} />
       </div>

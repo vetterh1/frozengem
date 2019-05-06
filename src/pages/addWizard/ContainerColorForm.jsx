@@ -2,7 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Context } from "../../data/ItemCharacteristicsStore";
 import {ItemsList, WizNavBar, WizPageTitle} from "./WizUtilComponents";
+import { defineMessages } from 'react-intl.macro';
 
+const messages = defineMessages({
+  title: {
+    id: 'add.color.title',
+    defaultMessage: 'What color is your {variable1}?',
+    description: 'What color is your...',
+  },
+});
 
 
 class ContainerColorForm extends React.Component {
@@ -31,7 +39,7 @@ class ContainerColorForm extends React.Component {
     const parentName = !containers || !parentId  ? "item" : containers.find(container => container.id === parentId).name;
     return (
       <div className={"flex-max-height flex-direction-column"}>
-        <WizPageTitle id="add.color.title" defaultMessage="What color is your {variable1}?" variable1={parentName.toLowerCase()} />
+        <WizPageTitle message={messages.title} variable1={parentName.toLowerCase()} />
         <ItemsList items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
         <WizNavBar onClickNext={null} onClickPrevious={this.handlePrevious.bind(this)} />
       </div>

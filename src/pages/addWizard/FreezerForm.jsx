@@ -2,7 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Context } from "../../data/ItemCharacteristicsStore";
 import {ItemsList, WizNavBar, WizPageTitle} from "./WizUtilComponents";
+import { defineMessages } from 'react-intl.macro';
 
+const messages = defineMessages({
+  title: {
+    id: 'add.freezer.title',
+    defaultMessage: 'In which freezer are you storing it?',
+    description: 'In which freezer are you storing it?',
+  },
+});
 class FreezerForm extends React.Component {
   static propTypes = {
     handleChange: PropTypes.func.isRequired,
@@ -24,6 +32,7 @@ class FreezerForm extends React.Component {
     const { freezer: itemInState } = this.props.state;
     return (
       <div className={"flex-max-height flex-direction-column"}>
+        <WizPageTitle message={messages.title} variable1="" />
         <WizPageTitle id="add.freezer.title" defaultMessage="In which freezer are you storing it?" variable1="" />
         <ItemsList items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
         <WizNavBar onClickNext={null} onClickPrevious={this.handlePrevious.bind(this)} />

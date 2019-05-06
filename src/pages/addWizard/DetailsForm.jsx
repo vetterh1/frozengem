@@ -2,7 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Context } from "../../data/ItemCharacteristicsStore";
 import {ItemsList, WizNavBar, WizPageTitle} from "./WizUtilComponents";
+import { defineMessages } from 'react-intl.macro';
 
+const messages = defineMessages({
+  title: {
+    id: 'add.details.title',
+    defaultMessage: 'Tell us a little bit more about your {category}...',
+    description: 'Tell us a little bit more about your...',
+  },
+});
 
 class DetailsForm extends React.Component {
   static propTypes = {
@@ -26,7 +34,7 @@ class DetailsForm extends React.Component {
     const parentName = !categories || !parentId  ? "item" : categories.find(category => category.id === parentId).name;
     return (
       <div className={"flex-max-height flex-direction-column"}>
-        <WizPageTitle id="add.details.title" defaultMessage="Tell us a little bit more about your {variable1}..." variable1={parentName.toLowerCase()} />
+        <WizPageTitle message={messages.title} values={{category: parentName.toLowerCase()}} />
         <ItemsList items={items} itemInState={itemInState} itemInStateIsAnArray={true} handleClick={this.handleClick} />
         <WizNavBar onClickNext={this.handleNext.bind(this)} onClickPrevious={this.handlePrevious.bind(this)} />
       </div>
