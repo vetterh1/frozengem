@@ -57,7 +57,6 @@ class Results extends React.Component {
             <ul>
               <li><FormattedMessage id="add.results.explanation1" defaultMessage="Write down this code on a sticker" /></li>
               <li><FormattedMessage id="add.results.explanation2" defaultMessage="Stick it to your container" /></li>
-              <li><FormattedMessage id="add.results.test" defaultMessage="test..." /></li>
             </ul>
             <FormattedMessage id="add.results.explanation3" defaultMessage="We'll send you a reminder in {month} months" values={{month}} />
           </Typography>
