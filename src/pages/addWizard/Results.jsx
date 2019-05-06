@@ -1,13 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
-import { FormattedMessage } from 'react-intl.macro';
 import { withStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { injectIntl } from "react-intl";
+import { defineMessages, FormattedMessage } from 'react-intl.macro';
+
+
+
+const messages = defineMessages({
+  name: {
+    id: 'add.results.name.help',
+    defaultMessage: 'To help you remember what it is',
+    description: 'To help you remember what it is',
+  },
+  date: {
+    id: 'add.results.date.label',
+    defaultMessage: 'Change expiration date (optional)',
+    description: 'Change expiration date (optional)',
+  },
+});
+
 
 
 const styles = theme => ({
@@ -16,7 +33,7 @@ const styles = theme => ({
     justifyContent: 'flex-end',
   },
   button: {
-
+    textAlign: 'center',
     marginLeft: theme.spacing(2),
   },  
   divWizard: {
@@ -71,13 +88,13 @@ class Results extends React.Component {
             aria-describedby="name-text"
             fullWidth
           />
-          <FormHelperText id="name-text">To help you remember what it is</FormHelperText>
+          <FormHelperText id="name-text">{this.props.intl.formatMessage(messages.name)}</FormHelperText>
         </FormControl>
 
         <div className={"flex-normal-height flex-direction-column huge-margin-down"}>
             <TextField
               id="date"
-              label="Change expiration date (optional)"
+              label={this.props.intl.formatMessage(messages.date)}
               type="date"
               defaultValue={state.expirationDate}
               onChange={this.handleDateChange.bind(this)}
@@ -87,7 +104,7 @@ class Results extends React.Component {
 
         <div className={"flex-normal-height flex-direction-row flex-justifiy-between"}>
           <Button variant="contained" color="secondary" onClick={this.handleAddNew.bind(this)} className={classes.button}>
-          <FormattedMessage id="button.addnew" defaultMessage="Add a new item" />
+            <FormattedMessage id="button.addnew" defaultMessage="Add a new item" />
           </Button> 
           <Button variant="contained" color="primary" component={Link} to="/" className={classes.button}>
             <FormattedMessage id="button.backhome" defaultMessage="Back Home" />
@@ -101,4 +118,4 @@ class Results extends React.Component {
 }
 
 
-export default withStyles(styles)(Results);
+export default injectIntl(withStyles(styles)(Results));
