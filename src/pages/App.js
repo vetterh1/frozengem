@@ -16,6 +16,7 @@ import AddWizard from './addWizard/AddWizard';
 import Pusher from 'pusher-js';
 
 import { ItemCharacteristicsStore } from "../data/ItemCharacteristicsStore";
+import { UserInfoStore, UserInfoConsumer } from "../data/UserInfoStore";
 
 
 //
@@ -80,58 +81,64 @@ class App extends React.Component {
       flexGrow: 1,
     };
 
-    const localeProp = 'fr';
-
 
     return (
-      <IntlProvider
-        locale={localeProp}
-        defaultLocale="en"
-        key={localeProp}
-        messages={translations[localeProp]}
-      >      
-        <ItemCharacteristicsStore>
-          <Router basename={process.env.PUBLIC_URL}>
+      <UserInfoStore>
+        <UserInfoConsumer>
+          {({ language }) => {
+              return (
+                <IntlProvider
+                  locale={language}
+                  defaultLocale="en"
+                  key={language}
+                  messages={translations[language]}
+                >      
+                  <ItemCharacteristicsStore>
+                    <Router basename={process.env.PUBLIC_URL}>
 
-            <div style={divStyle}>
+                      <div style={divStyle}>
 
-              <Header auth={auth} />
+                        <Header auth={auth} />
 
-              <Container maxWidth="md"  style={containerStyle}>
+                        <Container maxWidth="md"  style={containerStyle}>
 
-                <Switch>
-                  <Route
-                    exact path="/callback"
-                    component={(props) => {
-                      handleAuthentication(props);
-                      return <Callback {...props} />;
-                    }}
-                  />
-                  <Route
-                    exact path="/add"
-                    component={props => <AddWizard auth={auth} {...props} />}
-                  />
-                  <Route
-                    exact path="/about"
-                    component={() => <About />}
-                  />
-                  <Route
-                    exact path="/"
-                    component={props => <MainPageContent auth={auth} {...props} />}
-                  />
-                  <Route
-                    exact path="*"
-                    component={NotFound}
-                    auth={auth}
-                  />
-                </Switch>          
-              </Container>
+                          <Switch>
+                            <Route
+                              exact path="/callback"
+                              component={(props) => {
+                                handleAuthentication(props);
+                                return <Callback {...props} />;
+                              }}
+                            />
+                            <Route
+                              exact path="/add"
+                              component={props => <AddWizard auth={auth} {...props} />}
+                            />
+                            <Route
+                              exact path="/about"
+                              component={() => <About />}
+                            />
+                            <Route
+                              exact path="/"
+                              component={props => <MainPageContent auth={auth} {...props} />}
+                            />
+                            <Route
+                              exact path="*"
+                              component={NotFound}
+                              auth={auth}
+                            />
+                          </Switch>          
+                        </Container>
 
-              <Footer location={this.props.location} />
-            </div>
-          </Router>
-        </ItemCharacteristicsStore>
-      </IntlProvider>
+                        <Footer location={this.props.location} />
+                      </div>
+                    </Router>
+                  </ItemCharacteristicsStore>
+                </IntlProvider>
+              );
+            }}                
+          </UserInfoConsumer>        
+        </UserInfoStore>
     );
   }
 }

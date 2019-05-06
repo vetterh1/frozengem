@@ -15,6 +15,8 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import { withStyles } from '@material-ui/core/styles';
 import Auth from '../auth/Auth';
 import LoginInBar from '../auth/LoginInBar';
+import {UserInfoConsumer} from '../data/UserInfoStore';
+
 
 const styles = theme => ({
   appBar: {
@@ -71,6 +73,20 @@ class Header extends React.Component {
               <RemoveIcon />
             </Fab>
           </nav>
+          <UserInfoConsumer>
+            {({ switchToFR, switchToEN }) => {
+              return (
+                <nav>
+                  <Button color="secondary" onClick={e => switchToEN()}>
+                    EN
+                  </Button>
+                  <Button color="secondary" onClick={e => switchToFR()}>
+                    FR
+                  </Button>
+                </nav>
+              );
+            }}                
+          </UserInfoConsumer>
           <LoginInBar auth={this.props.auth} />
         </Toolbar>
       </AppBar>
