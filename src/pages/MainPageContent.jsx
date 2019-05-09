@@ -51,7 +51,7 @@ class MainPageContent extends React.Component {
           <Grid container justify="center">
             <Grid item>
               <Box mt={2} mb={4}>
-                <Button variant="contained" color="secondary" component={Link} to="/add">
+                <Button variant="contained" color="secondary" component={Link} to="/register">
                   <FormattedMessage id="button.getstarted" defaultMessage="Get Started" />
                 </Button>
               </Box>

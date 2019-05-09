@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Context } from "../../data/ItemCharacteristicsStore";
-import {ItemsList, WizPageTitle} from "./WizUtilComponents";
+import {ItemsList, WizPageTitle} from "../utils/WizUtilComponents";
 import { defineMessages } from 'react-intl.macro';
 
 const messages = defineMessages({

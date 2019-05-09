@@ -13,6 +13,7 @@ import Header from '../navigation/Header';
 import Footer from '../navigation/Footer';
 import MainPageContent from './MainPageContent';
 import AddWizard from './addWizard/AddWizard';
+import RegisterWizard from './registerWizard/RegisterWizard';
 import Pusher from 'pusher-js';
 
 import { ItemCharacteristicsStore } from "../data/ItemCharacteristicsStore";
@@ -113,6 +114,10 @@ class App extends React.Component {
                             <Route
                               exact path="/add"
                               component={props => <AddWizard auth={auth} {...props} />}
+                            />
+                            <Route
+                              exact path="/register"
+                              component={props => <RegisterWizard auth={auth} {...props} />}
                             />
                             <Route
                               exact path="/about"

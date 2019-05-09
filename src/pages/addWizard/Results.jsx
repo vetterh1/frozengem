@@ -61,45 +61,52 @@ class Results extends React.Component {
   render() {
     // State is NOT stored in this wizard tab, but in the parent (wizard component)
     const { classes, state } = this.props;
-    const month = "3";
+    const month = "6";
     return (
 
       <div className={"flex-max-height flex-direction-column"}>
 
-        <div className={"flex-normal-height flex-direction-column margin-down margin-top"}>
-          <Typography variant="h3" className={"margin-down"}>
-            B8
-          </Typography>
-          <Typography variant="subtitle1">
-            <ul>
-              <li><FormattedMessage id="add.results.explanation1" defaultMessage="Write down this code on a sticker" /></li>
-              <li><FormattedMessage id="add.results.explanation2" defaultMessage="Stick it to your container" /></li>
-            </ul>
-            <FormattedMessage id="add.results.explanation3" defaultMessage="We'll send you a reminder in {month} months" values={{month}} />
-          </Typography>
-        </div>
+        <div className={"flex-max-height flex-direction-column"}>
+          <div className={"flex-normal-height flex-direction-column margin-down margin-top"}>
+            <Typography variant="h3" className={"margin-down"}>
+              B9
+            </Typography>
+            <Typography variant="subtitle1">
+              <ul>
+                <li><FormattedMessage id="add.results.explanation1" defaultMessage="Write down this code on a sticker" /></li>
+                <li><FormattedMessage id="add.results.explanation2" defaultMessage="Stick it to your container" /></li>
+              </ul>
+              <FormattedMessage id="add.results.explanation3" defaultMessage="We'll send you a reminder in {month} months" values={{month}} />
+            </Typography>
+          </div>
 
-        <FormControl className={"flex-normal-height flex-direction-column huge-margin-down"}>
-          <InputLabel htmlFor="name"><FormattedMessage id="add.results.name.label" defaultMessage="Name (optional)" /></InputLabel>
-          <Input
-            id="name"
-            value={state.name}
-            onChange={this.handleTextChange.bind(this)}
-            aria-describedby="name-text"
-            fullWidth
-          />
-          <FormHelperText id="name-text">{this.props.intl.formatMessage(messages.name)}</FormHelperText>
-        </FormControl>
-
-        <div className={"flex-normal-height flex-direction-column huge-margin-down"}>
-            <TextField
-              id="date"
-              label={this.props.intl.formatMessage(messages.date)}
-              type="date"
-              defaultValue={state.expirationDate}
-              onChange={this.handleDateChange.bind(this)}
+          <FormControl className={"flex-normal-height flex-direction-column huge-margin-down"}>
+            <InputLabel htmlFor="name"><FormattedMessage id="add.results.name.label" defaultMessage="Name (optional)" /></InputLabel>
+            <Input
+              id="name"
+              value={state.name}
+              onChange={this.handleTextChange.bind(this)}
+              aria-describedby="name-text"
               fullWidth
             />
+            <FormHelperText id="name-text">{this.props.intl.formatMessage(messages.name)}</FormHelperText>
+          </FormControl>
+
+          <div className={"flex-normal-height flex-direction-column huge-margin-down"}>
+              <TextField
+                id="date"
+                label={this.props.intl.formatMessage(messages.date)}
+                type="date"
+                defaultValue={state.expirationDate}
+                onChange={this.handleDateChange.bind(this)}
+                fullWidth
+              />
+          </div>
+
+          <div className={"flex-max-height flex-direction-column"}>
+            &nbsp;
+          </div>
+
         </div>
 
         <div className={"flex-normal-height flex-direction-row flex-justifiy-between"}>
