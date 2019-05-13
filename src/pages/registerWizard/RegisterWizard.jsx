@@ -1,11 +1,13 @@
 import * as log from 'loglevel';
 import React from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import Auth from '../../auth/Auth';
 import { withStyles } from '@material-ui/core/styles';
 import NameForm from './NameForm';
 import StepWizard from 'react-step-wizard';
 import EmailForm from './EmailForm';
+import PasswordForm from './PasswordForm';
 import Registered from './Registered';
 // import stringifyOnce from '../../utils/stringifyOnce.js'
 
@@ -45,6 +47,8 @@ class RegisterWizard extends React.Component {
   defaultState = {
     location: null,
     email: "",
+    password: "",
+    password2: "",
     name: "",
   };
 
@@ -58,7 +62,7 @@ class RegisterWizard extends React.Component {
 
     this.handleChange = this.handleChange.bind(this)
     this.handleArrayToggle = this.handleArrayToggle.bind(this)
-
+    this.onClickRegister = this.onClickRegister.bind(this)
   }
 
   // Set the received value in the state 
@@ -88,6 +92,25 @@ class RegisterWizard extends React.Component {
     this.props.auth.login();
   }
 
+  testServer() {
+    // axios.get('http://localhost:9000/test2')
+    axios.get('http://51.254.221.25:8080/test2')
+    .then(function (response) {
+      console.log('testServer OK: ' , response);
+    })
+    .catch(function (error) {
+      console.error('testServer error: ' , error);
+    })
+    .then(function () {
+      // always executed
+    });
+  }
+
+  onClickRegister() { 
+    this.testServer();
+  }
+
+
   render() {
     const { classes } = this.props;
     // const { isAuthenticated } = this.props.auth;
@@ -98,7 +121,8 @@ class RegisterWizard extends React.Component {
             <StepWizard isHashEnabled className={"flex-max-height flex-direction-column"} classNameWrapper={'flex-max-height flex-direction-column'}>
               <NameForm hashKey={'name'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} resetState={this.resetState} state={this.state} />
               <EmailForm hashKey={'email'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} resetState={this.resetState} state={this.state} />
-              <Registered hashKey={'registered'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} resetState={this.resetState} state={this.state} />
+              <PasswordForm hashKey={'password'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} resetState={this.resetState} state={this.state} />
+              <Registered hashKey={'registered'} onClickRegister={this.onClickRegister} state={this.state} />
             </StepWizard>
           </div>
       );
