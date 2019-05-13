@@ -11,8 +11,18 @@ import { WizPageTitle} from "../utils/WizUtilComponents";
 const messages = defineMessages({
   title: {
     id: 'register.registered.title',
+    defaultMessage: 'Registration in progress...',
+    description: 'Registration in progress...',
+  },
+  registered: {
+    id: 'register.registered.registered',
     defaultMessage: 'You are registered!',
     description: 'You are registered!',
+  },  
+  failed: {
+    id: 'register.registered.failed',
+    defaultMessage: 'Registeration failed :/',
+    description: 'Registeration failed :/',
   },
 });
 
@@ -44,6 +54,8 @@ class NameForm extends React.Component {
     };
   }
 
+  onClickRegister = () => { this.props.onClickRegister(); };
+
   render() {
     const { classes } = this.props;
     return (
@@ -52,6 +64,11 @@ class NameForm extends React.Component {
 
         <div className={"flex-max-height flex-direction-column"}>
           <WizPageTitle message={messages.title} />
+
+          <Button variant="contained" color="primary" onClick={this.onClickRegister.bind(this)}>
+            <FormattedMessage id="register.registered.button" defaultMessage="Register!" />
+          </Button>          
+
         </div>
 
         <div className={"flex-max-height flex-direction-column"}>
