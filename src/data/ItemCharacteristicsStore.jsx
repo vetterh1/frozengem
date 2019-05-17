@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import * as log from 'loglevel';
 import stringifyOnce from '../utils/stringifyOnce.js'
 
@@ -100,11 +101,11 @@ export class ItemCharacteristicsStore extends React.Component {
 
     componentDidMount() {
         this.state.load();
-        // axios.get(`http://www.reddit.com/r/${this.props.subreddit}.json`)
-        //   .then(res => {
-        //     const posts = res.data.data.children.map(obj => obj.data);
-        //     this.setState({ posts });
-        //   });
+        axios.get('https://food-maniac.com/frozenbo/characteristics')
+          .then(res => {
+            console.log("characteristics version loaded from server:", res.data.version)
+            this.setState({ dataFromServer: res.data });
+          });
     }
     
     load() {
@@ -124,8 +125,15 @@ export class ItemCharacteristicsStore extends React.Component {
             needLocalSave = true;
         }
 
-        // Server query to get the latest
-        // should check if version is higher 
+        if(this.state.dataFromServer && this.state.dataFromServer.version > itemCharacteristics.version) {
+            console.log("use server version!")
+            // server version is more recent: use it!
+            itemCharacteristics = {...this.state.dataFromServer};
+            // and save them in local storage for next time
+            needLocalSave = true;        
+        } else {
+            console.log("don't use server version!")
+        }
 
         if(needLocalSave) {
             localStorage.setItem('ItemCharacteristics', JSON.stringify(itemCharacteristics));
@@ -133,7 +141,7 @@ export class ItemCharacteristicsStore extends React.Component {
 
         this.setState(itemCharacteristics);
 
-        console.log('ItemCharacteristicsStore: itemCharacteristics', stringifyOnce(itemCharacteristics));
+        console.log('ItemCharacteristicsStore: itemCharacteristics=', stringifyOnce(itemCharacteristics));
     }
 
     save() {
