@@ -23,9 +23,9 @@
     "source-map-explorer": "^1.8.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "REACT_APP_BO_URL='http://localhost:9000' react-scripts start",
     "build": "react-scripts build",
-    "startprod": "serve -s build",
+    "startprod": "REACT_APP_BO_URL='https://food-maniac.com/frozenbo' serve -s build",
     "test": "CI=true react-scripts test",
     "test:coverage": "npm test -- --coverage",
     "analyze": "source-map-explorer 'build/static/js/*.js'",

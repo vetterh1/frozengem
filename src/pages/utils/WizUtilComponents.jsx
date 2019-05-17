@@ -15,14 +15,14 @@ import { injectIntl } from "react-intl";
 export const ItemsList = ({ items, itemInState, itemInStateIsAnArray, handleClick }) => (
   <List className={"flex-max-height flex-direction-column big-margin-down"}>
   {items && items.map((item, index, theArray) => (
-    <React.Fragment key={`frag-${item.id}`}>
+    <React.Fragment key={`frag-${item.id2}`}>
       <ListItem 
         button 
-        onClick={handleClick.bind(this, item.id)} 
-        selected={itemInStateIsAnArray ? itemInState.find(detail => detail === item.id) !== undefined : itemInState === item.id} 
-        key={item.id}
+        onClick={handleClick.bind(this, item.id2)} 
+        selected={itemInStateIsAnArray ? itemInState.find(detail => detail === item.id2) !== undefined : itemInState === item.id2} 
+        key={item.id2}
       >
-        {/* <ListItemAvatar> <Avatar> {item.id} </Avatar> </ListItemAvatar> */}
+        {/* <ListItemAvatar> <Avatar> {item.id2} </Avatar> </ListItemAvatar> */}
         <ListItemText primary={item.name} secondary={item.label} />
       </ListItem>
       {index < theArray.length-1 && <Divider />}

@@ -31,7 +31,7 @@ class DetailsForm extends React.Component {
     let { details, categories } = this.context;
     const { details: itemInState } = this.props.state;    
     const items = !details || !parentId ? [] : details.filter(detail => detail.parentIds.find(oneParentId => oneParentId === 'all' || oneParentId === parentId));
-    const parentName = !categories || !parentId  ? "item" : categories.find(category => category.id === parentId).name;
+    const parentName = !categories || !parentId  ? "item" : categories.find(category => category.id2 === parentId).name;
     return (
       <div className={"flex-max-height flex-direction-column"}>
         <WizPageTitle message={messages.title} values={{category: parentName.toLowerCase()}} />

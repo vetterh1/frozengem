@@ -36,7 +36,7 @@ class ContainerColorForm extends React.Component {
     let { colors, containers } = this.context;
     const { color: itemInState } = this.props.state;    
     const items = !colors || !parentId ? [] : colors.filter(color => color.parentIds.find(oneParentId => oneParentId === parentId));
-    const parentName = !containers || !parentId  ? "item" : containers.find(container => container.id === parentId).name;
+    const parentName = !containers || !parentId  ? "item" : containers.find(container => container.id2 === parentId).name;
     return (
       <div className={"flex-max-height flex-direction-column"}>
         <WizPageTitle message={messages.title} values={{container: parentName.toLowerCase()}} />
