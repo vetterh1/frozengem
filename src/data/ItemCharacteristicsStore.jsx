@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import * as log from 'loglevel';
-import stringifyOnce from '../utils/stringifyOnce.js'
+// import stringifyOnce from '../utils/stringifyOnce.js'
 
 const logItemCharacteristicsStore = log.getLogger('logItemCharacteristicsStore');
 // loglevelServerSend(logItemCharacteristicsStore); // a setLevel() MUST be run AFTER this!
@@ -99,13 +99,29 @@ export class ItemCharacteristicsStore extends React.Component {
         save: () => this.save()
     };
 
+
+    getServerData() {
+        axios.get('https://food-maniac.com/frozenbo/characteristics', { crossdomain: true })
+        .then(res => {
+            console.log("characteristics version loaded from server:", res.data.version)
+            if(res.data && res.data.version > this.state.version) {
+                console.log("use server version!")
+                // server version is more recent: use it!
+                const itemCharacteristics = {...res.data};
+                this.setState(itemCharacteristics);
+                // and save them in local storage for next time
+                localStorage.setItem('ItemCharacteristics', JSON.stringify(itemCharacteristics));
+            } else {
+                console.log("don't use server version!")
+            }              
+        })
+        .catch( (error) => {
+            console.log("Error while retreiving characteristics from server: ", error);
+        })
+    }
+
     componentDidMount() {
         this.state.load();
-        axios.get('https://food-maniac.com/frozenbo/characteristics')
-          .then(res => {
-            console.log("characteristics version loaded from server:", res.data.version)
-            this.setState({ dataFromServer: res.data });
-          });
     }
     
     load() {
@@ -125,23 +141,13 @@ export class ItemCharacteristicsStore extends React.Component {
             needLocalSave = true;
         }
 
-        if(this.state.dataFromServer && this.state.dataFromServer.version > itemCharacteristics.version) {
-            console.log("use server version!")
-            // server version is more recent: use it!
-            itemCharacteristics = {...this.state.dataFromServer};
-            // and save them in local storage for next time
-            needLocalSave = true;        
-        } else {
-            console.log("don't use server version!")
-        }
-
         if(needLocalSave) {
             localStorage.setItem('ItemCharacteristics', JSON.stringify(itemCharacteristics));
         }
 
-        this.setState(itemCharacteristics);
+        this.setState(itemCharacteristics, this.getServerData);
 
-        console.log('ItemCharacteristicsStore: itemCharacteristics=', stringifyOnce(itemCharacteristics));
+        // console.log('ItemCharacteristicsStore: itemCharacteristics=', stringifyOnce(itemCharacteristics));
     }
 
     save() {
