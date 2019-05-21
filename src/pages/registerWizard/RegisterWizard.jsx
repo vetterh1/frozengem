@@ -1,6 +1,7 @@
 import * as log from 'loglevel';
 import React from 'react';
 import PropTypes from 'prop-types';
+import qs from 'qs';
 import axios from 'axios';
 import Auth from '../../auth/Auth';
 import { withStyles } from '@material-ui/core/styles';
@@ -9,6 +10,8 @@ import StepWizard from 'react-step-wizard';
 import EmailForm from './EmailForm';
 import PasswordForm from './PasswordForm';
 import Registered from './Registered';
+import config from '../../data/config'
+
 // import stringifyOnce from '../../utils/stringifyOnce.js'
 
 const styles = theme => ({
@@ -92,14 +95,44 @@ class RegisterWizard extends React.Component {
     this.props.auth.login();
   }
 
+
+
+  // POST /users HTTP/1.1
+  // Host: 0.0.0.0:9000
+  // Content-Type: application/x-www-form-urlencoded
+  // Authorization: Basic YWRtaW5AZXhhbXBsZS5jb206MTIzNDU2
+  // User-Agent: PostmanRuntime/7.11.0
+  // Accept: */*
+  // Cache-Control: no-cache
+  // Postman-Token: 6daf749b-090b-4787-ba7b-c566194be416,841f5652-abd3-4969-a7cc-a9a806ede374
+  // Host: 0.0.0.0:9000
+  // accept-encoding: gzip, deflate
+  // content-length: 98
+  // Connection: keep-alive
+  // cache-control: no-cache
+  
+  // access_token=S9EqDPByR2z5mnCMaRFk7b552RWaFcnn&email=admin%40example.com&password=123456&role=admin
+
+
+
   testServer() {
-    // axios.get('http://localhost:9000/test2')
-    axios.get('http://51.254.221.25:8080/test2')
+    const boUrl = config.boUrl;
+    const masterKey = config.masterKey;
+    const data = { 'access_token': masterKey, email: 'toto@titi.com', password: '123654' };
+    const options = {
+      method: 'POST',
+      url: `${boUrl}/users`,
+      withCredentials : true, 
+      crossdomain : true,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      data: qs.stringify(data),
+    };
+    axios(options)
     .then(function (response) {
-      console.log('testServer OK: ' , response);
+      console.log('registration OK: ' , response);
     })
     .catch(function (error) {
-      console.error('testServer error: ' , error);
+      console.error('registration error: ' , error);
     })
     .then(function () {
       // always executed

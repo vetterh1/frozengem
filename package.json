@@ -13,6 +13,7 @@
     "clsx": "^1.0.4",
     "formik": "^1.5.4",
     "pusher-js": "^4.4.0",
+    "qs": "^6.7.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-intl": "^2.8.0",
@@ -23,9 +24,9 @@
     "source-map-explorer": "^1.8.0"
   },
   "scripts": {
-    "start": "REACT_APP_BO_URL='http://localhost:9000' react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
-    "startprod": "REACT_APP_BO_URL='https://food-maniac.com/frozenbo' serve -s build",
+    "startprod": "serve -s build",
     "test": "CI=true react-scripts test",
     "test:coverage": "npm test -- --coverage",
     "analyze": "source-map-explorer 'build/static/js/*.js'",

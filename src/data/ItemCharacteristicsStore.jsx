@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import * as log from 'loglevel';
+import config from './config'
 // import stringifyOnce from '../utils/stringifyOnce.js'
 
 const logItemCharacteristicsStore = log.getLogger('logItemCharacteristicsStore');
@@ -101,8 +102,8 @@ export class ItemCharacteristicsStore extends React.Component {
 
 
     getServerData() {
-        console.log("process.env.REACT_APP_BO_URL: ", process.env.REACT_APP_BO_URL);
-        axios.get(`${process.env.REACT_APP_BO_URL}/characteristics`, { crossdomain: true })
+        const boUrl = config.boUrl;
+        axios.get(`${boUrl}/characteristics`, { crossdomain: true })
         .then(res => {
             console.log("characteristics version loaded from server:", res.data.version)
             if(res.data && res.data.version > this.state.version) {
