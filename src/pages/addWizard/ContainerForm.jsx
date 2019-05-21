@@ -26,7 +26,7 @@ class ContainerForm extends React.Component {
     handleChange({ name: 'container', value: id });
 
     // Look if this chosen container supports colors
-    const containerHasColors = colors.filter(color => color.parentIds.find(oneParentId => oneParentId === id)).length > 0;
+    const containerHasColors = colors.filter(color => color.parents.find(oneParent => oneParent === id)).length > 0;
     if(containerHasColors) {
       nextStep();
     }

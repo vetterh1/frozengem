@@ -51,6 +51,7 @@ class NameForm extends React.Component {
     };
   }
 
+
   handleTextChange(event) { this.props.handleChange({name: 'name', value: event.target.value});  }
   handlePrevious = () => { this.props.handleChange({ name: 'name', value: "" }); this.props.previousStep(); };
   handleNext = () => { this.props.nextStep(); };
@@ -64,19 +65,20 @@ class NameForm extends React.Component {
 
         <WizPageTitle message={messages.title} />
 
-        <FormControl className={"flex-normal-height flex-direction-column huge-margin-down"}>
+        <FormControl className={"flex-max-height flex-direction-column huge-margin-down"}>
           <InputLabel htmlFor="name"><FormattedMessage id="register.name.label" defaultMessage="Your Name" /></InputLabel>
           <Input
             id="name"
             value={state.name}
             onChange={this.handleTextChange.bind(this)}
             aria-describedby="name-text"
+            autoFocus
             fullWidth
           />
           <FormHelperText id="name-text">{this.props.intl.formatMessage(messages.name)}</FormHelperText>
         </FormControl>
 
-        <WizNavBar onClickNext={this.handleNext.bind(this)} onClickPrevious={this.handlePrevious.bind(this)} />
+        <WizNavBar onClickNext={this.handleNext.bind(this)} isNextDisabled={state.name === ""} onClickPrevious={this.handlePrevious.bind(this)} />
 
       </div>
 

@@ -10,6 +10,7 @@ import StepWizard from 'react-step-wizard';
 import EmailForm from './EmailForm';
 import PasswordForm from './PasswordForm';
 import Registered from './Registered';
+import HomeJoinOrCreate from './HomeJoinOrCreate';
 import config from '../../data/config'
 
 // import stringifyOnce from '../../utils/stringifyOnce.js'
@@ -96,29 +97,11 @@ class RegisterWizard extends React.Component {
   }
 
 
-
-  // POST /users HTTP/1.1
-  // Host: 0.0.0.0:9000
-  // Content-Type: application/x-www-form-urlencoded
-  // Authorization: Basic YWRtaW5AZXhhbXBsZS5jb206MTIzNDU2
-  // User-Agent: PostmanRuntime/7.11.0
-  // Accept: */*
-  // Cache-Control: no-cache
-  // Postman-Token: 6daf749b-090b-4787-ba7b-c566194be416,841f5652-abd3-4969-a7cc-a9a806ede374
-  // Host: 0.0.0.0:9000
-  // accept-encoding: gzip, deflate
-  // content-length: 98
-  // Connection: keep-alive
-  // cache-control: no-cache
-  
-  // access_token=S9EqDPByR2z5mnCMaRFk7b552RWaFcnn&email=admin%40example.com&password=123456&role=admin
-
-
-
-  testServer() {
+  registerToServer() {
+    const {email, password} = this.state;
     const boUrl = config.boUrl;
     const masterKey = config.masterKey;
-    const data = { 'access_token': masterKey, email: 'toto@titi.com', password: '123654' };
+    const data = { 'access_token': masterKey, email, password };
     const options = {
       method: 'POST',
       url: `${boUrl}/users`,
@@ -140,7 +123,7 @@ class RegisterWizard extends React.Component {
   }
 
   onClickRegister() { 
-    this.testServer();
+    this.registerToServer();
   }
 
 
@@ -156,6 +139,7 @@ class RegisterWizard extends React.Component {
               <EmailForm hashKey={'email'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} resetState={this.resetState} state={this.state} />
               <PasswordForm hashKey={'password'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} resetState={this.resetState} state={this.state} />
               <Registered hashKey={'registered'} onClickRegister={this.onClickRegister} state={this.state} />
+              <HomeJoinOrCreate hashKey={'joinornew'} state={this.state} />
             </StepWizard>
           </div>
       );

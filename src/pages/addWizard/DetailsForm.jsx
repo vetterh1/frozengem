@@ -30,7 +30,7 @@ class DetailsForm extends React.Component {
     // and the (possibly) already selected category from the props.state (state from parent)
     let { details, categories } = this.context;
     const { details: itemInState } = this.props.state;    
-    const items = !details || !parentId ? [] : details.filter(detail => detail.parentIds.find(oneParentId => oneParentId === 'all' || oneParentId === parentId));
+    const items = !details || !parentId ? [] : details.filter(detail => detail.parents.find(oneParent => oneParent === 'all' || oneParent === parentId));
     const parentName = !categories || !parentId  ? "item" : categories.find(category => category.id2 === parentId).name;
     return (
       <div className={"flex-max-height flex-direction-column"}>

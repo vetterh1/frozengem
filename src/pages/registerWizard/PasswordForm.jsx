@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router'
 import { withStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -55,7 +56,7 @@ class PasswordForm extends React.Component {
     this.state = {
     };
   }
-
+  
   handleTextChange(event) { this.props.handleChange({name: 'password', value: event.target.value});  }
   handleTextChange2(event) { this.props.handleChange({name: 'password2', value: event.target.value});   /* Should check passwords are the same */ }
   handlePrevious = () => { this.props.handleChange({ name: 'password', value: "" }); this.props.previousStep(); };
@@ -63,7 +64,15 @@ class PasswordForm extends React.Component {
 
   render() {
     // State is NOT stored in this wizard tab, but in the parent (wizard component)
-    const { state } = this.props;
+    const { state, isActive } = this.props;
+
+    // Return to the 1st page if all the previous infos are not filled in
+    // (ex: return on this exact page)
+    const {name, email} = state;
+    if(isActive && ( name === "" || email == "")) {
+      return <Redirect to='/' />
+    }    
+
     return (
 
       <div className={"flex-max-height flex-direction-column"}>
@@ -77,6 +86,8 @@ class PasswordForm extends React.Component {
             id="password"
             value={state.password}
             onChange={this.handleTextChange.bind(this)}
+            type="password"
+            minlength="6" maxlength="18" 
             aria-describedby="password-text"
             fullWidth
           />
