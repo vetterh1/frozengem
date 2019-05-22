@@ -8,6 +8,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import { injectIntl } from "react-intl";
 import { defineMessages, FormattedMessage } from 'react-intl.macro';
 import { WizNavBar, WizPageTitle} from "../utils/WizUtilComponents";
+import { TextField } from '@material-ui/core';
 
 
 
@@ -54,7 +55,8 @@ class PasswordForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      password2: "---"
+      validData: false,
+      password2: ""
     };
     this.handleTextChange = this.handleTextChange.bind(this)
     this.checkRetype = this.checkRetype.bind(this)
@@ -63,22 +65,23 @@ class PasswordForm extends React.Component {
   handleTextChange(event) {
     const {value} = event.target;
     const {password} = this.props.state;
-    const {password2} = this.state;
+    const {password2, validData} = this.state;
     if(value === password) return;
-    // if(event.target.value !== password2)
-    //   this.setState((state) => { return {validData: !state.validData}; })    
+    const newValid = password2 === value;
+    if(validData != newValid)
+      this.setState({validData: newValid});   
     this.props.handleChange({name: 'password', value});
     }
 
   checkRetype(event) {
-    // const {value} = event.target;
-    // const {password} = this.props.state;
-    // const {password2} = this.state;
-    // if(value === password2) return;
-    // this.setState({ password2 });    
-    // Verify if same as password
-    // if(password !== password2)
-    //   this.setState((state) => { return {validData: !state.validData}; })
+    const {value} = event.target;
+    const {password} = this.props.state;
+    const {password2, validData} = this.state;
+    if(value === password2) return;
+    this.setState({ password2: value });
+    const newValid = password === value;
+    if(validData != newValid)
+      this.setState({validData: newValid});
   }
 
   handlePrevious = () => { this.props.handleChange({ name: 'password', value: "" }); this.props.previousStep(); };
@@ -88,8 +91,8 @@ class PasswordForm extends React.Component {
     // State is NOT stored in this wizard tab, but in the parent (wizard component)
     const { state, isActive } = this.props;
     const { name, email, password } = state;
-    const { password2 } = this.state;
-    console.log("PASSW ", password2)
+    const { password2, validData } = this.state;
+
     // Return to the 1st page if all the previous infos are not filled in
     // (ex: return on this exact page)
     // if(isActive && ( name === "" || email === "")) {
@@ -103,7 +106,7 @@ class PasswordForm extends React.Component {
         <WizPageTitle message={messages.title} />
 
         <FormControl className={"flex-max-height flex-direction-column huge-margin-down"}>
-
+{/* 
           <InputLabel htmlFor="password"><FormattedMessage id="register.password.label" defaultMessage="Your Password" /></InputLabel>
           <Input
             id="password"
@@ -115,9 +118,24 @@ class PasswordForm extends React.Component {
             aria-describedby="password-text"
             fullWidth
           />
-          <FormHelperText id="password-text">{this.props.intl.formatMessage(messages.password)}</FormHelperText>
+          <FormHelperText id="password-text">{this.props.intl.formatMessage(messages.password)}</FormHelperText> */}
 
-          {/* <InputLabel htmlFor="password2"><FormattedMessage id="register.password2.label" defaultMessage="Retype your Password" /></InputLabel> */}
+          <TextField
+            id="password"
+            value={password}
+            onChange={this.handleTextChange}
+            type="password"
+            fullWidth
+          />
+          <TextField
+            id="password2"
+            value={password2}
+            onChange={this.checkRetype}
+            type="password"
+            fullWidth
+          />
+{/* 
+          <InputLabel htmlFor="password2"><FormattedMessage id="register.password2.label" defaultMessage="Retype your Password" /></InputLabel>
           <Input
             id="password2"
             // value={password2}
@@ -128,11 +146,11 @@ class PasswordForm extends React.Component {
             aria-describedby="password2-text"
             fullWidth
           />
-          {/* <FormHelperText id="password2-text">{this.props.intl.formatMessage(messages.password2)}</FormHelperText> */}
+          <FormHelperText id="password2-text">{this.props.intl.formatMessage(messages.password2)}</FormHelperText> */}
 
         </FormControl>
 
-        <WizNavBar onClickNext={this.handleNext.bind(this)} onClickPrevious={this.handlePrevious.bind(this)} />
+        <WizNavBar onClickNext={this.handleNext.bind(this)}  isNextDisabled={!validData} onClickPrevious={this.handlePrevious.bind(this)} />
 
       </div>
 
