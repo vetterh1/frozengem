@@ -60,12 +60,12 @@ class NameForm extends React.Component {
   onClickRegister = () => { this.props.onClickRegister(); };
 
   render() {
-    const { classes, state, firstStep } = this.props;
+    const { classes, state } = this.props;
 
     // Return to the 1st page if all the previous infos are not filled in
     // (ex: return on this exact page)
     const {name, email, password} = state;
-    if(this.props.isActive && ( name === "" || email == "" || password === "")) {
+    if(this.props.isActive && ( name === "" || email === "" || password === "")) {
       return <Redirect to='/' />
     }    
 

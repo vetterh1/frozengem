@@ -54,24 +54,47 @@ class PasswordForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      password2: "---"
     };
+    this.handleTextChange = this.handleTextChange.bind(this)
+    this.checkRetype = this.checkRetype.bind(this)
   }
   
-  handleTextChange(event) { this.props.handleChange({name: 'password', value: event.target.value});  }
-  handleTextChange2(event) { this.props.handleChange({name: 'password2', value: event.target.value});   /* Should check passwords are the same */ }
+  handleTextChange(event) {
+    const {value} = event.target;
+    const {password} = this.props.state;
+    const {password2} = this.state;
+    if(value === password) return;
+    // if(event.target.value !== password2)
+    //   this.setState((state) => { return {validData: !state.validData}; })    
+    this.props.handleChange({name: 'password', value});
+    }
+
+  checkRetype(event) {
+    // const {value} = event.target;
+    // const {password} = this.props.state;
+    // const {password2} = this.state;
+    // if(value === password2) return;
+    // this.setState({ password2 });    
+    // Verify if same as password
+    // if(password !== password2)
+    //   this.setState((state) => { return {validData: !state.validData}; })
+  }
+
   handlePrevious = () => { this.props.handleChange({ name: 'password', value: "" }); this.props.previousStep(); };
   handleNext = () => { this.props.nextStep(); };
 
   render() {
     // State is NOT stored in this wizard tab, but in the parent (wizard component)
     const { state, isActive } = this.props;
-
+    const { name, email, password } = state;
+    const { password2 } = this.state;
+    console.log("PASSW ", password2)
     // Return to the 1st page if all the previous infos are not filled in
     // (ex: return on this exact page)
-    const {name, email} = state;
-    if(isActive && ( name === "" || email == "")) {
-      return <Redirect to='/' />
-    }    
+    // if(isActive && ( name === "" || email === "")) {
+    //   return <Redirect to='/' />
+    // }    
 
     return (
 
@@ -79,29 +102,33 @@ class PasswordForm extends React.Component {
 
         <WizPageTitle message={messages.title} />
 
-        <FormControl className={"flex-normal-height flex-direction-column huge-margin-down"}>
+        <FormControl className={"flex-max-height flex-direction-column huge-margin-down"}>
 
           <InputLabel htmlFor="password"><FormattedMessage id="register.password.label" defaultMessage="Your Password" /></InputLabel>
           <Input
             id="password"
-            value={state.password}
-            onChange={this.handleTextChange.bind(this)}
+            value={password}
+            onChange={this.handleTextChange}
             type="password"
-            minlength="6" maxlength="18" 
+            minLength="6"
+            maxLength="18" 
             aria-describedby="password-text"
             fullWidth
           />
           <FormHelperText id="password-text">{this.props.intl.formatMessage(messages.password)}</FormHelperText>
 
-          {/* <InputLabel htmlFor="password2"><FormattedMessage id="register.password2.label" defaultMessage="Retype your Password" /></InputLabel>
+          {/* <InputLabel htmlFor="password2"><FormattedMessage id="register.password2.label" defaultMessage="Retype your Password" /></InputLabel> */}
           <Input
             id="password2"
-            value={state.password2}
-            onChange={this.handleTextChange2.bind(this)}
+            // value={password2}
+            // onChange={this.checkRetype}
+            type="password"
+            minLength="6"
+            maxLength="18" 
             aria-describedby="password2-text"
             fullWidth
           />
-          <FormHelperText id="password2-text">{this.props.intl.formatMessage(messages.password2)}</FormHelperText> */}
+          {/* <FormHelperText id="password2-text">{this.props.intl.formatMessage(messages.password2)}</FormHelperText> */}
 
         </FormControl>
 
