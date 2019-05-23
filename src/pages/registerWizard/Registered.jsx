@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router'
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from "react-intl";
@@ -54,10 +55,20 @@ class NameForm extends React.Component {
     };
   }
 
+
+
   onClickRegister = () => { this.props.onClickRegister(); };
 
   render() {
-    const { classes } = this.props;
+    const { classes, state } = this.props;
+
+    // Return to the 1st page if all the previous infos are not filled in
+    // (ex: return on this exact page)
+    const {name, email, password} = state;
+    if(this.props.isActive && ( name === "" || email === "" || password === "")) {
+      return <Redirect to='/' />
+    }    
+
     return (
 
       <div className={"flex-max-height flex-direction-column"}>

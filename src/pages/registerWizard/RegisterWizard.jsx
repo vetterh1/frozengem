@@ -1,6 +1,7 @@
 import * as log from 'loglevel';
 import React from 'react';
 import PropTypes from 'prop-types';
+import qs from 'qs';
 import axios from 'axios';
 import Auth from '../../auth/Auth';
 import { withStyles } from '@material-ui/core/styles';
@@ -9,6 +10,9 @@ import StepWizard from 'react-step-wizard';
 import EmailForm from './EmailForm';
 import PasswordForm from './PasswordForm';
 import Registered from './Registered';
+import HomeJoinOrCreate from './HomeJoinOrCreate';
+import config from '../../data/config'
+
 // import stringifyOnce from '../../utils/stringifyOnce.js'
 
 const styles = theme => ({
@@ -48,7 +52,6 @@ class RegisterWizard extends React.Component {
     location: null,
     email: "",
     password: "",
-    password2: "",
     name: "",
   };
 
@@ -92,14 +95,26 @@ class RegisterWizard extends React.Component {
     this.props.auth.login();
   }
 
-  testServer() {
-    // axios.get('http://localhost:9000/test2')
-    axios.get('http://51.254.221.25:8080/test2')
+
+  registerToServer() {
+    const {email, password} = this.state;
+    const boUrl = config.boUrl;
+    const masterKey = config.masterKey;
+    const data = { 'access_token': masterKey, email, password };
+    const options = {
+      method: 'POST',
+      url: `${boUrl}/users`,
+      // withCredentials : true, 
+      crossdomain : true,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      data: qs.stringify(data),
+    };
+    axios(options)
     .then(function (response) {
-      console.log('testServer OK: ' , response);
+      console.log('registration OK: ' , response);
     })
     .catch(function (error) {
-      console.error('testServer error: ' , error);
+      console.error('registration error: ' , error);
     })
     .then(function () {
       // always executed
@@ -107,7 +122,7 @@ class RegisterWizard extends React.Component {
   }
 
   onClickRegister() { 
-    this.testServer();
+    this.registerToServer();
   }
 
 
@@ -123,6 +138,7 @@ class RegisterWizard extends React.Component {
               <EmailForm hashKey={'email'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} resetState={this.resetState} state={this.state} />
               <PasswordForm hashKey={'password'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} resetState={this.resetState} state={this.state} />
               <Registered hashKey={'registered'} onClickRegister={this.onClickRegister} state={this.state} />
+              <HomeJoinOrCreate hashKey={'joinornew'} state={this.state} />
             </StepWizard>
           </div>
       );
