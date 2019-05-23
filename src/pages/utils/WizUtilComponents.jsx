@@ -57,15 +57,16 @@ export const PreviousButton = ({onClick}) => (
 );
 
 export const NextButton = ({onClick, isDisabled}) => (
-  <Button variant="contained" color="primary" onClick={onClick} disabled={isDisabled}>
+  <Button variant="contained" color="primary" onClick={onClick} disabled={isDisabled} type="submit">
     <FormattedMessage id="button.continue" defaultMessage="Continue" />
   </Button>
 );
 
-export const WizNavBar = ({onClickPrevious, onClickNext, isNextDisabled}) => (
+export const WizNavBar = ({onClickPrevious, onClickNext, isNextDisabled, nextIsSubmit}) => (
   <div className={"flex-normal-height flex-direction-row flex-justifiy-between"}>
     {onClickPrevious && <PreviousButton onClick={onClickPrevious}/>}
-    {onClickNext && <NextButton onClick={onClickNext} isDisabled={isNextDisabled}/>}
+    {(onClickNext && !nextIsSubmit) && <NextButton onClick={onClickNext} isDisabled={isNextDisabled}/>}
+    {(!onClickNext && nextIsSubmit) && <NextButton isDisabled={isNextDisabled}/>}
   </div>
 );
 

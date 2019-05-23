@@ -133,7 +133,7 @@ class RegisterWizard extends React.Component {
 
     return (
           <div className={classes.divWizardPage}>
-            <StepWizard isHashEnabled className={"flex-max-height flex-direction-column"} classNameWrapper={'flex-max-height flex-direction-column'}>
+            <StepWizard isHashEnabled transitions={{}} className={"flex-max-height flex-direction-column"} classNameWrapper={'flex-max-height flex-direction-column'}>
               <NameForm hashKey={'name'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} resetState={this.resetState} state={this.state} />
               <EmailForm hashKey={'email'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} resetState={this.resetState} state={this.state} />
               <PasswordForm hashKey={'password'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} resetState={this.resetState} state={this.state} />

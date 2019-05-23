@@ -1,12 +1,9 @@
 import React from 'react';
 import { Redirect } from 'react-router'
 import { withStyles } from '@material-ui/core/styles';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
+import { TextField } from '@material-ui/core';
 import { injectIntl } from "react-intl";
-import { defineMessages, FormattedMessage } from 'react-intl.macro';
+import { defineMessages } from 'react-intl.macro';
 import { WizNavBar, WizPageTitle} from "../utils/WizUtilComponents";
 import validateEmail from "../../utils/validateEmail";
 
@@ -18,10 +15,15 @@ const messages = defineMessages({
     defaultMessage: 'Please enter your email',
     description: 'Please enter your email',
   },
+  emailLabel: {
+    id: 'register.email.label',
+    defaultMessage: 'Your email',
+    description: 'Your email',
+  },
   email: {
     id: 'register.email.help',
-    defaultMessage: 'To identify yourself',
-    description: 'To identify yourself',
+    defaultMessage: 'This will be your login',
+    description: 'This will be your login',
   },
   emailError: {
     id: 'register.email.error',
@@ -46,6 +48,9 @@ class EmailForm extends React.Component {
     this.state = {
       validData: false,
     }; 
+    this.handleTextChange = this.handleTextChange.bind(this)
+    this.handleNext = this.handleNext.bind(this)
+    this.handlePrevious = this.handlePrevious.bind(this)
   }
 
 
@@ -61,16 +66,24 @@ class EmailForm extends React.Component {
   }
 
   handlePrevious = () => { this.props.handleChange({ name: 'email', value: "" }); this.props.previousStep(); };
-  handleNext = () => { this.props.nextStep(); };
+  
+  handleNext = (e) => {
+    //e.preventDefault should always be the first thing in the function
+    e.preventDefault();
+
+    this.props.nextStep(); 
+  };
 
   render() {
     const {name} = this.props.state;
     if(this.props.isActive && name === "") {
+      console.log(`EmailForm.render: name=${name} isActive=${this.props.isActive}`);
       return <Redirect to='/' />
     }
 
     // State is NOT stored in this wizard tab, but in the parent (wizard component)
     const { state } = this.props;
+    const { email } = state;
     const {validData} = this.state;
     return (
 
@@ -78,20 +91,28 @@ class EmailForm extends React.Component {
 
         <WizPageTitle message={messages.title} />
 
-        <FormControl className={"flex-max-height flex-direction-column huge-margin-down"}>
-          <InputLabel htmlFor="email" error={!validData}><FormattedMessage id="register.email.label" defaultMessage="Your Email" /></InputLabel>
-          <Input
-            id="email"
-            value={state.email}
-            onChange={this.handleTextChange.bind(this)}
-            type="email"
-            aria-describedby="email-text"
-            fullWidth
-          />
-          <FormHelperText id="email-text" error={!validData}>{this.props.intl.formatMessage(validData ? messages.email : messages.emailError)}</FormHelperText>
-        </FormControl>
+        <form onSubmit={this.handleNext} className={"flex-max-height flex-direction-column huge-margin-down"} noValidate>
 
-        <WizNavBar onClickNext={this.handleNext.bind(this)} isNextDisabled={!validData} onClickPrevious={this.handlePrevious.bind(this)} />
+          <div className={"flex-max-height flex-direction-column"}>
+
+            <TextField
+                id="email"
+                autoComplete="email"
+                autoFocus
+                value={email}
+                type="email"
+                onChange={this.handleTextChange}
+                label={this.props.intl.formatMessage(messages.emailLabel)}
+                helperText={this.props.intl.formatMessage(validData ? messages.email : messages.emailError)}
+                error={email !== "" && !validData}
+                fullWidth
+              />
+      
+          </div>
+
+          <WizNavBar nextIsSubmit isNextDisabled={!validData} onClickPrevious={this.handlePrevious} />
+
+        </form>
 
       </div>
 
