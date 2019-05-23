@@ -52,7 +52,6 @@ class RegisterWizard extends React.Component {
     location: null,
     email: "",
     password: "",
-    password2: "",
     name: "",
   };
 
@@ -105,7 +104,7 @@ class RegisterWizard extends React.Component {
     const options = {
       method: 'POST',
       url: `${boUrl}/users`,
-      withCredentials : true, 
+      // withCredentials : true, 
       crossdomain : true,
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       data: qs.stringify(data),

@@ -1,11 +1,9 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
+import { TextField } from '@material-ui/core';
 import { injectIntl } from "react-intl";
-import { defineMessages, FormattedMessage } from 'react-intl.macro';
+import { defineMessages } from 'react-intl.macro';
 import { WizNavBar, WizPageTitle} from "../utils/WizUtilComponents";
 
 
@@ -16,27 +14,21 @@ const messages = defineMessages({
     defaultMessage: 'Please enter your name',
     description: 'Please enter your name',
   },
+  nameLabel: {
+    id: 'register.name.label',
+    defaultMessage: 'Your name',
+    description: 'Your name',
+  },
   name: {
     id: 'register.name.help',
-    defaultMessage: 'To know who stored what',
-    description: 'To know who stored what',
+    defaultMessage: 'Minimum {min} characters',
+    description: 'Minimum 4 characters',
   },
 });
 
 
 
 const styles = theme => ({
-  buttons: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-  },
-  button: {
-    textAlign: 'center',
-    marginLeft: theme.spacing(2),
-  },  
-  divWizard: {
-    marginTop: theme.spacing(2),
-  },
 });
 
 
@@ -49,16 +41,32 @@ class NameForm extends React.Component {
     super(props);
     this.state = {
     };
+    this.minLength = 4;
+    this.handleTextChange = this.handleTextChange.bind(this)
   }
 
 
-  handleTextChange(event) { this.props.handleChange({name: 'name', value: event.target.value});  }
+  handleTextChange(event) {
+    this.props.handleChange({name: 'name', value: event.target.value});
+    const {value} = event.target;
+    const {name} = this.props.state;
+    const {longEnough} = this.state;
+    if(value === name) return;
+    // check if length is enough
+    const newLengthTest = value.length >= this.minLength;
+    if(longEnough !== newLengthTest)
+      this.setState({longEnough: newLengthTest});
+  }
+
   handlePrevious = () => { this.props.handleChange({ name: 'name', value: "" }); this.props.previousStep(); };
   handleNext = () => { this.props.nextStep(); };
 
   render() {
     // State is NOT stored in this wizard tab, but in the parent (wizard component)
-    const { state } = this.props;
+    const { state, classes } = this.props;
+    const { name } = state;
+    const { longEnough } = this.state;
+    
     return (
 
       <div className={"flex-max-height flex-direction-column"}>
@@ -66,19 +74,21 @@ class NameForm extends React.Component {
         <WizPageTitle message={messages.title} />
 
         <FormControl className={"flex-max-height flex-direction-column huge-margin-down"}>
-          <InputLabel htmlFor="name"><FormattedMessage id="register.name.label" defaultMessage="Your Name" /></InputLabel>
-          <Input
+
+          <TextField
             id="name"
-            value={state.name}
-            onChange={this.handleTextChange.bind(this)}
-            aria-describedby="name-text"
-            autoFocus
+            value={name}
+            onChange={this.handleTextChange}
+            label={this.props.intl.formatMessage(messages.nameLabel)}
+            helperText={this.props.intl.formatMessage(messages.name, {min: this.minLength})}
+            error={name !== "" && !longEnough}
             fullWidth
+            className={classes.inputs}
           />
-          <FormHelperText id="name-text">{this.props.intl.formatMessage(messages.name)}</FormHelperText>
+
         </FormControl>
 
-        <WizNavBar onClickNext={this.handleNext.bind(this)} isNextDisabled={state.name === ""} onClickPrevious={this.handlePrevious.bind(this)} />
+        <WizNavBar onClickNext={this.handleNext.bind(this)} isNextDisabled={!longEnough} onClickPrevious={this.handlePrevious.bind(this)} />
 
       </div>
 
