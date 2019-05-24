@@ -30,17 +30,6 @@ const messages = defineMessages({
 
 
 const styles = theme => ({
-  buttons: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-  },
-  button: {
-    textAlign: 'center',
-    marginLeft: theme.spacing(2),
-  },  
-  divWizard: {
-    marginTop: theme.spacing(2),
-  },
 });
 
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router'
 import { withStyles } from '@material-ui/core/styles';
-import FormControl from '@material-ui/core/FormControl';
 import { TextField } from '@material-ui/core';
 import { injectIntl } from "react-intl";
 import { defineMessages } from 'react-intl.macro';
@@ -40,8 +39,11 @@ const messages = defineMessages({
 
 
 const styles = theme => ({
-  inputs: {
+  marginTop: {
     marginTop: theme.spacing(6),
+  },
+  hidden: {
+    display: "none",
   },
 });
 
@@ -61,6 +63,8 @@ class PasswordForm extends React.Component {
     this.minLength = 6;
     this.handleTextChange = this.handleTextChange.bind(this)
     this.checkRetype = this.checkRetype.bind(this)
+    this.handleNext = this.handleNext.bind(this)
+    this.handlePrevious = this.handlePrevious.bind(this)
   }
   
   handleTextChange(event) {
@@ -92,7 +96,13 @@ class PasswordForm extends React.Component {
   }
 
   handlePrevious = () => { this.props.handleChange({ name: 'password', value: "" }); this.props.previousStep(); };
-  handleNext = () => { this.props.nextStep(); };
+  
+  handleNext = (e) => {
+    //e.preventDefault should always be the first thing in the function
+    e.preventDefault();
+
+    this.props.nextStep(); 
+  };
 
   render() {
     // State is NOT stored in this wizard tab, but in the parent (wizard component)
@@ -102,9 +112,9 @@ class PasswordForm extends React.Component {
 
     // Return to the 1st page if all the previous infos are not filled in
     // (ex: return on this exact page)
-    // if(isActive && ( name === "" || email === "")) {
-    //   return <Redirect to='/' />
-    // }    
+    if(isActive && ( name === "" || email === "")) {
+      return <Redirect to='/' />
+    }    
 
     return (
 
@@ -112,33 +122,42 @@ class PasswordForm extends React.Component {
 
         <WizPageTitle message={messages.title} />
 
-        <FormControl className={"flex-max-height flex-direction-column huge-margin-down"}>
-          <TextField
-            id="password"
-            value={password}
-            onChange={this.handleTextChange}
-            type="password"
-            label={this.props.intl.formatMessage(messages.passwordLabel)}
-            helperText={this.props.intl.formatMessage(messages.password, {min: this.minLength})}
-            error={!longEnough}
-            fullWidth
-            className={classes.inputs}
-          />
-          <TextField
-            id="password2"
-            value={password2}
-            onChange={this.checkRetype}
-            type="password"
-            label={this.props.intl.formatMessage(messages.retype)}
-            helperText={this.props.intl.formatMessage(messages.passwordIdentical)}
-            error={password2 !== "" && !identicalPasswords}
-            fullWidth
-            className={classes.inputs}
-          />
+        <form onSubmit={this.handleNext} className={"flex-max-height flex-direction-column huge-margin-down"} noValidate>
 
-        </FormControl>
+          <div className={"flex-max-height flex-direction-column"}>
+            
+            <input id="emailfield" type="text" defaultValue={name} autoComplete="username" className={classes.hidden} />
 
-        <WizNavBar onClickNext={this.handleNext.bind(this)}  isNextDisabled={!identicalPasswords || !longEnough} onClickPrevious={this.handlePrevious.bind(this)} />
+            <TextField
+              id="new-password"
+              autoComplete="new-password"
+              autoFocus
+              value={password}
+              onChange={this.handleTextChange}
+              type="password"
+              label={this.props.intl.formatMessage(messages.passwordLabel)}
+              helperText={this.props.intl.formatMessage(messages.password, {min: this.minLength})}
+              error={password !== "" && !longEnough}
+              fullWidth
+            />
+            <TextField
+              id="new-password2"
+              autoComplete="new-password"
+              value={password2}
+              onChange={this.checkRetype}
+              type="password"
+              label={this.props.intl.formatMessage(messages.retype)}
+              helperText={this.props.intl.formatMessage(messages.passwordIdentical)}
+              error={password2 !== "" && !identicalPasswords}
+              fullWidth
+              className={classes.marginTop}
+            />
+  
+          </div>
+
+          <WizNavBar nextIsSubmit  isNextDisabled={!identicalPasswords || !longEnough} onClickPrevious={this.handlePrevious.bind(this)} />
+
+        </form>
 
       </div>
 
