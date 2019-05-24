@@ -48,6 +48,7 @@ class NameForm extends React.Component {
 
 
   handleTextChange(event) {
+    if(!this.props.isActive) return;
     this.props.handleChange({name: 'name', value: event.target.value});
     const {value} = event.target;
     const {name} = this.props.state;

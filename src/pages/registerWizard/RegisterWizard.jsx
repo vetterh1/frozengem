@@ -73,6 +73,7 @@ class RegisterWizard extends React.Component {
   // (replacing any existing one)
   handleChange = (change) => {
     const {name, value} = change;
+    console.log(`name:${name}, value:${value}`);
     this.setState({[name]: value});
   }
 

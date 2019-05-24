@@ -56,6 +56,7 @@ class EmailForm extends React.Component {
 
 
   handleTextChange(event) {
+    if(!this.props.isActive) return;
     const {value} = event.target;
     if(value === this.props.state.email) return;
     // Verify if email is valid (Next btn only if valid!)

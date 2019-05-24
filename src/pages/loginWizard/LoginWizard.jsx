@@ -62,7 +62,7 @@ class LoginWizard extends React.Component {
     this.state = {...this.defaultState};
 
     this.handleChange = this.handleChange.bind(this)
-    this.onClickLogin = this.onClickLogin.bind(this)
+    this.LoginToServer = this.LoginToServer.bind(this)
   }
 
   // Set the received value in the state 
@@ -72,10 +72,9 @@ class LoginWizard extends React.Component {
     this.setState({[name]: value});
   }
 
-  onLogin() {
-    this.props.auth.login();
-  }
-
+/*
+   curl -X POST http://0.0.0.0:9000/auth -i -u 123@123.com:123456 -d "access_token=S9EqDPByR2z5mnCMaRFk7b552RWaFcnn"
+*/
 
   LoginToServer() {
     this.setState({loginInProgress: true, loginFinished: false, loginSuccess: false });
@@ -87,8 +86,8 @@ class LoginWizard extends React.Component {
       method: 'POST',
       url: `${boUrl}/auth`,
       auth: {
-        username: 'email',
-        password: 'password'
+        username: email,
+        password: password
       },      
       // withCredentials : true, 
       crossdomain : true,
@@ -117,10 +116,6 @@ class LoginWizard extends React.Component {
     });
   }
 
-  onClickLogin() { 
-    this.LoginToServer();
-  }
-
 
   render() {
     const { classes } = this.props;
@@ -131,7 +126,7 @@ class LoginWizard extends React.Component {
           <div className={classes.divWizardPage}>
             <StepWizard isHashEnabled transitions={{}} className={"flex-max-height flex-direction-column"} classNameWrapper={'flex-max-height flex-direction-column'}>
               <EmailForm hashKey={'email'} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
-              <PasswordForm hashKey={'password'} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
+              <PasswordForm hashKey={'password'} onSubmit={this.LoginToServer} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
             </StepWizard>
           </div>
       );

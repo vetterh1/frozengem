@@ -68,6 +68,7 @@ class PasswordForm extends React.Component {
   }
   
   handleTextChange(event) {
+    if(!this.props.isActive) return;
     const {value} = event.target;
     const {password} = this.props.state;
     const {password2, identicalPasswords, longEnough} = this.state;
@@ -84,6 +85,7 @@ class PasswordForm extends React.Component {
     }
 
   checkRetype(event) {
+    if(!this.props.isActive) return;
     const {value} = event.target;
     const {password} = this.props.state;
     const {password2, identicalPasswords} = this.state;

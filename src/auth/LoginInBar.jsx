@@ -1,6 +1,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Auth from './Auth';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -28,7 +29,7 @@ class LoginInBar extends React.Component {
     const { isAuthenticated } = this.props.auth;
     return ( 
       <div>
-        {!isAuthenticated() && (<Button color="inherit" onClick={this.onLogin.bind(this)}>login</Button>)}
+        {!isAuthenticated() && (<Button color="inherit"  component={Link} to="/login">login</Button>)}
         {isAuthenticated() && (<Button color="inherit" onClick={this.onLogout.bind(this)}>logout</Button>)}
       </div>
     );
