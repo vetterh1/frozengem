@@ -5,11 +5,9 @@ import qs from 'qs';
 import axios from 'axios';
 import Auth from '../../auth/Auth';
 import { withStyles } from '@material-ui/core/styles';
-import NameForm from './NameForm';
 import StepWizard from 'react-step-wizard';
 import EmailForm from './EmailForm';
 import PasswordForm from './PasswordForm';
-import Registered from './Registered';
 import config from '../../data/config'
 
 // import stringifyOnce from '../../utils/stringifyOnce.js'
@@ -35,26 +33,24 @@ const styles = theme => ({
   },  
 });
 
-const logRegisterWizard = log.getLogger('logRegisterWizard');
-// loglevelServerSend(logRegisterWizard); // a setLevel() MUST be run AFTER this!
-logRegisterWizard.setLevel('debug');
-logRegisterWizard.debug('--> entering RegisterWizard.jsx');
+const logLoginWizard = log.getLogger('logLoginWizard');
+// loglevelServerSend(logLoginWizard); // a setLevel() MUST be run AFTER this!
+logLoginWizard.setLevel('debug');
+logLoginWizard.debug('--> entering LoginWizard.jsx');
 
 
 
-class RegisterWizard extends React.Component {
+class LoginWizard extends React.Component {
   static propTypes = {
     auth: PropTypes.instanceOf(Auth).isRequired,
   }
 
   defaultState = {
-    location: null,
     email: "",
     password: "",
-    name: "",
-    registrationInProgress: false,
-    registrationFinished: false,
-    registrationSuccess: false,
+    loginInProgress: false,
+    loginFinished: false,
+    loginSuccess: false,
   };
 
   resetState = () => {
@@ -66,7 +62,7 @@ class RegisterWizard extends React.Component {
     this.state = {...this.defaultState};
 
     this.handleChange = this.handleChange.bind(this)
-    this.onClickRegister = this.onClickRegister.bind(this)
+    this.onClickLogin = this.onClickLogin.bind(this)
   }
 
   // Set the received value in the state 
@@ -81,15 +77,19 @@ class RegisterWizard extends React.Component {
   }
 
 
-  registerToServer() {
-    this.setState({registrationInProgress: true, registrationFinished: false, registrationSuccess: false });
-    const {email, password, name} = this.state;
+  LoginToServer() {
+    this.setState({loginInProgress: true, loginFinished: false, loginSuccess: false });
+    const {email, password} = this.state;
     const boUrl = config.boUrl;
     const masterKey = config.masterKey;
-    const data = { 'access_token': masterKey, email, password, name };
+    const data = { 'access_token': masterKey };
     const options = {
       method: 'POST',
-      url: `${boUrl}/users`,
+      url: `${boUrl}/auth`,
+      auth: {
+        username: 'email',
+        password: 'password'
+      },      
       // withCredentials : true, 
       crossdomain : true,
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
@@ -97,28 +97,28 @@ class RegisterWizard extends React.Component {
     };
     axios(options)
     .then((response) => {
-      this.setState({registrationInProgress: false, registrationFinished: true, registrationSuccess: true });
+      this.setState({loginInProgress: false, loginFinished: true, loginSuccess: true });
       const {user, token} = response.data;
-      console.log('registration OK: ' , response, user, token);
+      console.log('login OK: ' , response, user, token);
       this.props.auth.setSession({
         accessToken: token,
         email: user.email,
-        name: user.name,
+        // name: user.name,
         idToken: user.id,
       });
 
     })
     .catch((error) => {
-      console.error('registration error: ' , error);
-      this.setState({registrationInProgress: false, registrationFinished: true, registrationSuccess: false });
+      console.error('login error: ' , error);
+      this.setState({loginInProgress: false, loginFinished: true, loginSuccess: false });
     })
     .then(() => {
       // always executed
     });
   }
 
-  onClickRegister() { 
-    this.registerToServer();
+  onClickLogin() { 
+    this.LoginToServer();
   }
 
 
@@ -130,17 +130,15 @@ class RegisterWizard extends React.Component {
     return (
           <div className={classes.divWizardPage}>
             <StepWizard isHashEnabled transitions={{}} className={"flex-max-height flex-direction-column"} classNameWrapper={'flex-max-height flex-direction-column'}>
-              <NameForm hashKey={'name'} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
               <EmailForm hashKey={'email'} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
               <PasswordForm hashKey={'password'} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
-              <Registered hashKey={'registered'} onClickRegister={this.onClickRegister} state={this.state} />
             </StepWizard>
           </div>
       );
   }
 }
 
-export default withStyles(styles, { withTheme: true })(RegisterWizard);
+export default withStyles(styles, { withTheme: true })(LoginWizard);
 
 
 

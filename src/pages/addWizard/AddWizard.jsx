@@ -107,14 +107,14 @@ class AddWizard extends React.Component {
     return (
           <div className={classes.divWizardPage}>
             <StepWizard isHashEnabled className={"flex-max-height flex-direction-column"} classNameWrapper={'flex-max-height flex-direction-column'}>
-              <CategoryForm  hashKey={'category'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
+              <CategoryForm  hashKey={'category'} handleChange={this.handleChange} state={this.state} />
               <DetailsForm hashKey={'details'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
-              <ContainerForm hashKey={'container'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
-              <ContainerColorForm hashKey={'color'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
-              <SizeForm hashKey={'size'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
-              <FreezerForm hashKey={'freezer'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
-              <LocationForm hashKey={'location'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
-              <Results hashKey={'results'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} resetState={this.resetState} state={this.state} />
+              <ContainerForm hashKey={'container'} handleChange={this.handleChange} state={this.state} />
+              <ContainerColorForm hashKey={'color'} handleChange={this.handleChange} state={this.state} />
+              <SizeForm hashKey={'size'} handleChange={this.handleChange} state={this.state} />
+              <FreezerForm hashKey={'freezer'} handleChange={this.handleChange} state={this.state} />
+              <LocationForm hashKey={'location'} handleChange={this.handleChange} state={this.state} />
+              <Results hashKey={'results'} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
             </StepWizard>
           </div>
       );
