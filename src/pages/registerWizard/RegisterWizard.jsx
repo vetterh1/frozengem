@@ -53,6 +53,9 @@ class RegisterWizard extends React.Component {
     email: "",
     password: "",
     name: "",
+    registrationInProgress: false,
+    registrationFinished: false,
+    registrationSuccess: false,
   };
 
   resetState = () => {
@@ -97,10 +100,11 @@ class RegisterWizard extends React.Component {
 
 
   registerToServer() {
-    const {email, password} = this.state;
+    this.setState({registrationInProgress: true, registrationFinished: false, registrationSuccess: false });
+    const {email, password, name} = this.state;
     const boUrl = config.boUrl;
     const masterKey = config.masterKey;
-    const data = { 'access_token': masterKey, email, password };
+    const data = { 'access_token': masterKey, email, password, name };
     const options = {
       method: 'POST',
       url: `${boUrl}/users`,
@@ -110,13 +114,23 @@ class RegisterWizard extends React.Component {
       data: qs.stringify(data),
     };
     axios(options)
-    .then(function (response) {
-      console.log('registration OK: ' , response);
+    .then((response) => {
+      this.setState({registrationInProgress: false, registrationFinished: true, registrationSuccess: true });
+      const {user, token} = response.data;
+      console.log('registration OK: ' , response, user, token);
+      this.props.auth.setSession({
+        accessToken: token,
+        email: user.email,
+        name: user.name,
+        idToken: user.id,
+      });
+
     })
-    .catch(function (error) {
+    .catch((error) => {
       console.error('registration error: ' , error);
+      this.setState({registrationInProgress: false, registrationFinished: true, registrationSuccess: false });
     })
-    .then(function () {
+    .then(() => {
       // always executed
     });
   }
