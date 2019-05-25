@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router'
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
+// import CircularProgress from '@material-ui/core/CircularProgress';
 import { injectIntl } from "react-intl";
 import Button from '@material-ui/core/Button';
 import { defineMessages, FormattedMessage } from 'react-intl.macro';
@@ -146,9 +146,9 @@ class NameForm extends React.Component {
 
     // Return to the 1st page if all the previous infos are not filled in
     // (ex: return on this exact page)
-    // if(this.props.isActive && ( name === "" || email === "" || password === "")) {
-    //   return <Redirect to='/' />
-    // }    
+    if(this.props.isActive && ( name === "" || email === "" || password === "")) {
+      return <Redirect to='/' />
+    }    
 
     return (
 

@@ -4,7 +4,7 @@ import * as log from 'loglevel';
 // import 'es6-promise/auto';
 // import 'isomorphic-fetch';
 // import { loglevelServerSend } from '../utils/loglevel-serverSend';
-import stringifyOnce from '../utils/stringifyOnce';
+// import stringifyOnce from '../utils/stringifyOnce';
 import history from '../misc/history';
 
 
