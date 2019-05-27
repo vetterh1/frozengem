@@ -5,7 +5,7 @@ import * as log from 'loglevel';
 // import 'isomorphic-fetch';
 // import { loglevelServerSend } from '../utils/loglevel-serverSend';
 // import stringifyOnce from '../utils/stringifyOnce';
-import history from '../misc/history';
+// import history from '../misc/history';
 
 
 const logAuth = log.getLogger('logAuth');
@@ -76,12 +76,12 @@ export default class Auth {
     localStorage.removeItem('email');
     localStorage.removeItem('name');
     localStorage.removeItem('expires_at');
-    // navigate to the home route
-    history.replace('/');
-
+ 
     this.userProfile = null;
     localStorage.removeItem('user');
-  }
+
+    // navigate to the home route done in <Logout> component
+ }
 
 
 

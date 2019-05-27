@@ -7,6 +7,7 @@ import frLocaleData from "react-intl/locale-data/fr";
 import withMyTheme from '../withMyTheme';
 import Container from '@material-ui/core/Container';
 import Auth from '../auth/Auth';
+import Logout from '../auth/Logout';
 import Callback from '../auth/Callback';
 import About from './About';
 import Header from '../navigation/Header';
@@ -15,7 +16,7 @@ import MainPageContent from './MainPageContent';
 import AddWizard from './addWizard/AddWizard';
 import RegisterWizard from './registerWizard/RegisterWizard';
 import LoginWizard from './loginWizard/LoginWizard';
-import Pusher from 'pusher-js';
+// import Pusher from 'pusher-js';
 import { SnackbarProvider } from 'notistack';
 
 
@@ -50,18 +51,18 @@ const handleAuthentication = (nextState) => {
 //
 
 // Enable pusher logging - don't include this in production
-Pusher.logToConsole = true;
+// Pusher.logToConsole = true;
 
-const pusher = new Pusher('e5759208f6ccb0542038', {
-  cluster: 'eu',
-  forceTLS: true
-});
+// const pusher = new Pusher('e5759208f6ccb0542038', {
+//   cluster: 'eu',
+//   forceTLS: true
+// });
 
-const channel = pusher.subscribe('my-channel');
-channel.bind('my-event', function(data) {
-  alert(JSON.stringify(data));
-});
-pusher.disconnect();
+// const channel = pusher.subscribe('my-channel');
+// channel.bind('my-event', function(data) {
+//   alert(JSON.stringify(data));
+// });
+// pusher.disconnect();
 
 
 
@@ -126,6 +127,10 @@ class App extends React.Component {
                               <Route
                                 exact path="/login"
                                 component={props => <LoginWizard auth={auth} {...props} />}
+                              />
+                              <Route
+                                exact path="/logout"
+                                component={props => <Logout auth={auth} {...props} />}
                               />
                               <Route
                                 exact path="/about"

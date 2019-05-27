@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import qs from 'qs';
 import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 import { injectIntl } from "react-intl";
 import { defineMessages } from 'react-intl.macro';
 import { withStyles } from '@material-ui/core/styles';
@@ -56,13 +57,8 @@ const messages = defineMessages({
   },  
   failed: {
     id: 'login.failed',
-    defaultMessage: 'Sorry, the login failed',
+    defaultMessage: 'Sorry, the login failed, please try again!',
     description: 'Sorry, the login failed',
-  },
-  failed2: {
-    id: 'login.failed2',
-    defaultMessage: 'please retry...',
-    description: 'please retry...',
   },
 });
 
@@ -127,14 +123,18 @@ class LoginWizard extends React.Component {
       this.setState({loginInProgress: false, loginFinished: true, loginSuccess: true });
       const {user, token} = response.data;
       console.log('login OK: ' , response, user, token);
-      this.props.enqueueSnackbar("Login OK!", {variant: 'success'});
+      this.props.enqueueSnackbar(
+        this.props.intl.formatMessage(messages.ok), 
+        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+      );
       this.props.auth.setSession({
         accessToken: token,
         email: user.email,
         // name: user.name,
         idToken: user.id,
       });
-
+      // navigate to the home route
+      this.props.history.push('/');
     })
     .catch((error) => {
       console.error('login error: ' , error);
@@ -166,7 +166,7 @@ class LoginWizard extends React.Component {
   }
 }
 
-export default injectIntl(withSnackbar(withStyles(styles, { withTheme: true })(LoginWizard)));
+export default injectIntl(withRouter(withSnackbar(withStyles(styles, { withTheme: true })(LoginWizard))));
 
 
 

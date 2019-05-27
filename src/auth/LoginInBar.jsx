@@ -6,9 +6,9 @@ import Auth from './Auth';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
-
 const styles = {
 };
+
 
 
 class LoginInBar extends React.Component {
@@ -21,16 +21,16 @@ class LoginInBar extends React.Component {
     this.props.auth.login();
   }
 
-  onLogout() {
-    this.props.auth.logout();
-  }
+  // onLogout() {
+  //   this.props.auth.logout();
+  // }
 
   render() {
     const { isAuthenticated } = this.props.auth;
     return ( 
       <div>
         {!isAuthenticated() && (<Button color="inherit"  component={Link} to="/login">login</Button>)}
-        {isAuthenticated() && (<Button color="inherit" onClick={this.onLogout.bind(this)}>logout</Button>)}
+        {isAuthenticated() && (<Button color="inherit"  component={Link} to="/logout">logout</Button>)}
       </div>
     );
   }
