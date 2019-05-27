@@ -7,9 +7,7 @@ import { injectIntl } from "react-intl";
 import Button from '@material-ui/core/Button';
 import { defineMessages, FormattedMessage } from 'react-intl.macro';
 import { WizPageTitle} from "../utils/WizUtilComponents";
-import { withSnackbar } from 'notistack';
 // import { FormHelperText } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
 
 
 const messages = defineMessages({
@@ -106,9 +104,9 @@ class NameForm extends React.Component {
 
     // Return to the 1st page if all the previous infos are not filled in
     // (ex: return on this exact page)
-    // if(this.props.isActive && ( name === "" || email === "" || password === "")) {
-    //   return <Redirect to='/' />
-    // }    
+    if(this.props.isActive && ( name === "" || email === "" || password === "")) {
+      return <Redirect to='/' />
+    }    
 
     return (
 

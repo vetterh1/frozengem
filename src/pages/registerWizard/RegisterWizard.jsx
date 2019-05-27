@@ -5,14 +5,14 @@ import qs from 'qs';
 import axios from 'axios';
 import Auth from '../../auth/Auth';
 import { withStyles } from '@material-ui/core/styles';
+import { withSnackbar } from 'notistack';
+// import { defineMessages } from 'react-intl.macro';
 import NameForm from './NameForm';
 import StepWizard from 'react-step-wizard';
 import EmailForm from './EmailForm';
 import PasswordForm from './PasswordForm';
 import Registered from './Registered';
 import config from '../../data/config'
-import { withSnackbar } from 'notistack';
-import { defineMessages, FormattedMessage } from 'react-intl.macro';
 
 // import stringifyOnce from '../../utils/stringifyOnce.js'
 
@@ -43,28 +43,28 @@ logRegisterWizard.setLevel('debug');
 logRegisterWizard.debug('--> entering RegisterWizard.jsx');
 
 
-const messages = defineMessages({ 
-  registered: {
-    id: 'register.registered.registered',
-    defaultMessage: 'Congratulations, you are now registered!',
-    description: 'Congratulations, you are now registered!',
-  },    
-  registered2: {
-    id: 'register.registered.registered2',
-    defaultMessage: ' ',
-    description: ' ',
-  },  
-  failed: {
-    id: 'register.registered.failed',
-    defaultMessage: 'Sorry, the registration failed',
-    description: 'Sorry, the registration failed',
-  },
-  failed2: {
-    id: 'register.registered.failed2',
-    defaultMessage: 'please retry...',
-    description: 'please retry...',
-  },
-});
+// const messages = defineMessages({ 
+//   registered: {
+//     id: 'register.registered',
+//     defaultMessage: 'Congratulations, you are now registered!',
+//     description: 'Congratulations, you are now registered!',
+//   },    
+//   registered2: {
+//     id: 'register.registered2',
+//     defaultMessage: ' ',
+//     description: ' ',
+//   },  
+//   failed: {
+//     id: 'register.failed',
+//     defaultMessage: 'Sorry, the registration failed',
+//     description: 'Sorry, the registration failed',
+//   },
+//   failed2: {
+//     id: 'register.failed2',
+//     defaultMessage: 'please retry...',
+//     description: 'please retry...',
+//   },
+// });
 
 
 class RegisterWizard extends React.Component {

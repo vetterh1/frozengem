@@ -3,13 +3,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import qs from 'qs';
 import axios from 'axios';
-import Auth from '../../auth/Auth';
+import { injectIntl } from "react-intl";
+import { defineMessages } from 'react-intl.macro';
 import { withStyles } from '@material-ui/core/styles';
+import { withSnackbar } from 'notistack';
+import Auth from '../../auth/Auth';
 import StepWizard from 'react-step-wizard';
 import EmailForm from './EmailForm';
 import PasswordForm from './PasswordForm';
 import config from '../../data/config'
-import { withSnackbar } from 'notistack';
 
 
 // import stringifyOnce from '../../utils/stringifyOnce.js'
@@ -39,6 +41,30 @@ const logLoginWizard = log.getLogger('logLoginWizard');
 // loglevelServerSend(logLoginWizard); // a setLevel() MUST be run AFTER this!
 logLoginWizard.setLevel('debug');
 logLoginWizard.debug('--> entering LoginWizard.jsx');
+
+
+const messages = defineMessages({ 
+  ok: {
+    id: 'login.ok',
+    defaultMessage: 'Congratulations, you are now logged-in!',
+    description: 'Congratulations, you are now logged-in!',
+  },    
+  ok2: {
+    id: 'login.ok2',
+    defaultMessage: ' ',
+    description: ' ',
+  },  
+  failed: {
+    id: 'login.failed',
+    defaultMessage: 'Sorry, the login failed',
+    description: 'Sorry, the login failed',
+  },
+  failed2: {
+    id: 'login.failed2',
+    defaultMessage: 'please retry...',
+    description: 'please retry...',
+  },
+});
 
 
 
@@ -113,7 +139,10 @@ class LoginWizard extends React.Component {
     .catch((error) => {
       console.error('login error: ' , error);
       this.setState({loginInProgress: false, loginFinished: true, loginSuccess: false });
-      this.props.enqueueSnackbar("Login failed!", {variant: 'error'});
+      this.props.enqueueSnackbar(
+        this.props.intl.formatMessage(messages.failed), 
+        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+      );
     })
     .then(() => {
       // always executed
@@ -137,7 +166,7 @@ class LoginWizard extends React.Component {
   }
 }
 
-export default withSnackbar(withStyles(styles, { withTheme: true })(LoginWizard));
+export default injectIntl(withSnackbar(withStyles(styles, { withTheme: true })(LoginWizard)));
 
 
 
