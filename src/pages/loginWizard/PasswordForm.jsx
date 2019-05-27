@@ -2,6 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router'
 import { withStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { injectIntl } from "react-intl";
 import { defineMessages } from 'react-intl.macro';
 import { WizNavBar, WizPageTitle} from "../utils/WizUtilComponents";
@@ -67,7 +68,7 @@ class PasswordForm extends React.Component {
   render() {
     // State is NOT stored in this wizard tab, but in the parent (wizard component)
     const { state, isActive, classes } = this.props;
-    const { email, password } = state;
+    const { email, password, registrationInProgress, registrationFinished } = state;
 
     // Return to the 1st page if all the previous infos are not filled in
     // (ex: return on this exact page)
@@ -96,9 +97,12 @@ class PasswordForm extends React.Component {
               type="password"
               label={this.props.intl.formatMessage(messages.passwordLabel)}
               fullWidth
+              disabled={registrationInProgress || registrationFinished}
             />
   
           </div>
+
+          { registrationInProgress && <CircularProgress  size={68} /> }
 
           <WizNavBar nextIsSubmit onClickPrevious={this.handlePrevious.bind(this)} />
 

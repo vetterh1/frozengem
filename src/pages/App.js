@@ -16,6 +16,8 @@ import AddWizard from './addWizard/AddWizard';
 import RegisterWizard from './registerWizard/RegisterWizard';
 import LoginWizard from './loginWizard/LoginWizard';
 import Pusher from 'pusher-js';
+import { SnackbarProvider } from 'notistack';
+
 
 import { ItemCharacteristicsStore } from "../data/ItemCharacteristicsStore";
 import { UserInfoStore, UserInfoConsumer } from "../data/UserInfoStore";
@@ -85,70 +87,72 @@ class App extends React.Component {
 
 
     return (
-      <UserInfoStore>
-        <UserInfoConsumer>
-          {({ language }) => {
-              return (
-                <IntlProvider
-                  locale={language}
-                  defaultLocale="en"
-                  key={language}
-                  messages={translations[language]}
-                >      
-                  <ItemCharacteristicsStore>
-                    <Router basename={process.env.PUBLIC_URL}>
+      <SnackbarProvider maxSnack={3}>
+        <UserInfoStore>
+          <UserInfoConsumer>
+            {({ language }) => {
+                return (
+                  <IntlProvider
+                    locale={language}
+                    defaultLocale="en"
+                    key={language}
+                    messages={translations[language]}
+                  >      
+                    <ItemCharacteristicsStore>
+                      <Router basename={process.env.PUBLIC_URL}>
 
-                      <div style={divStyle}>
+                        <div style={divStyle}>
 
-                        <Header auth={auth} />
+                          <Header auth={auth} />
 
-                        <Container maxWidth="md"  style={containerStyle}>
+                          <Container maxWidth="md"  style={containerStyle}>
 
-                          <Switch>
-                            <Route
-                              exact path="/callback"
-                              component={(props) => {
-                                handleAuthentication(props);
-                                return <Callback {...props} />;
-                              }}
-                            />
-                            <Route
-                              exact path="/add"
-                              component={props => <AddWizard auth={auth} {...props} />}
-                            />
-                            <Route
-                              exact path="/register"
-                              component={props => <RegisterWizard auth={auth} {...props} />}
-                            />
-                            <Route
-                              exact path="/login"
-                              component={props => <LoginWizard auth={auth} {...props} />}
-                            />
-                            <Route
-                              exact path="/about"
-                              component={() => <About />}
-                            />
-                            <Route
-                              exact path="/"
-                              component={props => <MainPageContent auth={auth} {...props} />}
-                            />
-                            <Route
-                              exact path="*"
-                              component={NotFound}
-                              auth={auth}
-                            />
-                          </Switch>          
-                        </Container>
+                            <Switch>
+                              <Route
+                                exact path="/callback"
+                                component={(props) => {
+                                  handleAuthentication(props);
+                                  return <Callback {...props} />;
+                                }}
+                              />
+                              <Route
+                                exact path="/add"
+                                component={props => <AddWizard auth={auth} {...props} />}
+                              />
+                              <Route
+                                exact path="/register"
+                                component={props => <RegisterWizard auth={auth} {...props} />}
+                              />
+                              <Route
+                                exact path="/login"
+                                component={props => <LoginWizard auth={auth} {...props} />}
+                              />
+                              <Route
+                                exact path="/about"
+                                component={() => <About />}
+                              />
+                              <Route
+                                exact path="/"
+                                component={props => <MainPageContent auth={auth} {...props} />}
+                              />
+                              <Route
+                                exact path="*"
+                                component={NotFound}
+                                auth={auth}
+                              />
+                            </Switch>          
+                          </Container>
 
-                        <Footer location={this.props.location} />
-                      </div>
-                    </Router>
-                  </ItemCharacteristicsStore>
-                </IntlProvider>
-              );
-            }}                
-          </UserInfoConsumer>        
-        </UserInfoStore>
+                          <Footer location={this.props.location} />
+                        </div>
+                      </Router>
+                    </ItemCharacteristicsStore>
+                  </IntlProvider>
+                );
+              }}                
+            </UserInfoConsumer>        
+          </UserInfoStore>
+        </SnackbarProvider>
     );
   }
 }

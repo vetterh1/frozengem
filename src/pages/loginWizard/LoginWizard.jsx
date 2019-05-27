@@ -9,6 +9,8 @@ import StepWizard from 'react-step-wizard';
 import EmailForm from './EmailForm';
 import PasswordForm from './PasswordForm';
 import config from '../../data/config'
+import { withSnackbar } from 'notistack';
+
 
 // import stringifyOnce from '../../utils/stringifyOnce.js'
 
@@ -99,6 +101,7 @@ class LoginWizard extends React.Component {
       this.setState({loginInProgress: false, loginFinished: true, loginSuccess: true });
       const {user, token} = response.data;
       console.log('login OK: ' , response, user, token);
+      this.props.enqueueSnackbar("Login OK!", {variant: 'success'});
       this.props.auth.setSession({
         accessToken: token,
         email: user.email,
@@ -110,6 +113,7 @@ class LoginWizard extends React.Component {
     .catch((error) => {
       console.error('login error: ' , error);
       this.setState({loginInProgress: false, loginFinished: true, loginSuccess: false });
+      this.props.enqueueSnackbar("Login failed!", {variant: 'error'});
     })
     .then(() => {
       // always executed
@@ -133,7 +137,7 @@ class LoginWizard extends React.Component {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(LoginWizard);
+export default withSnackbar(withStyles(styles, { withTheme: true })(LoginWizard));
 
 
 
