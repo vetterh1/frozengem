@@ -45,18 +45,13 @@ logLoginWizard.debug('--> entering LoginWizard.jsx');
 
 
 const messages = defineMessages({ 
-  ok: {
-    id: 'login.ok',
+  success: {
+    id: 'login.success',
     defaultMessage: 'Congratulations, you are now logged-in!',
     description: 'Congratulations, you are now logged-in!',
-  },    
-  ok2: {
-    id: 'login.ok2',
-    defaultMessage: ' ',
-    description: ' ',
-  },  
-  failed: {
-    id: 'login.failed',
+  },     
+  error: {
+    id: 'login.error',
     defaultMessage: 'Sorry, the login failed, please try again!',
     description: 'Sorry, the login failed',
   },
@@ -124,7 +119,7 @@ class LoginWizard extends React.Component {
       const {user, token} = response.data;
       console.log('login OK: ' , response, user, token);
       this.props.enqueueSnackbar(
-        this.props.intl.formatMessage(messages.ok), 
+        this.props.intl.formatMessage(messages.success), 
         {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
       );
       this.props.auth.setSession({
@@ -140,7 +135,7 @@ class LoginWizard extends React.Component {
       console.error('login error: ' , error);
       this.setState({loginInProgress: false, loginFinished: true, loginSuccess: false });
       this.props.enqueueSnackbar(
-        this.props.intl.formatMessage(messages.failed), 
+        this.props.intl.formatMessage(messages.error), 
         {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
       );
     })

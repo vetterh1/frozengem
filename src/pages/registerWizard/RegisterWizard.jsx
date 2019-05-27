@@ -5,8 +5,9 @@ import qs from 'qs';
 import axios from 'axios';
 import Auth from '../../auth/Auth';
 import { withStyles } from '@material-ui/core/styles';
+import { injectIntl } from "react-intl";
 import { withSnackbar } from 'notistack';
-// import { defineMessages } from 'react-intl.macro';
+import { defineMessages } from 'react-intl.macro';
 import NameForm from './NameForm';
 import StepWizard from 'react-step-wizard';
 import EmailForm from './EmailForm';
@@ -43,28 +44,18 @@ logRegisterWizard.setLevel('debug');
 logRegisterWizard.debug('--> entering RegisterWizard.jsx');
 
 
-// const messages = defineMessages({ 
-//   registered: {
-//     id: 'register.registered',
-//     defaultMessage: 'Congratulations, you are now registered!',
-//     description: 'Congratulations, you are now registered!',
-//   },    
-//   registered2: {
-//     id: 'register.registered2',
-//     defaultMessage: ' ',
-//     description: ' ',
-//   },  
-//   failed: {
-//     id: 'register.failed',
-//     defaultMessage: 'Sorry, the registration failed',
-//     description: 'Sorry, the registration failed',
-//   },
-//   failed2: {
-//     id: 'register.failed2',
-//     defaultMessage: 'please retry...',
-//     description: 'please retry...',
-//   },
-// });
+const messages = defineMessages({ 
+  success: {
+    id: 'register.success',
+    defaultMessage: 'Congratulations, you are now registered!',
+    description: 'Congratulations, you are now registered!',
+  },    
+  error: {
+    id: 'register.error',
+    defaultMessage: 'Sorry, the registration failed, please try again...',
+    description: 'Sorry, the registration failed',
+  },
+});
 
 
 class RegisterWizard extends React.Component {
@@ -132,13 +123,18 @@ class RegisterWizard extends React.Component {
         name: user.name,
         idToken: user.id,
       });
-      this.props.enqueueSnackbar("registration OK!", {variant: 'success'});
+      this.props.enqueueSnackbar(
+        this.props.intl.formatMessage(messages.success), 
+        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+      );      
     })
     .catch((error) => {
       console.error('registration error: ' , error);
       this.setState({registrationInProgress: false, registrationFinished: true, registrationSuccess: false });
-      this.props.enqueueSnackbar("registration failed!", {variant: 'error'});
-    })
+      this.props.enqueueSnackbar(
+        this.props.intl.formatMessage(messages.error), 
+        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+      );    })
     .then(() => {
       // always executed
     });
@@ -167,7 +163,7 @@ class RegisterWizard extends React.Component {
   }
 }
 
-export default withSnackbar(withStyles(styles, { withTheme: true })(RegisterWizard));
+export default injectIntl(withSnackbar(withStyles(styles, { withTheme: true })(RegisterWizard)));
 
 
 
