@@ -1,14 +1,41 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import { injectIntl } from "react-intl";
+import { defineMessages } from 'react-intl.macro';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import Icon from '@material-ui/core/Icon';
-import RestoreIcon from '@material-ui/icons/Restore';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import SearchIcon from '@material-ui/icons/Search';
+import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
+import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline';
+
+
+const messages = defineMessages({
+  add: {
+    id: 'action.add',
+    defaultMessage: 'Add',
+    description: 'Add',
+  },
+  retreive: {
+    id: 'action.retreive',
+    defaultMessage: 'Retreive',
+    description: 'Retreive',
+  },
+  search: {
+    id: 'action.search',
+    defaultMessage: 'Search',
+    description: 'Search',
+  },
+  list: {
+    id: 'action.list',
+    defaultMessage: 'List',
+    description: 'List',
+  },
+});
+
 
 /* eslint-disable no-dupe-keys */
-
 const useStyles = makeStyles({
   root: {
     width: '100%',
@@ -18,7 +45,7 @@ const useStyles = makeStyles({
   },
 });
 
-function BottomNav() {
+function BottomNav({intl}) {
   const classes = useStyles();
   const [value, setValue] = React.useState('recents');
 
@@ -27,13 +54,13 @@ function BottomNav() {
   }
 
   return (
-    <BottomNavigation value={value} onChange={handleChange} className={classes.root}>
-      <BottomNavigationAction label="Recents" value="recents" icon={<RestoreIcon />} />
-      <BottomNavigationAction label="Favorites" value="favorites" icon={<FavoriteIcon />} />
-      <BottomNavigationAction label="Nearby" value="nearby" icon={<LocationOnIcon />} />
-      <BottomNavigationAction label="Folder" value="folder" icon={<Icon>folder</Icon>} />
+    <BottomNavigation value={value} onChange={handleChange} className={classes.root} showLabels>
+      <BottomNavigationAction label={intl.formatMessage(messages.add)} icon={<AddCircleOutlineIcon />}  component={Link} to="/add" />
+      <BottomNavigationAction label={intl.formatMessage(messages.retreive)} icon={<RemoveCircleOutlineIcon />} />
+      <BottomNavigationAction label={intl.formatMessage(messages.search)}  icon={<SearchIcon />} />
+      <BottomNavigationAction label={intl.formatMessage(messages.list)}  icon={<ViewHeadlineIcon />} />
     </BottomNavigation>
   );
 }
 
-export default BottomNav;
+export default injectIntl(BottomNav);

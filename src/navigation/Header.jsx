@@ -9,9 +9,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { FormattedMessage } from 'react-intl.macro';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
+// import Fab from '@material-ui/core/Fab';
+
 import { withStyles } from '@material-ui/core/styles';
 import Auth from '../auth/Auth';
 import LoginInBar from '../auth/LoginInBar';
@@ -65,24 +64,29 @@ class Header extends React.Component {
               <FormattedMessage id="header.title" defaultMessage="FrozenGem" />
             </Typography>
           </Button>
-          <nav>
+          {/* <nav>
             <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} component={Link} to="/add">
               <AddIcon />
             </Fab>
             <Fab size="small" color="secondary" aria-label="Remove" className={classes.margin} component={Link} to="/remove">
               <RemoveIcon />
             </Fab>
-          </nav>
+          </nav> */}
           <UserInfoConsumer>
-            {({ switchToFR, switchToEN }) => {
+            {({ language, switchToFR, switchToEN }) => {
+              if(!language) return null;
               return (
                 <nav>
-                  <Button color="secondary" onClick={e => switchToEN()}>
-                    EN
-                  </Button>
-                  <Button color="secondary" onClick={e => switchToFR()}>
-                    FR
-                  </Button>
+                  {language === "fr" && 
+                    <Button color="secondary" onClick={e => switchToEN()}>
+                      EN
+                    </Button>
+                  }
+                  {language === "en" &&
+                    <Button color="secondary" onClick={e => switchToFR()}>
+                      FR
+                    </Button>
+                  }
                 </nav>
               );
             }}                

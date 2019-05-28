@@ -95,6 +95,7 @@ class App extends React.Component {
         <UserInfoStore>
           <UserInfoConsumer>
             {({ language }) => {
+                if(!language) return null;
                 return (
                   <IntlProvider
                     locale={language}
