@@ -12,6 +12,7 @@ import Callback from '../auth/Callback';
 import About from './About';
 import Header from '../navigation/Header';
 import Footer from '../navigation/Footer';
+import BottomNav from '../navigation/BottomNav';
 import MainPageContent from './MainPageContent';
 import AddWizard from './addWizard/AddWizard';
 import RegisterWizard from './registerWizard/RegisterWizard';
@@ -85,6 +86,8 @@ class App extends React.Component {
       flexDirection: "column",
       flexGrow: 1,
     };
+    const stickToBottom = {
+    };
 
 
     return (
@@ -149,6 +152,7 @@ class App extends React.Component {
                           </Container>
 
                           <Footer location={this.props.location} />
+                          <BottomNav style={stickToBottom} />
                         </div>
                       </Router>
                     </ItemCharacteristicsStore>
