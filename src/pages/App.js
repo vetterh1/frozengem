@@ -8,12 +8,12 @@ import withMyTheme from '../withMyTheme';
 import Container from '@material-ui/core/Container';
 import Auth from '../auth/Auth';
 import Logout from '../auth/Logout';
-import Callback from '../auth/Callback';
 import About from './About';
 import Header from '../navigation/Header';
 import Footer from '../navigation/Footer';
 import BottomNav from '../navigation/BottomNav';
 import MainPageContent from './MainPageContent';
+import Dashboard from './Dashboard';
 import AddWizard from './addWizard/AddWizard';
 import RegisterWizard from './registerWizard/RegisterWizard';
 import LoginWizard from './loginWizard/LoginWizard';
@@ -39,11 +39,6 @@ addLocaleData(frLocaleData);
 
 const auth = new Auth();
 
-const handleAuthentication = (nextState) => {
-  if (/access_token|id_token|error/.test(nextState.location.hash)) {
-    auth.handleAuthentication();
-  }
-};
 
 
 
@@ -114,13 +109,6 @@ class App extends React.Component {
 
                             <Switch>
                               <Route
-                                exact path="/callback"
-                                component={(props) => {
-                                  handleAuthentication(props);
-                                  return <Callback {...props} />;
-                                }}
-                              />
-                              <Route
                                 exact path="/add"
                                 component={props => <AddWizard auth={auth} {...props} />}
                               />
@@ -142,7 +130,7 @@ class App extends React.Component {
                               />
                               <Route
                                 exact path="/"
-                                component={props => <MainPageContent auth={auth} {...props} />}
+                                component={props => { return( auth.authenticated ?  <Dashboard auth={auth} {...props} /> : <MainPageContent auth={auth} {...props} />) }}
                               />
                               <Route
                                 exact path="*"
@@ -153,7 +141,7 @@ class App extends React.Component {
                           </Container>
 
                           <Footer location={this.props.location} />
-                          <BottomNav style={stickToBottom} />
+                          {auth.authenticated && <BottomNav style={stickToBottom} auth={auth} />}
                         </div>
                       </Router>
                     </ItemCharacteristicsStore>

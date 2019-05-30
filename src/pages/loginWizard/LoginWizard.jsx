@@ -1,8 +1,6 @@
 import * as log from 'loglevel';
 import React from 'react';
 import PropTypes from 'prop-types';
-import qs from 'qs';
-import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { injectIntl } from "react-intl";
 import { defineMessages } from 'react-intl.macro';
@@ -12,7 +10,6 @@ import Auth from '../../auth/Auth';
 import StepWizard from 'react-step-wizard';
 import EmailForm from './EmailForm';
 import PasswordForm from './PasswordForm';
-import config from '../../data/config'
 
 
 // import stringifyOnce from '../../utils/stringifyOnce.js'
@@ -50,10 +47,15 @@ const messages = defineMessages({
     defaultMessage: 'Congratulations, you are now logged-in!',
     description: 'Congratulations, you are now logged-in!',
   },     
+  unauthorized: {
+    id: 'login.unauthorized',
+    defaultMessage: 'Invalid login / password, please try again!',
+    description: 'Invalid login / password',
+  },
   error: {
     id: 'login.error',
-    defaultMessage: 'Sorry, the login failed, please try again!',
-    description: 'Sorry, the login failed',
+    defaultMessage: 'Sorry, an error occured. Please try again!',
+    description: 'Sorry, an error occured',
   },
 });
 
@@ -81,7 +83,7 @@ class LoginWizard extends React.Component {
     this.state = {...this.defaultState};
 
     this.handleChange = this.handleChange.bind(this)
-    this.LoginToServer = this.LoginToServer.bind(this)
+    this.login = this.login.bind(this)
   }
 
   // Set the received value in the state 
@@ -95,53 +97,33 @@ class LoginWizard extends React.Component {
    curl -X POST http://0.0.0.0:9000/auth -i -u 123@123.com:123456 -d "access_token=S9EqDPByR2z5mnCMaRFk7b552RWaFcnn"
 */
 
-  LoginToServer() {
-    this.setState({loginInProgress: true, loginFinished: false, loginSuccess: false });
+  async login() {
+    const { login } = this.props.auth;
+
     const {email, password} = this.state;
-    const boUrl = config.boUrl;
-    const masterKey = config.masterKey;
-    const data = { 'access_token': masterKey };
-    const options = {
-      method: 'POST',
-      url: `${boUrl}/auth`,
-      auth: {
-        username: email,
-        password: password
-      },      
-      // withCredentials : true, 
-      crossdomain : true,
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      data: qs.stringify(data),
-    };
-    axios(options)
-    .then((response) => {
-      this.setState({loginInProgress: false, loginFinished: true, loginSuccess: true });
-      const {user, token} = response.data;
-      console.log('login OK: ' , response, user, token);
+    try {
+      const userName = await login(email, password );
+      console.log('userName: ' , userName);
+
+      // Success message
       this.props.enqueueSnackbar(
         this.props.intl.formatMessage(messages.success), 
         {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
       );
-      this.props.auth.setSession({
-        accessToken: token,
-        email: user.email,
-        // name: user.name,
-        idToken: user.id,
-      });
+
       // navigate to the home route
       this.props.history.push('/');
-    })
-    .catch((error) => {
-      console.error('login error: ' , error);
-      this.setState({loginInProgress: false, loginFinished: true, loginSuccess: false });
+    } catch (error) {
+
+      const unauthorized = error.response && error.response.status  === 401; 
+      const message = unauthorized ? messages.unauthorized : messages.error;
+
+      // Error message
       this.props.enqueueSnackbar(
-        this.props.intl.formatMessage(messages.error), 
+        this.props.intl.formatMessage(message), 
         {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
       );
-    })
-    .then(() => {
-      // always executed
-    });
+    }
   }
 
 
@@ -154,7 +136,7 @@ class LoginWizard extends React.Component {
           <div className={classes.divWizardPage}>
             <StepWizard isHashEnabled transitions={{}} className={"flex-max-height flex-direction-column"} classNameWrapper={'flex-max-height flex-direction-column'}>
               <EmailForm hashKey={'email'} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
-              <PasswordForm hashKey={'password'} onSubmit={this.LoginToServer} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
+              <PasswordForm hashKey={'password'} onSubmit={this.login} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
             </StepWizard>
           </div>
       );

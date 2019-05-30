@@ -6,6 +6,9 @@ import * as log from 'loglevel';
 // import { loglevelServerSend } from '../utils/loglevel-serverSend';
 // import stringifyOnce from '../utils/stringifyOnce';
 // import history from '../misc/history';
+import qs from 'qs';
+import axios from 'axios';
+import config from '../data/config'
 
 
 const logAuth = log.getLogger('logAuth');
@@ -17,41 +20,14 @@ logAuth.debug('--> entering Auth.jsx');
 export default class Auth {
   constructor() {
     this.getProfile = this.getProfile.bind(this);
+    this.setSession = this.setSession.bind(this);
+    this.login = this.login.bind(this);
   }
 
 
   userProfile = null;
   expiresIn = 60 * 60 * 24 * 365; // 1 year!
-
-
-  login() {
-// TODO
-//    this.auth0.authorize();
-  }
-
-
-  handleAuthentication() {
-// TODO
-
-    // this.auth0.parseHash((err, authResult) => {
-    //   if (authResult && authResult.accessToken && authResult.idToken) {
-    //     logAuth.debug(stringifyOnce(authResult, null, 2));
-    //     this.setSession(authResult);
-    //     this.getProfile((err, profile) => {
-    //       logAuth.debug(stringifyOnce(profile, null, 2)); 
-    //       this.sendProfileToServer(profile);
-    //     });
-    //     history.replace('/');
-    //   } else if (err) {
-    //     history.replace('/');
-    //     logAuth.error(`Error: ${stringifyOnce(err, null, 2)}. Check the console for further details (authResult=${stringifyOnce(authResult, null, 2)}.`);
-    //     alert(`Error: ${err.error}. Check the console for further details.`);
-    //     // TODO: better error message to user than alert!
-    //   } else {
-    //     logAuth.debug(stringifyOnce(authResult, null, 2));
-    //   }
-    // });
-  }
+  authenticated = false;
 
 
 
@@ -63,8 +39,7 @@ export default class Auth {
     localStorage.setItem('email', authResult.email);
     localStorage.setItem('name', authResult.name);
     localStorage.setItem('expires_at', expiresAt);
-    // navigate to the home route
-    // history.replace('/');
+    this.authenticated = true;
   }
 
 
@@ -78,6 +53,7 @@ export default class Auth {
     localStorage.removeItem('expires_at');
  
     this.userProfile = null;
+    this.authenticated = false;
     localStorage.removeItem('user');
 
     // navigate to the home route done in <Logout> component
@@ -115,29 +91,43 @@ export default class Auth {
     // });
   }
 
-  sendProfileToServer(profile) {
-    logAuth.debug('{ Auth.sendProfileToServer: ', profile);
 
-    // // Call Server to get the user userDbId by giving the authId:
-    // fetch('/api/users/addOrUpdateByAuthId', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({user: profile}),
-    // })
-    // .then(response => response.json())
-    // .then((json) => {
-    //   logAuth.debug('   json result: ', JSON.stringify(json));
-    //   localStorage.setItem('userDbId', json.user.id)
-    // })
-    // .catch(() => {
-    //   logAuth.error('   fetch failed');
-    //   localStorage.removeItem('userDbId')
-    // });    
 
-    logAuth.debug('} Auth.sendProfileToServer');
+  async login(email, password) {
+    const boUrl = config.boUrl;
+    const masterKey = config.masterKey;
+    const data = { 'access_token': masterKey };
+    const options = {
+      method: 'POST',
+      url: `${boUrl}/auth`,
+      auth: {
+        username: email,
+        password: password
+      },      
+      // withCredentials : true, 
+      crossdomain : true,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      data: qs.stringify(data),
+    };
 
+    try {
+      const response = await axios(options);
+      const {user, token} = response.data;
+      console.log('login OK: ' , response, user, token);
+      this.setSession({
+        accessToken: token,
+        email: user.email,
+        name: user.name,
+        idToken: user.id,
+      });
+      return user.name;
+
+    } catch (error) {
+      console.error('login error: ' , error);
+      throw error;
+    }
   }
+
+
 
 }
