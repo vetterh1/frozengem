@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Auth from './Auth';
+import UserInfo from './Auth';
 
 class Profile extends React.Component {
   static propTypes = {
-    auth: PropTypes.instanceOf(Auth).isRequired,
+    userInfo: PropTypes.instanceOf(UserInfo).isRequired,
   }
 
   componentWillMount() {
     this.setState({ profile: {} });
-    const { userProfile, getProfile } = this.props.auth;
+    const { userProfile, getProfile } = this.props.userInfo;
     if (!userProfile) {
       getProfile((err, profile) => {
         this.setState({ profile });

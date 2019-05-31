@@ -12,9 +12,9 @@ import { FormattedMessage } from 'react-intl.macro';
 // import Fab from '@material-ui/core/Fab';
 
 import { withStyles } from '@material-ui/core/styles';
-import Auth from '../auth/Auth';
+import UserInfo from '../auth/UserInfo';
 import LoginInBar from '../auth/LoginInBar';
-import {UserInfoConsumer} from '../data/UserInfoStore';
+// import {UserInfoConsumer} from '../data/UserInfoStore';
 
 
 const styles = theme => ({
@@ -37,7 +37,7 @@ const styles = theme => ({
 
 class Header extends React.Component {
   static propTypes = {
-    auth: PropTypes.instanceOf(Auth).isRequired,
+    userInfo: PropTypes.instanceOf(UserInfo).isRequired,
     classes: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
   }
@@ -72,26 +72,19 @@ class Header extends React.Component {
               <RemoveIcon />
             </Fab>
           </nav> */}
-          <UserInfoConsumer>
-            {({ language, switchToFR, switchToEN }) => {
-              if(!language) return null;
-              return (
-                <nav>
-                  {language === "fr" && 
-                    <Button color="secondary" onClick={e => switchToEN()}>
-                      EN
-                    </Button>
-                  }
-                  {language === "en" &&
-                    <Button color="secondary" onClick={e => switchToFR()}>
-                      FR
-                    </Button>
-                  }
-                </nav>
-              );
-            }}                
-          </UserInfoConsumer>
-          <LoginInBar auth={this.props.auth} />
+          <nav>
+            {this.props.userInfo.getLanguage() === "fr" && 
+              <Button color="secondary" onClick={e => this.props.userInfo.setLanguage("en")}>
+                EN
+              </Button>
+            }
+            {this.props.userInfo.getLanguage() === "en" &&
+              <Button color="secondary" onClick={e => this.props.userInfo.setLanguage("fr")}>
+                FR
+              </Button>
+            }
+          </nav>
+          <LoginInBar userInfo={this.props.userInfo} />
         </Toolbar>
       </AppBar>
     );

@@ -3,26 +3,26 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Auth from './Auth';
+import UserInfo from './Auth';
 
 class LoginBanner extends React.Component {
   static propTypes = {
-    auth: PropTypes.instanceOf(Auth).isRequired,
+    userInfo: PropTypes.instanceOf(UserInfo).isRequired,
     showWelcomeBlob: PropTypes.bool,
   }
 
   onLogin() {
-    this.props.auth.login();
+    this.props.userInfo.login();
   }
 
   render() {
-    const { isAuthenticated } = this.props.auth;
+    const { isAuthenticated } = this.props.userInfo;
     if (isAuthenticated()) {
       return null;
       // return (
       //   <div className="jumbotron">
       //     <div className="container">
-      //       <Profile auth={this.props.auth} />
+      //       <Profile userInfo={this.props.userInfo} />
       //     </div>
       //   </div>
       // );

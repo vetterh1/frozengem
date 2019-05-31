@@ -6,7 +6,7 @@ import { injectIntl } from "react-intl";
 import { defineMessages } from 'react-intl.macro';
 import { withStyles } from '@material-ui/core/styles';
 import { withSnackbar } from 'notistack';
-import Auth from '../../auth/Auth';
+import UserInfo from '../../auth/UserInfo';
 import StepWizard from 'react-step-wizard';
 import EmailForm from './EmailForm';
 import PasswordForm from './PasswordForm';
@@ -63,7 +63,7 @@ const messages = defineMessages({
 
 class LoginWizard extends React.Component {
   static propTypes = {
-    auth: PropTypes.instanceOf(Auth).isRequired,
+    userInfo: PropTypes.instanceOf(UserInfo).isRequired,
   }
 
   defaultState = {
@@ -98,7 +98,7 @@ class LoginWizard extends React.Component {
 */
 
   async login() {
-    const { login } = this.props.auth;
+    const { login } = this.props.userInfo;
 
     const {email, password} = this.state;
     try {
@@ -129,8 +129,8 @@ class LoginWizard extends React.Component {
 
   render() {
     const { classes } = this.props;
-    // const { isAuthenticated } = this.props.auth;
-    // if (!isAuthenticated()) return (<LoginBanner auth={this.props.auth} />);
+    // const { isAuthenticated } = this.props.userInfo;
+    // if (!isAuthenticated()) return (<LoginBanner userInfo={this.props.userInfo} />);
 
     return (
           <div className={classes.divWizardPage}>

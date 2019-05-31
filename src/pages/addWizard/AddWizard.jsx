@@ -1,7 +1,7 @@
 import * as log from 'loglevel';
 import React from 'react';
 import PropTypes from 'prop-types';
-import Auth from '../../auth/Auth';
+import UserInfo from '../../auth/UserInfo';
 import { withStyles } from '@material-ui/core/styles';
 import CategoryForm from './CategoryForm';
 import DetailsForm from './DetailsForm';
@@ -44,7 +44,7 @@ logAddWizard.debug('--> entering AddWizard.jsx');
 
 class AddWizard extends React.Component {
   static propTypes = {
-    auth: PropTypes.instanceOf(Auth).isRequired,
+    userInfo: PropTypes.instanceOf(UserInfo).isRequired,
   }
 
   defaultState = {
@@ -96,13 +96,13 @@ class AddWizard extends React.Component {
 
 
   onLogin() {
-    this.props.auth.login();
+    this.props.userInfo.login();
   }
 
   render() {
     const { classes } = this.props;
-    // const { isAuthenticated } = this.props.auth;
-    // if (!isAuthenticated()) return (<LoginBanner auth={this.props.auth} />);
+    // const { isAuthenticated } = this.props.userInfo;
+    // if (!isAuthenticated()) return (<LoginBanner userInfo={this.props.userInfo} />);
 
     return (
           <div className={classes.divWizardPage}>

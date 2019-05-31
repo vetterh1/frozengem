@@ -4,7 +4,7 @@ import { Redirect } from 'react-router'
 import { injectIntl } from "react-intl";
 import { defineMessages } from 'react-intl.macro';
 import { withSnackbar } from 'notistack';
-import Auth from './Auth';
+import UserInfo from './UserInfo';
 
 
 
@@ -21,7 +21,7 @@ const messages = defineMessages({
 class Logout extends Component {
 
   static propTypes = {
-    auth: PropTypes.instanceOf(Auth).isRequired,
+    userInfo: PropTypes.instanceOf(UserInfo).isRequired,
   }
 
   componentDidMount() {
@@ -29,7 +29,7 @@ class Logout extends Component {
       this.props.intl.formatMessage(messages.logout), 
       {variant: 'info', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
     );
-    this.props.auth.logout();
+    this.props.userInfo.logout();
   }
 
   render() {

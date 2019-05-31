@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import qs from 'qs';
 import axios from 'axios';
-import Auth from '../../auth/Auth';
+import UserInfo from '../../auth/UserInfo';
 import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from "react-intl";
 import { withSnackbar } from 'notistack';
@@ -60,7 +60,7 @@ const messages = defineMessages({
 
 class RegisterWizard extends React.Component {
   static propTypes = {
-    auth: PropTypes.instanceOf(Auth).isRequired,
+    userInfo: PropTypes.instanceOf(UserInfo).isRequired,
   }
 
   defaultState = {
@@ -94,7 +94,7 @@ class RegisterWizard extends React.Component {
   }
 
   onLogin() {
-    this.props.auth.login();
+    this.props.userInfo.login();
   }
 
 
@@ -117,7 +117,7 @@ class RegisterWizard extends React.Component {
       this.setState({registrationInProgress: false, registrationFinished: true, registrationSuccess: true });
       const {user, token} = response.data;
       console.log('registration OK: ' , response, user, token);
-      this.props.auth.setSession({
+      this.props.userInfo.setSession({
         accessToken: token,
         email: user.email,
         name: user.name,
@@ -147,8 +147,8 @@ class RegisterWizard extends React.Component {
 
   render() {
     const { classes } = this.props;
-    // const { isAuthenticated } = this.props.auth;
-    // if (!isAuthenticated()) return (<LoginBanner auth={this.props.auth} />);
+    // const { isAuthenticated } = this.props.userInfo;
+    // if (!isAuthenticated()) return (<LoginBanner userInfo={this.props.userInfo} />);
 
     return (
           <div className={classes.divWizardPage}>

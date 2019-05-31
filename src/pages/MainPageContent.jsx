@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Auth from '../auth/Auth';
+import UserInfo from '../auth/UserInfo';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -31,11 +31,11 @@ const styles = theme => ({
 
 class MainPageContent extends React.Component {
   static propTypes = {
-    auth: PropTypes.instanceOf(Auth).isRequired,
+    userInfo: PropTypes.instanceOf(UserInfo).isRequired,
   }
 
   render() {
-    // const greyWhenNoAuth = this.props.auth.isAuthenticated() ? '' : 'auth-required';
+    // const greyWhenNoUserInfo = this.props.userInfo.isAuthenticated() ? '' : 'auth-required';
     const { classes } = this.props;
 
     return (

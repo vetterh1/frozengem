@@ -6,7 +6,7 @@ import translations from '../i18n/locales';
 import frLocaleData from "react-intl/locale-data/fr";
 import withMyTheme from '../withMyTheme';
 import Container from '@material-ui/core/Container';
-import Auth from '../auth/Auth';
+import UserInfo from '../auth/UserInfo';
 import Logout from '../auth/Logout';
 import About from './About';
 import Header from '../navigation/Header';
@@ -22,7 +22,7 @@ import { SnackbarProvider } from 'notistack';
 
 
 import { ItemCharacteristicsStore } from "../data/ItemCharacteristicsStore";
-import { UserInfoStore, UserInfoConsumer } from "../data/UserInfoStore";
+// import { UserInfoStore, UserInfoConsumer } from "../data/UserInfoStore";
 
 
 //
@@ -34,10 +34,10 @@ addLocaleData(frLocaleData);
 
 
 //
-// Auth init
+// UserInfo init
 //
 
-const auth = new Auth();
+const userInfo = new UserInfo();
 
 
 
@@ -84,79 +84,72 @@ class App extends React.Component {
     const stickToBottom = {
     };
 
+    const language = userInfo.getLanguage();
+    // console.log('App: Language=', language);
 
     return (
       <SnackbarProvider maxSnack={3}>
-        <UserInfoStore>
-          <UserInfoConsumer>
-            {({ language }) => {
-                if(!language) return null;
-                return (
-                  <IntlProvider
-                    locale={language}
-                    defaultLocale="en"
-                    key={language}
-                    messages={translations[language]}
-                  >      
-                    <ItemCharacteristicsStore>
-                      <Router basename={process.env.PUBLIC_URL}>
+          <IntlProvider
+            locale={language}
+            defaultLocale="en"
+            key={language}
+            messages={translations[language]}
+          >      
+            <ItemCharacteristicsStore>
+              <Router basename={process.env.PUBLIC_URL}>
 
-                        <div style={divStyle}>
+                <div style={divStyle}>
 
-                          <Header auth={auth} />
+                  <Header userInfo={userInfo} />
 
-                          <Container maxWidth="md"  style={containerStyle}>
+                  <Container maxWidth="md"  style={containerStyle}>
 
-                            <Switch>
-                              <Route
-                                exact path="/add"
-                                component={props => <AddWizard auth={auth} {...props} />}
-                              />
-                              <Route
-                                exact path="/register"
-                                component={props => <RegisterWizard auth={auth} {...props} />}
-                              />
-                              <Route
-                                exact path="/login"
-                                component={props => <LoginWizard auth={auth} {...props} />}
-                              />
-                              <Route
-                                exact path="/logout"
-                                component={props => <Logout auth={auth} {...props} />}
-                              />
-                              <Route
-                                exact path="/about"
-                                component={() => <About />}
-                              />
-                              <Route
-                                exact path="/"
-                                component={props => { return( auth.authenticated ?  <Dashboard auth={auth} {...props} /> : <MainPageContent auth={auth} {...props} />) }}
-                              />
-                              <Route
-                                exact path="*"
-                                component={NotFound}
-                                auth={auth}
-                              />
-                            </Switch>          
-                          </Container>
+                    <Switch>
+                      <Route
+                        exact path="/add"
+                        component={props => <AddWizard userInfo={userInfo} {...props} />}
+                      />
+                      <Route
+                        exact path="/register"
+                        component={props => <RegisterWizard userInfo={userInfo} {...props} />}
+                      />
+                      <Route
+                        exact path="/login"
+                        component={props => <LoginWizard userInfo={userInfo} {...props} />}
+                      />
+                      <Route
+                        exact path="/logout"
+                        component={props => <Logout userInfo={userInfo} {...props} />}
+                      />
+                      <Route
+                        exact path="/about"
+                        component={() => <About />}
+                      />
+                      <Route
+                        exact path="/"
+                        component={props => { return( userInfo.isAuthenticated() ?  <Dashboard userInfo={userInfo} {...props} /> : <MainPageContent userInfo={userInfo} {...props} />) }}
+                      />
+                      <Route
+                        exact path="*"
+                        component={NotFound}
+                        userInfo={userInfo}
+                      />
+                    </Switch>          
+                  </Container>
 
-                          <Footer location={this.props.location} />
-                          {auth.authenticated && <BottomNav style={stickToBottom} auth={auth} />}
-                        </div>
-                      </Router>
-                    </ItemCharacteristicsStore>
-                  </IntlProvider>
-                );
-              }}                
-            </UserInfoConsumer>        
-          </UserInfoStore>
+                  <Footer location={this.props.location} />
+                  {userInfo.isAuthenticated() && <BottomNav style={stickToBottom} userInfo={userInfo} />}
+                </div>
+              </Router>
+            </ItemCharacteristicsStore>
+          </IntlProvider>
         </SnackbarProvider>
     );
   }
 }
 
 // App.propTypes = {
-//     // auth: PropTypes.instanceOf(Auth).isRequired,
+//     // userInfo: PropTypes.instanceOf(UserInfo).isRequired,
 //     // classes: PropTypes.object.isRequired,
 // };
 
