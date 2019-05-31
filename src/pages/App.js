@@ -22,7 +22,7 @@ import { SnackbarProvider } from 'notistack';
 
 
 import { ItemCharacteristicsStore } from "../data/ItemCharacteristicsStore";
-// import { UserInfoStore, UserInfoConsumer } from "../data/UserInfoStore";
+import { UserInfoStore, UserInfoConsumer } from "../data/UserInfoStore";
 
 
 //
@@ -84,65 +84,72 @@ class App extends React.Component {
     const stickToBottom = {
     };
 
-    const language = userInfo.getLanguage();
-    // console.log('App: Language=', language);
 
     return (
       <SnackbarProvider maxSnack={3}>
-          <IntlProvider
-            locale={language}
-            defaultLocale="en"
-            key={language}
-            messages={translations[language]}
-          >      
-            <ItemCharacteristicsStore>
-              <Router basename={process.env.PUBLIC_URL}>
+        <UserInfoStore>
+          <UserInfoConsumer>
+            {({ language }) => {
+                if(!language) return null;
+                return (
+                  <IntlProvider
+                    locale={language}
+                    defaultLocale="en"
+                    key={language}
+                    messages={translations[language]}
+                  >      
+                    <ItemCharacteristicsStore>
+                      <Router basename={process.env.PUBLIC_URL}>
 
-                <div style={divStyle}>
+                        <div style={divStyle}>
 
-                  <Header userInfo={userInfo} />
+                          <Header userInfo={userInfo} />
 
-                  <Container maxWidth="md"  style={containerStyle}>
+                          <Container maxWidth="md"  style={containerStyle}>
 
-                    <Switch>
-                      <Route
-                        exact path="/add"
-                        component={props => <AddWizard userInfo={userInfo} {...props} />}
-                      />
-                      <Route
-                        exact path="/register"
-                        component={props => <RegisterWizard userInfo={userInfo} {...props} />}
-                      />
-                      <Route
-                        exact path="/login"
-                        component={props => <LoginWizard userInfo={userInfo} {...props} />}
-                      />
-                      <Route
-                        exact path="/logout"
-                        component={props => <Logout userInfo={userInfo} {...props} />}
-                      />
-                      <Route
-                        exact path="/about"
-                        component={() => <About />}
-                      />
-                      <Route
-                        exact path="/"
-                        component={props => { return( userInfo.isAuthenticated() ?  <Dashboard userInfo={userInfo} {...props} /> : <MainPageContent userInfo={userInfo} {...props} />) }}
-                      />
-                      <Route
-                        exact path="*"
-                        component={NotFound}
-                        userInfo={userInfo}
-                      />
-                    </Switch>          
-                  </Container>
+                            <Switch>
+                              <Route
+                                exact path="/add"
+                                component={props => <AddWizard userInfo={userInfo} {...props} />}
+                              />
+                              <Route
+                                exact path="/register"
+                                component={props => <RegisterWizard userInfo={userInfo} {...props} />}
+                              />
+                              <Route
+                                exact path="/login"
+                                component={props => <LoginWizard userInfo={userInfo} {...props} />}
+                              />
+                              <Route
+                                exact path="/logout"
+                                component={props => <Logout userInfo={userInfo} {...props} />}
+                              />
+                              <Route
+                                exact path="/about"
+                                component={() => <About />}
+                              />
+                              <Route
+                                exact path="/"
+                                component={props => { return( userInfo.isAuthenticated() ?  <Dashboard userInfo={userInfo} {...props} /> : <MainPageContent userInfo={userInfo} {...props} />) }}
+                              />
+                              <Route
+                                exact path="*"
+                                component={NotFound}
+                                userInfo={userInfo}
+                              />
+                            </Switch>          
+                          </Container>
 
-                  <Footer location={this.props.location} />
-                  {userInfo.isAuthenticated() && <BottomNav style={stickToBottom} userInfo={userInfo} />}
-                </div>
-              </Router>
-            </ItemCharacteristicsStore>
-          </IntlProvider>
+                          <Footer location={this.props.location} />
+                          {userInfo.isAuthenticated() && <BottomNav style={stickToBottom} userInfo={userInfo} />}
+                        </div>
+                      </Router>
+                    </ItemCharacteristicsStore>
+                  </IntlProvider>
+                );
+              }}                
+            </UserInfoConsumer>        
+          </UserInfoStore>
         </SnackbarProvider>
     );
   }

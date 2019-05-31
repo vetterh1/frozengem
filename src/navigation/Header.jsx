@@ -14,7 +14,7 @@ import { FormattedMessage } from 'react-intl.macro';
 import { withStyles } from '@material-ui/core/styles';
 import UserInfo from '../auth/UserInfo';
 import LoginInBar from '../auth/LoginInBar';
-// import {UserInfoConsumer} from '../data/UserInfoStore';
+import {UserInfoConsumer} from '../data/UserInfoStore';
 
 
 const styles = theme => ({
@@ -72,18 +72,25 @@ class Header extends React.Component {
               <RemoveIcon />
             </Fab>
           </nav> */}
-          <nav>
-            {this.props.userInfo.getLanguage() === "fr" && 
-              <Button color="secondary" onClick={e => this.props.userInfo.setLanguage("en")}>
-                EN
-              </Button>
-            }
-            {this.props.userInfo.getLanguage() === "en" &&
-              <Button color="secondary" onClick={e => this.props.userInfo.setLanguage("fr")}>
-                FR
-              </Button>
-            }
-          </nav>
+          <UserInfoConsumer>
+            {({ language, switchToFR, switchToEN }) => {
+              if(!language) return null;
+              return (
+                <nav>
+                  {language === "fr" && 
+                    <Button color="secondary" onClick={e => switchToEN()}>
+                      EN
+                    </Button>
+                  }
+                  {language === "en" &&
+                    <Button color="secondary" onClick={e => switchToFR()}>
+                      FR
+                    </Button>
+                  }
+                </nav>
+              );
+            }}                
+          </UserInfoConsumer>
           <LoginInBar userInfo={this.props.userInfo} />
         </Toolbar>
       </AppBar>
