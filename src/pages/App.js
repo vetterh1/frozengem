@@ -6,7 +6,6 @@ import translations from '../i18n/locales';
 import frLocaleData from "react-intl/locale-data/fr";
 import withMyTheme from '../withMyTheme';
 import Container from '@material-ui/core/Container';
-// import UserInfo from '../auth/UserInfo';
 import Logout from '../auth/Logout';
 import About from './About';
 import Header from '../navigation/Header';
@@ -20,7 +19,7 @@ import LoginWizard from './loginWizard/LoginWizard';
 // import Pusher from 'pusher-js';
 import { SnackbarProvider } from 'notistack';
 
-
+// Stores
 import { ItemCharacteristicsStore } from "../data/ItemCharacteristicsStore";
 import { UserInfoStore, UserInfoConsumer } from "../data/UserInfoStore";
 
@@ -30,15 +29,6 @@ import { UserInfoStore, UserInfoConsumer } from "../data/UserInfoStore";
 // 
 
 addLocaleData(frLocaleData);
-
-
-
-//
-// UserInfo init
-//
-
-// const userInfo = new UserInfo();
-
 
 
 
@@ -141,7 +131,7 @@ class App extends React.Component {
                           </Container>
 
                           <Footer location={this.props.location} />
-                          {isAuthenticated() && <BottomNav style={stickToBottom} />}
+                          { isAuthenticated() && <BottomNav style={stickToBottom} /> }
                         </div>
                       </Router>
                     </ItemCharacteristicsStore>

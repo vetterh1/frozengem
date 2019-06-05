@@ -1,19 +1,16 @@
 import * as log from 'loglevel';
 import React from 'react';
 import PropTypes from 'prop-types';
-import qs from 'qs';
-import axios from 'axios';
-import UserInfo from '../../auth/UserInfo';
 import { withStyles } from '@material-ui/core/styles';
-import { injectIntl } from "react-intl";
+import { withUserInfo } from '../../auth/withUserInfo';
 import { withSnackbar } from 'notistack';
+import { injectIntl } from "react-intl";
 import { defineMessages } from 'react-intl.macro';
 import NameForm from './NameForm';
 import StepWizard from 'react-step-wizard';
 import EmailForm from './EmailForm';
 import PasswordForm from './PasswordForm';
 import Registered from './Registered';
-import config from '../../data/config'
 
 // import stringifyOnce from '../../utils/stringifyOnce.js'
 
@@ -60,7 +57,7 @@ const messages = defineMessages({
 
 class RegisterWizard extends React.Component {
   static propTypes = {
-    userInfo: PropTypes.instanceOf(UserInfo).isRequired,
+    userInfo: PropTypes.object.isRequired,
   }
 
   defaultState = {
@@ -98,47 +95,33 @@ class RegisterWizard extends React.Component {
   }
 
 
-  registerToServer() {
+
+  async registerToServer() {
     this.setState({registrationInProgress: true, registrationFinished: false, registrationSuccess: false });
+
+    const { registerToServer } = this.props.userInfo;
+
     const {email, password, name} = this.state;
-    const boUrl = config.boUrl;
-    const masterKey = config.masterKey;
-    const data = { 'access_token': masterKey, email, password, name };
-    const options = {
-      method: 'POST',
-      url: `${boUrl}/users`,
-      // withCredentials : true, 
-      crossdomain : true,
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      data: qs.stringify(data),
-    };
-    axios(options)
-    .then((response) => {
+    try {
+      const userName = await registerToServer(email, password, name );
+      console.log('userName: ' , userName);
+
+      // Success message
       this.setState({registrationInProgress: false, registrationFinished: true, registrationSuccess: true });
-      const {user, token} = response.data;
-      console.log('registration OK: ' , response, user, token);
-      this.props.userInfo.setSession({
-        accessToken: token,
-        email: user.email,
-        name: user.name,
-        idToken: user.id,
-      });
       this.props.enqueueSnackbar(
         this.props.intl.formatMessage(messages.success), 
         {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
       );      
-    })
-    .catch((error) => {
+    } catch (error) {
       console.error('registration error: ' , error);
       this.setState({registrationInProgress: false, registrationFinished: true, registrationSuccess: false });
       this.props.enqueueSnackbar(
         this.props.intl.formatMessage(messages.error), 
         {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
-      );    })
-    .then(() => {
-      // always executed
-    });
+      ); 
+    }
   }
+
 
   onClickRegister() { 
     this.registerToServer();
@@ -163,7 +146,7 @@ class RegisterWizard extends React.Component {
   }
 }
 
-export default injectIntl(withSnackbar(withStyles(styles, { withTheme: true })(RegisterWizard)));
+export default injectIntl(withUserInfo(withSnackbar(withStyles(styles, { withTheme: true })(RegisterWizard))));
 
 
 

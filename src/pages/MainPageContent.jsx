@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import UserInfo from '../auth/UserInfo';
+import { withStyles } from '@material-ui/core/styles';
+import { withUserInfo } from '../auth/withUserInfo';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { FormattedMessage } from 'react-intl.macro';
-import { withStyles } from '@material-ui/core/styles';
 import { AcUnit, AccessTime, NoteAdd } from '@material-ui/icons'
 import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
 
@@ -31,7 +31,7 @@ const styles = theme => ({
 
 class MainPageContent extends React.Component {
   static propTypes = {
-    userInfo: PropTypes.instanceOf(UserInfo).isRequired,
+    userInfo: PropTypes.object.isRequired,
   }
 
   render() {
@@ -109,4 +109,4 @@ class MainPageContent extends React.Component {
   }
 }
 
-export default withStyles(styles)(MainPageContent);
+export default withUserInfo(withStyles(styles)(MainPageContent));

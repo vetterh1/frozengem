@@ -29,209 +29,218 @@ export const UserInfoContext = React.createContext();
 
 
 export class UserInfoStore extends React.Component {
-    state = {
-        language: "en",
-        isAuthenticated: () => this.isAuthenticated(),
-        setLanguage: (l) => this.setLanguage(l),
-        login: (email, password) => this.login(email, password),
-        logout: () => this.logout(),
+  state = {
+      language: "en",
+      isAuthenticated: () => this.isAuthenticated(),
+      setLanguage: (l) => this.setLanguage(l),
+      login: (email, password) => this.login(email, password),
+      logout: () => this.logout(),
+      registerToServer: (email, password, name) => this.registerToServer(email, password, name),
 
-        // load: () => this.load(),
-        // save: () => this.save(),
-        // switchToFR: () => {this.setState({language: "fr"}, () => this.save())},
-        // switchToEN: () => {this.setState({language: "en"}, () => this.save())},
-        // getLanguage: () => {return this.state.language},
-    };
+
+      // load: () => this.load(),
+      // save: () => this.save(),
+      // switchToFR: () => {this.setState({language: "fr"}, () => this.save())},
+      // switchToEN: () => {this.setState({language: "en"}, () => this.save())},
+      // getLanguage: () => {return this.state.language},
+  };
 
 
     
-    componentDidMount() {
-        // this.state.load();
-    }
+  componentDidMount() {
+      // this.state.load();
+  }
 
 
 
 
 
 
-    // userInfo = null;                // User infos from server (or local storage)
-    previouslyUsedLanguage = localStorage.getItem('previouslyUsedLanguage');  // Language used last time on this computer
-  
-    // expiresIn = 60 * 60 * 24 * 365 * 1000; // 1 year in milliseconds!
-    expiresIn = 60 * 1000; // 1mn in milliseconds!
-  
+  // userInfo = null;                // User infos from server (or local storage)
+  previouslyUsedLanguage = localStorage.getItem('previouslyUsedLanguage');  // Language used last time on this computer
+
+  // expiresIn = 60 * 60 * 24 * 365 * 1000; // 1 year in milliseconds!
+  expiresIn = 60 * 1000; // 1mn in milliseconds!
 
 
-    isAuthenticated() {
-        // Check whether the current time is past the access token's expiry time
-        const expiresAt = parseInt(localStorage.getItem('expiresAt'));
-        const now = Date.now()
-        const auththenticated = now < expiresAt;
-        console.log('isAuthenticated: ', auththenticated, expiresAt, now);
-        return auththenticated;
-      }
-    
 
-    // getLanguage() {
-    //   // console.log('UserInfo: userInfo.language=', this.userInfo ? this.userInfo.language : "N/A");
-    //   // console.log('UserInfo: userInfo.previouslyUsedLanguage=', this.previouslyUsedLanguage);
-  
-    //   if(this.userInfo && this.userInfo.language) return this.userInfo.language;
-    //   if(this.previouslyUsedLanguage) return this.previouslyUsedLanguage;
-    //   return defaultLanguage;
-    // }
-  
-    setLanguageOld(language) {
-      // update this object
-      this.previouslyUsedLanguage = language;
-      if(this.userInfo) this.userInfo.language = language;
-      // update local storage
-      localStorage.setItem('previouslyUsedLanguage', language);
-      localStorage.setItem('language', language);
-  
-      // TODO: update server
-    }
-  
-  
-    saveStateAndSession(userInfos) {
-        // Set the time that the access token will expire at
-        userInfos['expiresAt'] = JSON.stringify((this.expiresIn) + new Date().getTime());
-  
-        Object.keys(userInfos).map(key => {
-            localStorage.setItem(key, userInfos[key]);
-        });
-
-        this.setState({...userInfos});
+  isAuthenticated() {
+      // Check whether the current time is past the access token's expiry time
+      const expiresAt = parseInt(localStorage.getItem('expiresAt'));
+      const now = Date.now()
+      const auththenticated = now < expiresAt;
+      console.log('isAuthenticated: ', auththenticated, expiresAt, now);
+      return auththenticated;
     }
   
 
+  // getLanguage() {
+  //   // console.log('UserInfo: userInfo.language=', this.userInfo ? this.userInfo.language : "N/A");
+  //   // console.log('UserInfo: userInfo.previouslyUsedLanguage=', this.previouslyUsedLanguage);
+
+  //   if(this.userInfo && this.userInfo.language) return this.userInfo.language;
+  //   if(this.previouslyUsedLanguage) return this.previouslyUsedLanguage;
+  //   return defaultLanguage;
+  // }
+
+  setLanguageOld(language) {
+    // update this object
+    this.previouslyUsedLanguage = language;
+    if(this.userInfo) this.userInfo.language = language;
+    // update local storage
+    localStorage.setItem('previouslyUsedLanguage', language);
+    localStorage.setItem('language', language);
+
+    // TODO: update server
+  }
+
+
+  saveStateAndSession(userInfos) {
+      // Set the time that the access token will expire at
+      userInfos['expiresAt'] = JSON.stringify((this.expiresIn) + new Date().getTime());
+
+      Object.keys(userInfos).map(key => {
+          localStorage.setItem(key, userInfos[key]);
+      });
+
+      this.setState({...userInfos});
+  }
+
+
+
 
   
-      setSession(authResult) {
-        // Set the time that the access token will expire at
-        // const expiresAt = JSON.stringify((this.expiresIn) + new Date().getTime());
-        // localStorage.setItem('access_token', authResult.accessToken);
-        // localStorage.setItem('id_token', authResult.idToken);
-        // localStorage.setItem('expires_at', expiresAt);
-    
-        // localStorage.setItem('email', authResult.email);
-        // localStorage.setItem('name', authResult.name);
-        // localStorage.setItem('language', authResult.language);
-        // localStorage.setItem('previouslyUsedLanguage', authResult.language);
-        // localStorage.setItem('houseOrder', authResult.houseOrder);
-  
-        // console.log('UserInfoStore.setLanguage: ', l);
-        // this.setState({language: l},() => this.save())
-        // this.authenticated = true;
+  load() {
+      // Get from local storage first
+      const rawFromCache = localStorage.getItem('UserInfo');
+      let needLocalSave = false;
+      let userInfo = null;
+      if(rawFromCache) {
+          userInfo = JSON.parse(rawFromCache);
       }
       
-
-
-
-    
-    load() {
-        // Get from local storage first
-        const rawFromCache = localStorage.getItem('UserInfo');
-        let needLocalSave = false;
-        let userInfo = null;
-        if(rawFromCache) {
-            userInfo = JSON.parse(rawFromCache);
-        }
-        
-        // if no local storage or older than default values, use default
-        if(!rawFromCache || !userInfo || userInfo.version < defaultUserInfo.version) {
-            // if no local storage: use default values
-            userInfo = {...defaultUserInfo};
-            // and save them in local storage for next time
-            needLocalSave = true;
-        }
-
-        // Server query to get the latest
-        // should check if version is higher 
-
-        if(needLocalSave) {
-            localStorage.setItem('UserInfo', JSON.stringify(userInfo));
-        }
-
-        this.setState(userInfo);
-
-        console.log('UserInfoStore: userInfo', stringifyOnce(userInfo));
-    }
-
-    save() {
-        localStorage.setItem('UserInfo', JSON.stringify(this.state));
-    }
-
-
-    setLanguage (l) {
-        console.log('UserInfoStore.setLanguage: ', l);
-        this.setState({language: l},() => this.save())
-    }
-
-
-
-    async login(email, password) {
-        const boUrl = config.boUrl;
-        const masterKey = config.masterKey;
-        const data = { 'access_token': masterKey };
-        const options = {
-          method: 'POST',
-          url: `${boUrl}/auth`,
-          auth: {
-            username: email,
-            password: password
-          },      
-          // withCredentials : true, 
-          crossdomain : true,
-          headers: { 'content-type': 'application/x-www-form-urlencoded' },
-          data: qs.stringify(data),
-        };
-    
-        try {
-          console.error('call axios: ' , options);
-          const response = await axios(options);
-          const {user, token} = response.data;
-          console.log('login OK: ' , response, user, token);
-          this.saveStateAndSession({
-            accessToken: token,
-            authenticated: true,
-            ...user
-          });
-          return user.name;
-    
-        } catch (error) {
-          console.error('login error: ' , error);
-          throw error;
-        }
+      // if no local storage or older than default values, use default
+      if(!rawFromCache || !userInfo || userInfo.version < defaultUserInfo.version) {
+          // if no local storage: use default values
+          userInfo = {...defaultUserInfo};
+          // and save them in local storage for next time
+          needLocalSave = true;
       }
-    
+
+      // Server query to get the latest
+      // should check if version is higher 
+
+      if(needLocalSave) {
+          localStorage.setItem('UserInfo', JSON.stringify(userInfo));
+      }
+
+      this.setState(userInfo);
+
+      console.log('UserInfoStore: userInfo', stringifyOnce(userInfo));
+  }
+
+  save() {
+      localStorage.setItem('UserInfo', JSON.stringify(this.state));
+  }
 
 
-    logout() {
+  setLanguage (l) {
+      console.log('UserInfoStore.setLanguage: ', l);
+      this.setState({language: l},() => this.save())
+  }
 
-        // Clear local storage:
-        Object.keys(this.state).map(key => {
-            localStorage.removeItem(key);
+
+
+  async login(email, password) {
+      const boUrl = config.boUrl;
+      const masterKey = config.masterKey;
+      const data = { 'access_token': masterKey };
+      const options = {
+        method: 'POST',
+        url: `${boUrl}/auth`,
+        auth: {
+          username: email,
+          password: password
+        },      
+        // withCredentials : true, 
+        crossdomain : true,
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: qs.stringify(data),
+      };
+  
+      try {
+        const response = await axios(options);
+        const {user, token} = response.data;
+        console.log('login OK: ' , response, user, token);
+        this.saveStateAndSession({
+          accessToken: token,
+          ...user
         });
-        // To be sure!
-        localStorage.removeItem('expiresAt');
-        localStorage.removeItem('accessToken');
-
-        this.setState({expiresAt: null, accessToken: null});
-        
-        // navigate to the home route done in <Logout> component
+        return user.name;
+  
+      } catch (error) {
+        console.error('login error: ' , error);
+        throw error;
       }
-    
+    }
+  
+
+
+  logout() {
+
+      // Clear local storage:
+      Object.keys(this.state).map(key => {
+          localStorage.removeItem(key);
+      });
+      // To be sure!
+      localStorage.removeItem('expiresAt');
+      localStorage.removeItem('accessToken');
+
+      this.setState({expiresAt: null, accessToken: null});
+      
+      // navigate to the home route done in <Logout> component
+    }
+  
+
+
+  async registerToServer(email, password, name) {
+    const boUrl = config.boUrl;
+    const masterKey = config.masterKey;
+    const data = { 'access_token': masterKey, email, password, name };
+    const options = {
+      method: 'POST',
+      url: `${boUrl}/users`,
+      // withCredentials : true, 
+      crossdomain : true,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      data: qs.stringify(data),
+    };
+
+    try {
+      const response = await axios(options);
+      const {user, token} = response.data;
+      console.log('register OK: ' , response, user, token);
+      this.saveStateAndSession({
+        accessToken: token,
+        ...user
+      });
+      return user.name;
+
+    } catch (error) {
+      console.error('register error: ' , error);
+      throw error;
+    }
+  }
 
 
 
 
 
 
-    render() {
-        const { state, props: { children } } = this;
-        return <UserInfoContext.Provider value={state}>{children}</UserInfoContext.Provider>;
-     }
+  render() {
+      const { state, props: { children } } = this;
+      return <UserInfoContext.Provider value={state}>{children}</UserInfoContext.Provider>;
+    }
 }
 
 export const UserInfoConsumer = UserInfoContext.Consumer;

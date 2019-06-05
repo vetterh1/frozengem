@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import UserInfo from '../auth/UserInfo';
 import Typography from '@material-ui/core/Typography';
 import { FormattedMessage } from 'react-intl.macro';
 import { withStyles } from '@material-ui/core/styles';
@@ -28,7 +27,7 @@ const styles = theme => ({
 
 class Dashboard extends React.Component {
   static propTypes = {
-    userInfo: PropTypes.instanceOf(UserInfo).isRequired,
+    userInfo: PropTypes.object.isRequired,
   }
 
   render() {

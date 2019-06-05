@@ -3,6 +3,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from "react-router";
+import { withStyles } from '@material-ui/core/styles';
+import { withUserInfo } from '../auth/withUserInfo';
 import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -11,10 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { FormattedMessage } from 'react-intl.macro';
 // import Fab from '@material-ui/core/Fab';
 
-import { withStyles } from '@material-ui/core/styles';
-import UserInfo from '../auth/UserInfo';
 import LoginInBar from '../auth/LoginInBar';
-import {UserInfoConsumer} from '../data/UserInfoStore';
 
 
 const styles = theme => ({
@@ -37,7 +36,7 @@ const styles = theme => ({
 
 class Header extends React.Component {
   static propTypes = {
-    userInfo: PropTypes.instanceOf(UserInfo).isRequired,
+    userInfo: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
   }
@@ -53,6 +52,9 @@ class Header extends React.Component {
 
   render() {
     const { classes } = this.props;
+    const { language, setLanguage } = this.props.userInfo;
+    if(!language) return null;
+
     // const { classes, location } = this.props;
     // const onMainPage = location.pathname === '/';
 
@@ -64,33 +66,18 @@ class Header extends React.Component {
               <FormattedMessage id="header.title" defaultMessage="FrozenGem" />
             </Typography>
           </Button>
-          {/* <nav>
-            <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} component={Link} to="/add">
-              <AddIcon />
-            </Fab>
-            <Fab size="small" color="secondary" aria-label="Remove" className={classes.margin} component={Link} to="/remove">
-              <RemoveIcon />
-            </Fab>
-          </nav> */}
-          <UserInfoConsumer>
-            {({ language, setLanguage }) => {
-              if(!language) return null;
-              return (
-                <nav>
-                  {language === "fr" && 
-                    <Button color="secondary" onClick={e => setLanguage("en")}>
-                      EN
-                    </Button>
-                  }
-                  {language === "en" &&
-                    <Button color="secondary" onClick={e => setLanguage("fr")}>
-                      FR
-                    </Button>
-                  }
-                </nav>
-              );
-            }}                
-          </UserInfoConsumer>
+          <nav>
+            {language === "fr" && 
+              <Button color="secondary" onClick={e => setLanguage("en")}>
+                EN
+              </Button>
+            }
+            {language === "en" &&
+              <Button color="secondary" onClick={e => setLanguage("fr")}>
+                FR
+              </Button>
+            }
+          </nav>
           <LoginInBar userInfo={this.props.userInfo} />
         </Toolbar>
       </AppBar>
@@ -98,4 +85,4 @@ class Header extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(Header));
+export default withUserInfo(withStyles(styles)(withRouter(Header)));

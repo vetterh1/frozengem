@@ -6,7 +6,7 @@ import { injectIntl } from "react-intl";
 import { defineMessages } from 'react-intl.macro';
 import { withStyles } from '@material-ui/core/styles';
 import { withSnackbar } from 'notistack';
-import {withUserInfo} from '../../auth/withUserInfo';
+import { withUserInfo } from '../../auth/withUserInfo';
 import StepWizard from 'react-step-wizard';
 import EmailForm from './EmailForm';
 import PasswordForm from './PasswordForm';
@@ -129,9 +129,6 @@ class LoginWizard extends React.Component {
 
   render() {
     const { classes } = this.props;
-    // const { isAuthenticated } = this.props.userInfo;
-    // if (!isAuthenticated()) return (<LoginBanner userInfo={this.props.userInfo} />);
-
     return (
           <div className={classes.divWizardPage}>
             <StepWizard isHashEnabled transitions={{}} className={"flex-max-height flex-direction-column"} classNameWrapper={'flex-max-height flex-direction-column'}>

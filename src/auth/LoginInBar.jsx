@@ -2,9 +2,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-// import UserInfo from './UserInfo';
-import {withUserInfo} from './withUserInfo';
-import {withStyles} from '@material-ui/core/styles';
+import { withUserInfo } from './withUserInfo';
+import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
 const styles = {
@@ -14,7 +13,7 @@ const styles = {
 
 class LoginInBar extends React.Component {
   static propTypes = {
-    // userInfo: PropTypes.instanceOf(UserInfo).isRequired,
+    userInfo: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
   }
 
@@ -30,8 +29,8 @@ class LoginInBar extends React.Component {
     const { isAuthenticated } = this.props.userInfo;
     return ( 
       <div>
-        {!isAuthenticated() && (<Button color="inherit"  component={Link} to="/login">login</Button>)}
-        {isAuthenticated() && (<Button color="inherit"  component={Link} to="/logout">logout</Button>)}
+        { !isAuthenticated() && (<Button color="inherit"  component={Link} to="/login">login</Button>) }
+        { isAuthenticated() && (<Button color="inherit"  component={Link} to="/logout">logout</Button>) }
       </div>
     );
   }
