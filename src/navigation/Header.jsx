@@ -73,17 +73,17 @@ class Header extends React.Component {
             </Fab>
           </nav> */}
           <UserInfoConsumer>
-            {({ language, switchToFR, switchToEN }) => {
+            {({ language, setLanguage }) => {
               if(!language) return null;
               return (
                 <nav>
                   {language === "fr" && 
-                    <Button color="secondary" onClick={e => switchToEN()}>
+                    <Button color="secondary" onClick={e => setLanguage("en")}>
                       EN
                     </Button>
                   }
                   {language === "en" &&
-                    <Button color="secondary" onClick={e => switchToFR()}>
+                    <Button color="secondary" onClick={e => setLanguage("fr")}>
                       FR
                     </Button>
                   }

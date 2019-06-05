@@ -4,6 +4,7 @@ import UserInfo from '../auth/UserInfo';
 import Typography from '@material-ui/core/Typography';
 import { FormattedMessage } from 'react-intl.macro';
 import { withStyles } from '@material-ui/core/styles';
+import { withUserInfo } from '../auth/withUserInfo';
 import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
 
 const styles = theme => ({
@@ -31,8 +32,9 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    // const greyWhenNoUserInfo = this.props.userInfo.isAuthenticated() ? '' : 'auth-required';
     const { classes } = this.props;
+    // const { isAuthenticated } = this.props.userInfo;
+    // const greyWhenNoUserInfo = isAuthenticated() ? '' : 'auth-required';
 
     return (
       <React.Fragment>
@@ -55,4 +57,4 @@ class Dashboard extends React.Component {
   }
 }
 
-export default withStyles(styles)(Dashboard);
+export default withUserInfo(withStyles(styles)(Dashboard));

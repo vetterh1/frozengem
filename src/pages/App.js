@@ -6,7 +6,7 @@ import translations from '../i18n/locales';
 import frLocaleData from "react-intl/locale-data/fr";
 import withMyTheme from '../withMyTheme';
 import Container from '@material-ui/core/Container';
-import UserInfo from '../auth/UserInfo';
+// import UserInfo from '../auth/UserInfo';
 import Logout from '../auth/Logout';
 import About from './About';
 import Header from '../navigation/Header';
@@ -37,7 +37,7 @@ addLocaleData(frLocaleData);
 // UserInfo init
 //
 
-const userInfo = new UserInfo();
+// const userInfo = new UserInfo();
 
 
 
@@ -89,7 +89,7 @@ class App extends React.Component {
       <SnackbarProvider maxSnack={3}>
         <UserInfoStore>
           <UserInfoConsumer>
-            {({ language }) => {
+            {({ language, isAuthenticated }) => {
                 if(!language) return null;
                 return (
                   <IntlProvider
@@ -103,26 +103,26 @@ class App extends React.Component {
 
                         <div style={divStyle}>
 
-                          <Header userInfo={userInfo} />
+                          <Header />
 
                           <Container maxWidth="md"  style={containerStyle}>
 
                             <Switch>
                               <Route
                                 exact path="/add"
-                                component={props => <AddWizard userInfo={userInfo} {...props} />}
+                                component={props => <AddWizard {...props} />}
                               />
                               <Route
                                 exact path="/register"
-                                component={props => <RegisterWizard userInfo={userInfo} {...props} />}
+                                component={props => <RegisterWizard {...props} />}
                               />
                               <Route
                                 exact path="/login"
-                                component={props => <LoginWizard userInfo={userInfo} {...props} />}
+                                component={props => <LoginWizard {...props} />}
                               />
                               <Route
                                 exact path="/logout"
-                                component={props => <Logout userInfo={userInfo} {...props} />}
+                                component={props => <Logout {...props} />}
                               />
                               <Route
                                 exact path="/about"
@@ -130,18 +130,18 @@ class App extends React.Component {
                               />
                               <Route
                                 exact path="/"
-                                component={props => { return( userInfo.isAuthenticated() ?  <Dashboard userInfo={userInfo} {...props} /> : <MainPageContent userInfo={userInfo} {...props} />) }}
+                                component={props => { return( isAuthenticated() ?  <Dashboard {...props} /> : <MainPageContent {...props} />) }}
                               />
                               <Route
                                 exact path="*"
                                 component={NotFound}
-                                userInfo={userInfo}
+                               
                               />
                             </Switch>          
                           </Container>
 
                           <Footer location={this.props.location} />
-                          {userInfo.isAuthenticated() && <BottomNav style={stickToBottom} userInfo={userInfo} />}
+                          {isAuthenticated() && <BottomNav style={stickToBottom} />}
                         </div>
                       </Router>
                     </ItemCharacteristicsStore>

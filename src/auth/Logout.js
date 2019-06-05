@@ -4,7 +4,7 @@ import { Redirect } from 'react-router'
 import { injectIntl } from "react-intl";
 import { defineMessages } from 'react-intl.macro';
 import { withSnackbar } from 'notistack';
-import UserInfo from './UserInfo';
+import { withUserInfo } from './withUserInfo';
 
 
 
@@ -21,15 +21,16 @@ const messages = defineMessages({
 class Logout extends Component {
 
   static propTypes = {
-    userInfo: PropTypes.instanceOf(UserInfo).isRequired,
+    userInfo: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
+    const { logout } = this.props.userInfo;
     this.props.enqueueSnackbar(
       this.props.intl.formatMessage(messages.logout), 
       {variant: 'info', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
     );
-    this.props.userInfo.logout();
+    logout();
   }
 
   render() {
@@ -39,4 +40,4 @@ class Logout extends Component {
   }
 }
 
-export default injectIntl(withSnackbar(Logout));
+export default injectIntl(withUserInfo(withSnackbar(Logout)));

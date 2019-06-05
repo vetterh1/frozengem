@@ -163,7 +163,7 @@ export default class UserInfo {
     const options = {
       method: 'POST',
       url: `${boUrl}/auth`,
-      userInfo: {
+      auth: {
         username: email,
         password: password
       },      

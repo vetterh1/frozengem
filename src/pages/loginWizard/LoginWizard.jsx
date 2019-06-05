@@ -6,7 +6,7 @@ import { injectIntl } from "react-intl";
 import { defineMessages } from 'react-intl.macro';
 import { withStyles } from '@material-ui/core/styles';
 import { withSnackbar } from 'notistack';
-import UserInfo from '../../auth/UserInfo';
+import {withUserInfo} from '../../auth/withUserInfo';
 import StepWizard from 'react-step-wizard';
 import EmailForm from './EmailForm';
 import PasswordForm from './PasswordForm';
@@ -63,7 +63,7 @@ const messages = defineMessages({
 
 class LoginWizard extends React.Component {
   static propTypes = {
-    userInfo: PropTypes.instanceOf(UserInfo).isRequired,
+    userInfo: PropTypes.object.isRequired,
   }
 
   defaultState = {
@@ -143,7 +143,7 @@ class LoginWizard extends React.Component {
   }
 }
 
-export default injectIntl(withRouter(withSnackbar(withStyles(styles, { withTheme: true })(LoginWizard))));
+export default injectIntl(withUserInfo(withRouter(withSnackbar(withStyles(styles, { withTheme: true })(LoginWizard)))));
 
 
 
