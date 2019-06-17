@@ -13,6 +13,7 @@ import Footer from '../navigation/Footer';
 import BottomNav from '../navigation/BottomNav';
 import MainPageContent from './MainPageContent';
 import Dashboard from './Dashboard';
+import ChooseHome from './ChooseHome';
 import AddWizard from './addWizard/AddWizard';
 import RegisterWizard from './registerWizard/RegisterWizard';
 import LoginWizard from './loginWizard/LoginWizard';
@@ -79,7 +80,7 @@ class App extends React.Component {
       <SnackbarProvider maxSnack={3}>
         <UserInfoStore>
           <UserInfoConsumer>
-            {({ language, isAuthenticated }) => {
+            {({ language, isAuthenticated, getHome }) => {
                 if(!language) return null;
                 return (
                   <IntlProvider
@@ -120,7 +121,14 @@ class App extends React.Component {
                               />
                               <Route
                                 exact path="/"
-                                component={props => { return( isAuthenticated() ?  <Dashboard {...props} /> : <MainPageContent {...props} />) }}
+                                component={props => { 
+                                  if(isAuthenticated()) {
+                                    const home = getHome();
+                                    return home ?  <Dashboard {...props} /> :  <ChooseHome {...props} />;
+                                  } else {
+                                    return <MainPageContent {...props} />;
+                                  }
+                                }}
                               />
                               <Route
                                 exact path="*"

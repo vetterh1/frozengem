@@ -32,6 +32,7 @@ export class UserInfoStore extends React.Component {
   state = {
       language: "en",
       isAuthenticated: () => this.isAuthenticated(),
+      getHome: () => this.getHome(),
       setLanguage: (l) => this.setLanguage(l),
       login: (email, password) => this.login(email, password),
       logout: () => this.logout(),
@@ -59,20 +60,24 @@ export class UserInfoStore extends React.Component {
   // userInfo = null;                // User infos from server (or local storage)
   previouslyUsedLanguage = localStorage.getItem('previouslyUsedLanguage');  // Language used last time on this computer
 
-  // expiresIn = 60 * 60 * 24 * 365 * 1000; // 1 year in milliseconds!
-  expiresIn = 60 * 1000; // 1mn in milliseconds!
+  expiresIn = 60 * 60 * 24 * 365 * 1000; // 1 year in milliseconds!
+  // expiresIn = 60 * 1000; // 1mn in milliseconds!
 
 
 
   isAuthenticated() {
-      // Check whether the current time is past the access token's expiry time
-      const expiresAt = parseInt(localStorage.getItem('expiresAt'));
-      const now = Date.now()
-      const auththenticated = now < expiresAt;
-      console.log('isAuthenticated: ', auththenticated, expiresAt, now);
-      return auththenticated;
-    }
-  
+    // Check whether the current time is past the access token's expiry time
+    const expiresAt = parseInt(localStorage.getItem('expiresAt'));
+    const now = Date.now()
+    const auththenticated = now < expiresAt;
+    console.log('isAuthenticated: ', auththenticated, expiresAt, now);
+    return auththenticated;
+  }
+
+  getHome() {
+    return this.state.home;
+  }
+
 
   // getLanguage() {
   //   // console.log('UserInfo: userInfo.language=', this.userInfo ? this.userInfo.language : "N/A");

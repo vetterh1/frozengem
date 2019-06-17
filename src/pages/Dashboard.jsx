@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
 import Typography from '@material-ui/core/Typography';
 import { FormattedMessage } from 'react-intl.macro';
+import { injectIntl } from "react-intl";
+import { defineMessages } from 'react-intl.macro';
 import { withStyles } from '@material-ui/core/styles';
 import { withUserInfo } from '../auth/withUserInfo';
-import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
+
+
 
 const styles = theme => ({
   layout: {
@@ -25,10 +29,23 @@ const styles = theme => ({
 });
 
 
+const messages = defineMessages({
+ 
+
+});
+
+
+
 class Dashboard extends React.Component {
   static propTypes = {
     userInfo: PropTypes.object.isRequired,
   }
+
+  constructor(props) {
+    super(props);
+    this.state = {...this.defaultState};
+  }
+
 
   render() {
     const { classes } = this.props;
@@ -48,12 +65,12 @@ class Dashboard extends React.Component {
         </Box>
 
         <div className={classes.layout}>
-         content...
-        </div>   
+          ...content
+        </div>          
 
-        </React.Fragment>
+      </React.Fragment>
     );
   }
 }
 
-export default withUserInfo(withStyles(styles)(Dashboard));
+export default injectIntl(withUserInfo(withStyles(styles)(Dashboard)));

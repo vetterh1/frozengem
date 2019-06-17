@@ -42,6 +42,8 @@ const styles = theme => ({
 
 
 const RegistrationSuccessInt = ({intl, onClickNewHome, onClickJoinHome}) => {
+  console.log("!------> RegistrationSuccess")
+
   return (
     <div className="big-margin-top big-margin-down flex-normal-height flex-direction-row flex-justifiy-around">
       <div className={"flex-normal-height flex-direction-row flex-justifiy-around huge-margin-top"}>
@@ -60,6 +62,8 @@ const RegistrationSuccess = injectIntl(RegistrationSuccessInt);
 
 
 const RegistrationButtonAreaInt = ({registrationInProgress, onClickRegister}) => {
+  console.log("!------> RegistrationButtonArea: registrationInProgress=", registrationInProgress)
+
   if(registrationInProgress) return(<CircularProgress  size={68} />);
   return (
     <div className="big-margin-top big-margin-down">
@@ -105,6 +109,7 @@ class NameForm extends React.Component {
     // Return to the 1st page if all the previous infos are not filled in
     // (ex: return on this exact page)
     if(this.props.isActive && ( name === "" || email === "" || password === "")) {
+      console.log("!------> redirect home (empty params): name=", name, ", email=", email, ", password=", password, ", isActive=", this.props.isActive)
       return <Redirect to='/' />
     }    
 
