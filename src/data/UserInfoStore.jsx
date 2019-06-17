@@ -32,6 +32,7 @@ export class UserInfoStore extends React.Component {
   state = {
       language: "en",
       isAuthenticated: () => this.isAuthenticated(),
+      loadStateFromLocalStorage: () => this.loadStateFromLocalStorage(),
       getHome: () => this.getHome(),
       setLanguage: (l) => this.setLanguage(l),
       login: (email, password) => this.login(email, password),
@@ -50,6 +51,7 @@ export class UserInfoStore extends React.Component {
     
   componentDidMount() {
       // this.state.load();
+      this.state.loadStateFromLocalStorage();
   }
 
 
@@ -104,15 +106,28 @@ export class UserInfoStore extends React.Component {
       // Set the time that the access token will expire at
       userInfos['expiresAt'] = JSON.stringify((this.expiresIn) + new Date().getTime());
 
-      Object.keys(userInfos).map(key => {
-          localStorage.setItem(key, userInfos[key]);
-      });
+    Object.keys(userInfos).map(key => {
+        localStorage.setItem(key, userInfos[key]);
+    });
 
-      this.setState({...userInfos});
+    const listUserInfos = Object.keys(userInfos).join();
+    localStorage.setItem("listUserInfos", listUserInfos);
+
+    this.setState({...userInfos});
   }
 
 
+  loadStateFromLocalStorage() {
 
+    if(this.state.expiresAt) return;
+
+    const listStringUserInfos = localStorage.getItem('listUserInfos');
+    if(!listStringUserInfos) return;
+    const listUserInfos = listStringUserInfos.split(',');
+    let infos = {};
+    listUserInfos.forEach((infoKey) => {infos[infoKey] = localStorage.getItem(infoKey)});
+    this.setState({...infos});
+  }
 
   
   load() {
