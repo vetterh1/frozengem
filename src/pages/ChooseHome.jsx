@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
 import Typography from '@material-ui/core/Typography';
+import { withSnackbar } from 'notistack';
 import { FormattedMessage } from 'react-intl.macro';
 import { injectIntl } from "react-intl";
 import { defineMessages } from 'react-intl.macro';
@@ -68,7 +69,22 @@ const messages = defineMessages({
     id: 'home.new.label',
     defaultMessage: 'Home name',
     description: 'Home name',
-  },  
+  },
+  success: {
+    id: 'home.join.success',
+    defaultMessage: 'You are all set!',
+    description: 'You are all set!',
+  },    
+  error_not_found: {
+    id: 'home.join.error_not_found',
+    defaultMessage: 'Sorry, this code is unknown, please try again... ',
+    description: 'Sorry, this code is unknown, please try again... ',
+  },
+  error: {
+    id: 'home.join.error',
+    defaultMessage: 'Sorry, an error occured, please try again... ',
+    description: 'Sorry, an error occured, please try again... ',
+  },
 
 });
 
@@ -87,8 +103,24 @@ class ChooseHome extends React.Component {
     this.onNewHome = this.onNewHome.bind(this)
   }
 
-  onJoinHome = (idHome) => {
+  onJoinHome = async (idHome) => {
     console.log("onJoinHome ", idHome);
+    const { joinHome } = this.props.userInfo;
+    try {
+      const res = await joinHome(idHome);    
+      
+      this.props.enqueueSnackbar(
+        this.props.intl.formatMessage(messages.success), 
+        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+      );  
+
+    } catch (error) {
+      // console.error("onJoinHome error: ", JSON.stringify(error));
+      this.props.enqueueSnackbar(
+        this.props.intl.formatMessage( error.response.status === 404 ? messages.error_not_found : messages.error), 
+        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+      ); 
+    }
   }
 
   onNewHome = (labelHome) => {
@@ -138,4 +170,4 @@ class ChooseHome extends React.Component {
   }
 }
 
-export default injectIntl(withUserInfo(withStyles(styles)(ChooseHome)));
+export default injectIntl(withUserInfo(withSnackbar(withStyles(styles)(ChooseHome))));

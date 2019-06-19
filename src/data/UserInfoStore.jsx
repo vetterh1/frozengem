@@ -34,6 +34,7 @@ export class UserInfoStore extends React.Component {
       isAuthenticated: () => this.isAuthenticated(),
       loadStateFromLocalStorage: () => this.loadStateFromLocalStorage(),
       getHome: () => this.getHome(),
+      joinHome: (home) => this.joinHome(home),
       setLanguage: (l) => this.setLanguage(l),
       login: (email, password) => this.login(email, password),
       logout: () => this.logout(),
@@ -223,40 +224,76 @@ export class UserInfoStore extends React.Component {
   
 
 
-  async registerToServer(email, password, name) {
-    const boUrl = config.boUrl;
-    const masterKey = config.masterKey;
-    const data = { 'access_token': masterKey, email, password, name };
-    const options = {
-      method: 'POST',
-      url: `${boUrl}/users`,
-      // withCredentials : true, 
-      crossdomain : true,
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      data: qs.stringify(data),
-    };
-
-    try {
-      const response = await axios(options);
-      const {user, token} = response.data;
-      console.log('register OK: ' , response, user, token);
-      this.saveStateAndSession({
-        accessToken: token,
-        ...user
-      });
-      return user.name;
-
-    } catch (error) {
-      console.error('register error: ' , error);
-      throw error;
+    async registerToServer(email, password, name) {
+      const boUrl = config.boUrl;
+      const masterKey = config.masterKey;
+      const data = { 'access_token': masterKey, email, password, name };
+      const options = {
+        method: 'POST',
+        url: `${boUrl}/users`,
+        // withCredentials : true, 
+        crossdomain : true,
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: qs.stringify(data),
+      };
+  
+      try {
+        const response = await axios(options);
+        const {user, token} = response.data;
+        console.log('register OK: ' , response, user, token);
+        this.saveStateAndSession({
+          accessToken: token,
+          ...user
+        });
+        return user.name;
+  
+      } catch (error) {
+        console.error('register error: ' , error);
+        throw error;
+      }
     }
-  }
+  
+  
+  
+  
+  
 
 
+    async joinHome(home) {
+      const boUrl = config.boUrl;
+      const data = { 'access_token': this.state.accessToken, home };
+      const options = {
+        method: 'PUT',
+        url: `${boUrl}/users/${this.state.id}/home/join`,
+        // withCredentials : true, 
+        crossdomain : true,
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: qs.stringify(data),
+      };
+  
+      try {
+        const response = await axios(options);
+        console.log('Join home response: ' , response);
 
+        const {home, homeOrder} = response.data.user;
+        localStorage.setItem("home", home);
+        localStorage.setItem("homeOrder", homeOrder);
 
-
-
+        this.setState({home: home, homeOrder: homeOrder});
+        
+        return null;
+  
+      } catch (error) {
+        console.error('register error: ' , error);
+        throw error;
+      }
+    }
+  
+  
+  
+  
+  
+    
   render() {
       const { state, props: { children } } = this;
       return <UserInfoContext.Provider value={state}>{children}</UserInfoContext.Provider>;
