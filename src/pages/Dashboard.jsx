@@ -4,7 +4,6 @@ import Box from '@material-ui/core/Box'; // ! must be at the end of the material
 import Typography from '@material-ui/core/Typography';
 import { FormattedMessage } from 'react-intl.macro';
 import { injectIntl } from "react-intl";
-import { defineMessages } from 'react-intl.macro';
 import { withStyles } from '@material-ui/core/styles';
 import { withUserInfo } from '../auth/withUserInfo';
 
@@ -29,10 +28,6 @@ const styles = theme => ({
 });
 
 
-const messages = defineMessages({
- 
-
-});
 
 
 

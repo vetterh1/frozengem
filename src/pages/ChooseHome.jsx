@@ -107,7 +107,7 @@ class ChooseHome extends React.Component {
     console.log("onJoinHome ", idHome);
     const { joinHome } = this.props.userInfo;
     try {
-      const res = await joinHome(idHome);    
+      await joinHome(idHome);    
       
       this.props.enqueueSnackbar(
         this.props.intl.formatMessage(messages.success), 
