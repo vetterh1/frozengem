@@ -35,6 +35,7 @@ export class UserInfoStore extends React.Component {
       loadStateFromLocalStorage: () => this.loadStateFromLocalStorage(),
       getHome: () => this.getHome(),
       joinHome: (home) => this.joinHome(home),
+      joinNewHome: (home) => this.joinNewHome(home),
       setLanguage: (l) => this.setLanguage(l),
       login: (email, password) => this.login(email, password),
       logout: () => this.logout(),
@@ -274,6 +275,41 @@ export class UserInfoStore extends React.Component {
       try {
         const response = await axios(options);
         console.log('Join home response: ' , response);
+
+        const {home, homeOrder} = response.data.user;
+        localStorage.setItem("home", home);
+        localStorage.setItem("homeOrder", homeOrder);
+
+        this.setState({home: home, homeOrder: homeOrder});
+        
+        return null;
+  
+      } catch (error) {
+        console.error('register error: ' , error);
+        throw error;
+      }
+    }
+  
+  
+  
+  
+  
+    
+    async joinNewHome(name, label) {
+      const boUrl = config.boUrl;
+      const data = { 'access_token': this.state.accessToken, name, label };
+      const options = {
+        method: 'PUT',
+        url: `${boUrl}/users/${this.state.id}/home/new`,
+        // withCredentials : true, 
+        crossdomain : true,
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: qs.stringify(data),
+      };
+  
+      try {
+        const response = await axios(options);
+        console.log('Join new home response: ' , response);
 
         const {home, homeOrder} = response.data.user;
         localStorage.setItem("home", home);

@@ -8,7 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { FormattedMessage } from 'react-intl.macro';
 
-export default function ModalOneInput({btnLabel, btnIcon, modalTitle, modalText, inputLabel, onOk}) {
+export default function ModalOneInput({btnLabel, modalTitle, modalText, inputLabel, onOk, children}) {
   const [open, setOpen] = React.useState(false);
   const [input, setInput] = React.useState('');
 
@@ -34,6 +34,7 @@ export default function ModalOneInput({btnLabel, btnIcon, modalTitle, modalText,
   return (
     <React.Fragment>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+        {children}
         {btnLabel}
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">

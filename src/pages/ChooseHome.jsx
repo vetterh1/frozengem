@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import { Create, Add } from '@material-ui/icons'
 import { withSnackbar } from 'notistack';
 import { FormattedMessage } from 'react-intl.macro';
 import { injectIntl } from "react-intl";
@@ -24,7 +26,10 @@ const styles = theme => ({
   largeIcon: {
     width: 48,
     height: 48,
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(1),
+  },
+  leftIcon: {
+    marginRight: theme.spacing(1),
   },
 });
 
@@ -52,8 +57,8 @@ const messages = defineMessages({
   },
   newTitle: {
     id: 'home.new.title',
-    defaultMessage: 'New home',
-    description: 'New home',
+    defaultMessage: 'Create a new home',
+    description: 'Create a new home',
   },
   newShort: {
     id: 'home.new.short',
@@ -115,7 +120,7 @@ class ChooseHome extends React.Component {
       );  
 
     } catch (error) {
-      // console.error("onJoinHome error: ", JSON.stringify(error));
+      console.error("onJoinHome error: ", JSON.stringify(error));
       this.props.enqueueSnackbar(
         this.props.intl.formatMessage( error.response.status === 404 ? messages.error_not_found : messages.error), 
         {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
@@ -123,8 +128,24 @@ class ChooseHome extends React.Component {
     }
   }
 
-  onNewHome = (labelHome) => {
+  onNewHome = async (labelHome) => {
     console.log("onNewHome ", labelHome);
+    const { joinNewHome } = this.props.userInfo;
+    try {
+      await joinNewHome(labelHome, "");    
+      
+      this.props.enqueueSnackbar(
+        this.props.intl.formatMessage(messages.success), 
+        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+      );  
+
+    } catch (error) {
+      console.error("onJoinNewHome error: ", JSON.stringify(error));
+      this.props.enqueueSnackbar(
+        this.props.intl.formatMessage( messages.error), 
+        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+      ); 
+    }
   }
 
   render() {
@@ -136,34 +157,60 @@ class ChooseHome extends React.Component {
       <React.Fragment>
 
         <Box mt={5} display="flex" flexDirection="column" >
-          <Typography component="h1" variant="h2" color="primary" align="center" gutterBottom>
-            <FormattedMessage id="dashboard.title" defaultMessage="FrozenGem dashboard" />
-          </Typography>
           <Typography variant="h5" align="center" gutterBottom >
-            <FormattedMessage id="dashboard.subtitle" defaultMessage="Here is what you have in your freezer" />
+            <FormattedMessage id="app.almost_there" defaultMessage="You are almost there!" />
           </Typography>
         </Box>
 
+
         <div className={classes.layout}>
-          <ModalOneInput 
-            btnLabel={this.props.intl.formatMessage(messages.joinTitle)}
-            btnIcon="btnHome"
-            modalTitle={this.props.intl.formatMessage(messages.joinShort)}
-            modalText={this.props.intl.formatMessage(messages.joinMessage)}
-            inputLabel={this.props.intl.formatMessage(messages.joinCode)}
-            onOk={this.onJoinHome}
-          />
-          <ModalOneInput 
-            btnLabel={this.props.intl.formatMessage(messages.newTitle)}
-            btnIcon="btnHome"
-            modalTitle={this.props.intl.formatMessage(messages.newShort)}
-            modalText={this.props.intl.formatMessage(messages.newMessage)}
-            inputLabel={this.props.intl.formatMessage(messages.newLabel)}
-            onOk={this.onNewHome}
-          />
+          <Grid container spacing={6}>
+              <Grid item sm={12} md={6} container direction="column">
+                <Grid className={classes.subtitle} item>
+                  <Grid className={classes.subtitle} item >
+                    <ModalOneInput 
+                      btnLabel={this.props.intl.formatMessage(messages.joinTitle)}
+                      btnIcon="btnHome"
+                      modalTitle={this.props.intl.formatMessage(messages.joinShort)}
+                      modalText={this.props.intl.formatMessage(messages.joinMessage)}
+                      inputLabel={this.props.intl.formatMessage(messages.joinCode)}
+                      onOk={this.onJoinHome}
+                    >
+                      <Add color="primary" className={classes.leftIcon} />
+                    </ModalOneInput>                  
+                  </Grid>
+                  <Typography variant="body1" component="h2" color="primary">
+                    <FormattedMessage id="app.home.join" defaultMessage="...if someone in your home is already using FrozenGem" />
+                  </Typography>
+                </Grid>
+                <Grid className={classes.subtitle} item >
 
+                </Grid>
+              </Grid>
 
+              <Grid item sm={12} md={6}>
+                <Grid className={classes.subtitle} item>
+                  <Grid className={classes.subtitle} item >
+                    <ModalOneInput 
+                      btnLabel={this.props.intl.formatMessage(messages.newTitle)}
+                      btnIcon="btnHome"
+                      modalTitle={this.props.intl.formatMessage(messages.newShort)}
+                      modalText={this.props.intl.formatMessage(messages.newMessage)}
+                      inputLabel={this.props.intl.formatMessage(messages.newLabel)}
+                      onOk={this.onNewHome}
+                    >
+                      <Create color="primary" className={classes.leftIcon} />
+                    </ModalOneInput>   
+                  </Grid>
+                  <Typography variant="body1" component="h2" color="primary">
+                    <FormattedMessage id="app.home.new" defaultMessage="...if you are the first user in your home" />
+                  </Typography>
+                </Grid>
+              </Grid>
+                          
+          </Grid>
         </div>   
+
 
         </React.Fragment>
     );
