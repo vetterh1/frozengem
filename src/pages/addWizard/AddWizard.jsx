@@ -1,7 +1,6 @@
 import * as log from 'loglevel';
 import React from 'react';
 import PropTypes from 'prop-types';
-import UserInfo from '../../auth/UserInfo';
 import { withStyles } from '@material-ui/core/styles';
 import CategoryForm from './CategoryForm';
 import DetailsForm from './DetailsForm';
@@ -44,7 +43,7 @@ logAddWizard.debug('--> entering AddWizard.jsx');
 
 class AddWizard extends React.Component {
   static propTypes = {
-    userInfo: PropTypes.instanceOf(UserInfo).isRequired,
+    userInfo: PropTypes.object.isRequired,
   }
 
   defaultState = {

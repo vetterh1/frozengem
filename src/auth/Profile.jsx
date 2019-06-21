@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import UserInfo from './Auth';
 
 class Profile extends React.Component {
   static propTypes = {
-    userInfo: PropTypes.instanceOf(UserInfo).isRequired,
+    userInfo: PropTypes.object.isRequired,
   }
 
   componentWillMount() {

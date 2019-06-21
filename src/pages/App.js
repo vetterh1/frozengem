@@ -14,6 +14,7 @@ import BottomNav from '../navigation/BottomNav';
 import MainPageContent from './MainPageContent';
 import Dashboard from './Dashboard';
 import ChooseHome from './ChooseHome';
+import LoadingUserInfo from './LoadingUserInfo';
 import AddWizard from './addWizard/AddWizard';
 import RegisterWizard from './registerWizard/RegisterWizard';
 import LoginWizard from './loginWizard/LoginWizard';
@@ -80,7 +81,7 @@ class App extends React.Component {
       <SnackbarProvider maxSnack={3}>
         <UserInfoStore>
           <UserInfoConsumer>
-            {({ language, isAuthenticated, getHome }) => {
+            {({ language, isAuthenticated, getHome, accessToken, name }) => {
                 if(!language) return null;
                 return (
                   <IntlProvider
@@ -123,9 +124,19 @@ class App extends React.Component {
                                 exact path="/"
                                 component={props => { 
                                   if(isAuthenticated()) {
+
+                                    // Token exists, but no name --> in userinfo loading process:
+                                    if(!name) return <LoadingUserInfo /> ;
+
+                                    // User exists but has not chosen his home yet: ask him to choose!
                                     const home = getHome();
-                                    return home ?  <Dashboard {...props} /> :  <ChooseHome {...props} />;
+                                    if(!home) return <ChooseHome {...props} />;
+                                    
+                                    // Authenticated users see their dashboard:
+                                    return <Dashboard {...props} />;
+
                                   } else {
+                                    // Non logged users see generic page:
                                     return <MainPageContent {...props} />;
                                   }
                                 }}
