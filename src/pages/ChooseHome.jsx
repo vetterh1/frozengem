@@ -176,7 +176,7 @@ class ChooseHome extends React.Component {
                       inputLabel={this.props.intl.formatMessage(messages.joinCode)}
                       onOk={this.onJoinHome}
                     >
-                      <Add color="primary" className={classes.leftIcon} />
+                      <Add className={classes.leftIcon} />
                     </ModalOneInput>                  
                   </Grid>
                   <Typography variant="body1" component="h2" color="primary">
@@ -199,7 +199,7 @@ class ChooseHome extends React.Component {
                       inputLabel={this.props.intl.formatMessage(messages.newLabel)}
                       onOk={this.onNewHome}
                     >
-                      <Create color="primary" className={classes.leftIcon} />
+                      <Create className={classes.leftIcon} />
                     </ModalOneInput>   
                   </Grid>
                   <Typography variant="body1" component="h2" color="primary">

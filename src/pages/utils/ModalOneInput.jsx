@@ -33,7 +33,7 @@ export default function ModalOneInput({btnLabel, modalTitle, modalText, inputLab
 
   return (
     <React.Fragment>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button variant="contained" fullWidth color="primary" onClick={handleClickOpen}>
         {children}
         {btnLabel}
       </Button>
