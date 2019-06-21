@@ -30,9 +30,12 @@ export const UserInfoContext = React.createContext();
 
 export class UserInfoStore extends React.Component {
   state = {
+      accessToken: null,
+      name: null,
       language: "en",
       isAuthenticated: () => this.isAuthenticated(),
       loadStateFromLocalStorage: () => this.loadStateFromLocalStorage(),
+      loadFromServer: (token) => this.loadFromServer(token),
       getHome: () => this.getHome(),
       joinHome: (home) => this.joinHome(home),
       joinNewHome: (home) => this.joinNewHome(home),
@@ -64,18 +67,23 @@ export class UserInfoStore extends React.Component {
   // userInfo = null;                // User infos from server (or local storage)
   previouslyUsedLanguage = localStorage.getItem('previouslyUsedLanguage');  // Language used last time on this computer
 
-  expiresIn = 60 * 60 * 24 * 365 * 1000; // 1 year in milliseconds!
+  // expiresIn = 60 * 60 * 24 * 365 * 1000; // 1 year in milliseconds!
   // expiresIn = 60 * 1000; // 1mn in milliseconds!
 
 
 
   isAuthenticated() {
     // Check whether the current time is past the access token's expiry time
-    const expiresAt = parseInt(localStorage.getItem('expiresAt'));
-    const now = Date.now()
-    const auththenticated = now < expiresAt;
-    console.log('isAuthenticated: ', auththenticated, expiresAt, now);
-    return auththenticated;
+    // const expiresAt = parseInt(localStorage.getItem('expiresAt'));
+    // const now = Date.now()
+    // const auththenticated = now < expiresAt;
+    // console.log('isAuthenticated: ', auththenticated, expiresAt, now);
+    // return auththenticated;
+
+    // Super simple & not secure (on client side) method:
+    
+    console.log('isAuthenticated: token,result = ', this.state.accessToken, this.state.accessToken !== null);
+    return this.state.accessToken !== null;
   }
 
   getHome() {
@@ -108,12 +116,14 @@ export class UserInfoStore extends React.Component {
       // Set the time that the access token will expire at
       userInfos['expiresAt'] = JSON.stringify((this.expiresIn) + new Date().getTime());
 
-    Object.keys(userInfos).map(key => {
-        localStorage.setItem(key, userInfos[key]);
-    });
+    // Object.keys(userInfos).map(key => {
+    //     localStorage.setItem(key, userInfos[key]);
+    // });
 
-    const listUserInfos = Object.keys(userInfos).join();
-    localStorage.setItem("listUserInfos", listUserInfos);
+    // const listUserInfos = Object.keys(userInfos).join();
+    // localStorage.setItem("listUserInfos", listUserInfos);
+
+    localStorage.setItem('accessToken', userInfos.accessToken);
 
     this.setState({...userInfos});
   }
@@ -121,14 +131,18 @@ export class UserInfoStore extends React.Component {
 
   loadStateFromLocalStorage() {
 
-    if(this.state.expiresAt) return;
+    if(this.state.accessToken) return;
 
-    const listStringUserInfos = localStorage.getItem('listUserInfos');
-    if(!listStringUserInfos) return;
-    const listUserInfos = listStringUserInfos.split(',');
-    let infos = {};
-    listUserInfos.forEach((infoKey) => {infos[infoKey] = localStorage.getItem(infoKey)});
-    this.setState({...infos});
+    const accessToken = localStorage.getItem('accessToken');
+    const name = localStorage.getItem('name');
+    console.log('loadStateFromLocalStorage: accessToken, name = ', accessToken, name);
+
+    if(accessToken) {
+      if(!name) {
+        this.loadFromServer(accessToken);
+      }
+    }
+    // this.setState({accessToken, name});
   }
 
   
@@ -255,8 +269,32 @@ export class UserInfoStore extends React.Component {
     }
   
   
+
+    async loadFromServer(token) {
+      const boUrl = config.boUrl;
+      const params = { 'access_token': token };
+      const options = {
+        method: 'GET',
+        url: `${boUrl}/users/me?${qs.stringify(params)}`,
+        crossdomain : true,
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      };
   
+      try {
+        const response = await axios(options);
+        console.log('loadFromServer response: ' , response);
+        // const {id, name} = response.data;
+        this.setState({...response.data, accessToken:token});
+        
+        return null;
   
+      } catch (error) {
+        console.error('loadFromServer error: ' , error);
+        throw error;
+      }
+    }
+  
+
   
 
 
@@ -277,9 +315,6 @@ export class UserInfoStore extends React.Component {
         console.log('Join home response: ' , response);
 
         const {home, homeOrder} = response.data.user;
-        localStorage.setItem("home", home);
-        localStorage.setItem("homeOrder", homeOrder);
-
         this.setState({home: home, homeOrder: homeOrder});
         
         return null;
@@ -312,9 +347,6 @@ export class UserInfoStore extends React.Component {
         console.log('Join new home response: ' , response);
 
         const {home, homeOrder} = response.data.user;
-        localStorage.setItem("home", home);
-        localStorage.setItem("homeOrder", homeOrder);
-
         this.setState({home: home, homeOrder: homeOrder});
         
         return null;
