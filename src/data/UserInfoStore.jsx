@@ -130,7 +130,9 @@ export class UserInfoStore extends React.Component {
   
   setLanguage (l) {
       console.log('UserInfoStore.setLanguage: ', l);
-      this.setState({language: l},() => this.save())
+      this.setState({language: l});
+
+      // TODO change on SERVER !!!
   }
 
 
