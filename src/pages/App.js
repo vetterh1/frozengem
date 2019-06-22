@@ -149,7 +149,7 @@ class App extends React.Component {
                             </Switch>          
                           </Container>
 
-                          <Footer location={this.props.location} />
+                          { !isAuthenticated() && <Footer location={this.props.location} />}
                           { isAuthenticated() && <BottomNav style={stickToBottom} /> }
                         </div>
                       </Router>
