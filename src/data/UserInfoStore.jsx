@@ -171,10 +171,11 @@ export class UserInfoStore extends React.Component {
 
 
   logout() {
-      localStorage.removeItem('accessToken');
 
-      // this.setState({expiresAt: null, accessToken: null});
-      this.setState({name: null, accessToken: null});
+    // Clear everything on local storage
+    localStorage.clear();
+
+    this.setState({name: null, accessToken: null});
       
       // navigate to the home route done in <Logout> component
     }
