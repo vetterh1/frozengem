@@ -3,8 +3,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { withUserInfo } from './withUserInfo';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import { useSnackbar } from 'notistack';
+
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
@@ -15,11 +18,19 @@ const styles = {
 };
 
 
+const useStyles = makeStyles(theme => ({
+  button: {
+    margin: theme.spacing(1),
+  },
+}));
 
 
 
 
 function MenuProfile({homeCode}) {
+  const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -30,6 +41,28 @@ function MenuProfile({homeCode}) {
   function handleClose() {
     setAnchorEl(null);
   }
+
+  // function copyToClipboard(text) {
+  //   let dummy = document.createElement("input");
+  //   document.body.appendChild(dummy);
+  //   dummy.setAttribute('value', text);
+  //   dummy.select();
+  //   document.execCommand("copy");
+  //   document.body.removeChild(dummy);
+  // }
+
+  // function handleCopy() {
+  //   copyToClipboard(homeCode);
+  //   handleClose();
+  // }
+
+    function onCopy(code) {
+      enqueueSnackbar(
+        `${code} copied to clipboard`, 
+        {variant: 'info', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+      );
+    }
+
 
   return (
 
@@ -58,7 +91,17 @@ function MenuProfile({homeCode}) {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Your home code: {homeCode}</MenuItem>
+        <MenuItem onClick={handleClose}>
+          Your home code: 
+          <CopyToClipboard
+            text={homeCode}
+            onCopy={() => onCopy(homeCode)}
+          >
+            <Button variant="outlined" component="span" size="small"  className={classes.button} >
+            {homeCode}
+            </Button>
+          </CopyToClipboard>
+        </MenuItem>        
         <MenuItem component={Link} to="/logout">Logout</MenuItem>
       </Menu>
     </div>

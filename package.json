@@ -16,6 +16,7 @@
     "pusher-js": "^4.4.0",
     "qs": "^6.7.0",
     "react": "^16.8.6",
+    "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.8.6",
     "react-intl": "^2.8.0",
     "react-intl.macro": "^0.3.6",
