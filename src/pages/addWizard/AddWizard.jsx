@@ -1,7 +1,9 @@
 import * as log from 'loglevel';
 import React from 'react';
+import { Redirect } from 'react-router'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { withUserInfo } from '../../auth/withUserInfo';
 import CategoryForm from './CategoryForm';
 import DetailsForm from './DetailsForm';
 import ContainerForm from './ContainerForm';
@@ -93,15 +95,11 @@ class AddWizard extends React.Component {
     this.setState({[name]: newValues})    
   }
 
-
-  onLogin() {
-    this.props.userInfo.login();
-  }
-
   render() {
     const { classes } = this.props;
-    // const { isAuthenticated } = this.props.userInfo;
-    // if (!isAuthenticated()) return (<LoginBanner userInfo={this.props.userInfo} />);
+    const { isAuthenticated } = this.props.userInfo;
+    if (!isAuthenticated()) return <Redirect to='/' />;
+
 
     return (
           <div className={classes.divWizardPage}>
@@ -120,7 +118,7 @@ class AddWizard extends React.Component {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(AddWizard);
+export default withUserInfo(withStyles(styles, { withTheme: true })(AddWizard));
 
 
 

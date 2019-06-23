@@ -128,27 +128,42 @@ export class UserInfoStore extends React.Component {
   }
 
   
-  setLanguage (l) {
-      console.log('UserInfoStore.setLanguage: ', l);
-      this.setState({language: l});
+  async setLanguage (language) {
+      console.log('UserInfoStore.setLanguage: ', language);
 
-      // TODO change on SERVER !!!
+      // Update state:
+      this.setState({language});
+
+      // Update user on server:
+      const data = { 'access_token': this.state.accessToken, language };
+      const options = {
+        method: 'PUT',
+        url: `${config.boUrl}/users/${this.state.id}`,
+        crossdomain : true,
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: qs.stringify(data),
+      };
+  
+      try {
+        await axios(options);
+        return null;
+        } catch (error) {
+        console.error('setLanguage error: ' , error);
+      }      
   }
 
 
 
   async login(email, password) {
-      const boUrl = config.boUrl;
       const masterKey = config.masterKey;
       const data = { 'access_token': masterKey };
       const options = {
         method: 'POST',
-        url: `${boUrl}/auth`,
+        url: `${config.boUrl}/auth`,
         auth: {
           username: email,
           password: password
         },      
-        // withCredentials : true, 
         crossdomain : true,
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         data: qs.stringify(data),
@@ -185,13 +200,11 @@ export class UserInfoStore extends React.Component {
 
 
     async registerToServer(email, password, name) {
-      const boUrl = config.boUrl;
       const masterKey = config.masterKey;
       const data = { 'access_token': masterKey, email, password, name };
       const options = {
         method: 'POST',
-        url: `${boUrl}/users`,
-        // withCredentials : true, 
+        url: `${config.boUrl}/users`,
         crossdomain : true,
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         data: qs.stringify(data),
@@ -216,11 +229,10 @@ export class UserInfoStore extends React.Component {
   
 
     async loadFromServer(token) {
-      const boUrl = config.boUrl;
       const params = { 'access_token': token };
       const options = {
         method: 'GET',
-        url: `${boUrl}/users/me?${qs.stringify(params)}`,
+        url: `${config.boUrl}/users/me?${qs.stringify(params)}`,
         crossdomain : true,
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
       };
@@ -244,12 +256,10 @@ export class UserInfoStore extends React.Component {
 
 
     async joinHome(home) {
-      const boUrl = config.boUrl;
       const data = { 'access_token': this.state.accessToken, home };
       const options = {
         method: 'PUT',
-        url: `${boUrl}/users/${this.state.id}/home/join`,
-        // withCredentials : true, 
+        url: `${config.boUrl}/users/${this.state.id}/home/join`,
         crossdomain : true,
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         data: qs.stringify(data),
@@ -276,12 +286,10 @@ export class UserInfoStore extends React.Component {
   
     
     async joinNewHome(name, label) {
-      const boUrl = config.boUrl;
       const data = { 'access_token': this.state.accessToken, name, label };
       const options = {
         method: 'PUT',
-        url: `${boUrl}/users/${this.state.id}/home/new`,
-        // withCredentials : true, 
+        url: `${config.boUrl}/users/${this.state.id}/home/new`,
         crossdomain : true,
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         data: qs.stringify(data),

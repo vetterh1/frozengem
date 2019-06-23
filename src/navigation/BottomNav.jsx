@@ -47,7 +47,7 @@ const useStyles = makeStyles({
 
 function BottomNav({intl}) {
   const classes = useStyles();
-  const [value, setValue] = React.useState('recents');
+  const [value, setValue] = React.useState('list');
 
   function handleChange(event, newValue) {
     setValue(newValue);
@@ -55,10 +55,10 @@ function BottomNav({intl}) {
 
   return (
     <BottomNavigation value={value} onChange={handleChange} className={classes.root} showLabels>
-      <BottomNavigationAction label={intl.formatMessage(messages.add)} icon={<AddCircleOutlineIcon />}  component={Link} to="/add" />
-      <BottomNavigationAction label={intl.formatMessage(messages.retreive)} icon={<RemoveCircleOutlineIcon />} />
-      <BottomNavigationAction label={intl.formatMessage(messages.search)}  icon={<SearchIcon />} />
-      <BottomNavigationAction label={intl.formatMessage(messages.list)}  icon={<ViewHeadlineIcon />} />
+      <BottomNavigationAction label={intl.formatMessage(messages.list)} value="list" icon={<ViewHeadlineIcon />} component={Link} to="/" />
+      <BottomNavigationAction label={intl.formatMessage(messages.add)} value="add" icon={<AddCircleOutlineIcon />} component={Link} to="/add" />
+      <BottomNavigationAction label={intl.formatMessage(messages.retreive)} value="retreive" icon={<RemoveCircleOutlineIcon />} component={Link} to="/retreive" />
+      <BottomNavigationAction label={intl.formatMessage(messages.search)} value="search" icon={<SearchIcon />} component={Link} to="/search" />
     </BottomNavigation>
   );
 }
