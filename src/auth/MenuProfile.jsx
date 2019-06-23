@@ -34,7 +34,7 @@ const messages = defineMessages({
 
 
 
-const intMenuProfile = ({homeCode, intl}) => {
+const intMenuProfile = ({homeCode, language, setLanguage, intl}) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -95,7 +95,15 @@ const intMenuProfile = ({homeCode, intl}) => {
             {homeCode}
             </Button>
           </CopyToClipboard>
-        </MenuItem>        
+        </MenuItem>   
+
+        {language === "fr" && 
+          <MenuItem onClick={e => setLanguage("en")}>Switch to English</MenuItem>
+        }
+        {language === "en" &&
+          <MenuItem onClick={e => setLanguage("fr")}>Afficher en Français</MenuItem>
+        }        
+
         <MenuItem component={Link} to="/logout"><FormattedMessage id="menu_profile.logout" defaultMessage="Logout" /></MenuItem>
       </Menu>
     </div>

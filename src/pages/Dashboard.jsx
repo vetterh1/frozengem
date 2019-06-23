@@ -51,10 +51,10 @@ class Dashboard extends React.Component {
       <React.Fragment>
 
         <Box mt={5} display="flex" flexDirection="column" >
-          <Typography component="h1" variant="h2" color="primary" align="center" gutterBottom>
-            <FormattedMessage id="dashboard.title" defaultMessage="FrozenGem dashboard" />
+          <Typography component="h1" variant="h4" color="primary" align="center" gutterBottom>
+            <FormattedMessage id="dashboard.title" defaultMessage="Your dashboard" />
           </Typography>
-          <Typography variant="h5" align="center" gutterBottom >
+          <Typography variant="h6" align="center" gutterBottom >
             <FormattedMessage id="dashboard.subtitle" defaultMessage="Here is what you have in your freezer" />
           </Typography>
         </Box>

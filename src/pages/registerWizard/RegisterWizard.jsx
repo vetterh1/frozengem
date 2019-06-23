@@ -132,7 +132,7 @@ class RegisterWizard extends React.Component {
   render() {
     const { classes } = this.props;
     const { isAuthenticated } = this.props.userInfo;
-    if (!isAuthenticated()) return <Redirect to='/' />;
+    if (isAuthenticated()) return <Redirect to='/' />;
 
     return (
           <div className={classes.divWizardPage}>

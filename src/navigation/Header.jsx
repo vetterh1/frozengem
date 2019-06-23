@@ -52,7 +52,7 @@ class Header extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { language, setLanguage } = this.props.userInfo;
+    const { isAuthenticated, language, setLanguage } = this.props.userInfo;
     if(!language) return null;
 
     // const { classes, location } = this.props;
@@ -66,18 +66,20 @@ class Header extends React.Component {
               <FormattedMessage id="header.title" defaultMessage="FrozenGem" />
             </Typography>
           </Button>
-          <nav>
-            {language === "fr" && 
-              <Button color="secondary" onClick={e => setLanguage("en")}>
-                EN
-              </Button>
-            }
-            {language === "en" &&
-              <Button color="secondary" onClick={e => setLanguage("fr")}>
-                FR
-              </Button>
-            }
-          </nav>
+          {!isAuthenticated() &&
+            <nav>
+              {language === "fr" && 
+                <Button color="secondary" onClick={e => setLanguage("en")}>
+                  EN
+                </Button>
+              }
+              {language === "en" &&
+                <Button color="secondary" onClick={e => setLanguage("fr")}>
+                  FR
+                </Button>
+              }
+            </nav>
+          }
           <LoginInBar userInfo={this.props.userInfo} />
         </Toolbar>
       </AppBar>
