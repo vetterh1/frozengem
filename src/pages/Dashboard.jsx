@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl.macro';
 import { injectIntl } from "react-intl";
 import { withStyles } from '@material-ui/core/styles';
 import { withUserInfo } from '../auth/withUserInfo';
+import { withItems } from '../auth/withItems';
 import { ItemsTable } from './utils/ItemsTable'
 
 
@@ -39,12 +40,35 @@ class Dashboard extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {...this.defaultState};
+    this.state = {arrayItems:[]};
+  }
+
+
+
+  getItems = async () => {
+    const {items, userInfo} = this.props;
+
+    const result = await items.get(userInfo.accessToken);
+    if(!result) {
+      console.error('ItemsTable: could not retrieve items' );
+    }
+    console.log('ItemsTable data: ', result.data);
+    this.setState({arrayItems: result.data});
+  }
+
+  componentDidMount() {
+    this.getItems();
   }
 
 
   render() {
     const { classes } = this.props;
+    const { arrayItems } = this.state;
+
+    console.log('ItemsTable render: ', arrayItems);
+
+    if(arrayItems.length === 0) return null;
+
     // const { isAuthenticated } = this.props.userInfo;
     // const greyWhenNoUserInfo = isAuthenticated() ? '' : 'auth-required';
 
@@ -61,7 +85,7 @@ class Dashboard extends React.Component {
         </Box>
 
         <div className={classes.layout}>
-        <ItemsTable />
+        <ItemsTable arrayItems={arrayItems} />
         </div>          
 
       </React.Fragment>
@@ -69,4 +93,4 @@ class Dashboard extends React.Component {
   }
 }
 
-export default injectIntl(withUserInfo(withStyles(styles)(Dashboard)));
+export default injectIntl(withItems(withUserInfo(withStyles(styles)(Dashboard))));

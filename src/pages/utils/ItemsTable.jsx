@@ -1,19 +1,22 @@
 
 import React from 'react';
 import MaterialTable from 'material-table'
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
+// import { withItems } from '../../auth/withItems';
+// import { withUserInfo } from '../../auth/withUserInfo';
+
 // import { useSnackbar } from 'notistack';
 import { injectIntl } from "react-intl";
-import { defineMessages, FormattedMessage } from 'react-intl.macro';
+import { defineMessages } from 'react-intl.macro';
 
 
 
 
-const useStyles = makeStyles(theme => ({
-  button: {
-    margin: theme.spacing(1),
-  },
-}));
+// const useStyles = makeStyles(theme => ({
+//   button: {
+//     margin: theme.spacing(1),
+//   },
+// }));
 
 
 const messages = defineMessages({ 
@@ -41,9 +44,8 @@ const messages = defineMessages({
 
 
 
-const intItemsTable = ({homeCode, intl}) => {
-  const classes = useStyles();
-  // const { enqueueSnackbar } = useSnackbar();
+const intItemsTable = ({arrayItems, intl}) => {
+  console.log('ItemsTable arrayItems: ', arrayItems);
 
   return (
     <div style={{ maxWidth: '100%' }}>
@@ -54,13 +56,7 @@ const intItemsTable = ({homeCode, intl}) => {
           { title: intl.formatMessage(messages.column_name), field: 'name' },
           { title: intl.formatMessage(messages.column_code), field: 'code' },
         ]}
-        data={[
-          { category: 'T', expiration: '1/1/2020', name: null, code: 'T00' },
-          { category: 'T', expiration: '2/2/2020', name: 'Truc', code: 'T01' },
-          { category: 'T', expiration: '1/3/2020', name: 'Autre truc', code: 'T02' },
-          { category: 'V', expiration: '1/4/2020', name: 'Carottes', code: 'V00' },
-        ]}
-        // title="Demo Title"
+        data={arrayItems}
         options={{
           search: false,
           showTitle: false,
@@ -69,4 +65,5 @@ const intItemsTable = ({homeCode, intl}) => {
     </div> );
 }
 
+// export const ItemsTable = withUserInfo(withItems(injectIntl(intItemsTable)));
 export const ItemsTable = injectIntl(intItemsTable);

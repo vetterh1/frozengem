@@ -147,7 +147,7 @@ export class UserInfoStore extends React.Component {
       try {
         await axios(options);
         return null;
-        } catch (error) {
+      } catch (error) {
         console.error('setLanguage error: ' , error);
       }      
   }
