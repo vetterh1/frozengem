@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl.macro';
 import { injectIntl } from "react-intl";
 import { withStyles } from '@material-ui/core/styles';
 import { withUserInfo } from '../auth/withUserInfo';
+import { ItemsTable } from './utils/ItemsTable'
 
 
 
@@ -60,7 +61,7 @@ class Dashboard extends React.Component {
         </Box>
 
         <div className={classes.layout}>
-          ...content
+        <ItemsTable />
         </div>          
 
       </React.Fragment>

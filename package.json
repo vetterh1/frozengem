@@ -12,6 +12,7 @@
     "axios": "^0.18.1",
     "clsx": "^1.0.4",
     "formik": "^1.5.4",
+    "material-table": "^1.40.0",
     "notistack": "^0.8.6",
     "pusher-js": "^4.4.0",
     "qs": "^6.7.0",
