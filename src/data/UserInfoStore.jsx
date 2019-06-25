@@ -155,170 +155,170 @@ export class UserInfoStore extends React.Component {
 
 
   async login(email, password) {
-      const masterKey = config.masterKey;
-      const data = { 'access_token': masterKey };
-      const options = {
-        method: 'POST',
-        url: `${config.boUrl}/auth`,
-        auth: {
-          username: email,
-          password: password
-        },      
-        crossdomain : true,
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
-        data: qs.stringify(data),
-      };
-  
-      try {
-        const response = await axios(options);
-        const {user, token} = response.data;
-        console.log('login OK: ' , response, user, token);
-        this.saveStateAndSession({
-          accessToken: token,
-          ...user
-        });
-        return user.name;
-  
-      } catch (error) {
-        console.error('login error: ' , error);
-        throw error;
-      }
+    const masterKey = config.masterKey;
+    const data = { 'access_token': masterKey };
+    const options = {
+      method: 'POST',
+      url: `${config.boUrl}/auth`,
+      auth: {
+        username: email,
+        password: password
+      },      
+      crossdomain : true,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      data: qs.stringify(data),
+    };
+
+    try {
+      const response = await axios(options);
+      const {user, token} = response.data;
+      console.log('login OK: ' , response, user, token);
+      this.saveStateAndSession({
+        accessToken: token,
+        ...user
+      });
+      return user.name;
+
+    } catch (error) {
+      console.error('login error: ' , error);
+      throw error;
     }
+  }
   
 
 
-  logout() {
+logout() {
 
-    // Clear everything on local storage
-    localStorage.clear();
+  // Clear everything on local storage
+  localStorage.clear();
 
-    this.setState({name: null, accessToken: null});
-      
-      // navigate to the home route done in <Logout> component
-    }
-  
-
-
-    async registerToServer(email, password, name) {
-      const masterKey = config.masterKey;
-      const data = { 'access_token': masterKey, email, password, name };
-      const options = {
-        method: 'POST',
-        url: `${config.boUrl}/users`,
-        crossdomain : true,
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
-        data: qs.stringify(data),
-      };
-  
-      try {
-        const response = await axios(options);
-        const {user, token} = response.data;
-        console.log('register OK: ' , response, user, token);
-        this.saveStateAndSession({
-          accessToken: token,
-          ...user
-        });
-        return user.name;
-  
-      } catch (error) {
-        console.error('register error: ' , error);
-        throw error;
-      }
-    }
-  
-  
-
-    async loadFromServer(token) {
-      const params = { 'access_token': token };
-      const options = {
-        method: 'GET',
-        url: `${config.boUrl}/users/me?${qs.stringify(params)}`,
-        crossdomain : true,
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      };
-  
-      try {
-        const response = await axios(options);
-        console.log('loadFromServer response: ' , response);
-        // const {id, name} = response.data;
-        this.setState({...response.data, accessToken:token});
-        
-        return null;
-  
-      } catch (error) {
-        console.error('loadFromServer error: ' , error);
-        throw error;
-      }
-    }
-  
-
-  
-
-
-    async joinHome(home) {
-      const data = { 'access_token': this.state.accessToken, home };
-      const options = {
-        method: 'PUT',
-        url: `${config.boUrl}/users/${this.state.id}/home/join`,
-        crossdomain : true,
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
-        data: qs.stringify(data),
-      };
-  
-      try {
-        const response = await axios(options);
-        console.log('Join home response: ' , response);
-
-        const {home, homeOrder} = response.data.user;
-        this.setState({home: home, homeOrder: homeOrder});
-        
-        return null;
-  
-      } catch (error) {
-        console.error('register error: ' , error);
-        throw error;
-      }
-    }
-  
-  
-  
-  
-  
+  this.setState({name: null, accessToken: null});
     
-    async joinNewHome(name, label) {
-      const data = { 'access_token': this.state.accessToken, name, label };
-      const options = {
-        method: 'PUT',
-        url: `${config.boUrl}/users/${this.state.id}/home/new`,
-        crossdomain : true,
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
-        data: qs.stringify(data),
-      };
-  
-      try {
-        const response = await axios(options);
-        console.log('Join new home response: ' , response);
+    // navigate to the home route done in <Logout> component
+  }
 
-        const {home, homeOrder} = response.data.user;
-        this.setState({home: home, homeOrder: homeOrder});
-        
-        return null;
-  
-      } catch (error) {
-        console.error('register error: ' , error);
-        throw error;
-      }
+
+
+  async registerToServer(email, password, name) {
+    const masterKey = config.masterKey;
+    const data = { 'access_token': masterKey, email, password, name };
+    const options = {
+      method: 'POST',
+      url: `${config.boUrl}/users`,
+      crossdomain : true,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      data: qs.stringify(data),
+    };
+
+    try {
+      const response = await axios(options);
+      const {user, token} = response.data;
+      console.log('register OK: ' , response, user, token);
+      this.saveStateAndSession({
+        accessToken: token,
+        ...user
+      });
+      return user.name;
+
+    } catch (error) {
+      console.error('register error: ' , error);
+      throw error;
     }
+  }
+
+
+
+  async loadFromServer(token) {
+    const params = { 'access_token': token };
+    const options = {
+      method: 'GET',
+      url: `${config.boUrl}/users/me?${qs.stringify(params)}`,
+      crossdomain : true,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    };
+
+    try {
+      const response = await axios(options);
+      console.log('loadFromServer response: ' , response);
+      // const {id, name} = response.data;
+      this.setState({...response.data, accessToken:token});
+      
+      return null;
+
+    } catch (error) {
+      console.error('loadFromServer error: ' , error);
+      throw error;
+    }
+  }
+
+
+
+
+
+  async joinHome(home) {
+    const data = { 'access_token': this.state.accessToken, home };
+    const options = {
+      method: 'PUT',
+      url: `${config.boUrl}/users/${this.state.id}/home/join`,
+      crossdomain : true,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      data: qs.stringify(data),
+    };
+
+    try {
+      const response = await axios(options);
+      console.log('Join home response: ' , response);
+
+      const {home, homeOrder} = response.data.user;
+      this.setState({home: home, homeOrder: homeOrder});
+      
+      return null;
+
+    } catch (error) {
+      console.error('register error: ' , error);
+      throw error;
+    }
+  }
+
+
+
+
+
   
-  
+  async joinNewHome(name, label) {
+    const data = { 'access_token': this.state.accessToken, name, label };
+    const options = {
+      method: 'PUT',
+      url: `${config.boUrl}/users/${this.state.id}/home/new`,
+      crossdomain : true,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      data: qs.stringify(data),
+    };
+
+    try {
+      const response = await axios(options);
+      console.log('Join new home response: ' , response);
+
+      const {home, homeOrder} = response.data.user;
+      this.setState({home: home, homeOrder: homeOrder});
+      
+      return null;
+
+    } catch (error) {
+      console.error('register error: ' , error);
+      throw error;
+    }
+  }
+
+
   
   
   
     
   render() {
-      const { state, props: { children } } = this;
-      return <UserInfoContext.Provider value={state}>{children}</UserInfoContext.Provider>;
-    }
+    const { state, props: { children } } = this;
+    return <UserInfoContext.Provider value={state}>{children}</UserInfoContext.Provider>;
+  }
 }
 
 export const UserInfoConsumer = UserInfoContext.Consumer;

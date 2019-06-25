@@ -58,6 +58,11 @@ class Results extends React.Component {
   handleDateChange(event) { this.props.handleChange({name: 'expirationDate', value: event.target.value});  }
 
 
+  componentDidMount() {
+    console.log('Results.componentDidMount');
+  }
+
+
   render() {
     // State is NOT stored in this wizard tab, but in the parent (wizard component)
     const { classes, state } = this.props;
@@ -68,8 +73,8 @@ class Results extends React.Component {
 
         <div className={"flex-max-height flex-direction-column"}>
           <div className={"flex-normal-height flex-direction-column margin-down margin-top"}>
-            <Typography variant="h3" className={"margin-down"}>
-              B9
+            <Typography variant="h4" className={"margin-down"}>
+              {state.code}
             </Typography>
             <Typography variant="subtitle1">
               <ul>

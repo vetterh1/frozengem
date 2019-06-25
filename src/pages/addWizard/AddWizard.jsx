@@ -2,8 +2,11 @@ import * as log from 'loglevel';
 import React from 'react';
 import { Redirect } from 'react-router'
 import PropTypes from 'prop-types';
+import { injectIntl } from "react-intl";
+import { defineMessages } from 'react-intl.macro';
 import { withStyles } from '@material-ui/core/styles';
 import { withUserInfo } from '../../auth/withUserInfo';
+import { withItems } from '../../auth/withItems';
 import CategoryForm from './CategoryForm';
 import DetailsForm from './DetailsForm';
 import ContainerForm from './ContainerForm';
@@ -13,6 +16,8 @@ import FreezerForm from './FreezerForm';
 import LocationForm from './LocationForm';
 import Results from './Results';
 import StepWizard from 'react-step-wizard';
+import { withSnackbar } from 'notistack';
+
 // import stringifyOnce from '../../utils/stringifyOnce.js'
 
 const styles = theme => ({
@@ -43,10 +48,23 @@ logAddWizard.debug('--> entering AddWizard.jsx');
 
 
 
+const messages = defineMessages({ 
+  error: {
+    id: 'item.add.error',
+    defaultMessage: 'Sorry, saving this item failed. Please try again...',
+    description: 'Sorry, saving this item failed. Please try again...',
+  },
+});
+
+
+
 class AddWizard extends React.Component {
   static propTypes = {
     userInfo: PropTypes.object.isRequired,
+    items: PropTypes.object.isRequired,
   }
+
+  stepsNumber = 8;
 
   defaultState = {
     category: null,
@@ -57,7 +75,8 @@ class AddWizard extends React.Component {
     freezer: null,
     location: null,
     name: "",
-    expirationDate: "1968-12-21",
+    expirationDate: null,
+    code: null,
   };
 
   resetState = () => {
@@ -70,9 +89,11 @@ class AddWizard extends React.Component {
 
     this.handleChange = this.handleChange.bind(this)
     this.handleArrayToggle = this.handleArrayToggle.bind(this)
+    this.onStepChange = this.onStepChange.bind(this)
 
   }
 
+  
   // Set the received value in the state 
   // (replacing any existing one)
   handleChange = (change) => {
@@ -95,6 +116,31 @@ class AddWizard extends React.Component {
     this.setState({[name]: newValues})    
   }
 
+  onStepChange = async ({activeStep}) => {
+    console.log("AddWizard.onStepChange: ", activeStep);
+    if(activeStep === this.stepsNumber) {
+      console.log("AddWizard.onStepChange - Should save item ", this.state);
+
+      const { saveItemToServer } = this.props.items;
+
+
+      try {
+        const itemUpdated = await saveItemToServer(this.state, this.props.userInfo);
+        console.log('itemUpdated: ' , itemUpdated);
+        this.handleChange({name: 'code', value: itemUpdated.code})
+      } catch (error) {
+        console.error('AddWizard.onStepChange error: ' , error);
+        this.props.enqueueSnackbar(
+          this.props.intl.formatMessage(messages.error), 
+          {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+        ); 
+      }
+    }
+  }
+
+
+
+
   render() {
     const { classes } = this.props;
     const { isAuthenticated } = this.props.userInfo;
@@ -103,7 +149,13 @@ class AddWizard extends React.Component {
 
     return (
           <div className={classes.divWizardPage}>
-            <StepWizard isHashEnabled className={"flex-max-height flex-direction-column"} classNameWrapper={'flex-max-height flex-direction-column'}>
+            <StepWizard
+              isHashEnabled 
+              className={"flex-max-height flex-direction-column"} 
+              classNameWrapper={'flex-max-height flex-direction-column'}
+              onStepChange={this.onStepChange}
+            >
+              {/* !!!! update variable stepsNumber whenever this list changes !!!! */}
               <CategoryForm  hashKey={'category'} handleChange={this.handleChange} state={this.state} />
               <DetailsForm hashKey={'details'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
               <ContainerForm hashKey={'container'} handleChange={this.handleChange} state={this.state} />
@@ -112,13 +164,14 @@ class AddWizard extends React.Component {
               <FreezerForm hashKey={'freezer'} handleChange={this.handleChange} state={this.state} />
               <LocationForm hashKey={'location'} handleChange={this.handleChange} state={this.state} />
               <Results hashKey={'results'} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
-            </StepWizard>
+              {/* !!!! update variable stepsNumber whenever this list changes !!!! */}
+              </StepWizard>
           </div>
       );
   }
 }
 
-export default withUserInfo(withStyles(styles, { withTheme: true })(AddWizard));
+export default injectIntl(withSnackbar(withItems(withUserInfo(withStyles(styles, { withTheme: true })(AddWizard)))));
 
 
 
