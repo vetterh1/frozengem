@@ -65,7 +65,7 @@ export class UserInfoStore extends React.Component {
 
     // Super simple & not secure (on client side) method:
     
-    console.log('isAuthenticated: token,result = ', this.state.accessToken, this.state.accessToken !== null);
+    // console.log('isAuthenticated: token,result = ', this.state.accessToken, this.state.accessToken !== null);
     return this.state.accessToken !== null;
   }
 
