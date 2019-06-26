@@ -6,6 +6,7 @@ import { injectIntl } from "react-intl";
 import { defineMessages } from 'react-intl.macro';
 import { withStyles } from '@material-ui/core/styles';
 import { withUserInfo } from '../../auth/withUserInfo';
+import { withItemCharacteristics } from '../../auth/withItemCharacteristics';
 import { withItems } from '../../auth/withItems';
 import CategoryForm from './CategoryForm';
 import DetailsForm from './DetailsForm';
@@ -17,6 +18,7 @@ import LocationForm from './LocationForm';
 import Results from './Results';
 import StepWizard from 'react-step-wizard';
 import { withSnackbar } from 'notistack';
+import setStateAsync from '../../utils/setStateAsync';
 
 // import stringifyOnce from '../../utils/stringifyOnce.js'
 
@@ -62,6 +64,7 @@ class AddWizard extends React.Component {
   static propTypes = {
     userInfo: PropTypes.object.isRequired,
     items: PropTypes.object.isRequired,
+    itemCharacteristics: PropTypes.object.isRequired,
   }
 
   stepsNumber = 8;
@@ -76,6 +79,7 @@ class AddWizard extends React.Component {
     location: null,
     name: "",
     expirationDate: null,
+    expirationInMonth: 0,
     code: null,
   };
 
@@ -119,14 +123,23 @@ class AddWizard extends React.Component {
   onStepChange = async ({activeStep}) => {
     console.log("AddWizard.onStepChange: ", activeStep);
     if(activeStep === this.stepsNumber) {
-      console.log("AddWizard.onStepChange - Should save item ", this.state);
-
       const { saveItemToServer } = this.props.items;
+      console.log("State before setStateAsync ", this.state);
 
 
       try {
+        const {itemCharacteristics} = this.props;
+        const { category, details } = this.state;
+        const expirationInMonth = itemCharacteristics.computeExpiration(category, details);
+        const expirationDate = new Date();
+        expirationDate.setMonth(expirationDate.getMonth() + expirationInMonth);
+        console.log("Date after " + expirationInMonth + " months:", expirationDate);
+        await setStateAsync(this, {expirationDate, expirationInMonth});
+        console.log("State after setStateAsync ", this.state);
+
+
         const itemUpdated = await saveItemToServer(this.state, this.props.userInfo);
-        console.log('itemUpdated: ' , itemUpdated);
+        console.log('itemUpdated: ', itemUpdated);
         this.handleChange({name: 'code', value: itemUpdated.code})
       } catch (error) {
         console.error('AddWizard.onStepChange error: ' , error);
@@ -171,7 +184,7 @@ class AddWizard extends React.Component {
   }
 }
 
-export default injectIntl(withSnackbar(withItems(withUserInfo(withStyles(styles, { withTheme: true })(AddWizard)))));
+export default injectIntl(withSnackbar(withItems(withItemCharacteristics(withUserInfo(withStyles(styles, { withTheme: true })(AddWizard))))));
 
 
 

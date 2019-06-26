@@ -99,7 +99,7 @@ export class ItemCharacteristicsStore extends React.Component {
         },
         // load: () => this.state.dispatch({ type: ActionTypes.LOAD }),
         load: () => this.load(),
-        save: () => this.save()
+        computeExpiration: (category, details) => this.computeExpiration(category, details)
     };
 
 
@@ -154,9 +154,37 @@ export class ItemCharacteristicsStore extends React.Component {
         // console.log('ItemCharacteristicsStore: itemCharacteristics=', stringifyOnce(itemCharacteristics));
     }
 
-    save() {
-        // localStorage.setItem('ItemCharacteristics', JSON.stringify(itemCharacteristics));
+    computeExpiration(category, details) {
+        console.log('computeExpiration: category=', category, " - details=", details);
+        console.log('computeExpiration: this.state=', this.state);
+        if(!category || !details) return null;
+
+        // Get the categories. They contain the expiration information
+        const { categories } = this.state;
+
+        // Find the expiration & expiration exceptions for this category
+        const aCategory = categories.find(aCategory => aCategory.id2 === category);
+        const {expiration, expirationMinusPlus} = aCategory;
+        console.log('computeExpiration: expiration=', expiration, " - expirationMinusPlus=", expirationMinusPlus);
+
+        // Find the expiration by taking the category expiration value
+        // then + or - the exceptions
+        let expirationInMonth = parseInt(expiration);
+        details.forEach(detail => {
+        const variation = expirationMinusPlus[detail];
+        console.log('computeExpiration: variation=', variation);
+
+        if(variation) {
+            const intVariation = parseInt(variation);
+            expirationInMonth += intVariation
+            console.log('computeExpiration: intVariation=', intVariation, " - expirationInMonth=", expirationInMonth);
+        }
+        });
+
+        console.log("computeExpiration: resulting expirationInMonth=" + expirationInMonth);
+        return expirationInMonth;
     }
+
 
     render() {
         const { state, props: { children } } = this;

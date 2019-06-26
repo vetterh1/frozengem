@@ -9,7 +9,6 @@ import InputLabel from '@material-ui/core/InputLabel';import TextField from '@ma
 import Button from '@material-ui/core/Button';
 import { injectIntl } from "react-intl";
 import { defineMessages, FormattedMessage } from 'react-intl.macro';
-import { Context } from "../../data/ItemCharacteristicsStore";
 
 
 
@@ -69,37 +68,7 @@ class Results extends React.Component {
     // State is NOT stored in this wizard tab, but in the parent (wizard component)
     const { classes, state } = this.props;
 
-    if(!state.category || !state.details) return null;
-
-    // Get the categories from the context.
-    // They contain the expiration information
-    const { categories: items } = this.context;
-
-    // Find the expiration & expiration exceptions for this category
-    const item = items.find(item => item.id2 === state.category);
-    const {expiration, expirationMinusPlus} = item;
-    // console.log('Results.render: expiration=', expiration, " - expirationMinusPlus=", expirationMinusPlus);
-
-    // Find the expiration by taking the category expiration value
-    // then + or - the exceptions
-    let expirationInMonth = parseInt(expiration);
-    state.details.forEach(detail => {
-      const variation = expirationMinusPlus[detail];
-      // console.log('Results.render: variation=', variation);
-
-      if(variation) {
-        const intVariation = parseInt(variation);
-        expirationInMonth += intVariation
-        // console.log('Results.render: intVariation=', intVariation, " - expirationInMonth=", expirationInMonth);
-      }
-    });
-
-    const expirationDate = new Date();
-    expirationDate.setMonth(expirationDate.getMonth() + expirationInMonth);
-    // console.log("Date after " + expirationInMonth + " months:", expirationDate);
-
     return (
-
       <div className={"flex-max-height flex-direction-column"}>
 
         <div className={"flex-max-height flex-direction-column"}>
@@ -112,7 +81,7 @@ class Results extends React.Component {
                 <li><FormattedMessage id="add.results.explanation1" defaultMessage="Write down this code on a sticker" /></li>
                 <li><FormattedMessage id="add.results.explanation2" defaultMessage="Stick it to your container" /></li>
               </ul>
-              <FormattedMessage id="add.results.explanation3" defaultMessage="We'll send you a reminder in {expirationInMonth} months" values={{expirationInMonth}} />
+              <FormattedMessage id="add.results.explanation3" defaultMessage="We'll send you a reminder in {expirationInMonth} months" values={{expirationInMonth: state.expirationInMonth}} />
             </Typography>
           </div>
 
@@ -159,7 +128,6 @@ class Results extends React.Component {
     );
   }
 }
-Results.contextType = Context;
 
 
 export default injectIntl(withStyles(styles)(Results));
