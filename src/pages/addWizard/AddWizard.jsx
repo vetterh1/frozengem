@@ -100,9 +100,28 @@ class AddWizard extends React.Component {
   
   // Set the received value in the state 
   // (replacing any existing one)
-  handleChange = (change) => {
+  handleChange = async (change, updateServer = false) => {
     const {name, value} = change;
-    this.setState({[name]: value});
+    const update = {[name]: value};
+    this.setState(update);
+    if(updateServer) {
+      console.log("handleChange: updateServer for id=", this.state.id, ", key=", name, ", value=", value, "and userInfo=: ", this.props.userInfo);
+
+      try {
+        const { updateItemToServer } = this.props.items;
+        const itemUpdated = await updateItemToServer(this.state.id , update, this.props.userInfo);
+        console.log('itemUpdated: ', itemUpdated);
+        this.handleChange({name: 'code', value: itemUpdated.code})
+      } catch (error) {
+        console.error('AddWizard.handleChange error: ' , error);
+        this.props.enqueueSnackbar(
+          this.props.intl.formatMessage(messages.error), 
+          {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+        ); 
+      }
+
+
+    }
   }
 
   // Add the received value to the state value lists if it does not exist yet
@@ -139,8 +158,9 @@ class AddWizard extends React.Component {
 
 
         const itemUpdated = await saveItemToServer(this.state, this.props.userInfo);
-        console.log('itemUpdated: ', itemUpdated);
+        // console.log('itemUpdated: ', itemUpdated);
         this.handleChange({name: 'code', value: itemUpdated.code})
+        this.handleChange({name: 'id', value: itemUpdated.id})
       } catch (error) {
         console.error('AddWizard.onStepChange error: ' , error);
         this.props.enqueueSnackbar(

@@ -12,7 +12,7 @@
   "add.results.date.label": "Changer la date d'expiration (optionel)",
   "add.results.explanation1": "Ecrivez ce code sur un autocolant",
   "add.results.explanation2": "Collez-le sur l'emballage",
-  "add.results.explanation3": "Nous vous en reparlerons dans {month} mois",
+  "add.results.explanation3": "Nous vous en reparlerons dans {expirationInMonth} mois",
   "add.results.name.help": "Pour vous aider à se rappler de quoi il s'agit",
   "add.results.name.label": "Nom (optionel)",
   "add.size.title": "Quelle quantité congelez-vous ?",

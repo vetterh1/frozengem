@@ -22,11 +22,35 @@ export const ItemsContext = React.createContext();
 export class Items extends React.Component {
   state = {
     saveItemToServer: (item, user) => this.saveItemToServer(item, user),
+    updateItemToServer: (idItem, updates, user) => this.updateItemToServer(idItem, updates, user),
     get: (token) => this.get(token),
   };
 
 
 
+/*
+  Ex of item received:
+    category: "V"
+    code: "V0121"
+    color: ""
+    container: "B"
+    createdAt: "2019-06-27T11:52:28.031Z"
+    details: "DHOM,DRAW"
+    expirationDate: "2019-12-27T12:52:27.850Z"
+    freezer: "O"
+    id: "5d14adfc1546b6356c48a24c"
+    location: "M"
+    name: ""
+    size: 4
+    tableData: {id: 0}
+    updatedAt: "2019-06-27T11:52:28.031Z"
+    user: "5d07775232fd681dfa7a9b25"
+
+    Notes:
+    - transformed here: 
+      - detailsArray: (2) ["DHOM", "DRAW"]
+
+*/
 
   async get(token) {
     // console.log('Items.get token: ' , token);
@@ -69,7 +93,32 @@ export class Items extends React.Component {
     try {
       // console.log('saveItemToServer options: ' , options);
       const response = await axios(options);
-      // console.log('saveItemToServer OK: ' , response.data);
+      console.log('saveItemToServer OK: ' , response.data);
+      return response.data;
+    } catch (error) {
+      console.error('register error: ' , error);
+      return null;
+    }
+  }
+  
+  
+        
+  
+    
+  async updateItemToServer(idItem, updates, user) {
+    const data = { 'access_token': user.accessToken, ...updates };
+    const options = {
+      method: 'PUT',
+      url: `${config.boUrl}/items/${idItem}`,
+      crossdomain : true,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      data: qs.stringify(data),
+    };
+
+    try {
+      console.log('updateItemToServer options: ' , options);
+      const response = await axios(options);
+      console.log('updateItemToServer OK: ' , response.data);
       return response.data;
     } catch (error) {
       console.error('register error: ' , error);

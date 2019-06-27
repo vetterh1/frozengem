@@ -9,7 +9,7 @@ import InputLabel from '@material-ui/core/InputLabel';import TextField from '@ma
 import Button from '@material-ui/core/Button';
 import { injectIntl } from "react-intl";
 import { defineMessages, FormattedMessage } from 'react-intl.macro';
-
+import { DatePicker } from "@material-ui/pickers";
 
 
 
@@ -55,8 +55,14 @@ class Results extends React.Component {
   }
 
   handleAddNew() { this.props.resetState(); this.props.firstStep();}
-  handleTextChange(event) { this.props.handleChange({name: 'name', value: event.target.value});  }
-  handleDateChange(event) { this.props.handleChange({name: 'expirationDate', value: event.target.value});  }
+  
+  handleTextChange(event) {
+    this.props.handleChange({name: 'name', value: event.target.value}, true);  
+  }
+
+  handleDateChange(date) {
+    this.props.handleChange({name: 'expirationDate', value: date}, true);  
+  }
 
 
   componentDidMount() {
@@ -98,14 +104,24 @@ class Results extends React.Component {
           </FormControl>
 
           <div className={"flex-normal-height flex-direction-column huge-margin-down"}>
-              <TextField
+              <DatePicker
+                views={["year", "month"]}
+                value={state.expirationDate}
+                onChange={this.handleDateChange.bind(this)}
+                label={this.props.intl.formatMessage(messages.date)}
+                minDate={new Date()}
+                autoOk
+                clearable
+              />
+
+              {/* <TextField
                 id="date"
                 label={this.props.intl.formatMessage(messages.date)}
                 type="date"
                 defaultValue={state.expirationDate}
                 onChange={this.handleDateChange.bind(this)}
                 fullWidth
-              />
+              /> */}
           </div>
 
           <div className={"flex-max-height flex-direction-column"}>
