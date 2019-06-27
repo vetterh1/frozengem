@@ -28,18 +28,8 @@ export class Items extends React.Component {
 
 
 
-
-// data={[
-//   { category: 'T', expiration: '1/1/2020', name: null, code: 'T00' },
-//   { category: 'T', expiration: '2/2/2020', name: 'Truc', code: 'T01' },
-//   { category: 'T', expiration: '1/3/2020', name: 'Autre truc', code: 'T02' },
-//   { category: 'V', expiration: '1/4/2020', name: 'Carottes', code: 'V00' },
-// ]}
-
   async get(token) {
-    
     // console.log('Items.get token: ' , token);
-
     const params = { 'access_token': token };
     const options = {
       method: 'GET',
@@ -50,6 +40,9 @@ export class Items extends React.Component {
 
     try {
       const response = await axios(options);
+      response.data.forEach(item => {
+        item.detailsArray = item.details ? item.details.split(",") : [];
+      });
       // console.log('Items.get response: ' , response.data);
       return response;
 
@@ -64,6 +57,7 @@ export class Items extends React.Component {
   
   async saveItemToServer(item, user) {
     const data = { 'access_token': user.accessToken, ...item };
+    data.details = item.details.join();
     const options = {
       method: 'POST',
       url: `${config.boUrl}/items`,
@@ -73,6 +67,7 @@ export class Items extends React.Component {
     };
 
     try {
+      // console.log('saveItemToServer options: ' , options);
       const response = await axios(options);
       // console.log('saveItemToServer OK: ' , response.data);
       return response.data;

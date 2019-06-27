@@ -52,7 +52,7 @@ class Dashboard extends React.Component {
     if(!result) {
       console.error('ItemsTable: could not retrieve items' );
     }
-    console.log('ItemsTable data: ', result.data);
+    // console.log('ItemsTable data: ', result.data);
     this.setState({arrayItems: result.data});
   }
 
@@ -65,7 +65,7 @@ class Dashboard extends React.Component {
     const { classes } = this.props;
     const { arrayItems } = this.state;
 
-    console.log('ItemsTable render: ', arrayItems);
+    // console.log('ItemsTable render: ', arrayItems);
 
     if(arrayItems.length === 0) return null;
 
