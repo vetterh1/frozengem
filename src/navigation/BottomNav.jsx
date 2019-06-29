@@ -42,6 +42,7 @@ const useStyles = makeStyles(theme => ({
     position: '-webkit-sticky', /* Safari */  
     position: 'sticky', 
     bottom: 0,
+    zIndex: 10,
     paddingTop: theme.spacing(1),
     backgroundColor: theme.palette.primary.light,
   },

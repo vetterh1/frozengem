@@ -74,7 +74,7 @@ class Results extends React.Component {
 
   handleDateChange(expirationDate) {
     console.log('Results.handleexpirationDateChange: ', expirationDate);
-    this.setState({expirationDate});
+    this.setState({expirationDate, dirty: true});
   }
 
   
@@ -125,7 +125,7 @@ class Results extends React.Component {
             </Typography>
           </div>
 
-          <FormControl className={"flex-normal-height flex-direction-column huge-margin-down"}>
+          <FormControl className={"flex-normal-height flex-direction-column big-margin-down"}>
             <InputLabel htmlFor="name"><FormattedMessage id="add.results.name.label" defaultMessage="Name (optional)" /></InputLabel>
             <Input
               id="name"
@@ -140,7 +140,7 @@ class Results extends React.Component {
             </IconButton> */}
           </FormControl>
 
-          <div className={"flex-normal-height flex-direction-column huge-margin-down"}>
+          <div className={"flex-normal-height flex-direction-column big-margin-down"}>
             <DatePicker
               views={["year", "month"]}
               value={this.state.expirationDate}
@@ -161,14 +161,15 @@ class Results extends React.Component {
             </Button> 
           }
 
-
+{/* 
           <div className={"flex-max-height flex-direction-column"}>
             &nbsp;
-          </div>
+          </div> 
+*/}
 
         </div>
 
-        <div className={"flex-normal-height flex-direction-row flex-justifiy-between"}>
+        <div className={"flex-normal-height flex-direction-row flex-justifiy-between margin-down"}>
           <Button variant="contained" color="secondary" onClick={this.handleAddNew.bind(this)} className={classes.button}>
             <FormattedMessage id="button.addnew" defaultMessage="Add a new item" />
           </Button> 
