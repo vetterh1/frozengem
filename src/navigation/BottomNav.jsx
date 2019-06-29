@@ -36,14 +36,16 @@ const messages = defineMessages({
 
 
 /* eslint-disable no-dupe-keys */
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
     position: '-webkit-sticky', /* Safari */  
     position: 'sticky', 
     bottom: 0,
+    paddingTop: theme.spacing(1),
+    backgroundColor: theme.palette.primary.light,
   },
-});
+}));
 
 function BottomNav({intl}) {
   const classes = useStyles();

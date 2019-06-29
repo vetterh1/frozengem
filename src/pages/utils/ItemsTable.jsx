@@ -59,6 +59,7 @@ const intItemsTable = ({arrayItems, intl}) => {
         options={{
           pageSize: 10,
           search: false,
+          toolbar: false,
           showTitle: false,
           sorting: true,
         }}

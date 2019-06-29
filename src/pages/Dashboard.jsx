@@ -14,9 +14,9 @@ import { ItemsTable } from './utils/ItemsTable'
 const styles = theme => ({
   layout: {
     width: 'auto',
-    padding: `${theme.spacing(8)}px 0`,
-    marginLeft: theme.spacing(5),
-    marginRight: theme.spacing(5),
+    padding: `${theme.spacing(2)}px 0`,
+    // marginLeft: theme.spacing(1),
+    // marginRight: theme.spacing(1),
   },
   subtitle: {
     textAlign: 'center',
@@ -85,7 +85,7 @@ class Dashboard extends React.Component {
         </Box>
 
         <div className={classes.layout}>
-        <ItemsTable arrayItems={arrayItems} />
+          <ItemsTable arrayItems={arrayItems} />
         </div>          
 
       </React.Fragment>
