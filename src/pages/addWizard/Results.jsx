@@ -41,6 +41,9 @@ const styles = theme => ({
   divWizard: {
     marginTop: theme.spacing(2),
   },
+  iconButton: {
+    padding: 10,
+  },
 });
 
 
@@ -49,20 +52,50 @@ class Results extends React.Component {
   }
 
 
+  defaultState = {
+    dirty: false,
+  };
+
+  resetState = () => {
+    this.setState({...this.defaultState});
+  }
+
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {...this.defaultState, name: "", date: null};
   }
 
   handleAddNew() { this.props.resetState(); this.props.firstStep();}
   
   handleTextChange(event) {
-    this.props.handleChange({name: 'name', value: event.target.value}, true);  
+    console.log('Results.handleTextChange: ', event.target.value);
+    this.setState({name: event.target.value, dirty: true});
   }
 
-  handleDateChange(date) {
-    this.props.handleChange({name: 'expirationDate', value: date}, true);  
+  handleDateChange(expirationDate) {
+    console.log('Results.handleexpirationDateChange: ', expirationDate);
+    this.setState({expirationDate});
+  }
+
+  
+  handleSaveName() {
+    console.log('Results.handleSaveName: ', this.state.name);
+    this.props.handleChange({name: this.state.name}, true);  
+    this.resetState();
+  }
+
+  handleSaveDate() {
+    console.log('Results.handleSaveDate: ', this.state.expirationDate);
+    this.props.handleChange({expirationDate: this.state.expirationDate}, true);  
+    this.resetState();
+  }
+
+  handleUpdates () {
+    const updates = {};
+    if(this.state.name) updates.name = this.state.name;
+    if(this.state.expirationDate) updates.expirationDate = this.state.expirationDate;
+    this.props.handleChange(updates, true); 
+    this.resetState();
   }
 
 
@@ -96,34 +129,38 @@ class Results extends React.Component {
             <InputLabel htmlFor="name"><FormattedMessage id="add.results.name.label" defaultMessage="Name (optional)" /></InputLabel>
             <Input
               id="name"
-              value={state.name}
+              value={this.state.name}
               onChange={this.handleTextChange.bind(this)}
               aria-describedby="name-text"
               fullWidth
             />
             <FormHelperText id="name-text">{this.props.intl.formatMessage(messages.name)}</FormHelperText>
+            {/* <IconButton className={classes.iconButton} aria-label="Save name" onClick={this.handleSaveName.bind(this)}>
+              <CheckIcon />
+            </IconButton> */}
           </FormControl>
 
           <div className={"flex-normal-height flex-direction-column huge-margin-down"}>
-              <DatePicker
-                views={["year", "month"]}
-                value={state.expirationDate}
-                onChange={this.handleDateChange.bind(this)}
-                label={this.props.intl.formatMessage(messages.date)}
-                minDate={new Date()}
-                autoOk
-                clearable
-              />
-
-              {/* <TextField
-                id="date"
-                label={this.props.intl.formatMessage(messages.date)}
-                type="date"
-                defaultValue={state.expirationDate}
-                onChange={this.handleDateChange.bind(this)}
-                fullWidth
-              /> */}
+            <DatePicker
+              views={["year", "month"]}
+              value={this.state.expirationDate}
+              onChange={this.handleDateChange.bind(this)}
+              label={this.props.intl.formatMessage(messages.date)}
+              minDate={new Date()}
+              autoOk
+              clearable
+            />
+            {/* <IconButton className={classes.iconButton} aria-label="Save date" onClick={this.handleSaveDate.bind(this)}>
+              <CheckIcon />
+            </IconButton> */}
           </div>
+
+          { this.state.dirty && 
+            <Button variant="outlined" color="primary" onClick={this.handleUpdates.bind(this)} className={classes.button}>
+              <FormattedMessage id="action.update" defaultMessage="Update" />
+            </Button> 
+          }
+
 
           <div className={"flex-max-height flex-direction-column"}>
             &nbsp;

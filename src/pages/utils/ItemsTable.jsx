@@ -21,22 +21,22 @@ import { defineMessages } from 'react-intl.macro';
 
 const messages = defineMessages({ 
   column_category: {
-    id: 'table.column.category',
+    id: 'dashboard.category',
     defaultMessage: 'Category',
     description: 'Category',
   },
   column_expiration: {
-    id: 'table.column.expiration',
+    id: 'dashboard.expiration',
     defaultMessage: 'Expires',
     description: 'Expires',
   },
   column_name: {
-    id: 'table.column.name',
+    id: 'dashboard.name',
     defaultMessage: 'Name',
     description: 'Name',
   },
   column_code: {
-    id: 'table.column.code',
+    id: 'dashboard.code',
     defaultMessage: 'Code',
     description: 'Code',
   },
@@ -48,21 +48,22 @@ const intItemsTable = ({arrayItems, intl}) => {
   console.log('ItemsTable arrayItems: ', arrayItems);
 
   return (
-    <div style={{ maxWidth: '100%' }}>
       <MaterialTable
         columns={[
           { title: intl.formatMessage(messages.column_category), field: 'category' },
-          { title: intl.formatMessage(messages.column_expiration), field: 'expiration' },
+          { title: intl.formatMessage(messages.column_expiration), field: 'expirationDate', defaultSort: 'asc' },
           { title: intl.formatMessage(messages.column_name), field: 'name' },
           { title: intl.formatMessage(messages.column_code), field: 'code' },
         ]}
         data={arrayItems}
         options={{
+          pageSize: 10,
           search: false,
           showTitle: false,
+          sorting: true,
         }}
       />
-    </div> );
+  );
 }
 
 // export const ItemsTable = withUserInfo(withItems(injectIntl(intItemsTable)));

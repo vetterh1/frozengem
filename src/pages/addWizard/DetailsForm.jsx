@@ -18,7 +18,7 @@ class DetailsForm extends React.Component {
   }
 
   handleClick = (id) => { this.props.handleArrayToggle({name:'details', value: id}); };
-  handlePrevious = () => { this.props.handleChange({ name: 'details', value: [] }); this.props.previousStep(); };
+  handlePrevious = () => { this.props.handleChange({ details: [] }); this.props.previousStep(); };
   handleNext = () => { this.props.nextStep(); };
 
 

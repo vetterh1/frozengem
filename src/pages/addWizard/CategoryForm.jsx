@@ -19,7 +19,7 @@ class CategoryForm extends React.Component {
 
   handleClick = (id) => {
     const { handleChange, nextStep } = this.props;
-    handleChange({ name: 'category', value: id });
+    handleChange({ category: id });
     nextStep();
   };
 

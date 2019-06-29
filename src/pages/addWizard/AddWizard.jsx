@@ -100,18 +100,16 @@ class AddWizard extends React.Component {
   
   // Set the received value in the state 
   // (replacing any existing one)
-  handleChange = async (change, updateServer = false) => {
-    const {name, value} = change;
-    const update = {[name]: value};
-    this.setState(update);
+  handleChange = async (updates, updateServer = false) => {
+    this.setState(updates);
     if(updateServer) {
-      console.log("handleChange: updateServer for id=", this.state.id, ", key=", name, ", value=", value, "and userInfo=: ", this.props.userInfo);
+      console.log("handleChange: updateServer for id=", this.state.id, ", updates=", updates, "and userInfo=: ", this.props.userInfo);
 
       try {
         const { updateItemToServer } = this.props.items;
-        const itemUpdated = await updateItemToServer(this.state.id , update, this.props.userInfo);
+        const itemUpdated = await updateItemToServer(this.state.id , updates, this.props.userInfo);
         console.log('itemUpdated: ', itemUpdated);
-        this.handleChange({name: 'code', value: itemUpdated.code})
+        this.handleChange({code: itemUpdated.code})
       } catch (error) {
         console.error('AddWizard.handleChange error: ' , error);
         this.props.enqueueSnackbar(
@@ -159,8 +157,8 @@ class AddWizard extends React.Component {
 
         const itemUpdated = await saveItemToServer(this.state, this.props.userInfo);
         // console.log('itemUpdated: ', itemUpdated);
-        this.handleChange({name: 'code', value: itemUpdated.code})
-        this.handleChange({name: 'id', value: itemUpdated.id})
+        this.handleChange({code: itemUpdated.code})
+        this.handleChange({id: itemUpdated.id})
       } catch (error) {
         console.error('AddWizard.onStepChange error: ' , error);
         this.props.enqueueSnackbar(

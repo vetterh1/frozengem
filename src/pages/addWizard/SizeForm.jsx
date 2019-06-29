@@ -20,13 +20,13 @@ class SizeForm extends React.Component {
 
   handleClick = (id) => {
     const { handleChange, nextStep } = this.props;
-    handleChange({ name: 'size', value: id });
+    handleChange({ size: id });
     nextStep();
   };
 
   handlePrevious = () => {
     // Clear current value when return to previous page
-    this.props.handleChange({ name: 'size', value: undefined }); 
+    this.props.handleChange({ size: undefined }); 
 
     const { state, currentStep, goToStep, previousStep } = this.props;
 

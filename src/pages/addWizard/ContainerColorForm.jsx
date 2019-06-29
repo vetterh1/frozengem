@@ -20,11 +20,11 @@ class ContainerColorForm extends React.Component {
 
   handleClick = (id) => {
     const { handleChange, nextStep } = this.props;
-    handleChange({ name: 'color', value: id });
+    handleChange({ color: id });
     nextStep();
   };
 
-  handlePrevious = () => { this.props.handleChange({ name: 'color', value: undefined }); this.props.previousStep(); };
+  handlePrevious = () => { this.props.handleChange({ color: undefined }); this.props.previousStep(); };
 
 
   render() {

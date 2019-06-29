@@ -23,7 +23,7 @@ class ContainerForm extends React.Component {
     let { colors } = this.context;
 
     // Update the wizard with the container id
-    handleChange({ name: 'container', value: id });
+    handleChange({ container: id });
 
     // Look if this chosen container supports colors
     const containerHasColors = colors.filter(color => color.parents.find(oneParent => oneParent === id)).length > 0;
@@ -35,7 +35,7 @@ class ContainerForm extends React.Component {
     }
   };
 
-  handlePrevious = () => { this.props.handleChange({ name: 'container', value: undefined }); this.props.previousStep(); };
+  handlePrevious = () => { this.props.handleChange({ container: undefined }); this.props.previousStep(); };
 
 
 

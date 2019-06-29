@@ -18,11 +18,11 @@ class FreezerForm extends React.Component {
 
   handleClick = (id) => {
     const { handleChange, nextStep } = this.props;
-    handleChange({ name: 'freezer', value: id });
+    handleChange({ freezer: id });
     nextStep();
   };
 
-  handlePrevious = () => { this.props.handleChange({ name: 'freezer', value: undefined }); this.props.previousStep(); };
+  handlePrevious = () => { this.props.handleChange({ freezer: undefined }); this.props.previousStep(); };
 
 
   render() {

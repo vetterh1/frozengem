@@ -20,11 +20,11 @@ class LocationForm extends React.Component {
 
   handleClick = (id) => {
     const { handleChange, nextStep } = this.props;
-    handleChange({ name: 'location', value: id });
+    handleChange({ location: id });
     nextStep();
   };
 
-  handlePrevious = () => { this.props.handleChange({ name: 'location', value: undefined }); this.props.previousStep(); };
+  handlePrevious = () => { this.props.handleChange({ location: undefined }); this.props.previousStep(); };
 
 
   render() {
