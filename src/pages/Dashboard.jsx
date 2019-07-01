@@ -7,7 +7,7 @@ import { injectIntl } from "react-intl";
 import { withStyles } from '@material-ui/core/styles';
 import { withUserInfo } from '../auth/withUserInfo';
 import { withItems } from '../auth/withItems';
-import { ItemsTable } from './utils/ItemsTable'
+import { ItemsList } from './utils/ItemsList'
 
 
 
@@ -50,9 +50,9 @@ class Dashboard extends React.Component {
 
     const result = await items.get(userInfo.accessToken);
     if(!result) {
-      console.error('ItemsTable: could not retrieve items' );
+      console.error('ItemsList: could not retrieve items' );
     }
-    // console.log('ItemsTable data: ', result.data);
+    // console.log('ItemsList data: ', result.data);
     this.setState({arrayItems: result.data});
   }
 
@@ -65,7 +65,7 @@ class Dashboard extends React.Component {
     const { classes } = this.props;
     const { arrayItems } = this.state;
 
-    // console.log('ItemsTable render: ', arrayItems);
+    // console.log('ItemsList render: ', arrayItems);
 
     if(arrayItems.length === 0) return null;
 
@@ -85,7 +85,7 @@ class Dashboard extends React.Component {
         </Box>
 
         <div className={classes.layout}>
-          <ItemsTable arrayItems={arrayItems} />
+          <ItemsList arrayItems={arrayItems} />
         </div>          
 
       </React.Fragment>
