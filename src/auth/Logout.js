@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router'
-import { injectIntl } from "react-intl";
-import { defineMessages } from 'react-intl.macro';
+import { injectIntl, defineMessages } from "react-intl";
+// import { defineMessages } from 'react-intl.macro';
 import { withSnackbar } from 'notistack';
 import { withUserInfo } from './withUserInfo';
 

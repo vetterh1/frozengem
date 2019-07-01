@@ -3,8 +3,8 @@ import { Redirect } from 'react-router'
 import { withStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { injectIntl } from "react-intl";
-import { defineMessages } from 'react-intl.macro';
+import { injectIntl, defineMessages } from "react-intl";
+// import { defineMessages } from 'react-intl.macro';
 import { WizNavBar, WizPageTitle} from "../utils/WizUtilComponents";
 
 

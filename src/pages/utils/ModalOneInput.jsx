@@ -6,7 +6,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { FormattedMessage } from 'react-intl.macro';
+// import { FormattedMessage } from 'react-intl.macro';
+import { FormattedMessage } from "react-intl";
 
 export default function ModalOneInput({btnLabel, modalTitle, modalText, inputLabel, onOk, children}) {
   const [open, setOpen] = React.useState(false);

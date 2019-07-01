@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
 import Typography from '@material-ui/core/Typography';
-import { FormattedMessage } from 'react-intl.macro';
-import { injectIntl } from "react-intl";
+// import { FormattedMessage } from 'react-intl.macro';
+import { injectIntl, FormattedMessage } from "react-intl";
 import { withStyles } from '@material-ui/core/styles';
 import { withUserInfo } from '../auth/withUserInfo';
 import { withItems } from '../auth/withItems';

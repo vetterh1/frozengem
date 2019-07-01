@@ -2,8 +2,8 @@ import * as log from 'loglevel';
 import React from 'react';
 import { Redirect } from 'react-router'
 import PropTypes from 'prop-types';
-import { injectIntl } from "react-intl";
-import { defineMessages } from 'react-intl.macro';
+import { injectIntl, defineMessages } from "react-intl";
+// import { defineMessages } from 'react-intl.macro';
 import { withStyles } from '@material-ui/core/styles';
 import { withUserInfo } from '../../auth/withUserInfo';
 import { withItemCharacteristics } from '../../auth/withItemCharacteristics';

@@ -6,9 +6,8 @@ import { withUserInfo } from './withUserInfo';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { MenuProfile } from './MenuProfile';
-
-import { injectIntl } from "react-intl";
-import { FormattedMessage } from 'react-intl.macro';
+import { injectIntl, FormattedMessage } from "react-intl";
+// import { FormattedMessage } from 'react-intl.macro';
 
 const styles = {
 };

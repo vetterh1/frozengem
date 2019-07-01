@@ -3,9 +3,9 @@ import { Redirect } from 'react-router'
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { injectIntl } from "react-intl";
+import { injectIntl, defineMessages, FormattedMessage } from "react-intl";
 import Button from '@material-ui/core/Button';
-import { defineMessages, FormattedMessage } from 'react-intl.macro';
+// import { defineMessages, FormattedMessage } from 'react-intl.macro';
 import { WizPageTitle} from "../utils/WizUtilComponents";
 // import { FormHelperText } from '@material-ui/core';
 

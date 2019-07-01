@@ -6,7 +6,8 @@ import { withUserInfo } from '../auth/withUserInfo';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { FormattedMessage } from 'react-intl.macro';
+import { FormattedMessage } from "react-intl";
+// import { FormattedMessage } from 'react-intl.macro';
 import { AcUnit, AccessTime, NoteAdd } from '@material-ui/icons'
 import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
 

@@ -7,8 +7,8 @@ import { useSnackbar } from 'notistack';
 
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 
-import { injectIntl } from "react-intl";
-import { defineMessages, FormattedMessage } from 'react-intl.macro';
+import { injectIntl, defineMessages, FormattedMessage } from "react-intl";
+// import { defineMessages, FormattedMessage } from 'react-intl.macro';
 
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';

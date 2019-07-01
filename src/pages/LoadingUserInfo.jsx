@@ -2,7 +2,8 @@ import React from 'react';
 import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { FormattedMessage } from 'react-intl.macro';
+import { FormattedMessage } from "react-intl";
+// import { FormattedMessage } from 'react-intl.macro';
 
 
 

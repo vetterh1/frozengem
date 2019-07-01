@@ -1,13 +1,15 @@
 
 import React from 'react';
-import MaterialTable from 'material-table'
+import { withStyles } from '@material-ui/core/styles';
 // import { makeStyles } from '@material-ui/core/styles';
 // import { withItems } from '../../auth/withItems';
 // import { withUserInfo } from '../../auth/withUserInfo';
 
 // import { useSnackbar } from 'notistack';
-import { injectIntl } from "react-intl";
-import { defineMessages } from 'react-intl.macro';
+import { injectIntl, defineMessages } from "react-intl";
+// import { defineMessages } from 'react-intl.macro';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -45,42 +47,54 @@ const messages = defineMessages({
 });
 
 
+const styles = theme => ({
+  layout: {
+    width: 'auto',
+    padding: `${theme.spacing(2)}px 0`,
+    // marginLeft: theme.spacing(1),
+    // marginRight: theme.spacing(1),
+  },
+  subtitle: {
+    textAlign: 'center',
+    marginBottom: theme.spacing(2),
+  },
+  largeIcon: {
+    width: 48,
+    height: 48,
+    marginBottom: theme.spacing(2),
+  },
+});
 
 
 
 
-const intItemCard = ({item, intl}) => {
+
+const intItemCard = ({item, classes, intl}) => {
   console.log('ItemCard item: ', item);
 
   return (
-<Card className={classes.card}>
-<CardContent>
-  <Typography className={classes.title} color="textSecondary" gutterBottom>
-    item.category
-  </Typography>
-  <Typography variant="h5" component="h2">
-    be
-    {bull}
-    nev
-    {bull}o{bull}
-    lent
-  </Typography>
-  <Typography className={classes.pos} color="textSecondary">
-    adjective
-  </Typography>
-  <Typography variant="body2" component="p">
-    well meaning and kindly.
-    <br />
-    {'"a benevolent smile"'}
-  </Typography>
-</CardContent>
-<CardActions>
-  <Button size="small">Learn More</Button>
-</CardActions>
-</Card>
-  );
+    <Card className={classes.card}>
+    <CardContent>
+      <Typography className={classes.title} color="textSecondary" gutterBottom>
+        {item.category}
+      </Typography>
+      <Typography variant="h5" component="h2">
+        {item.name}
+      </Typography>
+      <Typography className={classes.pos} color="textSecondary">
+        {item.details}
+      </Typography>
+      <Typography variant="body2" component="p">
+        {item.code}
+      </Typography>
+    </CardContent>
+    <CardActions>
+      <Button size="small">edit</Button>
+    </CardActions>
+    </Card>
+      );
 }
-const ItemCard = injectIntl(intItemCard);
+const ItemCard = injectIntl(withStyles(styles)(intItemCard));
 
 
 
@@ -109,4 +123,4 @@ const intItemsList = ({arrayItems, intl}) => {
 }
 
 // export const ItemsList = withUserInfo(withItems(injectIntl(intItemsList)));
-export const ItemsList = injectIntl(intItemsList);
+export const ItemsList = injectIntl(withStyles(styles)(intItemsList));

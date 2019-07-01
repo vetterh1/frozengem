@@ -5,9 +5,9 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { Create, Add } from '@material-ui/icons'
 import { withSnackbar } from 'notistack';
-import { FormattedMessage } from 'react-intl.macro';
-import { injectIntl } from "react-intl";
-import { defineMessages } from 'react-intl.macro';
+// import { FormattedMessage } from 'react-intl.macro';
+import { injectIntl, defineMessages, FormattedMessage } from "react-intl";
+// import { defineMessages } from 'react-intl.macro';
 import { withStyles } from '@material-ui/core/styles';
 import { withUserInfo } from '../auth/withUserInfo';
 import ModalOneInput from './utils/ModalOneInput';
