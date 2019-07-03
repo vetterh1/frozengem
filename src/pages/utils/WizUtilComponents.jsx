@@ -10,12 +10,15 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 // import { FormattedMessage } from 'react-intl.macro';
 import { injectIntl, FormattedMessage } from "react-intl";
+import { withUserInfo } from '../../auth/withUserInfo';
 
 
-export const ItemsList = ({ items, itemInState, itemInStateIsAnArray, handleClick }) => (
+const intItemsList = ({ items, itemInState, itemInStateIsAnArray, handleClick, userInfo }) => (
   <List className={"flex-max-height flex-direction-column big-margin-down"}>
-  {items && items.map((item, index, theArray) => (
-    <React.Fragment key={`frag-${item.id2}`}>
+  {items && items.map((item, index, theArray) => {
+    const name = userInfo.language === "en" ? item.name : item.i18nName[userInfo.language.toUpperCase()]
+    const label = userInfo.language === "en" ? item.label : item.i18nLabel[userInfo.language.toUpperCase()]
+    return <React.Fragment key={`frag-${item.id2}`}>
       <ListItem 
         button 
         onClick={handleClick.bind(this, item.id2)} 
@@ -23,14 +26,17 @@ export const ItemsList = ({ items, itemInState, itemInStateIsAnArray, handleClic
         key={item.id2}
       >
         {/* <ListItemAvatar> <Avatar> {item.id2} </Avatar> </ListItemAvatar> */}
-        <ListItemText primary={item.name} secondary={item.label} />
+        {/*  */}
+        <ListItemText 
+          primary={name}
+          secondary={label} />
       </ListItem>
       {index < theArray.length-1 && <Divider />}
     </React.Fragment>
-  ))}
+  })}
   </List>
 );
-
+export const ItemsList = withUserInfo(intItemsList);
 
 const WizPageTitleInt = ({message, values, intl}) => (
   <div className={"flex-normal-height flex-direction-column margin-down"}>

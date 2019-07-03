@@ -8,6 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { withUserInfo } from '../auth/withUserInfo';
 import { withItems } from '../auth/withItems';
 import { ItemsList } from './utils/ItemsList'
+import Filters from './Filters'
 
 
 
@@ -40,7 +41,9 @@ class Dashboard extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {arrayItems:[]};
+    this.state = {arrayItems:[], arrayFilters:[]};
+
+    this.onFilterChange = this.onFilterChange.bind(this);
   }
 
 
@@ -61,16 +64,16 @@ class Dashboard extends React.Component {
   }
 
 
-  render() {
-    const { classes } = this.props;
-    const { arrayItems } = this.state;
+  onFilterChange = (arrayFilters) => {
+    this.setState({filters: arrayFilters});
+  }
 
-    // console.log('ItemsList render: ', arrayItems);
+
+  render() {
+    const { classes, userInfo } = this.props;
+    const { arrayItems, arrayFilters } = this.state;
 
     if(arrayItems.length === 0) return null;
-
-    // const { isAuthenticated } = this.props.userInfo;
-    // const greyWhenNoUserInfo = isAuthenticated() ? '' : 'auth-required';
 
     return (
       <React.Fragment>
@@ -85,7 +88,8 @@ class Dashboard extends React.Component {
         </Box>
 
         <div className={classes.layout}>
-          <ItemsList arrayItems={arrayItems} />
+          <Filters language={userInfo.language.toUpperCase()} onFilterChange={this.onFilterChange} />
+          <ItemsList arrayItems={arrayItems} arrayFilters={arrayFilters} />
         </div>          
 
       </React.Fragment>
