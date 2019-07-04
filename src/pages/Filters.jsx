@@ -17,22 +17,51 @@ const messages = defineMessages({
 
 
 
-const intFilters = ({itemCharacteristics, language, intl}) => {
-  const { categories } = itemCharacteristics;
+const intFilters = ({language, onFilterChange, itemCharacteristics, intl}) => {
+  // console.log('Filter: itemCharacteristics=', itemCharacteristics);
+  if(!itemCharacteristics.categories) return null;
+
+  const { categories, details: detailsAll } = itemCharacteristics;
+  const [filters, setFilters] = React.useState({});
+  const [details, setDetails] = React.useState([]);
+
   
-  const data = categories.map(category => {
+  const dataCategories = categories.map(category => {
     const name = language === "EN" ? category.name : category.i18nName[language]
     return {key: category.id2, label: name, selected: false}
   });
+  
+  let detailsForSelectedCategory = [];
+  if(dataCategories.length === 1)
+    detailsForSelectedCategory = detailsAll.filter(detail => detail.parents.find(oneParent => oneParent === 'all' || oneParent === dataCategories[0].id2));
+  console.log('Filter: detailsForSelectedCategory=', detailsForSelectedCategory);
 
-  const onFilterChange = (filter) => {
-    console.log('Filter: onFilterChange=', filter);
+  const dataDetails = detailsForSelectedCategory
+    .map(detail => {
+      const name = language === "EN" ? detail.name : detail.i18nName[language]
+      return {key: detail.id2, label: name, selected: false}
+    });
+
+  const onCategoryChange = (filter) => {
+    const newFilters = {...filters, category: filter, details:[]};
+    setFilters(newFilters);
+    console.log('Filter.onCategoryChange: newFilters=', newFilters, " - filter=", filter);
+    onFilterChange(newFilters);
+    // setDataDetails([]);
   };
 
+  const onDetailsChange = (filter) => {
+    console.log('Filter: onFilterChange=', filter);
+    onFilterChange(filter);
+  };
+  
 
-  console.log('Filter: categories=', categories);
+  console.log('Filter: categories=', categories, ' - details=', details);
   return (
-    <ChipsArray data={data} title="Category" multipleEnabled allEnabled onFilterChange={onFilterChange} />
+    <React.Fragment>
+      <ChipsArray data={dataCategories} title="Category" multipleEnabled={false} allEnabled={false} onFilterChange={onCategoryChange} />
+      <ChipsArray data={dataDetails} title="Details" multipleEnabled allEnabled onFilterChange={onDetailsChange} />
+    </React.Fragment>
   );
 }
 

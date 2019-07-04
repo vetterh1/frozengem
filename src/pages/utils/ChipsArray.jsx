@@ -1,8 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
-import Paper from '@material-ui/core/Paper';
+// import Paper from '@material-ui/core/Paper';
+import DoneAll from '@material-ui/icons/DoneAll';
+import DoneOutline from '@material-ui/icons/DoneOutline';
 import CheckCircle from '@material-ui/icons/CheckCircle';
+import CheckCircleOutline from '@material-ui/icons/CheckCircleOutline';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -11,6 +14,7 @@ const useStyles = makeStyles(theme => ({
     flexWrap: 'wrap',
     padding: theme.spacing(0.5),
     marginBottom: theme.spacing(2),
+    alignItems: "center",
   },
   title: {
     marginRight: theme.spacing(2),
@@ -20,6 +24,12 @@ const useStyles = makeStyles(theme => ({
   },
   divider: {
     margin: theme.spacing(1.5),
+  },
+  iconNotSelected: {
+    color: "lightgrey",
+  },  
+  iconLightColor: {
+    color: "grey",
   },
 }));
 
@@ -35,7 +45,7 @@ export default function ChipsArray({data, title, multipleEnabled, allEnabled, on
     });    
     const selected = newChips.filter(chip => chip.selected === true).map(chip => chip.key);
     setChipData(newChips);
-    onFilterChange({title: selected});
+    onFilterChange(selected);
   };
 
   const handleAll = () => {
@@ -43,7 +53,15 @@ export default function ChipsArray({data, title, multipleEnabled, allEnabled, on
       return {...chip, selected: true};
     }));
     const selected = chipData.map(chip => chip.key);
-    onFilterChange({title: selected});
+    onFilterChange(selected); 
+  };
+
+  const handleNone = () => {
+    setChipData(chips => chips.map(chip => { 
+      return {...chip, selected: false};
+    }));
+    const selected = chipData.map(chip => chip.key);
+    onFilterChange(selected);
   };
 
   return (
@@ -54,9 +72,19 @@ export default function ChipsArray({data, title, multipleEnabled, allEnabled, on
         {allEnabled &&
             <React.Fragment>
                 <Chip
+                    size="small"
                     key={title+'_all'}
                     label={'All'}
                     onClick={handleAll}
+                    icon={<DoneAll className={classes.iconLightColor} style={{ fontSize: "0.8rem" }} />}
+                    className={classes.chip}
+                />
+                <Chip
+                    size="small"
+                    key={title+'_none'}
+                    label={'None'}
+                    onClick={handleNone}
+                    icon={<DoneOutline className={classes.iconLightColor} style={{ fontSize: "0.8rem" }} />}
                     className={classes.chip}
                 />
                 <span className={classes.divider}>|</span>
@@ -66,11 +94,14 @@ export default function ChipsArray({data, title, multipleEnabled, allEnabled, on
             let icon;
 
             if (data.selected) {
-            icon = <CheckCircle />;
+                icon = <CheckCircle />;
+            } else {
+                icon = <CheckCircleOutline className={classes.iconNotSelected} />;
             }
 
             return (
             <Chip
+                size="small"
                 key={data.key}
                 icon={icon}
                 label={data.label}

@@ -41,7 +41,7 @@ class Dashboard extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {arrayItems:[], arrayFilters:[]};
+    this.state = {arrayItems:[], arrayFilters:[], filteredArrayItems:[]};
 
     this.onFilterChange = this.onFilterChange.bind(this);
   }
@@ -65,15 +65,19 @@ class Dashboard extends React.Component {
 
 
   onFilterChange = (arrayFilters) => {
-    this.setState({filters: arrayFilters});
+    const { arrayItems } = this.state;
+    const filteredArrayItems = arrayItems
+      .filter(item => arrayFilters.category.indexOf(item.category)!== -1)
+
+    this.setState({filters: arrayFilters, filteredArrayItems: filteredArrayItems});
   }
 
 
   render() {
     const { classes, userInfo } = this.props;
-    const { arrayItems, arrayFilters } = this.state;
+    const { filteredArrayItems } = this.state;
 
-    if(arrayItems.length === 0) return null;
+    // if(!filteredArrayItems || filteredArrayItems.length === 0) return null;
 
     return (
       <React.Fragment>
@@ -89,7 +93,7 @@ class Dashboard extends React.Component {
 
         <div className={classes.layout}>
           <Filters language={userInfo.language.toUpperCase()} onFilterChange={this.onFilterChange} />
-          <ItemsList arrayItems={arrayItems} arrayFilters={arrayFilters} />
+          <ItemsList arrayItems={filteredArrayItems} />
         </div>          
 
       </React.Fragment>

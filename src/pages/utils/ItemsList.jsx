@@ -1,13 +1,7 @@
 
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-// import { makeStyles } from '@material-ui/core/styles';
-// import { withItems } from '../../auth/withItems';
-// import { withUserInfo } from '../../auth/withUserInfo';
-
-// import { useSnackbar } from 'notistack';
 import { injectIntl, defineMessages } from "react-intl";
-// import { defineMessages } from 'react-intl.macro';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
@@ -70,7 +64,7 @@ const styles = theme => ({
 
 
 const intItemCard = ({item, classes, intl}) => {
-  console.log('ItemCard item: ', item);
+  // console.log('ItemCard item: ', item);
 
   return (
     <Card className={classes.card}>
@@ -103,24 +97,7 @@ const intItemsList = ({arrayItems, intl}) => {
 
   return (
     arrayItems.map(item => <ItemCard item={item} /> )
-      // <MaterialTable
-      //   columns={[
-      //     { title: intl.formatMessage(messages.column_category), field: 'category' },
-      //     { title: intl.formatMessage(messages.column_expiration), field: 'expirationDate', defaultSort: 'asc' },
-      //     { title: intl.formatMessage(messages.column_name), field: 'name' },
-      //     { title: intl.formatMessage(messages.column_code), field: 'code' },
-      //   ]}
-      //   data={arrayItems}
-      //   options={{
-      //     pageSize: 10,
-      //     search: false,
-      //     toolbar: false,
-      //     showTitle: false,
-      //     sorting: true,
-      //   }}
-      // />
   );
 }
 
-// export const ItemsList = withUserInfo(withItems(injectIntl(intItemsList)));
 export const ItemsList = injectIntl(withStyles(styles)(intItemsList));
