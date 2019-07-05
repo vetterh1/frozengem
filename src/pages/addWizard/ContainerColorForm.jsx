@@ -30,14 +30,14 @@ class ContainerColorForm extends React.Component {
 
   render() {
     // State is NOT stored in this wizard tab, but in the parent (wizard component)
-    const { state } = this.props;
+    const { state, language } = this.props;
     const parentId = state.container;
     // Get the colors to display from the context
     // and the (possibly) already selected color from the props.state (state from parent)
     let { colors, containers } = this.context;
     const { color: itemInState } = this.props.state;    
     const items = !colors || !parentId ? [] : colors.filter(color => color.parents.find(oneParent => oneParent === parentId));
-    const parentName = !containers || !parentId  ? "item" : containers.find(container => container.id2 === parentId).name;
+    const parentName = !containers || !parentId  ? "item" : containers.find(container => container.id2 === parentId).name[language];
     return (
       <div className={"flex-max-height flex-direction-column"}>
         <WizPageTitle message={messages.title} values={{container: parentName.toLowerCase()}} />

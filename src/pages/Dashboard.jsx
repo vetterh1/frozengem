@@ -51,7 +51,7 @@ class Dashboard extends React.Component {
   getItems = async () => {
     const {items, userInfo} = this.props;
 
-    const result = await items.get(userInfo.accessToken);
+    const result = await items.get(userInfo.accessToken, userInfo.id);
     if(!result) {
       console.error('ItemsList: could not retrieve items' );
     }
@@ -92,7 +92,7 @@ class Dashboard extends React.Component {
         </Box>
 
         <div className={classes.layout}>
-          <Filters language={userInfo.language.toUpperCase()} onFilterChange={this.onFilterChange} />
+          <Filters language={userInfo.language} onFilterChange={this.onFilterChange} />
           <ItemsList arrayItems={filteredArrayItems} />
         </div>          
 

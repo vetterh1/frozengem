@@ -43,7 +43,6 @@ class NameForm extends React.Component {
     this.minLength = 4;
     this.handleTextChange = this.handleTextChange.bind(this)
     this.handleNext = this.handleNext.bind(this)
-    this.handlePrevious = this.handlePrevious.bind(this)
   }
 
 
@@ -59,8 +58,6 @@ class NameForm extends React.Component {
     if(longEnough !== newLengthTest)
       this.setState({longEnough: newLengthTest});
   }
-
-  handlePrevious = () => { this.props.handleChange({ name: 'name', value: "" }); this.props.previousStep(); };
 
   handleNext = (e) => {
     //e.preventDefault should always be the first thing in the function
@@ -100,7 +97,7 @@ class NameForm extends React.Component {
      
           </div>
 
-          <WizNavBar nextIsSubmit isNextDisabled={!longEnough} onClickPrevious={this.handlePrevious} />
+          <WizNavBar nextIsSubmit isNextDisabled={!longEnough} />
         </form>
 
       </div>

@@ -6,7 +6,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { injectIntl, defineMessages, FormattedMessage } from "react-intl";
 import Button from '@material-ui/core/Button';
 // import { defineMessages, FormattedMessage } from 'react-intl.macro';
-import { WizPageTitle} from "../utils/WizUtilComponents";
+import { WizNavBar, WizPageTitle} from "../utils/WizUtilComponents";
 // import { FormHelperText } from '@material-ui/core';
 
 
@@ -97,6 +97,7 @@ class NameForm extends React.Component {
   }
 
 
+  handlePrevious = () => { this.props.previousStep(); };
 
   onClickRegister = () => { this.props.onClickRegister(); };
 
@@ -130,11 +131,13 @@ class NameForm extends React.Component {
             &nbsp;
         </div>
 
-        <div className={"flex-normal-height flex-direction-row flex-justifiy-between"}>
+        <WizNavBar onClickPrevious={this.handlePrevious.bind(this)} />
+
+        {/* <div className={"flex-normal-height flex-direction-row flex-justifiy-between"}>
           <Button variant="contained" color="primary" component={Link} to="/" className={classes.button}>
             <FormattedMessage id="button.backhome" defaultMessage="Back Home" />
           </Button>   
-        </div>
+        </div> */}
 
       </div>
 

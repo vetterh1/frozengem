@@ -16,8 +16,8 @@ import { withUserInfo } from '../../auth/withUserInfo';
 const intItemsList = ({ items, itemInState, itemInStateIsAnArray, handleClick, userInfo }) => (
   <List className={"flex-max-height flex-direction-column big-margin-down"}>
   {items && items.map((item, index, theArray) => {
-    const name = userInfo.language === "en" ? item.name : item.i18nName[userInfo.language.toUpperCase()]
-    const label = userInfo.language === "en" ? item.label : item.i18nLabel[userInfo.language.toUpperCase()]
+    const name = item.name[userInfo.language]
+    const label = item.label[userInfo.language]
     return <React.Fragment key={`frag-${item.id2}`}>
       <ListItem 
         button 
@@ -25,8 +25,6 @@ const intItemsList = ({ items, itemInState, itemInStateIsAnArray, handleClick, u
         selected={itemInStateIsAnArray ? itemInState.find(detail => detail === item.id2) !== undefined : itemInState === item.id2} 
         key={item.id2}
       >
-        {/* <ListItemAvatar> <Avatar> {item.id2} </Avatar> </ListItemAvatar> */}
-        {/*  */}
         <ListItemText 
           primary={name}
           secondary={label} />
@@ -71,6 +69,7 @@ export const NextButton = ({onClick, isDisabled}) => (
 export const WizNavBar = ({onClickPrevious, onClickNext, isNextDisabled, nextIsSubmit}) => (
   <div className={"flex-normal-height flex-direction-row flex-justifiy-between margin-down"}>
     {onClickPrevious && <PreviousButton onClick={onClickPrevious}/>}
+    {!onClickPrevious && <span>&nbsp;</span>}
     {(onClickNext && !nextIsSubmit) && <NextButton onClick={onClickNext} isDisabled={isNextDisabled}/>}
     {(!onClickNext && nextIsSubmit) && <NextButton isDisabled={isNextDisabled}/>}
   </div>

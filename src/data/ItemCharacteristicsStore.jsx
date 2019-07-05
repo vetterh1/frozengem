@@ -15,91 +15,77 @@ logItemCharacteristicsStore.debug('--> entering ItemCharacteristicsStore.jsx');
 // (!) Should arrive localized from server (!)
 
 const defaultCharacteristics = {
-    version: 19,    
+    version: 23,    
     categories: [
-      {name: 'Bread', i18nName: {FR: 'Pain'}, label: '', i18nLabel: {FR: ''}, id2: 'B', expiration: '1', expirationMinusPlus:{} },
-      {name: 'Vegetables', i18nName: {FR: 'Légumes'}, label: '', i18nLabel: {FR: ''}, id2: 'V', expiration: '12', expirationMinusPlus:{DRAW: '-6'}},
-      {name: 'Fruits', i18nName: {FR: 'Fruits'}, label: '', i18nLabel: {FR: ''}, id2: 'F', expiration: '12', expirationMinusPlus:{DRAW: '-6'}},
-      {name: 'Soup', i18nName: {FR: 'Soupe'}, label: '', i18nLabel: {FR: ''}, id2: 'S', expiration: '3', expirationMinusPlus:{}},
-      {name: 'Dish', i18nName: {FR: 'Plat'}, label: '', i18nLabel: {FR: ''}, id2: 'P', expiration: '3', expirationMinusPlus:{}},
-      {name: 'Meat', i18nName: {FR: 'Viande'}, label: '', i18nLabel: {FR: ''}, id2: 'M', expiration: '1', expirationMinusPlus:{DCOO: '+3', DPOU: '+2', DPOR: '+2', DBEE: '+4'}},
-      {name: 'Fish', i18nName: {FR: 'Poisson'}, label: '', i18nLabel: {FR: ''}, id2: 'H', expiration: '2', expirationMinusPlus:{}},
-      {name: 'Desert', i18nName: {FR: 'Dessert'}, label: '', i18nLabel: {FR: ''}, id2: 'D', expiration: '2', expirationMinusPlus:{}},
-      {name: 'Ice cream', i18nName: {FR: 'Glace'}, label: '', i18nLabel: {FR: ''}, id2: 'I', expiration: '4', expirationMinusPlus:{}},
+      {name: {en: 'Bread', fr: 'Pain'}, label: {en: '', fr: ''}, id2: 'B', expiration: '1', expirationMinusPlus:{} },
+      {name: {en: 'Vegetables', fr: 'Légumes'}, label: {en: '', fr: ''}, id2: 'V', expiration: '12', expirationMinusPlus:{DRAW: '-6'}},
+      {name: {en: 'Fruits', fr: 'Fruits'}, label: {en: '', fr: ''}, id2: 'F', expiration: '12', expirationMinusPlus:{DRAW: '-6'}},
+      {name: {en: 'Soup', fr: 'Soupe'}, label: {en: '', fr: ''}, id2: 'S', expiration: '3', expirationMinusPlus:{}},
+      {name: {en: 'Dish', fr: 'Plat'}, label: {en: '', fr: ''}, id2: 'P', expiration: '3', expirationMinusPlus:{}},
+      {name: {en: 'Meat', fr: 'Viande'}, label: {en: '', fr: ''}, id2: 'M', expiration: '1', expirationMinusPlus:{DCOO: '+3', DPOU: '+2', DPOR: '+2', DBEE: '+4'}},
+      {name: {en: 'Fish', fr: 'Poisson'}, label: {en: '', fr: ''}, id2: 'H', expiration: '2', expirationMinusPlus:{}},
+      {name: {en: 'Desert', fr: 'Dessert'}, label: {en: '', fr: ''}, id2: 'D', expiration: '2', expirationMinusPlus:{}},
+      {name: {en: 'Ice cream', fr: 'Glace'}, label: {en: '', fr: ''}, id2: 'I', expiration: '4', expirationMinusPlus:{}},
     ],
     details:[
-      {name: 'Homemade', i18nName: {FR: 'Fait maison'}, label: '', i18nLabel: {FR: ''}, id2: 'DHOM', parents:['all'] },
-      {name: 'Cooked', i18nName: {FR: 'Cuit'}, label: '', i18nLabel: {FR: ''}, id2: 'DCOO', parents:['V', 'S', 'M', 'P', 'H', 'F'] },
-      {name: 'Raw', i18nName: {FR: 'Cru'}, label: '', i18nLabel: {FR: ''}, id2: 'DRAW', parents:['V', 'S', 'M', 'P', 'H', 'F'] },
-      {name: 'White', i18nName: {FR: 'Blanc'}, label: '', i18nLabel: {FR: ''}, id2: 'DWHI', parents:['B'] },
-      {name: 'Grey', i18nName: {FR: 'Gris'}, label: '', i18nLabel: {FR: ''}, id2: 'DGRE', parents:['B']},
-      {name: 'Cereal', i18nName: {FR: 'Céréales'}, label: '', i18nLabel: {FR: ''}, id2: 'DCER', parents:['B']},
-      {name: 'Cake', i18nName: {FR: 'Gateau'}, label: '', i18nLabel: {FR: ''}, id2: 'DCAK', parents:['D']},
-      {name: 'Pie', i18nName: {FR: 'Tarte'}, label: '', i18nLabel: {FR: ''}, id2: 'DPIE', parents:['D']},
-      {name: 'Vanilla', i18nName: {FR: 'Vanille'}, label: '', i18nLabel: {FR: ''}, id2: 'DVAN', parents:['D', 'I']},
-      {name: 'Strawberry', i18nName: {FR: 'Fraise'}, label: '', i18nLabel: {FR: ''}, id2: 'DSTR', parents:['D', 'I']},
-      {name: 'Chocolate', i18nName: {FR: 'Chocolat'}, label: '', i18nLabel: {FR: ''}, id2: 'DCHO', parents:['D', 'I']},
-      {name: 'Poultry', i18nName: {FR: 'Volaille'}, label: '', i18nLabel: {FR: ''}, id2: 'DPOU', parents:['S', 'M', 'P']},
-      {name: 'Beef', i18nName: {FR: 'Beuf'}, label: '', i18nLabel: {FR: ''}, id2: 'DBEE', parents:['S', 'M', 'P']},
-      {name: 'Pork', i18nName: {FR: 'Porc'}, label: '', i18nLabel: {FR: ''}, id2: 'DPOR', parents:['S', 'M', 'P']},
-      {name: 'Veal', i18nName: {FR: 'Veau'}, label: '', i18nLabel: {FR: ''}, id2: 'DVEA', parents:['M', 'P']},
-      {name: 'Fish', i18nName: {FR: 'Poisson'}, label: '', i18nLabel: {FR: ''}, id2: 'DFIS', parents:['S', 'P']},
-      {name: 'Vegetarian', i18nName: {FR: 'Végétarien'}, label: '', i18nLabel: {FR: ''}, id2: 'DVEG', parents:['S', 'P']},
+      {name: {en: 'Homemade', fr: 'Fait maison'}, label: {en: '', fr: ''}, id2: 'DHOM', parents:['all'] },
+      {name: {en: 'Cooked', fr: 'Cuit'}, label: {en: '', fr: ''}, id2: 'DCOO', parents:['V', 'S', 'M', 'P', 'H', 'F'] },
+      {name: {en: 'Raw', fr: 'Cru'}, label: {en: '', fr: ''}, id2: 'DRAW', parents:['V', 'S', 'M', 'P', 'H', 'F'] },
+      {name: {en: 'White', fr: 'Blanc'}, label: {en: '', fr: ''}, id2: 'DWHI', parents:['B'] },
+      {name: {en: 'Grey', fr: 'Gris'}, label: {en: '', fr: ''}, id2: 'DGRE', parents:['B']},
+      {name: {en: 'Cereal', fr: 'Céréales'}, label: {en: '', fr: ''}, id2: 'DCER', parents:['B']},
+      {name: {en: 'Cake', fr: 'Gateau'}, label: {en: '', fr: ''}, id2: 'DCAK', parents:['D']},
+      {name: {en: 'Pie', fr: 'Tarte'}, label: {en: '', fr: ''}, id2: 'DPIE', parents:['D']},
+      {name: {en: 'Vanilla', fr: 'Vanille'}, label: {en: '', fr: ''}, id2: 'DVAN', parents:['D', 'I']},
+      {name: {en: 'Strawberry', fr: 'Fraise'}, label: {en: '', fr: ''}, id2: 'DSTR', parents:['D', 'I']},
+      {name: {en: 'Chocolate', fr: 'Chocolat'}, label: {en: '', fr: ''}, id2: 'DCHO', parents:['D', 'I']},
+      {name: {en: 'Poultry', fr: 'Volaille'}, label: {en: '', fr: ''}, id2: 'DPOU', parents:['S', 'M', 'P']},
+      {name: {en: 'Beef', fr: 'Beuf'}, label: {en: '', fr: ''}, id2: 'DBEE', parents:['S', 'M', 'P']},
+      {name: {en: 'Pork', fr: 'Porc'}, label: {en: '', fr: ''}, id2: 'DPOR', parents:['S', 'M', 'P']},
+      {name: {en: 'Veal', fr: 'Veau'}, label: {en: '', fr: ''}, id2: 'DVEA', parents:['M', 'P']},
+      {name: {en: 'Fish', fr: 'Poisson'}, label: {en: '', fr: ''}, id2: 'DFIS', parents:['S', 'P']},
+      {name: {en: 'Vegetarian', fr: 'Végétarien'}, label: {en: '', fr: ''}, id2: 'DVEG', parents:['S', 'P']},
     ],
     containers:[
-        {name: 'Plastic box', i18nName: {FR: 'Boîte en plastique'}, label: 'ex: Tupperware', i18nLabel: {FR: 'ex: Tupperware'}, id2: 'P'},
-        {name: 'Aluminium box', i18nName: {FR: 'Boîte en aluminium'}, label: 'ex: Doggy box', i18nLabel: {FR: 'ex: Boîte de restaurant'}, id2: 'A'},
-        {name: 'Plastic bag', i18nName: {FR: 'Sac de congélation'}, label: 'ex: Ziplog', i18nLabel: {FR: 'ex: Ziplog'}, id2: 'B'},
-        {name: 'Aluminium foil', i18nName: {FR: 'Papier Aluminium'}, label: '', i18nLabel: {FR: ''}, id2: 'F'},
+        {name: {en: 'Plastic box', fr: 'Boîte en plastique'}, label: {en: 'ex: Tupperware', fr: 'ex: Tupperware'}, id2: 'P'},
+        {name: {en: 'Aluminium box', fr: 'Boîte en aluminium'}, label: {en: 'ex: Doggy box', fr: 'ex: Boîte de restaurant'}, id2: 'A'},
+        {name: {en: 'Plastic bag', fr: 'Sac de congélation'}, label: {en: 'ex: Ziplog', fr: 'ex: Ziplog'}, id2: 'B'},
+        {name: {en: 'Aluminium foil', fr: 'Papier Aluminium'}, label: {en: '', fr: ''}, id2: 'F'},
     ],  
     colors:[
-        {name: 'Transparent', i18nName: {FR: 'Transparent'}, label: '', i18nLabel: {FR: ''}, id2: 'T', parents:['P'] },
-        {name: 'White', i18nName: {FR: 'Blanc'}, label: '', i18nLabel: {FR: ''}, id2: 'W', parents:['P']},
-        {name: 'Blue', i18nName: {FR: 'Bleu'}, label: '', i18nLabel: {FR: ''}, id2: 'B', parents:['P']},
-        {name: 'Green', i18nName: {FR: 'Vert'}, label: '', i18nLabel: {FR: ''}, id2: 'G', parents:['P']},
-        {name: 'Red', i18nName: {FR: 'Rouge'}, label: '', i18nLabel: {FR: ''}, id2: 'R', parents:['P']},
-        {name: 'Other', i18nName: {FR: 'Autre'}, label: '', i18nLabel: {FR: ''}, id2: 'O', parents:['P']},
+        {name: {en: 'Transparent', fr: 'Transparent'}, label: {en: '', fr: ''}, id2: 'T', parents:['P'] },
+        {name: {en: 'White', fr: 'Blanc'}, label: {en: '', fr: ''}, id2: 'W', parents:['P']},
+        {name: {en: 'Blue', fr: 'Bleu'}, label: {en: '', fr: ''}, id2: 'B', parents:['P']},
+        {name: {en: 'Green', fr: 'Vert'}, label: {en: '', fr: ''}, id2: 'G', parents:['P']},
+        {name: {en: 'Red', fr: 'Rouge'}, label: {en: '', fr: ''}, id2: 'R', parents:['P']},
+        {name: {en: 'Other', fr: 'Autre'}, label: {en: '', fr: ''}, id2: 'O', parents:['P']},
     ],
     sizes:[
-        {name: '1', i18nName: {FR: '1'}, label: '1 serving', i18nLabel: {FR: '1 portion'}, id2: '1'},
-        {name: '2+', i18nName: {FR: '2+'}, label: '2 to 3 servings', i18nLabel: {FR: '2 à 3 portions'}, id2: '2'},
-        {name: '4+', i18nName: {FR: '4+'}, label: '4 to 5 servings', i18nLabel: {FR: '4 à 5 portions'}, id2: '4'},
-        {name: '6+', i18nName: {FR: '6+'}, label: '6 or more servings', i18nLabel: {FR: '6 portions ou plus'}, id2: '6'},
+        {name: {en: '1', fr: '1'}, label: {en: '1 serving', fr: '1 portion'}, id2: '1'},
+        {name: {en: '+2', fr: '2+'}, label: {en: '2 to 3 servings', fr: '2 à 3 portions'}, id2: '2'},
+        {name: {en: '+4', fr: '4+'}, label: {en: '4 to 5 servings', fr: '4 à 5 portions'}, id2: '4'},
+        {name: {en: '+6', fr: '6+'}, label: {en: '6 or more servings', fr: '6 portions ou plus'}, id2: '6'},
     ],  
     freezers:[
-        {name: 'Kitchen', i18nName: {FR: 'Cuisine'}, label: 'Kitchen freezer', i18nLabel: {FR: 'Congélateur dans la cuisine'}, id2: 'K'},
-        {name: 'Basement', i18nName: {FR: 'Cave'}, label: 'Basement freezer', i18nLabel: {FR: 'Congélateur à la cave'}, id2: 'B'},
-        {name: 'Other', i18nName: {FR: 'Autre'}, label: 'Other location freezer', i18nLabel: {FR: 'Congélateur à un autre endroit'}, id2: 'O'},
+        {name: {en: 'Kitchen', fr: 'Cuisine'}, label: {en: 'Kitchen freezer', fr: 'Congélateur dans la cuisine'}, id2: 'K'},
+        {name: {en: 'Basement', fr: 'Cave'}, label: {en: 'Basement freezer', fr: 'Congélateur à la cave'}, id2: 'B'},
+        {name: {en: 'Other', fr: 'Autre'}, label: {en: 'Other freezer location', fr: 'Congélateur à un autre endroit'}, id2: 'O'},
     ],
     locations:[
-        {name: 'Top', i18nName: {FR: 'Haut'}, label: 'Higher section', i18nLabel: {FR: 'Partie supérieure'}, id2: 'T'},
-        {name: 'Middle', i18nName: {FR: 'Milieu'}, label: 'Middle section', i18nLabel: {FR: 'Partie centrale'}, id2: 'M'},
-        {name: 'Bottom', i18nName: {FR: 'Bas'}, label: 'Lower section', i18nLabel: {FR: 'Partie inférieure'}, id2: 'B'},
+        {name: {en: 'Top', fr: 'Haut'}, label: {en: 'Higher section', fr: 'Partie supérieure'}, id2: 'T'},
+        {name: {en: 'Middle', fr: 'Milieu'}, label: {en: 'Middle section', fr: 'Partie centrale'}, id2: 'M'},
+        {name: {en: 'Bottom', fr: 'Bas'}, label: {en: 'Lower section', fr: 'Partie inférieure'}, id2: 'B'},
     ]
 };
 
 export const Context = React.createContext();
 
-export const ActionTypes = {
-    // LOAD: "LOAD"
-  };
-  
-
-const reducer = (state, action) => {
-    // if (action.type === ActionTypes.LOAD) {
-    //   return { ...state, ...defaultCharacteristics };
-    // }
-};
-
 
 export class ItemCharacteristicsStore extends React.Component {
     state = {
-        dispatch: action => {
-          this.setState(state => reducer(state, action));
-        },
-        // load: () => this.state.dispatch({ type: ActionTypes.LOAD }),
+        itemCharacteristics: null,
         load: () => this.load(),
-        computeExpiration: (category, details) => this.computeExpiration(category, details)
+        computeExpiration: (category, details) => this.computeExpiration(category, details),
     };
 
 
@@ -141,6 +127,7 @@ export class ItemCharacteristicsStore extends React.Component {
         if(!rawFromCache || !itemCharacteristics || itemCharacteristics.version < defaultCharacteristics.version) {
             // if no local storage: use default values
             itemCharacteristics = {...defaultCharacteristics};
+
             // and save them in local storage for next time
             needLocalSave = true;
         }
@@ -184,6 +171,7 @@ export class ItemCharacteristicsStore extends React.Component {
         console.log("computeExpiration: resulting expirationInMonth=" + expirationInMonth);
         return expirationInMonth;
     }
+
 
 
     render() {

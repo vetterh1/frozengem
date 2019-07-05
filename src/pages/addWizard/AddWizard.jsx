@@ -174,7 +174,7 @@ class AddWizard extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { isAuthenticated } = this.props.userInfo;
+    const { isAuthenticated, language } = this.props.userInfo;
     if (!isAuthenticated()) return <Redirect to='/' />;
 
 
@@ -187,14 +187,14 @@ class AddWizard extends React.Component {
               onStepChange={this.onStepChange}
             >
               {/* !!!! update variable stepsNumber whenever this list changes !!!! */}
-              <CategoryForm  hashKey={'category'} handleChange={this.handleChange} state={this.state} />
-              <DetailsForm hashKey={'details'} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
-              <ContainerForm hashKey={'container'} handleChange={this.handleChange} state={this.state} />
-              <ContainerColorForm hashKey={'color'} handleChange={this.handleChange} state={this.state} />
-              <SizeForm hashKey={'size'} handleChange={this.handleChange} state={this.state} />
-              <FreezerForm hashKey={'freezer'} handleChange={this.handleChange} state={this.state} />
-              <LocationForm hashKey={'location'} handleChange={this.handleChange} state={this.state} />
-              <Results hashKey={'results'} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
+              <CategoryForm  hashKey={'category'} language={language} handleChange={this.handleChange} state={this.state} />
+              <DetailsForm hashKey={'details'} language={language} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
+              <ContainerForm hashKey={'container'} language={language} handleChange={this.handleChange} state={this.state} />
+              <ContainerColorForm hashKey={'color'} language={language} handleChange={this.handleChange} state={this.state} />
+              <SizeForm hashKey={'size'} language={language} handleChange={this.handleChange} state={this.state} />
+              <FreezerForm hashKey={'freezer'} language={language} handleChange={this.handleChange} state={this.state} />
+              <LocationForm hashKey={'location'} language={language} handleChange={this.handleChange} state={this.state} />
+              <Results hashKey={'results'} language={language} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
               {/* !!!! update variable stepsNumber whenever this list changes !!!! */}
               </StepWizard>
           </div>

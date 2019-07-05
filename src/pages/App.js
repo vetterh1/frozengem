@@ -172,9 +172,4 @@ class App extends React.Component {
   }
 }
 
-// App.propTypes = {
-//     // userInfo: PropTypes.instanceOf(UserInfo).isRequired,
-//     // classes: PropTypes.object.isRequired,
-// };
-
 export default withMyTheme(App);

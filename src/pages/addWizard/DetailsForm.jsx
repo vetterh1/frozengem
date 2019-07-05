@@ -25,14 +25,14 @@ class DetailsForm extends React.Component {
 
   render() {
     // State is NOT stored in this wizard tab, but in the parent (wizard component)
-    const { state } = this.props;
+    const { state, language } = this.props;
     const parentId = state.category;
     // Get the details & categories to display from the context
     // and the (possibly) already selected category from the props.state (state from parent)
     let { details, categories } = this.context;
     const { details: itemInState } = this.props.state;    
     const items = !details || !parentId ? [] : details.filter(detail => detail.parents.find(oneParent => oneParent === 'all' || oneParent === parentId));
-    const parentName = !categories || !parentId  ? "item" : categories.find(category => category.id2 === parentId).name;
+    const parentName = !categories || !parentId  ? "item" : categories.find(category => category.id2 === parentId).name[language];
     return (
       <div className={"flex-max-height flex-direction-column"}>
         <WizPageTitle message={messages.title} values={{category: parentName.toLowerCase()}} />

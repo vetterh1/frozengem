@@ -53,6 +53,13 @@ const messages = defineMessages({
     defaultMessage: 'Sorry, the registration failed, please try again...',
     description: 'Sorry, the registration failed',
   },
+  alreadyexist: {
+    id: 'register.alreadyexist',
+    defaultMessage: 'Sorry, this user already exists, please enter a different name & email...',
+    description: 'Sorry, this user already exists',
+  },
+
+  
 });
 
 
@@ -116,8 +123,13 @@ class RegisterWizard extends React.Component {
     } catch (error) {
       console.error('registration error: ' , error);
       this.setState({registrationInProgress: false, registrationFinished: true, registrationSuccess: false });
+
+      let errorKey = messages.error;
+      if (error.request && error.response.status === 409)
+        errorKey = messages.alreadyexist;
+
       this.props.enqueueSnackbar(
-        this.props.intl.formatMessage(messages.error), 
+        this.props.intl.formatMessage(errorKey), 
         {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
       ); 
     }

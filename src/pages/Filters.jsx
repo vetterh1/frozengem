@@ -1,17 +1,18 @@
 
 import React from 'react';
 import { withItemCharacteristics } from '../auth/withItemCharacteristics';
-import { injectIntl, defineMessages } from "react-intl";
+import { injectIntl } from "react-intl";
+// import { injectIntl, defineMessages } from "react-intl";
 import ChipsArray from './utils/ChipsArray'
 
 
-const messages = defineMessages({ 
-  column_category: {
-    id: 'dashboard.category',
-    defaultMessage: 'Category',
-    description: 'Category',
-  },
-});
+// const messages = defineMessages({ 
+//   column_category: {
+//     id: 'dashboard.category',
+//     defaultMessage: 'Category',
+//     description: 'Category',
+//   },
+// });
 
 
 
@@ -23,11 +24,12 @@ const intFilters = ({language, onFilterChange, itemCharacteristics, intl}) => {
 
   const { categories, details: detailsAll } = itemCharacteristics;
   const [filters, setFilters] = React.useState({});
-  const [details, setDetails] = React.useState([]);
+  // const [details, setDetails] = React.useState([]);
+  const [details] = React.useState([]);
 
   
   const dataCategories = categories.map(category => {
-    const name = language === "EN" ? category.name : category.i18nName[language]
+    const name = category.name[language]
     return {key: category.id2, label: name, selected: false}
   });
   
@@ -38,7 +40,7 @@ const intFilters = ({language, onFilterChange, itemCharacteristics, intl}) => {
 
   const dataDetails = detailsForSelectedCategory
     .map(detail => {
-      const name = language === "EN" ? detail.name : detail.i18nName[language]
+      const name = detail.name[language]
       return {key: detail.id2, label: name, selected: false}
     });
 

@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { injectIntl, defineMessages } from "react-intl";
+// import { injectIntl, defineMessages } from "react-intl";
+import { injectIntl } from "react-intl";
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
@@ -17,28 +18,28 @@ import CardContent from '@material-ui/core/CardContent';
 // }));
 
 
-const messages = defineMessages({ 
-  column_category: {
-    id: 'dashboard.category',
-    defaultMessage: 'Category',
-    description: 'Category',
-  },
-  column_expiration: {
-    id: 'dashboard.expiration',
-    defaultMessage: 'Expires',
-    description: 'Expires',
-  },
-  column_name: {
-    id: 'dashboard.name',
-    defaultMessage: 'Name',
-    description: 'Name',
-  },
-  column_code: {
-    id: 'dashboard.code',
-    defaultMessage: 'Code',
-    description: 'Code',
-  },
-});
+// const messages = defineMessages({ 
+//   column_category: {
+//     id: 'dashboard.category',
+//     defaultMessage: 'Category',
+//     description: 'Category',
+//   },
+//   column_expiration: {
+//     id: 'dashboard.expiration',
+//     defaultMessage: 'Expires',
+//     description: 'Expires',
+//   },
+//   column_name: {
+//     id: 'dashboard.name',
+//     defaultMessage: 'Name',
+//     description: 'Name',
+//   },
+//   column_code: {
+//     id: 'dashboard.code',
+//     defaultMessage: 'Code',
+//     description: 'Code',
+//   },
+// });
 
 
 const styles = theme => ({

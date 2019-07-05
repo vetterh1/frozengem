@@ -23,7 +23,7 @@ export class Items extends React.Component {
   state = {
     saveItemToServer: (item, user) => this.saveItemToServer(item, user),
     updateItemToServer: (idItem, updates, user) => this.updateItemToServer(idItem, updates, user),
-    get: (token) => this.get(token),
+    get: (token, user) => this.get(token, user),
   };
 
 
@@ -52,9 +52,9 @@ export class Items extends React.Component {
 
 */
 
-  async get(token) {
-    // console.log('Items.get token: ' , token);
-    const params = { 'access_token': token };
+  async get(token, user) {
+    const params = { 'access_token': token, 'user': user };
+    // console.log('Items.get params: ' , params);
     const options = {
       method: 'GET',
       url: `${config.boUrl}/items?${qs.stringify(params)}`,
