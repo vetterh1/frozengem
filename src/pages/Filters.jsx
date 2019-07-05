@@ -24,44 +24,53 @@ const intFilters = ({language, onFilterChange, itemCharacteristics, intl}) => {
 
   const { categories, details: detailsAll } = itemCharacteristics;
   const [filters, setFilters] = React.useState({});
-  // const [details, setDetails] = React.useState([]);
-  const [details] = React.useState([]);
+  const [dataDetails, setDataDetails] = React.useState([{key: "test", label: "test", selected: false}]);
 
   
   const dataCategories = categories.map(category => {
     const name = category.name[language]
     return {key: category.id2, label: name, selected: false}
   });
-  
-  let detailsForSelectedCategory = [];
-  if(dataCategories.length === 1)
-    detailsForSelectedCategory = detailsAll.filter(detail => detail.parents.find(oneParent => oneParent === 'all' || oneParent === dataCategories[0].id2));
-  console.log('Filter: detailsForSelectedCategory=', detailsForSelectedCategory);
 
-  const dataDetails = detailsForSelectedCategory
+   const getDetailsFromSelectedCategories = (categoryKeys) => {
+    let detailsForSelectedCategories = [];
+    if(categoryKeys.length === 1) {
+      detailsForSelectedCategories = detailsAll.filter(detail => detail.parents.find(oneParent => oneParent === 'all' || oneParent === categoryKeys[0]));
+    }
+    console.log('Filter: detailsForSelectedCategories=', detailsForSelectedCategories);
+
+    const dataDetailsToStoreInState = detailsForSelectedCategories
     .map(detail => {
       const name = detail.name[language]
-      return {key: detail.id2, label: name, selected: false}
-    });
+      return {key: detail.id2, label: name, selected: true}
+    });    
+    console.log('Filter: dataDetailsToStoreInState=', dataDetailsToStoreInState);
+    setDataDetails(dataDetailsToStoreInState);
+  }
 
-  const onCategoryChange = (filter) => {
-    const newFilters = {...filters, category: filter, details:[]};
+
+
+
+  const onCategoriesChange = (selectedKeys) => {
+    const newFilters = {...filters, categories: selectedKeys, details:[]};
     setFilters(newFilters);
-    console.log('Filter.onCategoryChange: newFilters=', newFilters, " - filter=", filter);
+    getDetailsFromSelectedCategories(selectedKeys);
+    console.log('Filter.onCategoriesChange: newFilters=', newFilters, " - selectedKeys=", selectedKeys);
     onFilterChange(newFilters);
-    // setDataDetails([]);
   };
 
-  const onDetailsChange = (filter) => {
-    console.log('Filter: onFilterChange=', filter);
-    onFilterChange(filter);
+  const onDetailsChange = (selectedKeys) => {
+    const newFilters = {...filters, details: selectedKeys};
+    setFilters(newFilters);
+    console.log('Filter.onCategoriesChange: newFilters=', newFilters, " - selectedKeys=", selectedKeys);
+    onFilterChange(newFilters);
   };
   
 
-  console.log('Filter: categories=', categories, ' - details=', details);
+  console.log('Filter: dataCategories=', dataCategories, ' - dataDetails=', dataDetails);
   return (
     <React.Fragment>
-      <ChipsArray data={dataCategories} title="Category" multipleEnabled={false} allEnabled={false} onFilterChange={onCategoryChange} />
+      <ChipsArray data={dataCategories} title="Categories" multipleEnabled={false} allEnabled={false} onFilterChange={onCategoriesChange} />
       <ChipsArray data={dataDetails} title="Details" multipleEnabled allEnabled onFilterChange={onDetailsChange} />
     </React.Fragment>
   );

@@ -43,25 +43,25 @@ export default function ChipsArray({data, title, multipleEnabled, allEnabled, on
         if(chip.key !== chipSelected.key) return multipleEnabled ? chip : {...chip, selected: false};
         return {...chip, selected: !chip.selected};
     });    
-    const selected = newChips.filter(chip => chip.selected === true).map(chip => chip.key);
+    const selectedKeys = newChips.filter(chip => chip.selected === true).map(chip => chip.key);
     setChipData(newChips);
-    onFilterChange(selected);
+    onFilterChange(selectedKeys);
   };
 
   const handleAll = () => {
     setChipData(chips => chips.map(chip => { 
       return {...chip, selected: true};
     }));
-    const selected = chipData.map(chip => chip.key);
-    onFilterChange(selected); 
+    const selectedKeys = chipData.map(chip => chip.key);
+    onFilterChange(selectedKeys); 
   };
 
   const handleNone = () => {
     setChipData(chips => chips.map(chip => { 
       return {...chip, selected: false};
     }));
-    const selected = chipData.map(chip => chip.key);
-    onFilterChange(selected);
+    const selectedKeys = chipData.map(chip => chip.key);
+    onFilterChange(selectedKeys);
   };
 
   return (
