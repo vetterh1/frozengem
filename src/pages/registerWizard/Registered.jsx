@@ -1,13 +1,10 @@
 import React from 'react';
 import { Redirect } from 'react-router'
-import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { injectIntl, defineMessages, FormattedMessage } from "react-intl";
 import Button from '@material-ui/core/Button';
-// import { defineMessages, FormattedMessage } from 'react-intl.macro';
 import { WizNavBar, WizPageTitle} from "../utils/WizUtilComponents";
-// import { FormHelperText } from '@material-ui/core';
 
 
 const messages = defineMessages({
@@ -103,7 +100,7 @@ class NameForm extends React.Component {
 
 
   render() {
-    const { classes, state } = this.props;
+    const { state } = this.props;
     const {name, email, password, registrationInProgress, registrationFinished, registrationSuccess} = state;
   
 
@@ -132,12 +129,6 @@ class NameForm extends React.Component {
         </div>
 
         <WizNavBar onClickPrevious={this.handlePrevious.bind(this)} />
-
-        {/* <div className={"flex-normal-height flex-direction-row flex-justifiy-between"}>
-          <Button variant="contained" color="primary" component={Link} to="/" className={classes.button}>
-            <FormattedMessage id="button.backhome" defaultMessage="Back Home" />
-          </Button>   
-        </div> */}
 
       </div>
 
