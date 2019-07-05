@@ -68,7 +68,8 @@ class Dashboard extends React.Component {
     const { arrayItems } = this.state;
     const filteredArrayItems = arrayItems
       .filter(item => arrayFilters.categories.indexOf(item.category)!== -1)
-      // .filter(item => arrayFilters.details.indexOf(item.category)!== -1)
+      // all the details in the filter must be in the item:
+      .filter(item => arrayFilters.details.every(oneFilter => item.detailsArray.indexOf(oneFilter)!== -1))
 
     this.setState({filters: arrayFilters, filteredArrayItems: filteredArrayItems});
   }

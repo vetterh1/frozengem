@@ -36,7 +36,15 @@ const useStyles = makeStyles(theme => ({
 export default function ChipsArray({data, title, multipleEnabled, allEnabled, onFilterChange}) {
   const classes = useStyles();
 
-  const [chipData, setChipData] = React.useState(data);
+  const [chipData, setChipData] = React.useState([]);
+  const [hash, setHash] = React.useState('');
+
+  // Refresh if new data
+  const newHash = data.join();
+  if(newHash !== hash) {
+    setHash(newHash);
+    setChipData(data);
+  }
 
   const handleClick = chipSelected => () => {
     const newChips = chipData.map(chip => { 
@@ -49,20 +57,22 @@ export default function ChipsArray({data, title, multipleEnabled, allEnabled, on
   };
 
   const handleAll = () => {
-    setChipData(chips => chips.map(chip => { 
+    setChipData(data.map(chip => { 
       return {...chip, selected: true};
     }));
-    const selectedKeys = chipData.map(chip => chip.key);
+    const selectedKeys = data.map(chip => chip.key);
     onFilterChange(selectedKeys); 
   };
 
   const handleNone = () => {
-    setChipData(chips => chips.map(chip => { 
+    setChipData(data.map(chip => { 
       return {...chip, selected: false};
     }));
-    const selectedKeys = chipData.map(chip => chip.key);
-    onFilterChange(selectedKeys);
+    onFilterChange([]);
   };
+
+  // console.log('ChipsArray: data=', data, ' - chipData=', chipData);
+
 
   return (
     <div className={classes.root}>
