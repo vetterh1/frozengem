@@ -11,7 +11,7 @@ const config = {
     boUrl: 'http://localhost:9000' 
   },
   production: {
-    boUrl: 'https://food-maniac.com/frozenbo'
+    boUrl: 'https://frozengem.com/frozenbo'
   }
 }
 
