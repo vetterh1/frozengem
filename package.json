@@ -28,7 +28,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "startprod": "serve -s build",
+    "startprod": "/usr/local/bin/http-server ./build -p 8060 --cors",
+    "startprod:old": "serve -s build",
     "test": "CI=true react-scripts test",
     "test:coverage": "npm test -- --coverage",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
