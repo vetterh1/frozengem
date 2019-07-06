@@ -7,4 +7,5 @@ chmod 755 ./prod_update_server.sh
 rm -fr node_modules
 rm package-lock.json
 npm install
-NODE_ENV=production pm2 start npm -- run prod --name foFrozen  --env production
+npm run build
+pm2 start /usr/local/bin/http-server --name foFrozen  -- ./build -p 8060 --cors
