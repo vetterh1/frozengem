@@ -67,28 +67,24 @@ class Results extends React.Component {
 
   handleAddNew() { this.props.resetState(); this.props.firstStep();}
   
-  handleTextChange(event) {
-    console.log('Results.handleTextChange: ', event.target.value);
+  handleNameChange(event) {
+    // Update the parent (as this is the value used in this render)
+    // but does not save on server yet
+    this.props.handleChange({name: event.target.value}, false);  
+    // Raise the dirty flag so we propose an "Update" button
     this.setState({name: event.target.value, dirty: true});
   }
 
   handleDateChange(expirationDate) {
-    console.log('Results.handleexpirationDateChange: ', expirationDate);
+    // Update the parent (as this is the value used in this render)
+    // but does not save on server yet
+    this.props.handleChange({expirationDate}, false);  
+    // Raise the dirty flag so we propose an "Update" button
     this.setState({expirationDate, dirty: true});
   }
 
-  
-  handleSaveName() {
-    console.log('Results.handleSaveName: ', this.state.name);
-    this.props.handleChange({name: this.state.name}, true);  
-    this.resetState();
-  }
 
-  handleSaveDate() {
-    console.log('Results.handleSaveDate: ', this.state.expirationDate);
-    this.props.handleChange({expirationDate: this.state.expirationDate}, true);  
-    this.resetState();
-  }
+
 
   handleUpdates () {
     const updates = {};
@@ -129,30 +125,24 @@ class Results extends React.Component {
             <InputLabel htmlFor="name"><FormattedMessage id="add.results.name.label" defaultMessage="Name (optional)" /></InputLabel>
             <Input
               id="name"
-              value={this.state.name}
-              onChange={this.handleTextChange.bind(this)}
+              value={state.name}
+              onChange={this.handleNameChange.bind(this)}
               aria-describedby="name-text"
               fullWidth
             />
             <FormHelperText id="name-text">{this.props.intl.formatMessage(messages.name)}</FormHelperText>
-            {/* <IconButton className={classes.iconButton} aria-label="Save name" onClick={this.handleSaveName.bind(this)}>
-              <CheckIcon />
-            </IconButton> */}
           </FormControl>
 
           <div className={"flex-normal-height flex-direction-column big-margin-down"}>
             <DatePicker
               views={["year", "month"]}
-              value={this.state.expirationDate}
+              value={state.expirationDate}
               onChange={this.handleDateChange.bind(this)}
               label={this.props.intl.formatMessage(messages.date)}
               minDate={new Date()}
               autoOk
               clearable
             />
-            {/* <IconButton className={classes.iconButton} aria-label="Save date" onClick={this.handleSaveDate.bind(this)}>
-              <CheckIcon />
-            </IconButton> */}
           </div>
 
           { this.state.dirty && 

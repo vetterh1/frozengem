@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { injectIntl, defineMessages } from "react-intl";
 // import { defineMessages } from 'react-intl.macro';
@@ -48,22 +48,30 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function BottomNav({intl}) {
-  const classes = useStyles();
-  const [value, setValue] = React.useState('list');
+function BottomNav({location, intl}) {
 
+  console.log( "BottomNav location:", location);
+
+  const classes = useStyles();
+  const [value, setValue] = React.useState(location ? location.pathname : "/");
+
+  // External update (from router)
+  if(location && location.pathname !== value)
+    setValue(location.pathname);
+
+  // Manual update (from user)
   function handleChange(event, newValue) {
     setValue(newValue);
   }
 
   return (
     <BottomNavigation value={value} onChange={handleChange} className={classes.root} showLabels>
-      <BottomNavigationAction label={intl.formatMessage(messages.list)} value="list" icon={<ViewHeadlineIcon />} component={Link} to="/" />
-      <BottomNavigationAction label={intl.formatMessage(messages.add)} value="add" icon={<AddCircleOutlineIcon />} component={Link} to="/add" />
-      <BottomNavigationAction label={intl.formatMessage(messages.retreive)} value="retreive" icon={<RemoveCircleOutlineIcon />} component={Link} to="/retreive" />
-      <BottomNavigationAction label={intl.formatMessage(messages.search)} value="search" icon={<SearchIcon />} component={Link} to="/search" />
+      <BottomNavigationAction label={intl.formatMessage(messages.list)} value="/" icon={<ViewHeadlineIcon />} component={Link} to="/" />
+      <BottomNavigationAction label={intl.formatMessage(messages.add)} value="/add" icon={<AddCircleOutlineIcon />} component={Link} to="/add" />
+      <BottomNavigationAction label={intl.formatMessage(messages.retreive)} value="/retreive" icon={<RemoveCircleOutlineIcon />} component={Link} to="/retreive" />
+      <BottomNavigationAction label={intl.formatMessage(messages.search)} value="/search" icon={<SearchIcon />} component={Link} to="/search" />
     </BottomNavigation>
   );
 }
 
-export default injectIntl(BottomNav);
+export default withRouter(injectIntl(BottomNav));
