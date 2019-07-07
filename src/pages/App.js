@@ -34,19 +34,6 @@ import { Items } from "../data/ItemsStore";
 // ------------------------  i18n  -------------------------
 //
 
-// Polyfill for Intl, not supported on old browsers
-// like IE10 or Safari.
-function ensureIntlSupport() {
-  if (window.Intl) return Promise.resolve();
-  return new Promise((resolve) => {
-    resolve(require('intl'));
-  })
-  .then(() => Promise.all([
-    require('intl/locale-data/jsonp/en.js'),
-    require('intl/locale-data/jsonp/fr.js'),
-  ]));
-}
-
 
 addLocaleData(frLocaleData);
 
