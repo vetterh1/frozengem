@@ -50,7 +50,6 @@ class EmailForm extends React.Component {
     }; 
     this.handleTextChange = this.handleTextChange.bind(this)
     this.handleNext = this.handleNext.bind(this)
-    this.handlePrevious = this.handlePrevious.bind(this)
   }
 
 
@@ -65,8 +64,6 @@ class EmailForm extends React.Component {
     // Save in parent
     this.props.handleChange({name: 'email', value});
   }
-
-  handlePrevious = () => { this.props.handleChange({ name: 'email', value: "" }); this.props.previousStep(); };
   
   handleNext = (e) => {
     //e.preventDefault should always be the first thing in the function
@@ -111,7 +108,7 @@ class EmailForm extends React.Component {
       
           </div>
 
-          <WizNavBar nextIsSubmit isNextDisabled={!validData} onClickPrevious={this.handlePrevious} />
+          <WizNavBar nextIsSubmit isNextDisabled={!validData} />
 
         </form>
 
