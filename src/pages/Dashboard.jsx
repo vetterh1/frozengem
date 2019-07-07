@@ -84,7 +84,7 @@ class Dashboard extends React.Component {
     return (
       <React.Fragment>
 
-        <Box mt={5} display="flex" flexDirection="column" >
+        <Box mt={2} display="flex" flexDirection="column" >
           <Typography component="h1" variant="h4" color="primary" align="center" gutterBottom>
             <FormattedMessage id="dashboard.title" defaultMessage="Your dashboard" />
           </Typography>

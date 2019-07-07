@@ -12,18 +12,18 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'left',
     flexWrap: 'wrap',
-    padding: theme.spacing(0.5),
-    marginBottom: theme.spacing(2),
+    // padding: theme.spacing(0.5),
+    marginBottom: theme.spacing(1),
     alignItems: "center",
   },
   title: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(0.75),
   },  
   chip: {
-    margin: theme.spacing(0.5),
+    margin: theme.spacing(0.3),
   },
   divider: {
-    margin: theme.spacing(1.5),
+    margin: theme.spacing(0.3),
   },
   iconNotSelected: {
     color: "lightgrey",
