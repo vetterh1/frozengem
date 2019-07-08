@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
 import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
 // import { FormattedMessage } from 'react-intl.macro';
 import { injectIntl, FormattedMessage } from "react-intl";
 import { withStyles } from '@material-ui/core/styles';
@@ -75,7 +75,16 @@ class Dashboard extends React.Component {
     const { classes, userInfo } = this.props;
     const { filteredArrayItems, arrayItems } = this.state;
 
-    if(!arrayItems || arrayItems.length === 0) return null;
+    if(!arrayItems || arrayItems.length === 0) return (
+      <Box mt={4} display="flex" flexDirection="column" >
+        <Typography component="h1" variant="h4" color="primary" align="center" gutterBottom>
+          <FormattedMessage id="dashboard.empty.title" defaultMessage="You'll found here the content of your freezer." />
+        </Typography>
+        <Typography variant="h6" align="center" gutterBottom >
+          <FormattedMessage id="dashboard.empty.subtitle" defaultMessage="Use the Add button below to start..." />
+        </Typography>
+      </Box>      
+    );
 
     return (
       <React.Fragment>

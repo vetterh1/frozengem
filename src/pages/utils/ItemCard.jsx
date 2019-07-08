@@ -3,8 +3,12 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 // import { injectIntl, defineMessages } from "react-intl";
 import { injectIntl } from "react-intl";
-import ItemCard from './ItemCard'
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
 
 
 // const useStyles = makeStyles(theme => ({
@@ -60,12 +64,29 @@ const styles = theme => ({
 
 
 
-const intItemsList = ({arrayItems, intl}) => {
-  console.log('ItemsList arrayItems: ', arrayItems);
+const intItemCard = ({item, classes, intl}) => {
+  // console.log('ItemCard item: ', item);
 
   return (
-    arrayItems.map(item => <ItemCard  key={item.id} item={item} /> )
-  );
+    <Card className={classes.card}>
+    <CardContent>
+      <Typography className={classes.title} color="textSecondary" gutterBottom>
+        {item.category}
+      </Typography>
+      <Typography variant="h5" component="h2">
+        {item.name}
+      </Typography>
+      <Typography className={classes.pos} color="textSecondary">
+        {item.details}
+      </Typography>
+      <Typography variant="body2" component="p">
+        {item.code}
+      </Typography>
+    </CardContent>
+    <CardActions>
+      <Button size="small">edit</Button>
+    </CardActions>
+    </Card>
+      );
 }
-
-export const ItemsList = injectIntl(withStyles(styles)(intItemsList));
+export default injectIntl(withStyles(styles)(intItemCard));

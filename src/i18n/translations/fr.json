@@ -35,6 +35,8 @@
   "button.ok": "OK",
   "dashboard.category": "Catégorie",
   "dashboard.code": "Code",
+  "dashboard.empty.title": "Vous trouvez ici le contenu de votre congélateur",
+  "dashboard.empty.subtitle": "Clickez sur le bouton Ajouter en bas pour commencer...",
   "dashboard.expiration": "Expire",
   "dashboard.name": "Nom",
   "dashboard.subtitle": "Voici le contenu de votre congélateur",

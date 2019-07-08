@@ -52,7 +52,8 @@ const intFilters = ({language, category, onCategoryChange, size, onSizeChange, i
 
 
 
-  // console.log('Filter: dataCategories=', dataCategories, ' - dataDetails=', dataDetails);
+  if(!selectedCategory) return null;
+  
   return (
     <React.Fragment>
 
@@ -64,7 +65,7 @@ const intFilters = ({language, category, onCategoryChange, size, onSizeChange, i
         indicatorColor="primary"
         textColor="primary"
       >
-        {sortedCategories.map(category => <Tab label={category.name[language]} value={category.id2} />)}
+        {sortedCategories.map(category => <Tab  key={category.id2} label={category.name[language]} value={category.id2} />)}
       </Tabs>      
 
     </React.Fragment>
