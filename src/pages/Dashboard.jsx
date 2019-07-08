@@ -43,7 +43,7 @@ class Dashboard extends React.Component {
     super(props);
     this.state = {arrayItems:[], arrayFilters:[], filteredArrayItems:[]};
 
-    this.onFilterChange = this.onFilterChange.bind(this);
+    this.onCategoryChange = this.onCategoryChange.bind(this);
   }
 
 
@@ -55,8 +55,8 @@ class Dashboard extends React.Component {
     if(!result) {
       console.error('ItemsList: could not retrieve items' );
     }
-    // console.log('ItemsList data: ', result.data);
-    this.setState({arrayItems: result.data});
+    const sortedItems = result.data.sort((a, b) => (a.expirationDate > b.expirationDate) ? 1 : -1)
+    this.setState({arrayItems: sortedItems});
   }
 
   componentDidMount() {
@@ -64,37 +64,24 @@ class Dashboard extends React.Component {
   }
 
 
-  onFilterChange = (arrayFilters) => {
+  onCategoryChange = (category) => {
     const { arrayItems } = this.state;
-    const filteredArrayItems = arrayItems
-      .filter(item => arrayFilters.categories.indexOf(item.category)!== -1)
-      // all the details in the filter must be in the item:
-      .filter(item => arrayFilters.details.every(oneFilter => item.detailsArray.indexOf(oneFilter)!== -1))
-
-    this.setState({filters: arrayFilters, filteredArrayItems: filteredArrayItems});
+    const filteredArrayItems = arrayItems.filter(item => item.category === category);
+    this.setState({category: category, filteredArrayItems: filteredArrayItems});
   }
 
 
   render() {
     const { classes, userInfo } = this.props;
-    const { filteredArrayItems } = this.state;
+    const { filteredArrayItems, arrayItems } = this.state;
 
-    // if(!filteredArrayItems || filteredArrayItems.length === 0) return null;
+    if(!arrayItems || arrayItems.length === 0) return null;
 
     return (
       <React.Fragment>
 
-        <Box mt={2} display="flex" flexDirection="column" >
-          <Typography component="h1" variant="h4" color="primary" align="center" gutterBottom>
-            <FormattedMessage id="dashboard.title" defaultMessage="Your dashboard" />
-          </Typography>
-          <Typography variant="h6" align="center" gutterBottom >
-            <FormattedMessage id="dashboard.subtitle" defaultMessage="Here is what you have in your freezer" />
-          </Typography>
-        </Box>
-
         <div className={classes.layout}>
-          <Filters language={userInfo.language} onFilterChange={this.onFilterChange} />
+          <Filters language={userInfo.language} category={this.category} onCategoryChange={this.onCategoryChange} />
           <ItemsList arrayItems={filteredArrayItems} />
         </div>          
 
