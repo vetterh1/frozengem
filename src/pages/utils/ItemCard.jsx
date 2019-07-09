@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 // import { injectIntl, defineMessages } from "react-intl";
@@ -10,6 +9,9 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 
+import Modal from '@material-ui/core/Modal';
+
+import WebcamCapture from './WebcamCapture';
 
 // const useStyles = makeStyles(theme => ({
 //   button: {
@@ -65,28 +67,43 @@ const styles = theme => ({
 
 
 const intItemCard = ({item, classes, intl}) => {
+  const [cameraModalState, setCameraModalState] = React.useState(false);
+
   // console.log('ItemCard item: ', item);
 
+  const handleAddPicture = () => {
+    setCameraModalState(true);
+  }
+
+  const onClickCamera = (data) => {
+    setCameraModalState(false);
+  }
+
   return (
-    <Card className={classes.card}>
-    <CardContent>
-      <Typography className={classes.title} color="textSecondary" gutterBottom>
-        {item.category}
-      </Typography>
-      <Typography variant="h5" component="h2">
-        {item.name}
-      </Typography>
-      <Typography className={classes.pos} color="textSecondary">
-        {item.details}
-      </Typography>
-      <Typography variant="body2" component="p">
-        {item.code}
-      </Typography>
-    </CardContent>
-    <CardActions>
-      <Button size="small">edit</Button>
-    </CardActions>
-    </Card>
+    <React.Fragment>>
+      <Modal open={cameraModalState}>
+        <WebcamCapture onClick={(data) => onClickCamera(data)} />
+      </Modal>    
+      <Card className={classes.card}>
+      <CardContent>
+        <Typography className={classes.title} color="textSecondary" gutterBottom>
+          {item.category}
+        </Typography>
+        <Typography variant="h5" component="h2">
+          {item.name}
+        </Typography>
+        <Typography className={classes.pos} color="textSecondary">
+          {item.details}
+        </Typography>
+        <Typography variant="body2" component="p">
+          {item.code}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button onClick={() => handleAddPicture()} size="small">Add picture</Button>
+      </CardActions>
+      </Card>
+    </React.Fragment>
       );
 }
 export default injectIntl(withStyles(styles)(intItemCard));

@@ -25,6 +25,7 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "2.1.8",
     "react-step-wizard": "github:vetterh1/react-step-wizard",
+    "react-webcam": "^1.1.1",
     "source-map-explorer": "^2.0.1"
   },
   "scripts": {
