@@ -1,10 +1,28 @@
 
 import React from 'react';
+import Fab from '@material-ui/core/Fab';
+import CameraAltIcon from '@material-ui/icons/CameraAlt';
+import { withStyles } from '@material-ui/core/styles';
 import Webcam from "react-webcam";
 
 
+const styles = theme => ({
+    layout: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        width: '100%',
+    },
+    margin: {
+        marginTop: theme.spacing(1),
+      },
+  });
+  
+  
+  
 
-const WebcamCapture = ({onClick}) => {
+const WebcamCapture = ({onClick, classes}) => {
     let webcam = React.createRef();
 
     const capture = () => {
@@ -21,18 +39,26 @@ const WebcamCapture = ({onClick}) => {
     };
   
     return (
-        <div>
-            <Webcam
-            audio={false}
-            height={350}
-            ref={webcam}
-            screenshotFormat="image/jpeg"
-            width={350}
-            videoConstraints={videoConstraints}
-            />
-            <button onClick={capture}>Capture photo</button>
-        </div>
+        <div className={classes.layout}>
+
+                <Webcam
+                    audio={false}
+                    height={'100%'}
+                    ref={webcam}
+                    screenshotFormat="image/jpeg"
+                    width={'100%'}
+                    videoConstraints={videoConstraints}
+                />
+                <Fab 
+                    onClick={capture} 
+                    color="secondary" 
+                    aria-label="Take picture" 
+                    className={classes.margin}>
+                    <CameraAltIcon />
+                </Fab>
+        </div>          
+
     );
 }
   
-export default WebcamCapture;
+export default withStyles(styles)(WebcamCapture);

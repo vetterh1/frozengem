@@ -79,9 +79,18 @@ const intItemCard = ({item, classes, intl}) => {
     setCameraModalState(false);
   }
 
+  const closeCameraModal = () => {
+  console.log('closeCameraModal');
+  setCameraModalState(false);
+  }
+
   return (
     <React.Fragment>>
-      <Modal open={cameraModalState}>
+      <Modal
+        open={cameraModalState}
+        onEscapeKeyDown={closeCameraModal}
+        disableEscapeKeyDown={false}
+      >
         <WebcamCapture onClick={(data) => onClickCamera(data)} />
       </Modal>    
       <Card className={classes.card}>
