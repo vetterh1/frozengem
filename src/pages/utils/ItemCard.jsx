@@ -1,6 +1,11 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { injectIntl, FormattedMessage } from "react-intl";
+import { withItems } from '../../auth/withItems';
+import { withSnackbar } from 'notistack';
+import { withUserInfo } from '../../auth/withUserInfo';
+import { withItemCharacteristics } from '../../auth/withItemCharacteristics';
+
+import { injectIntl, FormattedMessage, defineMessages } from "react-intl";
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
@@ -18,28 +23,15 @@ import WebcamCapture from './WebcamCapture';
 // }));
 
 
-// const messages = defineMessages({ 
-//   column_category: {
-//     id: 'dashboard.category',
-//     defaultMessage: 'Category',
-//     description: 'Category',
-//   },
-//   column_expiration: {
-//     id: 'dashboard.expiration',
-//     defaultMessage: 'Expires',
-//     description: 'Expires',
-//   },
-//   column_name: {
-//     id: 'dashboard.name',
-//     defaultMessage: 'Name',
-//     description: 'Name',
-//   },
-//   column_code: {
-//     id: 'dashboard.code',
-//     defaultMessage: 'Code',
-//     description: 'Code',
-//   },
-// });
+
+
+const messages = defineMessages({ 
+  error: {
+    id: 'item.update_picture.error',
+    defaultMessage: 'Sorry, saving this picture failed. Please try again...',
+  },
+});
+
 
 
 const styles = theme => ({
@@ -62,16 +54,34 @@ const styles = theme => ({
 
 
 
-const intItemCard = ({item, classes, intl}) => {
+const intItemCard = ({item, classes, intl,items, userInfo, enqueueSnackbar}) => {
   const [cameraDialogState, setCameraDialogState] = React.useState(false);
 
   const handleAddPicture = () => {
     setCameraDialogState(true);
   }
 
-  const onPicture = (data) => {
+  
+  // Set the received value in the state 
+  // (replacing any existing one)
+  const onPicture = async (data) => {
+
     setCameraDialogState(false);
+
+    try {
+      const { updatePictureItemToServer } = items;
+      const itemUpdated = await updatePictureItemToServer(item.id , data, userInfo);
+      console.log('itemUpdated: ', itemUpdated);
+    } catch (error) {
+      console.error('AddWizard.handleChange error: ' , error);
+      enqueueSnackbar(
+        intl.formatMessage(messages.error), 
+        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+      ); 
+    }
   }
+
+
 
   const closeCameraDialog = () => {
   console.log('closeCameraDialog');
@@ -109,4 +119,4 @@ const intItemCard = ({item, classes, intl}) => {
     </React.Fragment>
       );
 }
-export default injectIntl(withStyles(styles)(intItemCard));
+export default injectIntl(withSnackbar(withUserInfo(withItemCharacteristics(withItems(withStyles(styles)(intItemCard))))));

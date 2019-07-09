@@ -117,8 +117,6 @@ class AddWizard extends React.Component {
           {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
         ); 
       }
-
-
     }
   }
 

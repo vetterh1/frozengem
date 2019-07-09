@@ -52,7 +52,7 @@ const WebcamCapture = ({open, onPicture, onClose, classes, intl}) => {
 
     const capture = () => {
       const imageSrc = webcam.current.getScreenshot();
-      console.log('catpure:', imageSrc);
+    //   console.log('catpure:', imageSrc);
       onPicture(imageSrc);
     };
   

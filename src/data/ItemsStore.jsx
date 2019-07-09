@@ -23,6 +23,7 @@ export class Items extends React.Component {
   state = {
     saveItemToServer: (item, user) => this.saveItemToServer(item, user),
     updateItemToServer: (idItem, updates, user) => this.updateItemToServer(idItem, updates, user),
+    updatePictureItemToServer: (idItem, picture, user) => this.updatePictureItemToServer(idItem, picture, user),
     get: (token, user) => this.get(token, user),
   };
 
@@ -97,7 +98,7 @@ export class Items extends React.Component {
       return response.data;
     } catch (error) {
       console.error('register error: ' , error);
-      return null;
+      throw error;
     }
   }
   
@@ -122,7 +123,32 @@ export class Items extends React.Component {
       return response.data;
     } catch (error) {
       console.error('register error: ' , error);
-      return null;
+      throw error;
+    }
+  }
+  
+  
+        
+  
+    
+  async updatePictureItemToServer(idItem, picture, user) {
+    const data = { 'access_token': user.accessToken, picture };
+    const options = {
+      method: 'PUT',
+      url: `${config.boUrl}/items/${idItem}/picture`,
+      crossdomain : true,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      data: qs.stringify(data),
+    };
+
+    try {
+      console.log('updatePictureItemToServer options: ' , options);
+      const response = await axios(options);
+      console.log('updatePictureItemToServer OK: ' , response.data);
+      return response.data;
+    } catch (error) {
+      console.error('updatePictureItemToServer error: ' , error);
+      throw error;
     }
   }
   

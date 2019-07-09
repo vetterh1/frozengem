@@ -58,6 +58,8 @@
   "home.new.message": "Veuillez donner un nom à votre maison :)",
   "home.new.short": "Nouvelle maison",
   "home.new.title": "Créér une nouvelle maison",
+  "item.add.error": "Désolé, une erreur est survenue lors de l'enregistrement. Veuillez ré-essayer...",
+  "item.update_picture.error": "Désolé, une erreur est survenue lors de l'enregistrement de cette image. Veuillez ré-essayer...",
   "login.error": "Désolé, une erreur est survenue. Veuillez ré-essayer...",
   "login.success": "Félicitations, vous êtes connecté",
   "login.unauthorized": "Identifiant / mot de passe incorrect, veuillez ré-essayer...",
