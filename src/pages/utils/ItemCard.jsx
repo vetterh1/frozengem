@@ -1,7 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-// import { injectIntl, defineMessages } from "react-intl";
-import { injectIntl } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
@@ -9,7 +8,6 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 
-import Modal from '@material-ui/core/Modal';
 
 import WebcamCapture from './WebcamCapture';
 
@@ -48,8 +46,6 @@ const styles = theme => ({
   layout: {
     width: 'auto',
     padding: `${theme.spacing(2)}px 0`,
-    // marginLeft: theme.spacing(1),
-    // marginRight: theme.spacing(1),
   },
   subtitle: {
     textAlign: 'center',
@@ -67,32 +63,30 @@ const styles = theme => ({
 
 
 const intItemCard = ({item, classes, intl}) => {
-  const [cameraModalState, setCameraModalState] = React.useState(false);
-
-  // console.log('ItemCard item: ', item);
+  const [cameraDialogState, setCameraDialogState] = React.useState(false);
 
   const handleAddPicture = () => {
-    setCameraModalState(true);
+    setCameraDialogState(true);
   }
 
-  const onClickCamera = (data) => {
-    setCameraModalState(false);
+  const onPicture = (data) => {
+    setCameraDialogState(false);
   }
 
-  const closeCameraModal = () => {
-  console.log('closeCameraModal');
-  setCameraModalState(false);
+  const closeCameraDialog = () => {
+  console.log('closeCameraDialog');
+  setCameraDialogState(false);
   }
 
   return (
     <React.Fragment>>
-      <Modal
-        open={cameraModalState}
-        onEscapeKeyDown={closeCameraModal}
-        disableEscapeKeyDown={false}
-      >
-        <WebcamCapture onClick={(data) => onClickCamera(data)} />
-      </Modal>    
+
+      <WebcamCapture
+        open={cameraDialogState}
+        onClose={() => closeCameraDialog()}
+        onPicture={(data) => onPicture(data)}
+      />
+
       <Card className={classes.card}>
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
@@ -109,7 +103,7 @@ const intItemCard = ({item, classes, intl}) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button onClick={() => handleAddPicture()} size="small">Add picture</Button>
+        <Button onClick={() => handleAddPicture()} size="small"><FormattedMessage id="camera.add" defaultMessage="Add picture" /></Button>
       </CardActions>
       </Card>
     </React.Fragment>
