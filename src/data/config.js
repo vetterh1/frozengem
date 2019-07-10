@@ -13,7 +13,7 @@ const config = {
   },
   production: {
     boUrl: 'https://frozengem.com/frozenbo',
-    staticUrl: 'https://frozengem.com',
+    staticUrl: 'https://frozengem.com/frozenbo',
   }
 }
 
