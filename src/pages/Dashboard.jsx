@@ -17,7 +17,7 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "column",
     width: 'auto',
-    padding: `${theme.spacing(2)}px 0`,
+    // padding: '0px',
     // marginLeft: theme.spacing(1),
     // marginRight: theme.spacing(1),
   },

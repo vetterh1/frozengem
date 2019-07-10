@@ -77,6 +77,8 @@ class App extends React.Component {
       display: "flex",
       flexDirection: "column",
       flexGrow: 1,
+      padding: '0px',
+
     };
     const stickToBottom = {
     };

@@ -43,7 +43,7 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "row",
     flexWrap: 'wrap',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-around',
     width: 'auto',
     padding: `${theme.spacing(2)}px 0`,
     // marginLeft: theme.spacing(1),

@@ -33,8 +33,8 @@ const messages = defineMessages({
 
 const styles = theme => ({
   layout: {
-    width: 'auto',
-    padding: `${theme.spacing(2)}px 0`,
+    maxWidth: 445,
+    margin: theme.spacing(2),
   },
   subtitle: {
     textAlign: 'center',
@@ -50,12 +50,9 @@ const styles = theme => ({
     width: 60,
     height: 60,
   },
-  card: {
-    maxWidth: 345,
-    marginBottom: theme.spacing(2),
-  },
   media: {
-    height: 140,
+    minHeight: 200,
+    minWidth: 350,
   },  
 });
 
@@ -110,7 +107,7 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
         onPicture={(data) => onPicture(data)}
       />
 
-      <Card className={classes.card}>
+      <Card className={classes.layout}>
         <CardActionArea>
           {item.picture && <CardMedia
             className={classes.media}
