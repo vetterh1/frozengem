@@ -37,6 +37,7 @@ const styles = theme => ({
 class Dashboard extends React.Component {
   static propTypes = {
     userInfo: PropTypes.object.isRequired,
+    items: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -70,6 +71,20 @@ class Dashboard extends React.Component {
     this.setState({category: category, filteredArrayItems: filteredArrayItems});
   }
 
+  onItemChange = (item) => {
+    const { filteredArrayItems } = this.state;
+
+    // Find the updated item in array:
+    let indexItem = filteredArrayItems.findIndex(({id}) => id === item.id);
+    const newArray = [
+      ...filteredArrayItems.slice(0, indexItem),
+      item,
+      ...filteredArrayItems.slice(indexItem + 1)
+    ];
+
+    this.setState({filteredArrayItems: newArray});
+  }
+
 
   render() {
     const { classes, userInfo } = this.props;
@@ -91,7 +106,7 @@ class Dashboard extends React.Component {
 
         <div className={classes.layout}>
           <Filters language={userInfo.language} category={this.category} onCategoryChange={this.onCategoryChange} />
-          <ItemsList arrayItems={filteredArrayItems} />
+          <ItemsList arrayItems={filteredArrayItems} onItemChange={this.onItemChange} />
         </div>          
 
       </React.Fragment>

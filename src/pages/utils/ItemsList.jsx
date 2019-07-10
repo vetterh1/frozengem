@@ -60,11 +60,13 @@ const styles = theme => ({
 
 
 
-const intItemsList = ({arrayItems, intl}) => {
+const intItemsList = ({arrayItems, onItemChange, intl}) => {
   console.log('ItemsList arrayItems: ', arrayItems);
 
+  const handleItemChange = (item) => onItemChange(item);
+
   return (
-    arrayItems.map(item => <ItemCard  key={item.id} item={item} /> )
+    arrayItems.map(item => <ItemCard  key={item.id} item={item} onItemChange={handleItemChange} /> )
   );
 }
 

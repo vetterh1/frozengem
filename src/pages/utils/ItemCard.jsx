@@ -54,7 +54,7 @@ const styles = theme => ({
 
 
 
-const intItemCard = ({item, classes, intl,items, userInfo, enqueueSnackbar}) => {
+const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueueSnackbar}) => {
   const [cameraDialogState, setCameraDialogState] = React.useState(false);
 
   const handleAddPicture = () => {
@@ -71,6 +71,7 @@ const intItemCard = ({item, classes, intl,items, userInfo, enqueueSnackbar}) => 
     try {
       const { updatePictureItemToServer } = items;
       const itemUpdated = await updatePictureItemToServer(item.id , data, userInfo);
+      onItemChange(itemUpdated);
       console.log('itemUpdated: ', itemUpdated);
     } catch (error) {
       console.error('AddWizard.handleChange error: ' , error);
