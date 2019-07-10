@@ -20,6 +20,8 @@ import StepWizard from 'react-step-wizard';
 import { withSnackbar } from 'notistack';
 import setStateAsync from '../../utils/setStateAsync';
 
+import WebcamCapture from '../utils/WebcamCapture';
+
 // import stringifyOnce from '../../utils/stringifyOnce.js'
 
 const styles = theme => ({
@@ -54,7 +56,14 @@ const messages = defineMessages({
   error: {
     id: 'item.add.error',
     defaultMessage: 'Sorry, saving this item failed. Please try again...',
-    description: 'Sorry, saving this item failed. Please try again...',
+  },  
+  successPicture: {
+    id: 'camera.success',
+    defaultMessage: 'Your photo has been added successfuly!',
+  },  
+  errorPicture: {
+    id: 'camera.error',
+    defaultMessage: 'Sorry, saving this picture failed. Please try again...',
   },
 });
 
@@ -81,6 +90,8 @@ class AddWizard extends React.Component {
     expirationDate: null,
     expirationInMonth: 0,
     code: null,
+
+    cameraDialogState: false,
   };
 
   resetState = () => {
@@ -95,6 +106,10 @@ class AddWizard extends React.Component {
     this.handleArrayToggle = this.handleArrayToggle.bind(this)
     this.onStepChange = this.onStepChange.bind(this)
 
+
+    this.handleAddPicture = this.handleAddPicture.bind(this);
+    this.onPicture = this.onPicture.bind(this);
+    this.closeCameraDialog = this.closeCameraDialog.bind(this);
   }
 
   
@@ -174,6 +189,52 @@ class AddWizard extends React.Component {
 
 
 
+
+
+
+
+
+  handleAddPicture = () => {
+    this.setState({cameraDialogState: true});
+  }
+
+  
+  // Set the received value in the state 
+  // (replacing any existing one)
+  onPicture = async (data) => {
+
+    this.setState({cameraDialogState: false});
+
+    try {
+      const { updatePictureItemToServer } = this.props.items;
+      const itemUpdated = await updatePictureItemToServer(this.state.id , data, this.props.userInfo);
+      this.props.enqueueSnackbar(
+        this.props.intl.formatMessage(messages.successPicture), 
+        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+      );  
+    } catch (error) {
+      console.error('AddWizard.handleChange error: ' , error);
+      this.props.enqueueSnackbar(
+        this.props.intl.formatMessage(messages.errorPicture), 
+        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+      ); 
+    }
+  }
+
+
+
+  closeCameraDialog = () => {
+    console.log('closeCameraDialog');
+    this.setState({cameraDialogState: false});
+  }
+
+
+
+
+
+
+
+
   render() {
     const { classes } = this.props;
     const { isAuthenticated, language } = this.props.userInfo;
@@ -181,6 +242,13 @@ class AddWizard extends React.Component {
 
 
     return (
+        <>
+          <WebcamCapture
+            open={this.state.cameraDialogState}
+            onClose={() => this.closeCameraDialog()}
+            onPicture={(data) => this.onPicture(data)}
+          />
+
           <div className={classes.divWizardPage}>
             <StepWizard
               isHashEnabled 
@@ -196,10 +264,11 @@ class AddWizard extends React.Component {
               <SizeForm hashKey={'size'} language={language} handleChange={this.handleChange} state={this.state} />
               <FreezerForm hashKey={'freezer'} language={language} handleChange={this.handleChange} state={this.state} />
               <LocationForm hashKey={'location'} language={language} handleChange={this.handleChange} state={this.state} />
-              <Results hashKey={'results'} language={language} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
+              <Results hashKey={'results'} language={language} handleChange={this.handleChange} resetState={this.resetState} state={this.state} handleAddPicture={this.handleAddPicture} />
               {/* !!!! update variable stepsNumber whenever this list changes !!!! */}
               </StepWizard>
           </div>
+        </>
       );
   }
 }

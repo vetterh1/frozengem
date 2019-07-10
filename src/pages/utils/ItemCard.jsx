@@ -13,6 +13,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardMedia from '@material-ui/core/CardMedia';
 
 import config from '../../data/config'
 
@@ -22,7 +24,7 @@ import WebcamCapture from './WebcamCapture';
 
 const messages = defineMessages({ 
   error: {
-    id: 'item.update_picture.error',
+    id: 'camera.error',
     defaultMessage: 'Sorry, saving this picture failed. Please try again...',
   },
 });
@@ -48,6 +50,13 @@ const styles = theme => ({
     width: 60,
     height: 60,
   },
+  card: {
+    maxWidth: 345,
+    marginBottom: theme.spacing(2),
+  },
+  media: {
+    height: 140,
+  },  
 });
 
 
@@ -55,6 +64,9 @@ const styles = theme => ({
 
 
 const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueueSnackbar}) => {
+  console.debug('[--- FC ---] Functional component: ItemCard -  item: ', item.id);
+
+
   const [cameraDialogState, setCameraDialogState] = React.useState(false);
 
   const handleAddPicture = () => {
@@ -72,7 +84,7 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
       const { updatePictureItemToServer } = items;
       const itemUpdated = await updatePictureItemToServer(item.id , data, userInfo);
       onItemChange(itemUpdated);
-      console.log('itemUpdated: ', itemUpdated);
+      // console.log('itemUpdated: ', itemUpdated);
     } catch (error) {
       console.error('AddWizard.handleChange error: ' , error);
       enqueueSnackbar(
@@ -90,13 +102,44 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
   }
 
   return (
-    <React.Fragment>>
+    <React.Fragment>
 
       <WebcamCapture
         open={cameraDialogState}
         onClose={() => closeCameraDialog()}
         onPicture={(data) => onPicture(data)}
       />
+
+      <Card className={classes.card}>
+        <CardActionArea>
+          {item.picture && <CardMedia
+            className={classes.media}
+            // image={`${config.staticUrl}/static/thumbnails/items/${item.id}.jpg&updatedAt=${item.updatedAt}`}
+            image={`${config.staticUrl}/static/thumbnails/items/${item.id}.jpg`}
+            title={item.name}
+          /> }
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              {item.name && item.name}
+              {!item.name && item.category}
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              Expires: {item.expirationDate}
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              Last update: {item.updatedAt}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+        <CardActions>
+          <Button onClick={() => handleAddPicture()} size="small" color="primary">
+            {!item.picture && <FormattedMessage id="camera.add" defaultMessage="Add picture" />}
+            {item.picture && <FormattedMessage id="camera.replace" defaultMessage="Retake picture" />}
+          </Button>
+        </CardActions>
+      </Card>
+
+{/* 
 
       <Card className={classes.card}>
       <CardContent>
@@ -120,6 +163,9 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
         <Button onClick={() => handleAddPicture()} size="small"><FormattedMessage id="camera.add" defaultMessage="Add picture" /></Button>
       </CardActions>
       </Card>
+ */}
+
+
     </React.Fragment>
       );
 }

@@ -13,7 +13,6 @@ import { injectIntl, defineMessages, FormattedMessage } from "react-intl";
 import { DatePicker } from "@material-ui/pickers";
 
 
-
 const messages = defineMessages({
   name: {
     id: 'add.results.name.help',
@@ -63,7 +62,12 @@ class Results extends React.Component {
   constructor(props) {
     super(props);
     this.state = {...this.defaultState, name: "", date: null};
+
   }
+
+
+
+
 
   handleAddNew() { this.props.resetState(); this.props.firstStep();}
   
@@ -92,6 +96,11 @@ class Results extends React.Component {
     if(this.state.expirationDate) updates.expirationDate = this.state.expirationDate;
     this.props.handleChange(updates, true); 
     this.resetState();
+  }
+
+
+  handleAddPicture () {
+    this.props.handleAddPicture();
   }
 
 
@@ -151,6 +160,10 @@ class Results extends React.Component {
             </Button> 
           }
 
+          <Button color="primary" onClick={this.handleAddPicture.bind(this)} className={classes.button}>
+            <FormattedMessage id="camera.add" defaultMessage="Add picture" />
+          </Button> 
+          
 {/* 
           <div className={"flex-max-height flex-direction-column"}>
             &nbsp;

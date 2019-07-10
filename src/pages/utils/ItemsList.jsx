@@ -40,19 +40,14 @@ import ItemCard from './ItemCard'
 
 const styles = theme => ({
   layout: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: 'wrap',
+    justifyContent: 'space-evenly',
     width: 'auto',
     padding: `${theme.spacing(2)}px 0`,
     // marginLeft: theme.spacing(1),
     // marginRight: theme.spacing(1),
-  },
-  subtitle: {
-    textAlign: 'center',
-    marginBottom: theme.spacing(2),
-  },
-  largeIcon: {
-    width: 48,
-    height: 48,
-    marginBottom: theme.spacing(2),
   },
 });
 
@@ -60,13 +55,15 @@ const styles = theme => ({
 
 
 
-const intItemsList = ({arrayItems, onItemChange, intl}) => {
-  console.log('ItemsList arrayItems: ', arrayItems);
+const intItemsList = ({arrayItems, onItemChange, classes, intl}) => {
+  console.debug('[--- FC ---] Functional component: ItemsList -  arrayItems: ', arrayItems);
 
   const handleItemChange = (item) => onItemChange(item);
 
   return (
-    arrayItems.map(item => <ItemCard  key={item.id} item={item} onItemChange={handleItemChange} /> )
+    <div className={classes.layout}>
+      {arrayItems.map(item => <ItemCard  key={item.id} item={item} onItemChange={handleItemChange} /> )}
+    </div>
   );
 }
 

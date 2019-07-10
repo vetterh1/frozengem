@@ -14,6 +14,8 @@ import Filters from './Filters'
 
 const styles = theme => ({
   layout: {
+    display: "flex",
+    flexDirection: "column",
     width: 'auto',
     padding: `${theme.spacing(2)}px 0`,
     // marginLeft: theme.spacing(1),
@@ -87,6 +89,8 @@ class Dashboard extends React.Component {
 
 
   render() {
+    console.debug('[--- R ---] Render: Dashboard' );
+
     const { classes, userInfo } = this.props;
     const { filteredArrayItems, arrayItems } = this.state;
 

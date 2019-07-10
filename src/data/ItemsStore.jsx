@@ -108,7 +108,7 @@ export class Items extends React.Component {
   
     
   async updateItemToServer(idItem, updates, user) {
-    console.info('|--- SERVER CALL ---|--- PUT ---| Items.updateItemToServer: ', idItem);
+    console.info('|--- SERVER CALL ---|--- PUT ---| Items.updateItemToServer: ', idItem, updates);
     const data = { 'access_token': user.accessToken, ...updates };
     const options = {
       method: 'PUT',
@@ -134,6 +134,7 @@ export class Items extends React.Component {
   
     
   async updatePictureItemToServer(idItem, picture, user) {
+    console.info('|--- SERVER CALL ---|--- PUT ---| Items.updatePictureItemToServer: ', idItem);
     const data = { 'access_token': user.accessToken, picture };
     const options = {
       method: 'PUT',
@@ -145,10 +146,10 @@ export class Items extends React.Component {
 
     try {
       console.log('updatePictureItemToServer options: ' , options);
-      await axios(options);
-      const responseItem = await this.updateItemToServer(idItem, {picture: true}, user);
-      console.log('updatePictureItemToServer OK: ' , responseItem);
-      return responseItem;
+      const response = await axios(options);
+      // const responseItem = await this.updateItemToServer(idItem, {picture: true}, user);
+      console.log('updatePictureItemToServer OK: ' , response);
+      return response.data;
     } catch (error) {
       console.error('updatePictureItemToServer error: ' , error);
       throw error;
