@@ -54,8 +54,8 @@ export class Items extends React.Component {
 */
 
   async get(token, user) {
+    console.info('|--- SERVER CALL ---|--- GET ---| Items.get loads items from server');
     const params = { 'access_token': token, 'user': user };
-    // console.log('Items.get params: ' , params);
     const options = {
       method: 'GET',
       url: `${config.boUrl}/items?${qs.stringify(params)}`,
@@ -81,6 +81,7 @@ export class Items extends React.Component {
         
   
   async saveItemToServer(item, user) {
+    console.info('|--- SERVER CALL ---|--- POST ---| Items.saveItemToServer: ', item);
     const data = { 'access_token': user.accessToken, ...item };
     data.details = item.details.join();
     const options = {
@@ -94,7 +95,7 @@ export class Items extends React.Component {
     try {
       // console.log('saveItemToServer options: ' , options);
       const response = await axios(options);
-      console.log('saveItemToServer OK: ' , response.data);
+      // console.log('saveItemToServer OK: ' , response.data);
       return response.data;
     } catch (error) {
       console.error('register error: ' , error);
@@ -107,6 +108,7 @@ export class Items extends React.Component {
   
     
   async updateItemToServer(idItem, updates, user) {
+    console.info('|--- SERVER CALL ---|--- PUT ---| Items.updateItemToServer: ', idItem);
     const data = { 'access_token': user.accessToken, ...updates };
     const options = {
       method: 'PUT',
@@ -117,9 +119,9 @@ export class Items extends React.Component {
     };
 
     try {
-      console.log('updateItemToServer options: ' , options);
+      // console.log('updateItemToServer options: ' , options);
       const response = await axios(options);
-      console.log('updateItemToServer OK: ' , response.data);
+      // console.log('updateItemToServer OK: ' , response.data);
       return response.data;
     } catch (error) {
       console.error('register error: ' , error);
@@ -143,9 +145,10 @@ export class Items extends React.Component {
 
     try {
       console.log('updatePictureItemToServer options: ' , options);
-      const response = await axios(options);
-      console.log('updatePictureItemToServer OK: ' , response.data);
-      return response.data;
+      await axios(options);
+      const responseItem = await this.updateItemToServer(idItem, {picture: true}, user);
+      console.log('updatePictureItemToServer OK: ' , responseItem);
+      return responseItem;
     } catch (error) {
       console.error('updatePictureItemToServer error: ' , error);
       throw error;

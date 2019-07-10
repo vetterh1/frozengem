@@ -8,10 +8,12 @@ const config = {
   },
   test: { },
   development: {
-    boUrl: 'http://localhost:9000' 
+    boUrl: 'http://localhost:9000',
+    staticUrl: 'http://localhost:9000',
   },
   production: {
-    boUrl: 'https://frozengem.com/frozenbo'
+    boUrl: 'https://frozengem.com/frozenbo',
+    staticUrl: 'https://frozengem.com',
   }
 }
 

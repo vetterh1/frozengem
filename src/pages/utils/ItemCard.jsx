@@ -8,21 +8,16 @@ import { withItemCharacteristics } from '../../auth/withItemCharacteristics';
 import { injectIntl, FormattedMessage, defineMessages } from "react-intl";
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar';
 
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 
+import config from '../../data/config'
+
 
 import WebcamCapture from './WebcamCapture';
-
-// const useStyles = makeStyles(theme => ({
-//   button: {
-//     margin: theme.spacing(1),
-//   },
-// }));
-
-
 
 
 const messages = defineMessages({ 
@@ -47,6 +42,11 @@ const styles = theme => ({
     width: 48,
     height: 48,
     marginBottom: theme.spacing(2),
+  },
+  bigAvatar: {
+    margin: 10,
+    width: 60,
+    height: 60,
   },
 });
 
@@ -111,6 +111,9 @@ const intItemCard = ({item, classes, intl,items, userInfo, enqueueSnackbar}) => 
         <Typography variant="body2" component="p">
           {item.code}
         </Typography>
+        { item.picture === true &&
+          <Avatar alt={item.name} src={`${config.staticUrl}/static/thumbnails/items/${item.id}.jpg`} className={classes.bigAvatar} />
+        }
       </CardContent>
       <CardActions>
         <Button onClick={() => handleAddPicture()} size="small"><FormattedMessage id="camera.add" defaultMessage="Add picture" /></Button>

@@ -129,7 +129,7 @@ export class UserInfoStore extends React.Component {
 
   
   async setLanguage (language) {
-      console.log('UserInfoStore.setLanguage: ', language);
+      console.info('|--- SERVER CALL ---|--- POST ---| UserInfoStore.setLanguage: ', language);
 
       // Update state:
       this.setState({language});
@@ -158,6 +158,7 @@ export class UserInfoStore extends React.Component {
 
 
   async login(email, password) {
+    console.info('|--- SERVER CALL ---|--- POST ---| UserInfoStore.login: ', email);
     const masterKey = config.masterKey;
     const data = { 'access_token': masterKey };
     const options = {
@@ -203,6 +204,7 @@ logout() {
 
 
   async registerToServer(email, password, name) {
+    console.info('|--- SERVER CALL ---|--- POST ---| UserInfoStore.registerToServer: ', email);
     const masterKey = config.masterKey;
     const data = { 'access_token': masterKey, email, password, name };
     const options = {
@@ -250,6 +252,7 @@ logout() {
 
 
   async loadFromServer(token) {
+    console.info('|--- SERVER CALL ---|--- GET ---| UserInfoStore.loadFromServer');
     const params = { 'access_token': token };
     const options = {
       method: 'GET',
@@ -276,6 +279,7 @@ logout() {
 
 
   async joinHome(home) {
+    console.info('|--- SERVER CALL ---|--- PUT ---| UserInfoStore.joinHome: ', home);
     const data = { 'access_token': this.state.accessToken, home };
     const options = {
       method: 'PUT',
@@ -306,6 +310,7 @@ logout() {
 
   
   async joinNewHome(name, label) {
+    console.info('|--- SERVER CALL ---|--- PUT ---| UserInfoStore.joinNewHome: ', name);
     const data = { 'access_token': this.state.accessToken, name, label };
     const options = {
       method: 'PUT',
