@@ -16,6 +16,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardMedia from '@material-ui/core/CardMedia';
 
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+
 import config from '../../data/config'
 
 
@@ -64,7 +66,20 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
   console.debug('[--- FC ---] Functional component: ItemCard -  item: ', item.id);
 
 
+  const [extendedView, setExtendedView] = React.useState(false);
   const [cameraDialogState, setCameraDialogState] = React.useState(false);
+
+
+  
+
+  const handleExtendedView = () => {
+    setExtendedView(prev => !prev);
+  }
+
+  const handleClickAway = () => {
+    setExtendedView(false);
+  };
+
 
   const handleAddPicture = () => {
     setCameraDialogState(true);
@@ -107,34 +122,40 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
         onPicture={(data) => onPicture(data)}
       />
 
-      <Card className={classes.layout}>
-        <CardActionArea>
-          {item.picture && <CardMedia
-            className={classes.media}
-            // image={`${config.staticUrl}/static/thumbnails/items/${item.id}.jpg&updatedAt=${item.updatedAt}`}
-            image={`${config.staticUrl}/static/thumbnails/items/${item.id}.jpg`}
-            title={item.name}
-          /> }
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              {item.name && item.name}
-              {!item.name && item.category}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              Expires: {item.expirationDate}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              Last update: {item.updatedAt}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <Button onClick={() => handleAddPicture()} size="small" color="primary">
-            {!item.picture && <FormattedMessage id="camera.add" defaultMessage="Add picture" />}
-            {item.picture && <FormattedMessage id="camera.replace" defaultMessage="Retake picture" />}
-          </Button>
-        </CardActions>
-      </Card>
+      <ClickAwayListener onClickAway={handleClickAway}>
+        <Card className={classes.layout} raised={extendedView}>
+          <CardActionArea onClick={handleExtendedView}>
+            {item.picture && <CardMedia
+              className={classes.media}
+              // image={`${config.staticUrl}/static/thumbnails/items/${item.id}.jpg&updatedAt=${item.updatedAt}`}
+              image={`${config.staticUrl}/static/thumbnails/items/${item.id}.jpg`}
+              title={item.name}
+            /> }
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                {item.name && item.name}
+                {!item.name && item.category}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                Expires: {item.expirationDate}
+              </Typography>
+              { extendedView &&
+                <Typography variant="body2" color="textSecondary" component="p">
+                  Last update: {item.updatedAt}
+                </Typography>
+              }
+            </CardContent>
+          </CardActionArea>
+          { extendedView &&
+            <CardActions>
+              <Button onClick={() => handleAddPicture()} size="small" color="primary">
+                {!item.picture && <FormattedMessage id="camera.add" defaultMessage="Add picture" />}
+                {item.picture && <FormattedMessage id="camera.replace" defaultMessage="Retake picture" />}
+              </Button>
+            </CardActions>
+          }
+        </Card>
+      </ClickAwayListener>
 
 {/* 
 
