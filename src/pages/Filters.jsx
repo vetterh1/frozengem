@@ -4,6 +4,8 @@ import { withItemCharacteristics } from '../auth/withItemCharacteristics';
 import { injectIntl } from "react-intl";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';// import { injectIntl, defineMessages } from "react-intl";
+import { B, V, F, S, M, H, D, I } from "../data/Icons";
+import Fastfood from '@material-ui/icons/Fastfood';
 
 
 // const messages = defineMessages({ 
@@ -51,6 +53,17 @@ const intFilters = ({language, category, onCategoryChange, size, onSizeChange, i
   }
 
 
+  const categoryIcons = {
+    "B": <B fontSize="medium" />,
+    "V": <V fontSize="medium" />,
+    "F": <F fontSize="medium" />,
+    "S": <S fontSize="medium" />,
+    "P": <Fastfood fontSize="medium" />,
+    "M": <M fontSize="medium" />,
+    "H": <H fontSize="medium" />,
+    "D": <D fontSize="medium" />,
+    "I": <I fontSize="medium" />,
+  }
 
   if(!selectedCategory) return null;
   
@@ -65,7 +78,12 @@ const intFilters = ({language, category, onCategoryChange, size, onSizeChange, i
         indicatorColor="primary"
         textColor="primary"
       >
-        {sortedCategories.map(category => <Tab  key={category.id2} label={category.name[language]} value={category.id2} />)}
+        {sortedCategories.map(category => <Tab
+          key={category.id2}
+          label={category.name[language]}
+          value={category.id2}
+          icon={categoryIcons[category.id2]} 
+        />)}
       </Tabs>      
 
     </React.Fragment>

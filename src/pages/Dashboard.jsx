@@ -17,17 +17,13 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "column",
     width: 'auto',
+    marginTop: theme.spacing(2),
     // padding: '0px',
     // marginLeft: theme.spacing(1),
     // marginRight: theme.spacing(1),
   },
   subtitle: {
     textAlign: 'center',
-    marginBottom: theme.spacing(2),
-  },
-  largeIcon: {
-    width: 48,
-    height: 48,
     marginBottom: theme.spacing(2),
   },
 });

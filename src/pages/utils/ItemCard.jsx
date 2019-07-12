@@ -38,20 +38,6 @@ const styles = theme => ({
     maxWidth: 445,
     margin: theme.spacing(2),
   },
-  subtitle: {
-    textAlign: 'center',
-    marginBottom: theme.spacing(2),
-  },
-  largeIcon: {
-    width: 48,
-    height: 48,
-    marginBottom: theme.spacing(2),
-  },
-  bigAvatar: {
-    margin: 10,
-    width: 60,
-    height: 60,
-  },
   media: {
     minHeight: 200,
     minWidth: 350,
@@ -124,7 +110,7 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
 
       <ClickAwayListener onClickAway={handleClickAway}>
         <Card className={classes.layout} raised={extendedView}>
-          <CardActionArea onClick={handleExtendedView}>
+          <CardActionArea onClick={handleExtendedView} disableRipple={true}>
             {item.picture && <CardMedia
               className={classes.media}
               // image={`${config.staticUrl}/static/thumbnails/items/${item.id}.jpg&updatedAt=${item.updatedAt}`}
