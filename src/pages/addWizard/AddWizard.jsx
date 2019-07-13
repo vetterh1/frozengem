@@ -164,7 +164,7 @@ class AddWizard extends React.Component {
         // Expiration date calculation
         const expirationInMonth = itemCharacteristics.computeExpiration(category, details);
         const expirationDate = new Date();
-        expirationDate.setMonth(expirationDate.getMonth() + expirationInMonth);
+        expirationDate.setMonth(expirationDate.getMonth() + expirationInMonth, 1);
         console.log("Date after " + expirationInMonth + " months:", expirationDate);
         await setStateAsync(this, {expirationDate, expirationInMonth});
         console.log("State after setStateAsync ", this.state);
@@ -207,7 +207,7 @@ class AddWizard extends React.Component {
 
     try {
       const { updatePictureItemToServer } = this.props.items;
-      const itemUpdated = await updatePictureItemToServer(this.state.id , data, this.props.userInfo);
+      await updatePictureItemToServer(this.state.id , data, this.props.userInfo);
       this.props.enqueueSnackbar(
         this.props.intl.formatMessage(messages.successPicture), 
         {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}

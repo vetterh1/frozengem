@@ -88,6 +88,7 @@ export class ItemCharacteristicsStore extends React.Component {
         itemCharacteristics: null,
         load: () => this.load(),
         computeExpiration: (category, details) => this.computeExpiration(category, details),
+        computeExpirationLevel: (date) => this.computeExpirationLevel(date),
     };
 
 
@@ -176,6 +177,17 @@ export class ItemCharacteristicsStore extends React.Component {
 
 
 
+    computeExpirationLevel(date) {
+        const nowInMs = Date.now();
+        const oneMonthInMs = 1 * 30 * 24 * 60 * 60 * 1000;
+        if( date < nowInMs ) return ExpirationLevel.EXPIRATION_PASSED;
+        if( date < nowInMs + 1 * oneMonthInMs ) return ExpirationLevel.EXPIRATION_NEXT_30_DAYS;
+        if( date < nowInMs + 3 * oneMonthInMs ) return ExpirationLevel.EXPIRATION_WITHIN_3_MONTHS;
+        return ExpirationLevel.EXPIRATION_LATER;
+    }
+
+
+
     render() {
         const { state, props: { children } } = this;
         return <Context.Provider value={state}>{children}</Context.Provider>;
@@ -183,3 +195,11 @@ export class ItemCharacteristicsStore extends React.Component {
 }
 
 export const ItemCharacteristicsConsumer = Context.Consumer;
+
+
+export const ExpirationLevel = {
+    EXPIRATION_PASSED: 0,
+    EXPIRATION_NEXT_30_DAYS: 1,
+    EXPIRATION_WITHIN_3_MONTHS: 2,
+    EXPIRATION_LATER: 3,
+};

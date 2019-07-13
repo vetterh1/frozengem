@@ -54,15 +54,15 @@ const intFilters = ({language, category, onCategoryChange, size, onSizeChange, i
 
 
   const categoryIcons = {
-    "B": <B fontSize="medium" />,
-    "V": <V fontSize="medium" />,
-    "F": <F fontSize="medium" />,
-    "S": <S fontSize="medium" />,
-    "P": <Fastfood fontSize="medium" />,
-    "M": <M fontSize="medium" />,
-    "H": <H fontSize="medium" />,
-    "D": <D fontSize="medium" />,
-    "I": <I fontSize="medium" />,
+    "B": <B fontSize="default" />,
+    "V": <V fontSize="default" />,
+    "F": <F fontSize="default" />,
+    "S": <S fontSize="default" />,
+    "P": <Fastfood fontSize="default" />,
+    "M": <M fontSize="default" />,
+    "H": <H fontSize="default" />,
+    "D": <D fontSize="default" />,
+    "I": <I fontSize="default" />,
   }
 
   if(!selectedCategory) return null;
