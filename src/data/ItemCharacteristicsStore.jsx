@@ -87,6 +87,9 @@ export class ItemCharacteristicsStore extends React.Component {
     state = {
         itemCharacteristics: null,
         load: () => this.load(),
+        getCategoryName: (category, language) => this.getCategoryName(category, language),
+        getSizeLabel: (size, language) => this.getSizeLabel(size, language),
+        getDetailsNamesArray: (detailsArray, language) => this.getDetailsNamesArray(detailsArray, language),
         computeExpiration: (category, details) => this.computeExpiration(category, details),
         computeExpirationLevel: (date) => this.computeExpirationLevel(date),
     };
@@ -143,6 +146,42 @@ export class ItemCharacteristicsStore extends React.Component {
 
         // console.log('ItemCharacteristicsStore: itemCharacteristics=', stringifyOnce(itemCharacteristics));
     }
+
+
+    getCategoryName(category, language) {
+        // Get the categories. They contain the name information
+        const { categories } = this.state;
+        const foundCategory = categories.find(aCategory => aCategory.id2 === category);
+        if(foundCategory)
+            return foundCategory.name[language];
+        else
+            return null;
+    }
+
+    getSizeLabel(size, language) {
+        // Get the sizes. They contain the label information
+        const { sizes } = this.state;
+        const sizeInString = size.toString();
+        const foundSize = sizes.find(aSize => aSize.id2 === sizeInString);
+        if(foundSize)
+            return foundSize.label[language];
+        else
+            return null;
+    }
+
+    getDetailsNamesArray(detailsArray, language) {
+        // Get the details. They contain the label information
+        const { details } = this.state;
+        return detailsArray.map(aPassedDetail => {
+            const foundDetail = details.find(aDetail => aDetail.id2 === aPassedDetail)
+            if(foundDetail)
+                return foundDetail.name[language];
+            else
+                return null;
+        })
+       
+    }
+
 
     computeExpiration(category, details) {
         console.log('computeExpiration: category=', category, " - details=", details);

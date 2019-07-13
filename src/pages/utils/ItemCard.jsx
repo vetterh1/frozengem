@@ -78,6 +78,9 @@ const styles = theme => ({
   expandedOpen: {
     transform: 'rotate(180deg)',
   },
+  details: {
+    marginRight: theme.spacing(1),
+  },
 });
 
 
@@ -162,13 +165,15 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
       break;
   } 
 
-  const name = item.name ? item.name : item.category;
+  const name = item.name ? item.name : itemCharacteristics.getCategoryName(item.category, userInfo.language);
   const title = name;
   
   const d = new Date(item.expirationDate);
   const expiration = `Expires ${d.getUTCMonth() + 1}/${d.getUTCFullYear()}`;
 
-  const quantity = "3";
+  const size = itemCharacteristics.getSizeLabel(item.size, userInfo.language);
+
+  const detailsNamesArray = itemCharacteristics.getDetailsNamesArray(item.detailsArray, userInfo.language);
 
   return (
     <React.Fragment>
@@ -209,7 +214,7 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
           }          
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
-              Quantity is for {quantity}
+              Size: {size}
             </Typography>
           </CardContent>
           <CardActions disableSpacing>
@@ -231,14 +236,20 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
             </IconButton>
           </CardActions>
           <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <CardContent>
-              <Typography paragraph>Method:</Typography>
-              <Typography paragraph>
-                Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-                minutes.
-              </Typography>
-
-            </CardContent>
+            <>
+              <CardContent>
+                <Typography paragraph>Details:</Typography>
+                <Typography paragraph>
+                  {detailsNamesArray && detailsNamesArray.map(aDetailName => <span className={classes.details}>{aDetailName}</span>)}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button onClick={() => handleAddPicture()} size="small" color="primary">
+                  {!item.picture && <FormattedMessage id="camera.add" defaultMessage="Add picture" />}
+                  {item.picture && <FormattedMessage id="camera.replace" defaultMessage="Retake picture" />}
+                </Button>
+              </CardActions>
+            </>
           </Collapse>
         </Card>
 
