@@ -174,6 +174,7 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
   const size = itemCharacteristics.getSizeLabel(item.size, userInfo.language);
 
   const detailsNamesArray = itemCharacteristics.getDetailsNamesArray(item.detailsArray, userInfo.language);
+  const detailsNames = detailsNamesArray ? detailsNamesArray.join( ', ') : null;
 
   return (
     <React.Fragment>
@@ -238,10 +239,7 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             <>
               <CardContent>
-                <Typography paragraph>Details:</Typography>
-                <Typography paragraph>
-                  {detailsNamesArray && detailsNamesArray.map(aDetailName => <span className={classes.details}>{aDetailName}</span>)}
-                </Typography>
+                {detailsNames && <Typography paragraph>Details: {detailsNames}</Typography>}
               </CardContent>
               <CardActions>
                 <Button onClick={() => handleAddPicture()} size="small" color="primary">

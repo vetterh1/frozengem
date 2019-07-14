@@ -170,6 +170,7 @@ export class ItemCharacteristicsStore extends React.Component {
     }
 
     getDetailsNamesArray(detailsArray, language) {
+        if(!detailsArray) return null;
         // Get the details. They contain the label information
         const { details } = this.state;
         return detailsArray.map(aPassedDetail => {
