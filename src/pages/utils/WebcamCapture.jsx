@@ -76,10 +76,10 @@ const WebcamCapture = ({open, onPicture, onClose, classes, intl}) => {
             <DialogContent dividers>
                 <Webcam
                     audio={false}
-                    height={'80%'}
+                    // height={'80%'}
                     ref={webcam}
                     screenshotFormat="image/jpeg"
-                    width={'100%'}
+                    // width={'100%'}
                     videoConstraints={videoConstraints}
                 />
             </DialogContent>

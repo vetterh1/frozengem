@@ -176,6 +176,8 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
   const detailsNamesArray = itemCharacteristics.getDetailsNamesArray(item.detailsArray, userInfo.language);
   const detailsNames = detailsNamesArray ? detailsNamesArray.join( ', ') : null;
 
+  const thumbnailsOrPictures = expandedMedia ? 'pictures' : 'thumbnails';
+
   return (
     <React.Fragment>
 
@@ -208,7 +210,7 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
             <CardActionArea onClick={handleExpandedMedia} disableRipple={true}>
               <CardMedia
                 className={expandedMedia ? classes.mediaOpen : classes.media}
-                image={`${config.staticUrl}/static/thumbnails/items/${item.id}.jpg`}
+                image={`${config.staticUrl}/static/${thumbnailsOrPictures}/items/${item.id}.jpg`}
                 title={item.name}
               />
             </CardActionArea>
