@@ -58,8 +58,8 @@ const WebcamCapture = ({open, onPicture, onClose, classes, intl}) => {
   
 
     const videoConstraints = {
-    width: { ideal: 600 },
-    height: { ideal: 920 },
+    width: 1280,
+    height: 1980,
     facingMode: "environment"
     };
   
