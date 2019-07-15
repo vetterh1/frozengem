@@ -65,7 +65,7 @@ const styles = theme => ({
     minWidth: 350,
   },
   mediaOpen: {
-    minHeight: 200,
+    minHeight: 400,
     minWidth: 350,
   },  
   expanded: {
