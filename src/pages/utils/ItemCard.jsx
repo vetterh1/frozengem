@@ -81,6 +81,12 @@ const styles = theme => ({
   details: {
     marginRight: theme.spacing(1),
   },
+  button: {
+    margin: theme.spacing(1),
+  },  
+  input: {
+    display: 'none',
+  },  
 });
 
 
@@ -249,7 +255,17 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
                   {item.picture && <FormattedMessage id="camera.replace" defaultMessage="Retake picture" />}
                 </Button>
 
-                <input type="file" accept="image/x-png,image/jpeg,image/gif" />
+                <input
+                  accept="image/x-png,image/jpeg,image/gif"
+                  className={classes.input}
+                  id="button-choose-picture"
+                  type="file"
+                />
+                <label htmlFor="button-choose-picture">
+                  <Button component="span"size="small" color="primary" className={classes.button}>
+                    Upload
+                  </Button>
+                </label>
 
 
               </CardActions>
