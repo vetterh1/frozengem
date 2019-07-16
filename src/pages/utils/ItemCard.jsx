@@ -184,6 +184,21 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
 
   const thumbnailsOrPictures = expandedMedia ? 'pictures' : 'thumbnails';
 
+  const onFileLoad = (e) => onPicture(e.target.result)
+
+
+  const onInputChange = (e) => {
+    e.target.files
+        .forEach(
+            (file) => {
+                console.log("file: ", file)
+                let reader = new FileReader();
+                reader.onload = (e) => onFileLoad(e, file);
+                reader.readAsDataURL(file);
+            }
+        );
+  };
+
   return (
     <React.Fragment>
 
@@ -260,6 +275,7 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
                   className={classes.input}
                   id="button-choose-picture"
                   type="file"
+                  onChange={onInputChange}
                 />
                 <label htmlFor="button-choose-picture">
                   <Button component="span"size="small" color="primary" className={classes.button}>
