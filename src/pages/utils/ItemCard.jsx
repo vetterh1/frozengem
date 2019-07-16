@@ -248,6 +248,10 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
                   {!item.picture && <FormattedMessage id="camera.add" defaultMessage="Add picture" />}
                   {item.picture && <FormattedMessage id="camera.replace" defaultMessage="Retake picture" />}
                 </Button>
+
+                <input type="file" accept="image/x-png,image/jpeg,image/gif" />
+
+
               </CardActions>
             </>
           </Collapse>
