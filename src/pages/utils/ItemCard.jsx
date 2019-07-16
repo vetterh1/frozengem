@@ -49,6 +49,10 @@ const messages = defineMessages({
   error: {
     id: 'camera.error',
     defaultMessage: 'Sorry, saving this picture failed. Please try again...',
+  },  
+  success: {
+    id: 'camera.success',
+    defaultMessage: 'Picture saved!',
   },
 });
 
@@ -133,6 +137,10 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
       const { updatePictureItemToServer } = items;
       const itemUpdated = await updatePictureItemToServer(item.id , data, userInfo);
       onItemChange(itemUpdated);
+      enqueueSnackbar(
+        intl.formatMessage(messages.success), 
+        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+      ); 
       // console.log('itemUpdated: ', itemUpdated);
     } catch (error) {
       console.error('AddWizard.handleChange error: ' , error);
