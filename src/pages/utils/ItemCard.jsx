@@ -42,7 +42,8 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import config from '../../data/config'
 
 
-import WebcamCapture from './WebcamCapture';
+// import WebcamCapture from './WebcamCapture';
+import PictureSelection from './PictureSelection';
 
 
 const messages = defineMessages({ 
@@ -53,6 +54,14 @@ const messages = defineMessages({
   success: {
     id: 'camera.success',
     defaultMessage: 'Picture saved!',
+  },
+  cameraReplace: {
+    id: 'camera.replace',
+    defaultMessage: 'Retake picture',
+  },  
+  cameraAdd: {
+    id: 'camera.add',
+    defaultMessage: 'Add picture',
   },
 });
 
@@ -103,7 +112,7 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
 
   const [expanded, setExpanded] = React.useState(false);
   const [expandedMedia, setExpandedMedia] = React.useState(false);
-  const [cameraDialogState, setCameraDialogState] = React.useState(false);
+  // const [cameraDialogState, setCameraDialogState] = React.useState(false);
 
 
   
@@ -122,16 +131,16 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
   };
 
 
-  const handleAddPicture = () => {
-    setCameraDialogState(true);
-  }
+  // const handleAddPicture = () => {
+  //   setCameraDialogState(true);
+  // }
 
   
   // Set the received value in the state 
   // (replacing any existing one)
-  const onPicture = async (data) => {
+  const savePicture = async (data) => {
 
-    setCameraDialogState(false);
+    // setCameraDialogState(false);
 
     try {
       const { updatePictureItemToServer } = items;
@@ -153,10 +162,14 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
 
 
 
-  const closeCameraDialog = () => {
-  console.log('closeCameraDialog');
-  setCameraDialogState(false);
-  }
+
+
+
+
+  // const closeCameraDialog = () => {
+  // console.log('closeCameraDialog');
+  // setCameraDialogState(false);
+  // }
 
 
 
@@ -192,29 +205,11 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
 
   const thumbnailsOrPictures = expandedMedia ? 'pictures' : 'thumbnails';
 
-  const onFileLoad = (e) => onPicture(e.target.result)
-
-
-  const onInputChange = (e) => {
-    e.target.files
-        .forEach(
-            (file) => {
-                console.log("file: ", file)
-                let reader = new FileReader();
-                reader.onload = (e) => onFileLoad(e, file);
-                reader.readAsDataURL(file);
-            }
-        );
-  };
 
   return (
     <React.Fragment>
 
-      <WebcamCapture
-        open={cameraDialogState}
-        onClose={() => closeCameraDialog()}
-        onPicture={(data) => onPicture(data)}
-      />
+    
 
       <ClickAwayListener onClickAway={handleClickAway}>
 
@@ -273,24 +268,11 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
                 {detailsNames && <Typography paragraph>Details: {detailsNames}</Typography>}
               </CardContent>
               <CardActions>
-                <Button onClick={() => handleAddPicture()} size="small" color="primary">
-                  {!item.picture && <FormattedMessage id="camera.add" defaultMessage="Add picture" />}
-                  {item.picture && <FormattedMessage id="camera.replace" defaultMessage="Retake picture" />}
-                </Button>
 
-                <input
-                  accept="image/x-png,image/jpeg,image/gif"
-                  className={classes.input}
-                  id="button-choose-picture"
-                  type="file"
-                  onChange={onInputChange}
+                <PictureSelection 
+                  onPicture={savePicture}
+                  label={intl.formatMessage(item.picture ? messages.cameraReplace : messages.cameraAdd)}
                 />
-                <label htmlFor="button-choose-picture">
-                  <Button component="span"size="small" color="primary" className={classes.button}>
-                    Upload
-                  </Button>
-                </label>
-
 
               </CardActions>
             </>
@@ -309,7 +291,34 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
 export default injectIntl(withSnackbar(withUserInfo(withItemCharacteristics(withItems(withStyles(styles)(intItemCard))))));
 
 
+/*
+      <WebcamCapture
+        open={cameraDialogState}
+        onClose={() => closeCameraDialog()}
+        savePicture={(data) => savePicture(data)}
+      />
 
+
+
+                <Button onClick={() => handleAddPicture()} size="small" color="primary">
+                  {!item.picture && <FormattedMessage id="camera.add" defaultMessage="Add picture" />}
+                  {item.picture && <FormattedMessage id="camera.replace" defaultMessage="Retake picture" />}
+                </Button>
+
+                <input
+                  accept="image/x-png,image/jpeg,image/gif"
+                  className={classes.input}
+                  id="button-choose-picture"
+                  type="file"
+                  onChange={onInputChange}
+                />
+                <label htmlFor="button-choose-picture">
+                  <Button component="span"size="small" color="primary" className={classes.button}>
+                    Upload
+                  </Button>
+                </label>
+
+*/
 
 // <ClickAwayListener onClickAway={handleClickAway}>
 // <Card className={classes.layout} raised={expandedView}>

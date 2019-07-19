@@ -61,9 +61,11 @@ const intItemsList = ({arrayItems, onItemChange, classes, intl}) => {
   const handleItemChange = (item) => onItemChange(item);
 
   return (
-    <div className={classes.layout}>
-      {arrayItems.map(item => <ItemCard  key={item.id} item={item} onItemChange={handleItemChange} /> )}
-    </div>
+    <>
+      <div className={classes.layout}>
+        {arrayItems.map(item => <ItemCard  key={item.id} item={item} onItemChange={handleItemChange} /> )}
+      </div>
+    </>
   );
 }
 
