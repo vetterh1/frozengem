@@ -33,10 +33,32 @@ const styles = theme => ({
         if ([5, 6, 7, 8].indexOf(orientation) > -1) {
             canvas.width = img.height;
             canvas.height = img.width;
-          } else {
+        } else {
             canvas.width = img.width;
             canvas.height = img.height;
-          }
+        }
+
+        var width = canvas.width;
+        var height = canvas.height;
+
+        console.log(`resizePicture: image width=${width}, height=${height}`);
+
+
+        if (width > height) {
+            if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+            }
+        } else {
+            if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+            }
+        }
+        canvas.width = width;
+        canvas.height = height;
+
+        console.log(`resizePicture: to... width=${width}, height=${height}`);
 
 
         var ctx = canvas.getContext("2d");
@@ -68,7 +90,7 @@ const styles = theme => ({
               ctx.transform(1, 0, 0, 1, 0, 0);
           }
     
-          ctx.drawImage(img, 0, 0, img.width, img.height);
+          ctx.drawImage(img, 0, 0, width, height);
 
 /*
 
