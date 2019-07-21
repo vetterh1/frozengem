@@ -138,13 +138,13 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
   
   // Set the received value in the state 
   // (replacing any existing one)
-  const savePicture = async (data) => {
+  const savePicture = async (pictureData, thumbnailData) => {
 
     // setCameraDialogState(false);
 
     try {
       const { updatePictureItemToServer } = items;
-      const itemUpdated = await updatePictureItemToServer(item.id , data, userInfo);
+      const itemUpdated = await updatePictureItemToServer(item.id , pictureData, thumbnailData, userInfo);
       onItemChange(itemUpdated);
       enqueueSnackbar(
         intl.formatMessage(messages.success), 
@@ -203,7 +203,7 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
   const detailsNamesArray = itemCharacteristics.getDetailsNamesArray(item.detailsArray, userInfo.language);
   const detailsNames = detailsNamesArray ? detailsNamesArray.join( ', ') : null;
 
-  const thumbnailsOrPictures = expandedMedia ? 'pictures' : 'thumbnails';
+  const thumbnailsOrPictures = expandedMedia ? item.pictureName : item.thumbnailName;
 
 
   return (
@@ -230,11 +230,11 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
             title={title}
             subheader={expiration}
           />
-          {item.picture && 
+          {thumbnailsOrPictures && 
             <CardActionArea onClick={handleExpandedMedia} disableRipple={true}>
               <CardMedia
                 className={expandedMedia ? classes.mediaOpen : classes.media}
-                image={`${config.staticUrl}/static/${thumbnailsOrPictures}/items/${item.id}.jpg`}
+                image={`${config.staticUrl}/static/pictures/items/${thumbnailsOrPictures}`}
                 title={item.name}
               />
             </CardActionArea>
@@ -271,7 +271,7 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
 
                 <PictureSelection 
                   onPicture={savePicture}
-                  label={intl.formatMessage(item.picture ? messages.cameraReplace : messages.cameraAdd)}
+                  label={intl.formatMessage(thumbnailsOrPictures ? messages.cameraReplace : messages.cameraAdd)}
                 />
 
               </CardActions>

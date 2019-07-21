@@ -23,7 +23,7 @@ export class Items extends React.Component {
   state = {
     saveItemToServer: (item, user) => this.saveItemToServer(item, user),
     updateItemToServer: (idItem, updates, user) => this.updateItemToServer(idItem, updates, user),
-    updatePictureItemToServer: (idItem, picture, user) => this.updatePictureItemToServer(idItem, picture, user),
+    updatePictureItemToServer: (idItem, picture, thumbnail, user) => this.updatePictureItemToServer(idItem, picture, thumbnail, user),
     get: (token, user) => this.get(token, user),
   };
 
@@ -119,9 +119,7 @@ export class Items extends React.Component {
     };
 
     try {
-      // console.log('updateItemToServer options: ' , options);
       const response = await axios(options);
-      // console.log('updateItemToServer OK: ' , response.data);
       return response.data;
     } catch (error) {
       console.error('register error: ' , error);
@@ -133,31 +131,38 @@ export class Items extends React.Component {
         
   
     
-  async updatePictureItemToServer(idItem, picture, user) {
+  async updatePictureItemToServer(idItem, picture, thumbnail, user) {
     console.info('|--- SERVER CALL ---|--- PUT ---| Items.updatePictureItemToServer: ', idItem);
-    const data = { 'access_token': user.accessToken, picture };
+
+    //
+    // Prepare the multipart parameters for the form-data
+    // with the id, the token and the 2 images (picture and thumbnail)
+    //
+    // (!) the name of the images MUST be setup here and will be used as filename
+    // on the server side
+    //
+    let formData = new FormData() // instantiate it
+    formData.set("id", idItem);
+    formData.set("access_token", user.accessToken);
+    formData.append("picture", picture, `${idItem}-picture-${Date.now()}.jpg`);
+    formData.append("picture", thumbnail, `${idItem}-thumbnail-${Date.now()}.jpg`);
+
     const options = {
-      method: 'PUT',
-      url: `${config.boUrl}/items/${idItem}/picture`,
+      method: 'POST',
+      url: `${config.boUrl}/items/picture`,
       crossdomain : true,
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      data: qs.stringify(data),
+      headers: { 'content-type': 'multipart/form-data' },
+      data: formData,
     };
 
     try {
-      console.log('updatePictureItemToServer options: ' , options);
       const response = await axios(options);
-      // const responseItem = await this.updateItemToServer(idItem, {picture: true}, user);
-      console.log('updatePictureItemToServer OK: ' , response);
       return response.data;
     } catch (error) {
       console.error('updatePictureItemToServer error: ' , error);
       throw error;
     }
   }
-  
-  
-        
   
   
   

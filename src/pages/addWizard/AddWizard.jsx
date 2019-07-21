@@ -207,7 +207,7 @@ class AddWizard extends React.Component {
 
     try {
       const { updatePictureItemToServer } = this.props.items;
-      await updatePictureItemToServer(this.state.id , data, this.props.userInfo);
+      await updatePictureItemToServer(this.state.id , data, data, this.props.userInfo);
       this.props.enqueueSnackbar(
         this.props.intl.formatMessage(messages.successPicture), 
         {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}

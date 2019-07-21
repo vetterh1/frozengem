@@ -149,6 +149,8 @@ export class ItemCharacteristicsStore extends React.Component {
 
 
     getCategoryName(category, language) {
+        if(!category) return null;
+
         // Get the categories. They contain the name information
         const { categories } = this.state;
         const foundCategory = categories.find(aCategory => aCategory.id2 === category);
@@ -159,6 +161,8 @@ export class ItemCharacteristicsStore extends React.Component {
     }
 
     getSizeLabel(size, language) {
+        if(!size) return null;
+
         // Get the sizes. They contain the label information
         const { sizes } = this.state;
         const sizeInString = size.toString();
