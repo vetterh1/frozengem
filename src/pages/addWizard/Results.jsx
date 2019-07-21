@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import { injectIntl, defineMessages, FormattedMessage } from "react-intl";
 // import { defineMessages, FormattedMessage } from 'react-intl.macro';
 import { DatePicker } from "@material-ui/pickers";
+import PictureSelection from '../utils/PictureSelection';
 
 
 const messages = defineMessages({
@@ -23,6 +24,10 @@ const messages = defineMessages({
     id: 'add.results.date.label',
     defaultMessage: 'Change expiration date (optional)',
     description: 'Change expiration date (optional)',
+  },
+  cameraAdd: {
+    id: 'camera.add',
+    defaultMessage: 'Add picture',
   },
 });
 
@@ -111,7 +116,7 @@ class Results extends React.Component {
 
   render() {
     // State is NOT stored in this wizard tab, but in the parent (wizard component)
-    const { classes, state } = this.props;
+    const { classes, state, intl } = this.props;
 
     return (
       <div className={"flex-max-height flex-direction-column"}>
@@ -160,11 +165,17 @@ class Results extends React.Component {
             </Button> 
           }
 
+          <PictureSelection 
+            onPicture={this.props.handleAddPicture.bind(this)}
+            label={intl.formatMessage(messages.cameraAdd)}
+          />
+
+          
+{/* 
           <Button color="primary" onClick={this.handleAddPicture.bind(this)} className={classes.button}>
             <FormattedMessage id="camera.add" defaultMessage="Add picture" />
           </Button> 
           
-{/* 
           <div className={"flex-max-height flex-direction-column"}>
             &nbsp;
           </div> 

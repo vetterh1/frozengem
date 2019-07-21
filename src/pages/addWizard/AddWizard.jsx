@@ -20,7 +20,7 @@ import StepWizard from 'react-step-wizard';
 import { withSnackbar } from 'notistack';
 import setStateAsync from '../../utils/setStateAsync';
 
-import WebcamCapture from '../utils/WebcamCapture';
+// import WebcamCapture from '../utils/WebcamCapture';
 
 // import stringifyOnce from '../../utils/stringifyOnce.js'
 
@@ -107,9 +107,9 @@ class AddWizard extends React.Component {
     this.onStepChange = this.onStepChange.bind(this)
 
 
-    this.handleAddPicture = this.handleAddPicture.bind(this);
-    this.onPicture = this.onPicture.bind(this);
-    this.closeCameraDialog = this.closeCameraDialog.bind(this);
+    // this.handleAddPicture = this.handleAddPicture.bind(this);
+    this.savePicture = this.savePicture.bind(this);
+    // this.closeCameraDialog = this.closeCameraDialog.bind(this);
   }
 
   
@@ -194,20 +194,20 @@ class AddWizard extends React.Component {
 
 
 
-  handleAddPicture = () => {
-    this.setState({cameraDialogState: true});
-  }
+  // handleAddPicture = () => {
+  //   this.setState({cameraDialogState: true});
+  // }
 
   
   // Set the received value in the state 
   // (replacing any existing one)
-  onPicture = async (data) => {
+  savePicture = async (pictureData, thumbnailData) => {
 
-    this.setState({cameraDialogState: false});
+    // this.setState({cameraDialogState: false});
 
     try {
       const { updatePictureItemToServer } = this.props.items;
-      await updatePictureItemToServer(this.state.id , data, data, this.props.userInfo);
+      await updatePictureItemToServer(this.state.id , pictureData, thumbnailData, this.props.userInfo);
       this.props.enqueueSnackbar(
         this.props.intl.formatMessage(messages.successPicture), 
         {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
@@ -222,11 +222,13 @@ class AddWizard extends React.Component {
   }
 
 
+  
 
-  closeCameraDialog = () => {
-    console.log('closeCameraDialog');
-    this.setState({cameraDialogState: false});
-  }
+
+  // closeCameraDialog = () => {
+  //   console.log('closeCameraDialog');
+  //   this.setState({cameraDialogState: false});
+  // }
 
 
 
@@ -243,11 +245,11 @@ class AddWizard extends React.Component {
 
     return (
         <>
-          <WebcamCapture
+          {/* <WebcamCapture
             open={this.state.cameraDialogState}
             onClose={() => this.closeCameraDialog()}
             onPicture={(data) => this.onPicture(data)}
-          />
+          /> */}
 
           <div className={classes.divWizardPage}>
             <StepWizard
@@ -264,7 +266,7 @@ class AddWizard extends React.Component {
               <SizeForm hashKey={'size'} language={language} handleChange={this.handleChange} state={this.state} />
               <FreezerForm hashKey={'freezer'} language={language} handleChange={this.handleChange} state={this.state} />
               <LocationForm hashKey={'location'} language={language} handleChange={this.handleChange} state={this.state} />
-              <Results hashKey={'results'} language={language} handleChange={this.handleChange} resetState={this.resetState} state={this.state} handleAddPicture={this.handleAddPicture} />
+              <Results hashKey={'results'} language={language} handleChange={this.handleChange} resetState={this.resetState} state={this.state} handleAddPicture={this.savePicture} />
               {/* !!!! update variable stepsNumber whenever this list changes !!!! */}
               </StepWizard>
           </div>

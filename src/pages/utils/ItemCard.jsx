@@ -9,9 +9,9 @@ import { withItemCharacteristics } from '../../auth/withItemCharacteristics';
 import { ExpirationLevel } from "../../data/ItemCharacteristicsStore";
 
 
-import { injectIntl, FormattedMessage, defineMessages } from "react-intl";
+import { injectIntl, defineMessages } from "react-intl";
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
 
@@ -33,7 +33,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Collapse from '@material-ui/core/Collapse';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+// import MoreVertIcon from '@material-ui/icons/MoreVert';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 
@@ -186,7 +186,7 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
       backgroundColor = red[500];
       iconExpiration = <PriorityHighIcon />;
       break;
-    case ExpirationLevel.EXPIRATION_WITHIN_3_MONTHS:
+    default:
       backgroundColor = orange[500];
       iconExpiration = <TimerIcon />;
       break;

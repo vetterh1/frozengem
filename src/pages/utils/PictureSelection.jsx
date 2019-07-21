@@ -3,11 +3,11 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import readAsDataURLAsync from '../../utils/readAsDataURLAsync';
-import stringifyOnce from '../../utils/stringifyOnce.js'
+// import stringifyOnce from '../../utils/stringifyOnce.js'
 import canvasToBlobAsync from '../../utils/canvasToBlobAsync.js'
 import createImageAsync from '../../utils/createImageAsync.js'
 import sizeInMB from '../../utils/sizeInMB'
-
+import getExifTagsAsync from '../../utils/getExifTagsAsync'
 
 
 const styles = theme => ({
@@ -25,11 +25,59 @@ const styles = theme => ({
     const resizePicture = async (img, MAX_WIDTH = 800, MAX_HEIGHT = 800) => {
 
         var canvas = document.createElement("canvas");
+
+        const exifTags = await getExifTagsAsync(img);
+        console.log(`resizePicture: exifTags=`, exifTags);
+
+        const orientation = exifTags.Orientation;
+        if ([5, 6, 7, 8].indexOf(orientation) > -1) {
+            canvas.width = img.height;
+            canvas.height = img.width;
+          } else {
+            canvas.width = img.width;
+            canvas.height = img.height;
+          }
+
+
         var ctx = canvas.getContext("2d");
+
+
+        switch (orientation) {
+            case 2:
+              ctx.transform(-1, 0, 0, 1, img.width, 0);
+              break;
+            case 3:
+              ctx.transform(-1, 0, 0, -1, img.width, img.height);
+              break;
+            case 4:
+              ctx.transform(1, 0, 0, -1, 0, img.height);
+              break;
+            case 5:
+              ctx.transform(0, 1, 1, 0, 0, 0);
+              break;
+            case 6:
+              ctx.transform(0, 1, -1, 0, img.height, 0);
+              break;
+            case 7:
+              ctx.transform(0, -1, -1, 0, img.height, img.width);
+              break;
+            case 8:
+              ctx.transform(0, -1, 1, 0, 0, img.width);
+              break;
+            default:
+              ctx.transform(1, 0, 0, 1, 0, 0);
+          }
+    
+          ctx.drawImage(img, 0, 0, img.width, img.height);
+
+/*
+
+
+
         ctx.drawImage(img, 0, 0);
 
-        var width = img.width;
-        var height = img.height;
+        var width = canvas.width;
+        var height = canvas.height;
 
         console.log(`resizePicture: image width=${width}, height=${height}`);
 
@@ -47,9 +95,9 @@ const styles = theme => ({
         }
         canvas.width = width;
         canvas.height = height;
-        var ctx = canvas.getContext("2d");
+        ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, width, height);
-
+*/
         console.log(`resizePicture: canvas width=${canvas.width}, height=${canvas.height}`);
 
         return await canvasToBlobAsync(canvas);
