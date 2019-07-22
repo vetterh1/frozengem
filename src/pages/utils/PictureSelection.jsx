@@ -41,7 +41,9 @@ const styles = theme => ({
         var width = canvas.width;
         var height = canvas.height;
 
-        console.log(`resizePicture: image width=${width}, height=${height}`);
+        const msg1 = `resizePicture: orientation=${orientation} width=${width}, height=${height}`;
+        console.log(msg1);
+        alert(msg1);
 
 
         if (width > height) {
@@ -58,8 +60,9 @@ const styles = theme => ({
         canvas.width = width;
         canvas.height = height;
 
-        console.log(`resizePicture: to... width=${width}, height=${height}`);
-
+        const msg2 = `resizePicture: to... width=${width}, height=${height}`;
+        console.log(msg2);
+        alert(msg2);
 
         var ctx = canvas.getContext("2d");
 
@@ -120,7 +123,9 @@ const styles = theme => ({
         ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, width, height);
 */
-        console.log(`resizePicture: canvas width=${canvas.width}, height=${canvas.height}`);
+        const msg3 = `resizePicture: canvas width=${canvas.width}, height=${canvas.height}`;
+        console.log(msg3);
+        alert(msg3);
 
         return await canvasToBlobAsync(canvas);
     }
