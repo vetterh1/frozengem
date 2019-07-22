@@ -5,6 +5,7 @@ const config = {
   all: {
     env: process.env.NODE_ENV || 'development',
     masterKey: 'S9EqDPByR2z5mnCMaRFk7b552RWaFcnn',
+    version: process.env.REACT_APP_VERSION,
   },
   test: { },
   development: {
