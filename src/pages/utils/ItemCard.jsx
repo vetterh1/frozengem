@@ -153,8 +153,32 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
       // console.log('itemUpdated: ', itemUpdated);
     } catch (error) {
       console.error('AddWizard.handleChange error: ' , error);
+
+      let errorStatus = '?';
+
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error('data: ', error.response.data);
+        console.error('status: ', error.response.status);
+        console.error('headers: ', error.response.headers);
+        errorStatus = error.response.status;
+      } else if (error.request) {
+        // The request was made but no response was received
+        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+        // http.ClientRequest in node.js
+        console.error('request: ', error.request);
+        errorStatus = error.response.request;
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error('unknown: ', error.message);
+        errorStatus = error.response.message;
+      }
+    
+      const errorMessage = `${intl.formatMessage(messages.error)} - ${errorStatus}`;
+
       enqueueSnackbar(
-        intl.formatMessage(messages.error), 
+        errorMessage, 
         {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
       ); 
     }
