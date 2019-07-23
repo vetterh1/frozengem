@@ -38,29 +38,26 @@ const styles = theme => ({
             canvas.height = img.height;
         }
 
-        var width = canvas.width;
-        var height = canvas.height;
 
-        const msg1 = `resizePicture: orientation=${orientation} width=${width}, height=${height}`;
+        const msg1 = `resizePicture: orientation=${orientation} width=${img.width}, height=${img.height}`;
         console.log(msg1);
         alert(msg1);
 
 
-        if (width > height) {
-            if (width > MAX_WIDTH) {
-            height *= MAX_WIDTH / width;
-            width = MAX_WIDTH;
+        if (canvas.width > canvas.height) {
+            if (canvas.width > MAX_WIDTH) {
+              canvas.height *= MAX_WIDTH / canvas.width;
+              canvas.width = MAX_WIDTH;
             }
         } else {
-            if (height > MAX_HEIGHT) {
-            width *= MAX_HEIGHT / height;
-            height = MAX_HEIGHT;
+            if (canvas.height > MAX_HEIGHT) {
+              canvas.width *= MAX_HEIGHT / canvas.height;
+              canvas.height = MAX_HEIGHT;
             }
         }
-        canvas.width = width;
-        canvas.height = height;
 
-        const msg2 = `resizePicture: to... width=${width}, height=${height}`;
+
+        const msg2 = `resizePicture: to... width=${canvas.width}, height=${canvas.height}`;
         console.log(msg2);
         alert(msg2);
 
@@ -69,63 +66,32 @@ const styles = theme => ({
 
         switch (orientation) {
             case 2:
-              ctx.transform(-1, 0, 0, 1, img.width, 0);
+              ctx.transform(-1, 0, 0, 1, canvas.width, 0);
               break;
             case 3:
-              ctx.transform(-1, 0, 0, -1, img.width, img.height);
+              ctx.transform(-1, 0, 0, -1, canvas.width, canvas.height);
               break;
             case 4:
-              ctx.transform(1, 0, 0, -1, 0, img.height);
+              ctx.transform(1, 0, 0, -1, 0, canvas.height);
               break;
             case 5:
               ctx.transform(0, 1, 1, 0, 0, 0);
               break;
             case 6:
-              ctx.transform(0, 1, -1, 0, img.height, 0);
+              ctx.transform(0, 1, -1, 0, canvas.height, 0);
               break;
             case 7:
-              ctx.transform(0, -1, -1, 0, img.height, img.width);
+              ctx.transform(0, -1, -1, 0, canvas.height, canvas.width);
               break;
             case 8:
-              ctx.transform(0, -1, 1, 0, 0, img.width);
+              ctx.transform(0, -1, 1, 0, 0, canvas.width);
               break;
             default:
               ctx.transform(1, 0, 0, 1, 0, 0);
           }
     
-          ctx.drawImage(img, 0, 0, width, height);
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-/*
-
-
-
-        ctx.drawImage(img, 0, 0);
-
-        var width = canvas.width;
-        var height = canvas.height;
-
-        console.log(`resizePicture: image width=${width}, height=${height}`);
-
-
-        if (width > height) {
-            if (width > MAX_WIDTH) {
-            height *= MAX_WIDTH / width;
-            width = MAX_WIDTH;
-            }
-        } else {
-            if (height > MAX_HEIGHT) {
-            width *= MAX_HEIGHT / height;
-            height = MAX_HEIGHT;
-            }
-        }
-        canvas.width = width;
-        canvas.height = height;
-        ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0, width, height);
-*/
-        const msg3 = `resizePicture: canvas width=${canvas.width}, height=${canvas.height}`;
-        console.log(msg3);
-        alert(msg3);
 
         return await canvasToBlobAsync(canvas);
     }
