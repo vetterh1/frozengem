@@ -24,6 +24,7 @@ export class Items extends React.Component {
     saveItemToServer: (item, user) => this.saveItemToServer(item, user),
     updateItemToServer: (idItem, updates, user) => this.updateItemToServer(idItem, updates, user),
     updatePictureItemToServer: (idItem, picture, thumbnail, user) => this.updatePictureItemToServer(idItem, picture, thumbnail, user),
+    removeItemOnServer: (item, user) => this.removeItemOnServer(item, user),
     get: (token, user) => this.get(token, user),
   };
 
@@ -165,6 +166,31 @@ export class Items extends React.Component {
   }
   
   
+
+  async removeItemOnServer(idItem, user) {
+    console.info('|--- SERVER CALL ---|--- POST ---| Items.removeItemOnServer: ', idItem);
+    const data = { 'access_token': user.accessToken };
+    const options = {
+      method: 'POST',
+      url: `${config.boUrl}/items/remove/${idItem}`,
+      crossdomain : true,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      data: qs.stringify(data),
+    };
+
+    try {
+      const response = await axios(options);
+      return response.data;
+    } catch (error) {
+      console.error('removeItemOnServer error: ' , error);
+      throw error;
+    }
+  }
+  
+  
+        
+  
+
   
   
     

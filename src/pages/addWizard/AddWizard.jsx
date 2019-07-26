@@ -20,9 +20,6 @@ import StepWizard from 'react-step-wizard';
 import { withSnackbar } from 'notistack';
 import setStateAsync from '../../utils/setStateAsync';
 
-// import WebcamCapture from '../utils/WebcamCapture';
-
-// import stringifyOnce from '../../utils/stringifyOnce.js'
 
 const styles = theme => ({
   button: {
@@ -244,33 +241,25 @@ class AddWizard extends React.Component {
 
 
     return (
-        <>
-          {/* <WebcamCapture
-            open={this.state.cameraDialogState}
-            onClose={() => this.closeCameraDialog()}
-            onPicture={(data) => this.onPicture(data)}
-          /> */}
-
-          <div className={classes.divWizardPage}>
-            <StepWizard
-              isHashEnabled 
-              className={"flex-max-height flex-direction-column"} 
-              classNameWrapper={'flex-max-height flex-direction-column'}
-              onStepChange={this.onStepChange}
-            >
-              {/* !!!! update variable stepsNumber whenever this list changes !!!! */}
-              <CategoryForm  hashKey={'category'} language={language} handleChange={this.handleChange} state={this.state} />
-              <DetailsForm hashKey={'details'} language={language} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
-              <ContainerForm hashKey={'container'} language={language} handleChange={this.handleChange} state={this.state} />
-              <ContainerColorForm hashKey={'color'} language={language} handleChange={this.handleChange} state={this.state} />
-              <SizeForm hashKey={'size'} language={language} handleChange={this.handleChange} state={this.state} />
-              <FreezerForm hashKey={'freezer'} language={language} handleChange={this.handleChange} state={this.state} />
-              <LocationForm hashKey={'location'} language={language} handleChange={this.handleChange} state={this.state} />
-              <Results hashKey={'results'} language={language} handleChange={this.handleChange} resetState={this.resetState} state={this.state} handleAddPicture={this.savePicture} />
-              {/* !!!! update variable stepsNumber whenever this list changes !!!! */}
-              </StepWizard>
-          </div>
-        </>
+        <div className={classes.divWizardPage}>
+          <StepWizard
+            isHashEnabled 
+            className={"flex-max-height flex-direction-column"} 
+            classNameWrapper={'flex-max-height flex-direction-column'}
+            onStepChange={this.onStepChange}
+          >
+            {/* !!!! update variable stepsNumber whenever this list changes !!!! */}
+            <CategoryForm  hashKey={'category'} language={language} handleChange={this.handleChange} state={this.state} />
+            <DetailsForm hashKey={'details'} language={language} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
+            <ContainerForm hashKey={'container'} language={language} handleChange={this.handleChange} state={this.state} />
+            <ContainerColorForm hashKey={'color'} language={language} handleChange={this.handleChange} state={this.state} />
+            <SizeForm hashKey={'size'} language={language} handleChange={this.handleChange} state={this.state} />
+            <FreezerForm hashKey={'freezer'} language={language} handleChange={this.handleChange} state={this.state} />
+            <LocationForm hashKey={'location'} language={language} handleChange={this.handleChange} state={this.state} />
+            <Results hashKey={'results'} language={language} handleChange={this.handleChange} resetState={this.resetState} state={this.state} handleAddPicture={this.savePicture} />
+            {/* !!!! update variable stepsNumber whenever this list changes !!!! */}
+            </StepWizard>
+        </div>
       );
   }
 }

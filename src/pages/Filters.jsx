@@ -8,20 +8,8 @@ import { B, V, F, S, M, H, D, I } from "../data/Icons";
 import Fastfood from '@material-ui/icons/Fastfood';
 
 
-// const messages = defineMessages({ 
-//   column_category: {
-//     id: 'dashboard.category',
-//     defaultMessage: 'Category',
-//     description: 'Category',
-//   },
-// });
-
-
-
-
 
 const intFilters = ({language, category, onCategoryChange, size, onSizeChange, itemCharacteristics, intl}) => {
-  // console.log('Filter: itemCharacteristics=', itemCharacteristics);
   if(!itemCharacteristics.categories) return null;
   if(!itemCharacteristics.sizes) return null;
 

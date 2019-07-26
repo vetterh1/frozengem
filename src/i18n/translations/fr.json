@@ -62,6 +62,8 @@
   "home.new.short": "Nouvelle maison",
   "home.new.title": "Créér une nouvelle maison",
   "item.add.error": "Désolé, une erreur est survenue lors de l'enregistrement. Veuillez ré-essayer...",
+  "item.remove.error": "Désolé, une erreur est survenue lors du retrait. Veuillez ré-essayer...",
+  "item.remove.success": "Retrait effectué !",
   "login.error": "Désolé, une erreur est survenue. Veuillez ré-essayer...",
   "login.success": "Félicitations, vous êtes connecté",
   "login.unauthorized": "Identifiant / mot de passe incorrect, veuillez ré-essayer...",

@@ -1,7 +1,9 @@
 
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
+import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import readAsDataURLAsync from '../../utils/readAsDataURLAsync';
 // import stringifyOnce from '../../utils/stringifyOnce.js'
 import canvasToBlobAsync from '../../utils/canvasToBlobAsync.js'
@@ -14,12 +16,12 @@ const styles = theme => ({
     button: {
       margin: theme.spacing(1),
     },  
-    input: {
+    hiddenInput: {
       display: 'none',
     },  
   });
   
-  const PictureSelection = ({label, onPicture, classes}) => {
+  const PictureSelection = ({label, iconButton, onPicture, classes}) => {
 
 
     const resizePicture = async (img, MAX_WIDTH = 800, MAX_HEIGHT = 800) => {
@@ -128,18 +130,27 @@ const styles = theme => ({
   
     return (
         <>
-            <input
-                accept="image/x-png,image/jpeg,image/gif"
-                className={classes.input}
-                id="button-choose-picture"
-                type="file"
-                onChange={onInputChange}
-            />
-            <label htmlFor="button-choose-picture">
-                <Button component="span"size="small" color="primary" className={classes.button}>
-                    {label}
+          <input
+              accept="image/x-png,image/jpeg,image/gif"
+              className={classes.hiddenInput}
+              id="button-choose-picture"
+              type="file"
+              onChange={onInputChange}
+          />
+          <label htmlFor="button-choose-picture">
+            <>
+              { !iconButton &&
+                <Button component="span" size="small" color="primary" className={classes.button}>
+                  {label}
                 </Button>
-            </label>
+              }
+              { iconButton &&
+                <IconButton  component="span" aria-label={label}>
+                  <PhotoCameraIcon />
+                </IconButton> 
+              }              
+            </>
+          </label>
         </>
     );
 }

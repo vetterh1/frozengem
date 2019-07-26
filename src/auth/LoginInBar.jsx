@@ -2,21 +2,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { withUserInfo } from './withUserInfo';
-import { withStyles } from '@material-ui/core/styles';
+import { FormattedMessage } from "react-intl";
 import Button from '@material-ui/core/Button';
+import { withUserInfo } from './withUserInfo';
 import { MenuProfile } from './MenuProfile';
-import { injectIntl, FormattedMessage } from "react-intl";
-// import { FormattedMessage } from 'react-intl.macro';
-
-const styles = {
-};
-
 
 class LoginInBar extends React.Component {
   static propTypes = {
     userInfo: PropTypes.object.isRequired,
-    classes: PropTypes.object.isRequired,
   }
 
   onLogin() {
@@ -29,14 +22,10 @@ class LoginInBar extends React.Component {
     return ( 
       <div>
         { !isAuthenticated() && (<Button color="inherit"  component={Link} to="/login"><FormattedMessage id="menu_profile.login" defaultMessage="Login" /></Button>) }
-        {/* { isAuthenticated() && (<Button color="inherit"  component={Link} to="/logout">logout</Button>) } */}
-
-
         { isAuthenticated() && <MenuProfile homeCode={getHome()} language={language} setLanguage={setLanguage} />}
-
       </div>
     );
   }
 }
 
-export default injectIntl(withUserInfo(withStyles(styles)(LoginInBar)));
+export default withUserInfo(LoginInBar);

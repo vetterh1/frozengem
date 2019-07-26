@@ -2,18 +2,14 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from "react-router";
-import { withStyles } from '@material-ui/core/styles';
-import { withUserInfo } from '../auth/withUserInfo';
 import { Link } from 'react-router-dom';
+import { FormattedMessage } from "react-intl";
+import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { FormattedMessage } from "react-intl";
-// import { FormattedMessage } from 'react-intl.macro';
-// import Fab from '@material-ui/core/Fab';
-
+import { withUserInfo } from '../auth/withUserInfo';
 import LoginInBar from '../auth/LoginInBar';
 
 
@@ -39,25 +35,12 @@ class Header extends React.Component {
   static propTypes = {
     userInfo: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired,
   }
-
-  constructor() {
-    super();
-
-    this.state = {
-      route: window.location.pathname,
-    };
-  }
-
 
   render() {
     const { classes } = this.props;
     const { isAuthenticated, language, setLanguage } = this.props.userInfo;
     if(!language) return null;
-
-    // const { classes, location } = this.props;
-    // const onMainPage = location.pathname === '/';
 
     return (
       <AppBar position="static" color="primary" elevation={0} className={classes.appBar}>
@@ -88,4 +71,4 @@ class Header extends React.Component {
   }
 }
 
-export default withUserInfo(withStyles(styles)(withRouter(Header)));
+export default withUserInfo(withStyles(styles)(Header));

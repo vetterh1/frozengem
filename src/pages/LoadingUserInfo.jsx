@@ -3,7 +3,6 @@ import Box from '@material-ui/core/Box'; // ! must be at the end of the material
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { FormattedMessage } from "react-intl";
-// import { FormattedMessage } from 'react-intl.macro';
 
 
 

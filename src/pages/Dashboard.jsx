@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
-// import { FormattedMessage } from 'react-intl.macro';
 import { injectIntl, FormattedMessage } from "react-intl";
 import { withStyles } from '@material-ui/core/styles';
 import { withUserInfo } from '../auth/withUserInfo';
@@ -17,10 +16,6 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "column",
     width: 'auto',
-    marginTop: theme.spacing(2),
-    // padding: '0px',
-    // marginLeft: theme.spacing(1),
-    // marginRight: theme.spacing(1),
   },
   subtitle: {
     textAlign: 'center',
@@ -40,9 +35,15 @@ class Dashboard extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {arrayItems:[], arrayFilters:[], filteredArrayItems:[]};
+    this.state = {
+      arrayItems:[], 
+      arrayFilters:[], 
+      filteredArrayItems:[]
+    };
 
     this.onCategoryChange = this.onCategoryChange.bind(this);
+    this.onItemChange = this.onItemChange.bind(this);
+    this.onItemRemoved = this.onItemRemoved.bind(this);
   }
 
 
@@ -66,7 +67,10 @@ class Dashboard extends React.Component {
   onCategoryChange = (category) => {
     const { arrayItems } = this.state;
     const filteredArrayItems = arrayItems.filter(item => item.category === category);
-    this.setState({category: category, filteredArrayItems: filteredArrayItems});
+    this.setState({
+      category: category, 
+      filteredArrayItems: filteredArrayItems
+    });
   }
 
   onItemChange = (item) => {
@@ -82,6 +86,23 @@ class Dashboard extends React.Component {
 
     this.setState({filteredArrayItems: newArray});
   }
+
+
+  onItemRemoved = (item) => {
+    const { filteredArrayItems } = this.state;
+
+    // Front side: remove the item from array:
+    let indexItem = filteredArrayItems.findIndex(({id}) => id === item.id);
+    const newArray = [
+      ...filteredArrayItems.slice(0, indexItem),
+      ...filteredArrayItems.slice(indexItem + 1)
+    ];
+    this.setState({filteredArrayItems: newArray});
+
+    // Back side: remove from server
+    // This is done directly in the caller (ItemCard.handleClickRemove)
+  }
+
 
 
   render() {
@@ -106,7 +127,7 @@ class Dashboard extends React.Component {
 
         <div className={classes.layout}>
           <Filters language={userInfo.language} category={this.category} onCategoryChange={this.onCategoryChange} />
-          <ItemsList arrayItems={filteredArrayItems} onItemChange={this.onItemChange} />
+          <ItemsList arrayItems={filteredArrayItems} onItemChange={this.onItemChange} onItemRemoved={this.onItemRemoved} />
         </div>          
 
       </React.Fragment>

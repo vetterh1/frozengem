@@ -55,15 +55,16 @@ const styles = theme => ({
 
 
 
-const intItemsList = ({arrayItems, onItemChange, classes, intl}) => {
+const intItemsList = ({arrayItems, onItemChange, onItemRemoved, classes, intl}) => {
   console.debug('[--- FC ---] Functional component: ItemsList -  arrayItems: ', arrayItems);
 
   const handleItemChange = (item) => onItemChange(item);
+  const handleItemRemoved = (item) => onItemRemoved(item);
 
   return (
     <>
       <div className={classes.layout}>
-        {arrayItems.map(item => <ItemCard  key={item.id} item={item} onItemChange={handleItemChange} /> )}
+        {arrayItems.map(item => <ItemCard  key={item.id} item={item} onItemRemoved={handleItemRemoved} onItemChange={handleItemChange} /> )}
       </div>
     </>
   );

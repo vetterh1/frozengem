@@ -2,7 +2,6 @@ import React from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { injectIntl, defineMessages } from "react-intl";
-// import { defineMessages } from 'react-intl.macro';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';

@@ -10,7 +10,6 @@ import config from '../data/config'
 
 
 const logUserInfoStore = log.getLogger('logUserInfoStore');
-// loglevelServerSend(logUserInfoStore); // a setLevel() MUST be run AFTER this!
 logUserInfoStore.setLevel('debug');
 logUserInfoStore.debug('--> entering UserInfoStore.jsx');
 
@@ -43,18 +42,6 @@ export class UserInfoStore extends React.Component {
   }
 
 
-
-
-
-
-  // userInfo = null;                // User infos from server (or local storage)
-  previouslyUsedLanguage = localStorage.getItem('previouslyUsedLanguage');  // Language used last time on this computer
-
-  // expiresIn = 60 * 60 * 24 * 365 * 1000; // 1 year in milliseconds!
-  // expiresIn = 60 * 1000; // 1mn in milliseconds!
-
-
-
   isAuthenticated() {
     // Check whether the current time is past the access token's expiry time
     // const expiresAt = parseInt(localStorage.getItem('expiresAt'));
@@ -69,51 +56,21 @@ export class UserInfoStore extends React.Component {
     return this.state.accessToken !== null;
   }
 
+
+
   getHome() {
     return this.state.home;
   }
 
 
-  // getLanguage() {
-  //   // console.log('UserInfo: userInfo.language=', this.userInfo ? this.userInfo.language : "N/A");
-  //   // console.log('UserInfo: userInfo.previouslyUsedLanguage=', this.previouslyUsedLanguage);
-
-  //   if(this.userInfo && this.userInfo.language) return this.userInfo.language;
-  //   if(this.previouslyUsedLanguage) return this.previouslyUsedLanguage;
-  //   return defaultLanguage;
-  // }
-
-  setLanguageOld(language) {
-    // update this object
-    this.previouslyUsedLanguage = language;
-    if(this.userInfo) this.userInfo.language = language;
-    // update local storage
-    localStorage.setItem('previouslyUsedLanguage', language);
-    localStorage.setItem('language', language);
-
-    // TODO: update server
-  }
-
 
   saveStateAndSession(userInfos) {
-      // Set the time that the access token will expire at
-      // userInfos['expiresAt'] = JSON.stringify((this.expiresIn) + new Date().getTime());
-
-    // Object.keys(userInfos).map(key => {
-    //     localStorage.setItem(key, userInfos[key]);
-    // });
-
-    // const listUserInfos = Object.keys(userInfos).join();
-    // localStorage.setItem("listUserInfos", listUserInfos);
-
     localStorage.setItem('accessToken', userInfos.accessToken);
-
     this.setState({...userInfos});
   }
 
 
   loadStateFromLocalStorage() {
-
     if(this.state.accessToken) return;
 
     const accessToken = localStorage.getItem('accessToken');

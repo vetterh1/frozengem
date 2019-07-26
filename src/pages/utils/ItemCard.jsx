@@ -35,23 +35,29 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // import MoreVertIcon from '@material-ui/icons/MoreVert';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-
+// import ShareIcon from '@material-ui/icons/Share';
+import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 import config from '../../data/config'
-
-
-// import WebcamCapture from './WebcamCapture';
 import PictureSelection from './PictureSelection';
+import formatServerErrorMsg from '../../utils/formatServerErrorMsg'
 
 
 const messages = defineMessages({ 
-  error: {
+  removeError: {
+    id: 'item.remove.error',
+    defaultMessage: 'Sorry, removing this item failed. Please try again...',
+  },  
+  removeSuccess: {
+    id: 'item.remove.success',
+    defaultMessage: 'Item removed!',
+  },
+  cameraError: {
     id: 'camera.error',
     defaultMessage: 'Sorry, saving this picture failed. Please try again...',
   },  
-  success: {
+  cameraSuccess: {
     id: 'camera.success',
     defaultMessage: 'Picture saved!',
   },
@@ -106,16 +112,12 @@ const styles = theme => ({
 
 
 
-const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueueSnackbar, itemCharacteristics}) => {
+const intItemCard = ({item, onItemChange, onItemRemoved, classes, intl,items, userInfo, enqueueSnackbar, itemCharacteristics}) => {
   console.debug('[--- FC ---] Functional component: ItemCard -  item: ', item.id);
-
 
   const [expanded, setExpanded] = React.useState(false);
   const [expandedMedia, setExpandedMedia] = React.useState(false);
-  // const [cameraDialogState, setCameraDialogState] = React.useState(false);
 
-
-  
 
   const handleExpanded = () => {
     setExpanded(prev => !prev);
@@ -131,54 +133,48 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
   };
 
 
-  // const handleAddPicture = () => {
-  //   setCameraDialogState(true);
-  // }
+
+  const handleClickRemove = () => {
+    removeItem();
+  };
 
   
+
+  const removeItem = async () => {
+    try {
+      const { removeItemOnServer } = items;
+      await removeItemOnServer(item.id , userInfo);
+      onItemRemoved(item);
+      enqueueSnackbar(
+        intl.formatMessage(messages.removeSuccess), 
+        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+      ); 
+      // console.log('itemUpdated: ', itemUpdated);
+    } catch (error) {
+      enqueueSnackbar(
+        formatServerErrorMsg(error, intl.formatMessage(messages.removeError), 'ItemCard.removeItem'), 
+        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+      ); 
+    }
+  }
+
+  
+
   // Set the received value in the state 
   // (replacing any existing one)
   const savePicture = async (pictureData, thumbnailData) => {
-
-    // setCameraDialogState(false);
-
     try {
       const { updatePictureItemToServer } = items;
       const itemUpdated = await updatePictureItemToServer(item.id , pictureData, thumbnailData, userInfo);
       onItemChange(itemUpdated);
       enqueueSnackbar(
-        intl.formatMessage(messages.success), 
+        intl.formatMessage(messages.cameraSuccess), 
         {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
       ); 
       // console.log('itemUpdated: ', itemUpdated);
     } catch (error) {
-      console.error('AddWizard.handleChange error: ' , error);
-
-      let errorStatus = '?';
-
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.error('data: ', error.response.data);
-        console.error('status: ', error.response.status);
-        console.error('headers: ', error.response.headers);
-        errorStatus = error.response.status;
-      } else if (error.request) {
-        // The request was made but no response was received
-        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-        // http.ClientRequest in node.js
-        console.error('request: ', error.request);
-        errorStatus = error.response.request;
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.error('unknown: ', error.message);
-        errorStatus = error.response.message;
-      }
-    
-      const errorMessage = `${intl.formatMessage(messages.error)} - ${errorStatus}`;
-
       enqueueSnackbar(
-        errorMessage, 
+        formatServerErrorMsg(error, intl.formatMessage(messages.cameraError), 'ItemCard.savePicture'), 
         {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
       ); 
     }
@@ -187,34 +183,24 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
 
 
 
-
-
-
-  // const closeCameraDialog = () => {
-  // console.log('closeCameraDialog');
-  // setCameraDialogState(false);
-  // }
-
-
-
-  const expirationLevel = itemCharacteristics.computeExpirationLevel(item.expirationDate);
-  console.log('exp level:', expirationLevel);
-  let backgroundColor = blue[200];
-  let iconExpiration = <DoneIcon />;
-  switch (expirationLevel) {
-    case ExpirationLevel.EXPIRATION_PASSED:
-      backgroundColor = red['A700'];
-      iconExpiration = <PanToolIcon />;
-      break;
-    case ExpirationLevel.EXPIRATION_NEXT_30_DAYS:
-      backgroundColor = red[500];
-      iconExpiration = <PriorityHighIcon />;
-      break;
-    default:
-      backgroundColor = orange[500];
-      iconExpiration = <TimerIcon />;
-      break;
-  } 
+    const expirationLevel = itemCharacteristics.computeExpirationLevel(item.expirationDate);
+    console.log('exp level:', expirationLevel);
+    let backgroundColor = blue[200];
+    let iconExpiration = <DoneIcon />;
+    switch (expirationLevel) {
+      case ExpirationLevel.EXPIRATION_PASSED:
+        backgroundColor = red['A700'];
+        iconExpiration = <PanToolIcon />;
+        break;
+      case ExpirationLevel.EXPIRATION_NEXT_30_DAYS:
+        backgroundColor = red[500];
+        iconExpiration = <PriorityHighIcon />;
+        break;
+      default:
+        backgroundColor = orange[500];
+        iconExpiration = <TimerIcon />;
+        break;
+    } 
 
   const name = item.name ? item.name : itemCharacteristics.getCategoryName(item.category, userInfo.language);
   const title = name;
@@ -230,14 +216,11 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
   const thumbnailsOrPictures = expandedMedia ? item.pictureName : item.thumbnailName;
 
 
+  
+
   return (
-    <React.Fragment>
-
-    
-
+    <>
       <ClickAwayListener onClickAway={handleClickAway}>
-
-
 
         <Card className={classes.layout}>
           <CardHeader
@@ -246,11 +229,6 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
                 {iconExpiration}
               </Avatar>
             }
-            // action={
-            //   <IconButton aria-label="Settings">
-            //     <MoreVertIcon />
-            //   </IconButton>
-            // }
             title={title}
             subheader={expiration}
           />
@@ -269,11 +247,8 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
             </Typography>
           </CardContent>
           <CardActions disableSpacing>
-            <IconButton aria-label="Add to favorites">
-              <FavoriteIcon />
-            </IconButton>
-            <IconButton aria-label="Share">
-              <ShareIcon />
+            <IconButton aria-label="Remove" onClick={handleClickRemove}>
+              <RemoveCircleOutlineIcon />
             </IconButton>
             <IconButton
               className={clsx(classes.expanded, {
@@ -292,92 +267,22 @@ const intItemCard = ({item, onItemChange, classes, intl,items, userInfo, enqueue
                 {detailsNames && <Typography paragraph>Details: {detailsNames}</Typography>}
               </CardContent>
               <CardActions>
-
+                <IconButton aria-label="Add to favorites">
+                  <FavoriteIcon />
+                </IconButton>      
                 <PictureSelection 
+                  iconButton
                   onPicture={savePicture}
                   label={intl.formatMessage(thumbnailsOrPictures ? messages.cameraReplace : messages.cameraAdd)}
                 />
-
               </CardActions>
             </>
           </Collapse>
         </Card>
 
-
       </ClickAwayListener>
-
-
-
-
-    </React.Fragment>
-      );
+    </>
+  );
 }
 export default injectIntl(withSnackbar(withUserInfo(withItemCharacteristics(withItems(withStyles(styles)(intItemCard))))));
-
-
-/*
-      <WebcamCapture
-        open={cameraDialogState}
-        onClose={() => closeCameraDialog()}
-        savePicture={(data) => savePicture(data)}
-      />
-
-
-
-                <Button onClick={() => handleAddPicture()} size="small" color="primary">
-                  {!item.picture && <FormattedMessage id="camera.add" defaultMessage="Add picture" />}
-                  {item.picture && <FormattedMessage id="camera.replace" defaultMessage="Retake picture" />}
-                </Button>
-
-                <input
-                  accept="image/x-png,image/jpeg,image/gif"
-                  className={classes.input}
-                  id="button-choose-picture"
-                  type="file"
-                  onChange={onInputChange}
-                />
-                <label htmlFor="button-choose-picture">
-                  <Button component="span"size="small" color="primary" className={classes.button}>
-                    Upload
-                  </Button>
-                </label>
-
-*/
-
-// <ClickAwayListener onClickAway={handleClickAway}>
-// <Card className={classes.layout} raised={expandedView}>
-//   <CardActionArea onClick={handleexpandedView} disableRipple={true}>
-//     {item.picture && <CardMedia
-//       className={classes.media}
-//       // image={`${config.staticUrl}/static/thumbnails/items/${item.id}.jpg&updatedAt=${item.updatedAt}`}
-//       image={`${config.staticUrl}/static/thumbnails/items/${item.id}.jpg`}
-//       title={item.name}
-//     /> }
-//     <CardContent>
-//       <Typography gutterBottom variant="h5" component="h2">
-//         {item.name && item.name}
-//         {!item.name && item.category}
-//       </Typography>
-//       <Typography variant="body2" color="textSecondary" component="p">
-//         Expires: {item.expirationDate}
-//       </Typography>
-//       { expandedView &&
-//         <Typography variant="body2" color="textSecondary" component="p">
-//           Last update: {item.updatedAt}
-//         </Typography>
-//       }
-//     </CardContent>
-//   </CardActionArea>
-//   { expandedView &&
-//     <CardActions>
-//       <Button onClick={() => handleAddPicture()} size="small" color="primary">
-//         {!item.picture && <FormattedMessage id="camera.add" defaultMessage="Add picture" />}
-//         {item.picture && <FormattedMessage id="camera.replace" defaultMessage="Retake picture" />}
-//       </Button>
-//     </CardActions>
-//   }
-// </Card>
-// </ClickAwayListener>
-
-
 

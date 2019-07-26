@@ -1,20 +1,15 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { injectIntl, defineMessages, FormattedMessage } from "react-intl";
+import {CopyToClipboard} from 'react-copy-to-clipboard';
+import { useSnackbar } from 'notistack';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import { useSnackbar } from 'notistack';
-
-import {CopyToClipboard} from 'react-copy-to-clipboard';
-
-import { injectIntl, defineMessages, FormattedMessage } from "react-intl";
-// import { defineMessages, FormattedMessage } from 'react-intl.macro';
-
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-
 
 
 const useStyles = makeStyles(theme => ({
@@ -23,7 +18,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-
 const messages = defineMessages({ 
   clipboard: {
     id: 'menu_profile.home_clipboard',
@@ -31,7 +25,6 @@ const messages = defineMessages({
     description: 'clip',
   }
 });
-
 
 
 const intMenuProfile = ({homeCode, language, setLanguage, intl}) => {

@@ -2,6 +2,7 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { IntlProvider, addLocaleData } from "react-intl";
+import { SnackbarProvider } from 'notistack';
 import translations from '../i18n/locales';
 import frLocaleData from "react-intl/locale-data/fr";
 import withMyTheme from '../withMyTheme';
@@ -18,7 +19,6 @@ import LoadingUserInfo from './LoadingUserInfo';
 import AddWizard from './addWizard/AddWizard';
 import RegisterWizard from './registerWizard/RegisterWizard';
 import LoginWizard from './loginWizard/LoginWizard';
-import { SnackbarProvider } from 'notistack';
 
 // Date util library (moment like) & date picker:
 import DateFnsUtils from '@date-io/date-fns';
@@ -34,33 +34,17 @@ import { Items } from "../data/ItemsStore";
 // ------------------------  i18n  -------------------------
 //
 
-
 addLocaleData(frLocaleData);
 
 
 
 //
-// Pusher socket init
+// ------------------------  404 minimal page  -------------------------
 //
 
-// Enable pusher logging - don't include this in production
-// Pusher.logToConsole = true;
-
-// const pusher = new Pusher('e5759208f6ccb0542038', {
-//   cluster: 'eu',
-//   forceTLS: true
-// });
-
-// const channel = pusher.subscribe('my-channel');
-// channel.bind('my-event', function(data) {
-//   alert(JSON.stringify(data));
-// });
-// pusher.disconnect();
-
-
-
-
 const NotFound = () => <h2>404 error - This page has not been found!</h2>;
+
+
 
 
 
@@ -77,8 +61,7 @@ class App extends React.Component {
       display: "flex",
       flexDirection: "column",
       flexGrow: 1,
-      padding: '0px',
-
+      padding: '20px',
     };
     const stickToBottom = {
     };
@@ -90,7 +73,7 @@ class App extends React.Component {
           <UserInfoStore>
             <Items>
               <UserInfoConsumer>
-                {({ language, isAuthenticated, getHome, accessToken, name }) => {
+                {({ language, isAuthenticated, getHome, name }) => {
                     if(!language) return null;
                     return (
                       <IntlProvider
