@@ -67,6 +67,23 @@ const messages = defineMessages({
     id: 'camera.add',
     defaultMessage: 'Add picture',
   },
+  expirationMessagePassed: {
+    id: 'expiration.message.passed',
+    defaultMessage: 'Expired!',
+  },
+  expirationMessageNext_30_days: {
+    id: 'expiration.message.next_30_days',
+    defaultMessage: 'Expires in a few days!',
+  },
+  expirationMessageWithin_3_months: {
+    id: 'expiration.message.within_3_months',
+    defaultMessage: 'Expires withing 3 months',
+  },
+  expirationMessageLater: {
+    id: 'expiration.message.later',
+    defaultMessage: 'Expires in more than 3 months',
+  },
+  
 });
 
 
@@ -151,26 +168,31 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
     let backgroundColor;
     let cardBackgroundColor;
     let iconExpiration;
+    let expirationText;
     switch (expirationLevel) {
       case ExpirationLevel.EXPIRATION_PASSED:
         backgroundColor = red['A700'];
         cardBackgroundColor = red[100];
         iconExpiration = <PanToolIcon />;
+        expirationText = messages.expirationMessagePassed;
         break;
       case ExpirationLevel.EXPIRATION_NEXT_30_DAYS:
         backgroundColor = red[500];
         cardBackgroundColor = red[50];
         iconExpiration = <PriorityHighIcon />;
+        expirationText = messages.expirationMessageNext_30_days;
         break;
       case ExpirationLevel.EXPIRATION_WITHIN_3_MONTHS:
         backgroundColor = orange[500];
         cardBackgroundColor = orange[50];
         iconExpiration = <TimerIcon />;
+        expirationText = messages.expirationMessageWithin_3_months;
         break;
       default:
         backgroundColor = blue[200];
         cardBackgroundColor = blue[50];
         iconExpiration = <DoneIcon />;
+        expirationText = messages.expirationMessageLater;
         break;
     } 
 
@@ -178,7 +200,7 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
   const title = name;
   
   const d = new Date(item.expirationDate);
-  const expiration = `Expires ${d.getUTCMonth() + 1}/${d.getUTCFullYear()}`;
+  // const expiration = `Expires ${d.getUTCMonth() + 1}/${d.getUTCFullYear()}`;
 
   const size = itemCharacteristics.getSizeLabel(item.size, userInfo.language);
 
@@ -202,7 +224,7 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
               </Avatar>
             }
             title={title}
-            subheader={expiration}
+            subheader={intl.formatMessage(expirationText)}
           />
           {thumbnailsOrPictures && 
             <CardActionArea onClick={handleExpandedMedia} disableRipple={true}>
