@@ -154,22 +154,22 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
     switch (expirationLevel) {
       case ExpirationLevel.EXPIRATION_PASSED:
         backgroundColor = red['A700'];
-        cardBackgroundColor = red[200];
+        cardBackgroundColor = red[100];
         iconExpiration = <PanToolIcon />;
         break;
       case ExpirationLevel.EXPIRATION_NEXT_30_DAYS:
         backgroundColor = red[500];
-        cardBackgroundColor = red[100];
+        cardBackgroundColor = red[50];
         iconExpiration = <PriorityHighIcon />;
         break;
       case ExpirationLevel.EXPIRATION_WITHIN_3_MONTHS:
         backgroundColor = orange[500];
-        cardBackgroundColor = orange[100];
+        cardBackgroundColor = orange[50];
         iconExpiration = <TimerIcon />;
         break;
       default:
         backgroundColor = blue[200];
-        cardBackgroundColor = blue[100];
+        cardBackgroundColor = blue[50];
         iconExpiration = <DoneIcon />;
         break;
     } 
