@@ -6,6 +6,7 @@ import { SnackbarProvider } from 'notistack';
 import translations from '../i18n/locales';
 import frLocaleData from "react-intl/locale-data/fr";
 import withMyTheme from '../withMyTheme';
+import { indigo } from '@material-ui/core/colors';
 import Container from '@material-ui/core/Container';
 import Logout from '../auth/Logout';
 import About from './About';
@@ -56,6 +57,8 @@ class App extends React.Component {
       display: "flex",
       flexDirection: "column",
       minHeight: "100vh",
+      backgroundColor: indigo[50],
+
     };
     const containerStyle = {
       display: "flex",

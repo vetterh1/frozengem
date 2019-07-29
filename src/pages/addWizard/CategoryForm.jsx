@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Context } from "../../data/ItemCharacteristicsStore";
-import {ItemsList, WizPageTitle} from "../utils/WizUtilComponents";
+import {WizPageTitle} from "../utils/WizUtilComponents";
+import SelectFromMatrix from "../utils/SelectFromMatrix";
 import { defineMessages } from "react-intl";
 // import { defineMessages } from 'react-intl.macro';
 
@@ -33,7 +34,7 @@ class CategoryForm extends React.Component {
     return (
       <div className={"flex-max-height flex-direction-column"}>
         <WizPageTitle message={messages.title} />
-        <ItemsList items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
+        <SelectFromMatrix items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
       </div>
 
     )

@@ -13,7 +13,7 @@ import { injectIntl, FormattedMessage } from "react-intl";
 import { withUserInfo } from '../../auth/withUserInfo';
 
 
-const intItemsList = ({ items, itemInState, itemInStateIsAnArray, handleClick, userInfo }) => (
+const intSelectFromList = ({ items, itemInState, itemInStateIsAnArray, handleClick, userInfo }) => (
   <List className={"flex-max-height flex-direction-column big-margin-down"}>
   {items && items.map((item, index, theArray) => {
     const name = item.name[userInfo.language]
@@ -34,7 +34,7 @@ const intItemsList = ({ items, itemInState, itemInStateIsAnArray, handleClick, u
   })}
   </List>
 );
-export const ItemsList = withUserInfo(intItemsList);
+export const SelectFromList = withUserInfo(intSelectFromList);
 
 const WizPageTitleInt = ({message, values, intl}) => (
   <div className={"flex-normal-height flex-direction-column margin-down"}>

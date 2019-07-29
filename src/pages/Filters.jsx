@@ -4,6 +4,7 @@ import { withItemCharacteristics } from '../auth/withItemCharacteristics';
 import { injectIntl } from "react-intl";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+
 import { B, V, F, S, M, H, D, I } from "../data/Icons";
 import Fastfood from '@material-ui/icons/Fastfood';
 

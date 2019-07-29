@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Context } from "../../data/ItemCharacteristicsStore";
-import {ItemsList, WizNavBar, WizPageTitle} from "../utils/WizUtilComponents";
+import {WizNavBar, WizPageTitle} from "../utils/WizUtilComponents";
+import SelectFromMatrix from "../utils/SelectFromMatrix";
 import { defineMessages } from "react-intl";
 // import { defineMessages } from 'react-intl.macro';
 
@@ -36,7 +37,7 @@ class DetailsForm extends React.Component {
     return (
       <div className={"flex-max-height flex-direction-column"}>
         <WizPageTitle message={messages.title} values={{category: parentName.toLowerCase()}} />
-        <ItemsList items={items} itemInState={itemInState} itemInStateIsAnArray={true} handleClick={this.handleClick} />
+        <SelectFromMatrix items={items} itemInState={itemInState} itemInStateIsAnArray={true} handleClick={this.handleClick} />
         <WizNavBar onClickNext={this.handleNext.bind(this)} onClickPrevious={this.handlePrevious.bind(this)} />
       </div>
     )

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Context } from "../../data/ItemCharacteristicsStore";
-import {ItemsList, WizNavBar, WizPageTitle} from "../utils/WizUtilComponents";
+import {SelectFromList, WizNavBar, WizPageTitle} from "../utils/WizUtilComponents";
 import { defineMessages } from "react-intl";
 // import { defineMessages } from 'react-intl.macro';
 
@@ -47,7 +47,7 @@ class SizeForm extends React.Component {
     return (
       <div className={"flex-max-height flex-direction-column"}>
         <WizPageTitle message={messages.title} />
-        <ItemsList items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
+        <SelectFromList items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
         <WizNavBar onClickNext={null} onClickPrevious={this.handlePrevious.bind(this)} />
       </div>
 

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import ItemCard from './ItemCard'
@@ -68,4 +67,4 @@ const intItemsList = ({arrayItems, onSavePicture, onRemoveItem, classes}) => {
   );
 }
 
-export const ItemsList = (withStyles(styles)(intItemsList));
+export default withStyles(styles)(intItemsList);

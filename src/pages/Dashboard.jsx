@@ -13,10 +13,9 @@ import { withSnackbar } from 'notistack';
 import { withStyles } from '@material-ui/core/styles';
 import { withUserInfo } from '../auth/withUserInfo';
 import { withItems } from '../auth/withItems';
-import { ItemsList } from './utils/ItemsList'
+import ItemsList from './utils/ItemsList'
 import Filters from './Filters'
 import formatServerErrorMsg from '../utils/formatServerErrorMsg'
-
 
 
 

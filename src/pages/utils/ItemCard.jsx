@@ -206,7 +206,7 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
   const name = item.name ? item.name : itemCharacteristics.getCategoryName(item.category, userInfo.language);
   const title = name;
   
-  const d = new Date(item.expirationDate);
+  // const d = new Date(item.expirationDate);
   // const expiration = `Expires ${d.getUTCMonth() + 1}/${d.getUTCFullYear()}`;
 
   const size = itemCharacteristics.getSizeLabel(item.size, userInfo.language);
@@ -226,7 +226,7 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
         <Card className={classes.layout} style={{backgroundColor: cardBackgroundColor}}>
           <CardHeader
             avatar={
-              <Avatar aria-label="Recipe" className={classes.avatar} style={{backgroundColor: backgroundColor}}>
+              <Avatar aria-label="Recipe" style={{backgroundColor: backgroundColor}}>
                 {iconExpiration}
               </Avatar>
             }
