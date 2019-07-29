@@ -90,17 +90,24 @@ const messages = defineMessages({
 
 const styles = theme => ({
   layout: {
-    minWidth: 350,
-    maxWidth: 350,
-    margin: theme.spacing(2),
+
+    margin: theme.spacing(1),
+
+    [theme.breakpoints.down('xs')]: {
+      minWidth: '100%',
+      maxWidth: '100%',
+    },
+    [theme.breakpoints.up('sm')]: {
+      minWidth: 350,
+      maxWidth: 350,
+    },
+
   },
   media: {
     minHeight: 150,
-    minWidth: 350,
   },
   mediaOpen: {
     minHeight: 400,
-    minWidth: 350,
   },  
   expanded: {
     transform: 'rotate(0deg)',

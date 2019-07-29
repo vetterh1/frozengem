@@ -61,7 +61,7 @@ class App extends React.Component {
       display: "flex",
       flexDirection: "column",
       flexGrow: 1,
-      padding: '20px',
+      padding: '14px',
     };
     const stickToBottom = {
     };
