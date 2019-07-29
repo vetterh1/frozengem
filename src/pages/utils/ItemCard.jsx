@@ -148,20 +148,29 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
 
     const expirationLevel = itemCharacteristics.computeExpirationLevel(item.expirationDate);
     console.log('exp level:', expirationLevel);
-    let backgroundColor = blue[200];
-    let iconExpiration = <DoneIcon />;
+    let backgroundColor;
+    let cardBackgroundColor;
+    let iconExpiration;
     switch (expirationLevel) {
       case ExpirationLevel.EXPIRATION_PASSED:
         backgroundColor = red['A700'];
+        cardBackgroundColor = red[200];
         iconExpiration = <PanToolIcon />;
         break;
       case ExpirationLevel.EXPIRATION_NEXT_30_DAYS:
         backgroundColor = red[500];
+        cardBackgroundColor = red[100];
         iconExpiration = <PriorityHighIcon />;
         break;
-      default:
+      case ExpirationLevel.EXPIRATION_WITHIN_3_MONTHS:
         backgroundColor = orange[500];
+        cardBackgroundColor = orange[100];
         iconExpiration = <TimerIcon />;
+        break;
+      default:
+        backgroundColor = blue[200];
+        cardBackgroundColor = blue[100];
+        iconExpiration = <DoneIcon />;
         break;
     } 
 
@@ -185,7 +194,7 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
     <>
       <ClickAwayListener onClickAway={handleClickAway}>
 
-        <Card className={classes.layout}>
+        <Card className={classes.layout} style={{backgroundColor: cardBackgroundColor}}>
           <CardHeader
             avatar={
               <Avatar aria-label="Recipe" className={classes.avatar} style={{backgroundColor: backgroundColor}}>
