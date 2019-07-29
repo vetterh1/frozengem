@@ -1,8 +1,6 @@
 
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-// import { injectIntl, defineMessages } from "react-intl";
-import { injectIntl } from "react-intl";
 import ItemCard from './ItemCard'
 
 
@@ -55,19 +53,19 @@ const styles = theme => ({
 
 
 
-const intItemsList = ({arrayItems, onItemChange, onItemRemoved, classes, intl}) => {
+const intItemsList = ({arrayItems, onSavePicture, onRemoveItem, classes}) => {
   console.debug('[--- FC ---] Functional component: ItemsList -  arrayItems: ', arrayItems);
 
-  const handleItemChange = (item) => onItemChange(item);
-  const handleItemRemoved = (item) => onItemRemoved(item);
+  const handleSavePicture = (item, pictureData, thumbnailData) => onSavePicture(item, pictureData, thumbnailData);
+  const handleItemRemoved = (item) => onRemoveItem(item);
 
   return (
     <>
       <div className={classes.layout}>
-        {arrayItems.map(item => <ItemCard  key={item.id} item={item} onItemRemoved={handleItemRemoved} onItemChange={handleItemChange} /> )}
+        {arrayItems.map(item => <ItemCard  key={item.id} item={item} onRemoveItem={handleItemRemoved} onSavePicture={handleSavePicture} /> )}
       </div>
     </>
   );
 }
 
-export const ItemsList = injectIntl(withStyles(styles)(intItemsList));
+export const ItemsList = (withStyles(styles)(intItemsList));

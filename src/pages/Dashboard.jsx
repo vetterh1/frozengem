@@ -2,12 +2,67 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
-import { injectIntl, FormattedMessage } from "react-intl";
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { injectIntl, FormattedMessage, defineMessages } from "react-intl";
+import { withSnackbar } from 'notistack';
 import { withStyles } from '@material-ui/core/styles';
 import { withUserInfo } from '../auth/withUserInfo';
 import { withItems } from '../auth/withItems';
 import { ItemsList } from './utils/ItemsList'
 import Filters from './Filters'
+import formatServerErrorMsg from '../utils/formatServerErrorMsg'
+
+
+
+
+
+const messages = defineMessages({ 
+  // removeConfirmationTitle: {
+  //   id: 'item.remove.confirmation.title',
+  //   defaultMessage: 'Remove this item?',
+  // },  
+  // removeConfirmationText: {
+  //   id: 'item.remove.confirmation.text',
+  //   defaultMessage: 'This item will not be shown anymore. Use this when you remove an item from your freezer.',
+  // },  
+  // removeConfirmationCancel: {
+  //   id: 'item.remove.confirmation.cancel',
+  //   defaultMessage: 'Cancel',
+  // },
+  // removeConfirmationRemove: {
+  //   id: 'item.remove.confirmation.remove',
+  //   defaultMessage: 'Remove',
+  // },    
+  removeError: {
+    id: 'item.remove.error',
+    defaultMessage: 'Sorry, removing this item failed. Please try again...',
+  },  
+  removeSuccess: {
+    id: 'item.remove.success',
+    defaultMessage: 'Item removed!',
+  },
+  cameraError: {
+    id: 'camera.error',
+    defaultMessage: 'Sorry, saving this picture failed. Please try again...',
+  },  
+  cameraSuccess: {
+    id: 'camera.success',
+    defaultMessage: 'Picture saved!',
+  },
+  cameraReplace: {
+    id: 'camera.replace',
+    defaultMessage: 'Retake picture',
+  },  
+  cameraAdd: {
+    id: 'camera.add',
+    defaultMessage: 'Add picture',
+  },
+});
 
 
 
@@ -38,12 +93,19 @@ class Dashboard extends React.Component {
     this.state = {
       arrayItems:[], 
       arrayFilters:[], 
-      filteredArrayItems:[]
+      filteredArrayItems:[],
+      category: null,
+
+      removeModalOpened: false,
+      itemToRemove: null,
     };
 
     this.onCategoryChange = this.onCategoryChange.bind(this);
     this.onItemChange = this.onItemChange.bind(this);
     this.onItemRemoved = this.onItemRemoved.bind(this);
+    this.onRemoveItem = this.onRemoveItem.bind(this);
+    this.onConfirmRemoveItem = this.onConfirmRemoveItem.bind(this);
+    this.handleCloseRemoveModal = this.handleCloseRemoveModal.bind(this);
   }
 
 
@@ -88,6 +150,58 @@ class Dashboard extends React.Component {
   }
 
 
+
+    // Set the received value in the state 
+  // (replacing any existing one)
+  onSavePicture = async (item, pictureData, thumbnailData) => {
+    const {items, userInfo, enqueueSnackbar, intl} = this.props;
+
+    try {
+      const { updatePictureItemToServer } = items;
+      const itemUpdated = await updatePictureItemToServer(item.id , pictureData, thumbnailData, userInfo);
+      this.onItemChange(itemUpdated);
+      enqueueSnackbar(
+        intl.formatMessage(messages.cameraSuccess), 
+        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+      ); 
+      // console.log('itemUpdated: ', itemUpdated);
+    } catch (error) {
+      enqueueSnackbar(
+        formatServerErrorMsg(error, intl.formatMessage(messages.cameraError), 'ItemCard.savePicture'), 
+        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+      ); 
+    }
+  }
+
+
+
+  onRemoveItem = async () => {
+    const {items, userInfo, enqueueSnackbar, intl} = this.props;
+
+    const item = this.state.itemToRemove;
+    this.setState({itemToRemove: null, removeModalOpened: false})
+
+
+    try {
+      const { removeItemOnServer } = items;
+      await removeItemOnServer(item.id , userInfo);
+      this.onItemRemoved(item);
+      enqueueSnackbar(
+        intl.formatMessage(messages.removeSuccess), 
+        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+      ); 
+      // console.log('itemUpdated: ', itemUpdated);
+    } catch (error) {
+      enqueueSnackbar(
+        formatServerErrorMsg(error, intl.formatMessage(messages.removeError), 'ItemCard.removeItem'), 
+        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+      ); 
+    }
+  }
+
+
+
+
   onItemRemoved = (item) => {
     const { filteredArrayItems } = this.state;
 
@@ -104,12 +218,22 @@ class Dashboard extends React.Component {
   }
 
 
+  onConfirmRemoveItem = (item) => {
+    this.setState({itemToRemove: item, removeModalOpened: true})
+  }
+
+  handleCloseRemoveModal = () => {
+    this.setState({itemToRemove: null, removeModalOpened: false})
+  }
+
+
+
 
   render() {
     console.debug('[--- R ---] Render: Dashboard' );
 
     const { classes, userInfo } = this.props;
-    const { filteredArrayItems, arrayItems } = this.state;
+    const { filteredArrayItems, arrayItems, removeModalOpened } = this.state;
 
     if(!arrayItems || arrayItems.length === 0) return (
       <Box mt={4} display="flex" flexDirection="column" >
@@ -125,9 +249,31 @@ class Dashboard extends React.Component {
     return (
       <React.Fragment>
 
+        <Dialog
+          open={removeModalOpened}
+          onClose={this.handleCloseRemoveModal}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title"><FormattedMessage id="item.remove.confirmation.title" defaultMessage="Remove this item?" /></DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              <FormattedMessage id="item.remove.confirmation.text" defaultMessage="This item will not be shown anymore. Use this when you remove an item from your freezer." />
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleCloseRemoveModal} color="primary">
+              <FormattedMessage id="item.remove.confirmation.cancel" defaultMessage="Cancel" />
+            </Button>
+            <Button onClick={this.onRemoveItem} color="primary" autoFocus>
+              <FormattedMessage id="item.remove.confirmation.remove" defaultMessage="Remove" />
+            </Button>
+          </DialogActions>
+        </Dialog>
+
         <div className={classes.layout}>
           <Filters language={userInfo.language} category={this.category} onCategoryChange={this.onCategoryChange} />
-          <ItemsList arrayItems={filteredArrayItems} onItemChange={this.onItemChange} onItemRemoved={this.onItemRemoved} />
+          <ItemsList arrayItems={filteredArrayItems} onSavePicture={this.onSavePicture} onRemoveItem={this.onConfirmRemoveItem} />
         </div>          
 
       </React.Fragment>
@@ -135,4 +281,4 @@ class Dashboard extends React.Component {
   }
 }
 
-export default injectIntl(withItems(withUserInfo(withStyles(styles)(Dashboard))));
+export default injectIntl(withSnackbar(withItems(withUserInfo(withStyles(styles)(Dashboard)))));

@@ -2,7 +2,6 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 
-import { withItems } from '../../auth/withItems';
 import { withSnackbar } from 'notistack';
 import { withUserInfo } from '../../auth/withUserInfo';
 import { withItemCharacteristics } from '../../auth/withItemCharacteristics';
@@ -41,7 +40,6 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 import config from '../../data/config'
 import PictureSelection from './PictureSelection';
-import formatServerErrorMsg from '../../utils/formatServerErrorMsg'
 
 
 const messages = defineMessages({ 
@@ -112,7 +110,7 @@ const styles = theme => ({
 
 
 
-const intItemCard = ({item, onItemChange, onItemRemoved, classes, intl,items, userInfo, enqueueSnackbar, itemCharacteristics}) => {
+const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo, itemCharacteristics}) => {
   console.debug('[--- FC ---] Functional component: ItemCard -  item: ', item.id);
 
   const [expanded, setExpanded] = React.useState(false);
@@ -135,50 +133,15 @@ const intItemCard = ({item, onItemChange, onItemRemoved, classes, intl,items, us
 
 
   const handleClickRemove = () => {
-    removeItem();
+    onRemoveItem(item);
   };
 
   
-
-  const removeItem = async () => {
-    try {
-      const { removeItemOnServer } = items;
-      await removeItemOnServer(item.id , userInfo);
-      onItemRemoved(item);
-      enqueueSnackbar(
-        intl.formatMessage(messages.removeSuccess), 
-        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
-      ); 
-      // console.log('itemUpdated: ', itemUpdated);
-    } catch (error) {
-      enqueueSnackbar(
-        formatServerErrorMsg(error, intl.formatMessage(messages.removeError), 'ItemCard.removeItem'), 
-        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
-      ); 
-    }
-  }
-
   
+  const handleSavePicture = (pictureData, thumbnailData) => {
+    onSavePicture(item, pictureData, thumbnailData);
+  };
 
-  // Set the received value in the state 
-  // (replacing any existing one)
-  const savePicture = async (pictureData, thumbnailData) => {
-    try {
-      const { updatePictureItemToServer } = items;
-      const itemUpdated = await updatePictureItemToServer(item.id , pictureData, thumbnailData, userInfo);
-      onItemChange(itemUpdated);
-      enqueueSnackbar(
-        intl.formatMessage(messages.cameraSuccess), 
-        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
-      ); 
-      // console.log('itemUpdated: ', itemUpdated);
-    } catch (error) {
-      enqueueSnackbar(
-        formatServerErrorMsg(error, intl.formatMessage(messages.cameraError), 'ItemCard.savePicture'), 
-        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
-      ); 
-    }
-  }
 
 
 
@@ -272,7 +235,7 @@ const intItemCard = ({item, onItemChange, onItemRemoved, classes, intl,items, us
                 </IconButton>      
                 <PictureSelection 
                   iconButton
-                  onPicture={savePicture}
+                  onPicture={handleSavePicture}
                   label={intl.formatMessage(thumbnailsOrPictures ? messages.cameraReplace : messages.cameraAdd)}
                 />
               </CardActions>
@@ -284,5 +247,5 @@ const intItemCard = ({item, onItemChange, onItemRemoved, classes, intl,items, us
     </>
   );
 }
-export default injectIntl(withSnackbar(withUserInfo(withItemCharacteristics(withItems(withStyles(styles)(intItemCard))))));
+export default injectIntl(withSnackbar(withUserInfo(withItemCharacteristics(withStyles(styles)(intItemCard)))));
 
