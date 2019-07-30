@@ -4,9 +4,7 @@ import { withItemCharacteristics } from '../auth/withItemCharacteristics';
 import { injectIntl } from "react-intl";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-
-import { B, V, F, S, M, H, D, I } from "../data/Icons";
-import Fastfood from '@material-ui/icons/Fastfood';
+import { getIcon } from "../data/Icons";
 
 
 
@@ -42,18 +40,6 @@ const intFilters = ({language, category, onCategoryChange, size, onSizeChange, i
   }
 
 
-  const categoryIcons = {
-    "B": <B fontSize="default" />,
-    "V": <V fontSize="default" />,
-    "F": <F fontSize="default" />,
-    "S": <S fontSize="default" />,
-    "P": <Fastfood fontSize="default" />,
-    "M": <M fontSize="default" />,
-    "H": <H fontSize="default" />,
-    "D": <D fontSize="default" />,
-    "I": <I fontSize="default" />,
-  }
-
   if(!selectedCategory) return null;
   
   return (
@@ -71,7 +57,7 @@ const intFilters = ({language, category, onCategoryChange, size, onSizeChange, i
           key={category.id2}
           label={category.name[language]}
           value={category.id2}
-          icon={categoryIcons[category.id2]} 
+          icon={getIcon("category"+category.id2)} 
         />)}
       </Tabs>      
 

@@ -5,9 +5,6 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
 
-import { B, V, F, S, M, H, D, I } from "../../data/Icons";
-import Fastfood from '@material-ui/icons/Fastfood';
-
 
 const styles = theme => ({
   layout: {
@@ -26,29 +23,19 @@ const styles = theme => ({
   selected: {
     backgroundColor: theme.palette.matrixCard.selected,
     // boxShadow: '3px 3px 6px 2px rgba(0, 0, 0, 0.5), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12)'
+  },
+  defaultAvatar: {
+    backgroundColor: theme.palette.secondary.superlight,
+
+  },
+  avatar: {
+    backgroundColor: theme.palette.secondary.light,
   }
 
 });
 
-
-
-
-
-const intMatrixCard = ({onClick, selected, id, name, label, classes}) => {
+const intMatrixCard = ({onClick, selected, id, name, label, icon = null, defaultIcon, classes}) => {
   
-
-
-  const icons = {
-    "B": <B fontSize="default" />,
-    "V": <V fontSize="default" />,
-    "F": <F fontSize="default" />,
-    "S": <S fontSize="default" />,
-    "P": <Fastfood fontSize="default" />,
-    "M": <M fontSize="default" />,
-    "H": <H fontSize="default" />,
-    "D": <D fontSize="default" />,
-    "I": <I fontSize="default" />,
-  }
 
   
   return (
@@ -59,9 +46,12 @@ const intMatrixCard = ({onClick, selected, id, name, label, classes}) => {
         raised={selected}
       >
         <CardHeader
-          avatar={ icons[id] &&
-            <Avatar aria-label="Recipe">
-              {icons[id]}
+          avatar={ icon &&
+            <Avatar 
+            className={defaultIcon ? classes.defaultAvatar : classes.avatar} 
+              aria-label="-"
+            >
+              {icon}
             </Avatar>
           }
           title={name}
