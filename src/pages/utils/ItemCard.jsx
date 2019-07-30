@@ -14,9 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
 
-import { red } from '@material-ui/core/colors';
-import { orange } from '@material-ui/core/colors';
-import { blue } from '@material-ui/core/colors';
+
 import PanToolIcon from '@material-ui/icons/PanTool';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import TimerIcon from '@material-ui/icons/Timer';
@@ -134,7 +132,7 @@ const styles = theme => ({
 
 
 
-const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo, itemCharacteristics}) => {
+const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo, itemCharacteristics, theme}) => {
   console.debug('[--- FC ---] Functional component: ItemCard -  item: ', item.id);
 
   const [expanded, setExpanded] = React.useState(false);
@@ -172,32 +170,32 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
 
     const expirationLevel = itemCharacteristics.computeExpirationLevel(item.expirationDate);
     console.log('exp level:', expirationLevel);
-    let backgroundColor;
+    let avatarBackgroundColor;
     let cardBackgroundColor;
     let iconExpiration;
     let expirationText;
     switch (expirationLevel) {
       case ExpirationLevel.EXPIRATION_PASSED:
-        backgroundColor = red['A700'];
-        cardBackgroundColor = red[100];
+        avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.expired;
+        cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.expired;
         iconExpiration = <PanToolIcon />;
         expirationText = messages.expirationMessagePassed;
         break;
       case ExpirationLevel.EXPIRATION_NEXT_30_DAYS:
-        backgroundColor = red[500];
-        cardBackgroundColor = red[50];
+        avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.next_30_days;
+        cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.next_30_days;
         iconExpiration = <PriorityHighIcon />;
         expirationText = messages.expirationMessageNext_30_days;
         break;
       case ExpirationLevel.EXPIRATION_WITHIN_3_MONTHS:
-        backgroundColor = orange[500];
-        cardBackgroundColor = orange[50];
+        avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.within_3_months;
+        cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.within_3_months;
         iconExpiration = <TimerIcon />;
         expirationText = messages.expirationMessageWithin_3_months;
         break;
       default:
-        backgroundColor = blue[200];
-        cardBackgroundColor = blue[50];
+        avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.later;
+        cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.later;
         iconExpiration = <DoneIcon />;
         expirationText = messages.expirationMessageLater;
         break;
@@ -226,7 +224,7 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
         <Card className={classes.layout} style={{backgroundColor: cardBackgroundColor}}>
           <CardHeader
             avatar={
-              <Avatar aria-label="Recipe" style={{backgroundColor: backgroundColor}}>
+              <Avatar aria-label="Recipe" style={{backgroundColor: avatarBackgroundColor}}>
                 {iconExpiration}
               </Avatar>
             }
@@ -285,5 +283,5 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
     </>
   );
 }
-export default injectIntl(withSnackbar(withUserInfo(withItemCharacteristics(withStyles(styles)(intItemCard)))));
+export default injectIntl(withSnackbar(withUserInfo(withItemCharacteristics(withStyles(styles, { withTheme: true })(intItemCard)))));
 
