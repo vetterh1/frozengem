@@ -28,11 +28,12 @@ const intSelectFromMatrix = ({ name = "", defaultIconName = "", items, itemInSta
       const nameItem = item.name[userInfo.language]
       const labelItem = item.label[userInfo.language]
       let iconItem = getIcon(name + item.id2)
-      let defaultIcon = false
+      let isDefaultIcon = false
       if(!iconItem) {
         iconItem = getIcon(defaultIconName)
-        defaultIcon = true
+        isDefaultIcon = true
       }
+      console.log("icon: ", name + item.id2, defaultIconName, isDefaultIcon)
       return <MatrixCard 
         onClick={handleClick.bind(this, item.id2)} 
         selected={itemInStateIsAnArray ? itemInState.find(detail => detail === item.id2) !== undefined : itemInState === item.id2} 
@@ -41,7 +42,7 @@ const intSelectFromMatrix = ({ name = "", defaultIconName = "", items, itemInSta
         name={nameItem}
         label={labelItem}
         icon={iconItem}
-        defaultIcon={defaultIcon}
+        isDefaultIcon={isDefaultIcon}
       />
     })}
   </div>

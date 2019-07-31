@@ -34,7 +34,7 @@ const styles = theme => ({
 
 });
 
-const intMatrixCard = ({onClick, selected, id, name, label, icon = null, defaultIcon, classes}) => {
+const intMatrixCard = ({onClick, selected, id, name, label, icon = null, isDefaultIcon, classes}) => {
   
 
   
@@ -48,7 +48,7 @@ const intMatrixCard = ({onClick, selected, id, name, label, icon = null, default
         <CardHeader
           avatar={ icon &&
             <Avatar 
-            className={defaultIcon ? classes.defaultAvatar : classes.avatar} 
+            className={isDefaultIcon ? classes.defaultAvatar : classes.avatar} 
               aria-label="-"
             >
               {icon}

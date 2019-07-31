@@ -48,7 +48,7 @@ class SizeForm extends React.Component {
     return (
       <div className={"flex-max-height flex-direction-column"}>
         <WizPageTitle message={messages.title} />
-        <SelectFromMatrix name="size" items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
+        <SelectFromMatrix name="size" defaultIconName={"sizeDefault"} items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
         <WizNavBar onClickNext={null} onClickPrevious={this.handlePrevious.bind(this)} />
       </div>
 

@@ -49,8 +49,8 @@ class ContainerForm extends React.Component {
     return (
       <div className={"flex-max-height flex-direction-column"}>
         <WizPageTitle message={messages.title} />
-        <SelectFromMatrix items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
-        <WizNavBar name="container" onClickNext={null} onClickPrevious={this.handlePrevious.bind(this)} />
+        <SelectFromMatrix name="container" defaultIconName={"containerDefault"} items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
+        <WizNavBar onClickNext={null} onClickPrevious={this.handlePrevious.bind(this)} />
       </div>
 
     )
