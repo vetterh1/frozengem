@@ -13,5 +13,5 @@ else
   echo "Simple update, no 'npm install' was done. To do a full install, please add the parameter 'full'"
 fi
 npm run build
-pm2 start /usr/local/bin/http-server --name foFrozen  -- ./build -p 8060 --cors
+pm2 start /usr/local/bin/http-server --name foFrozen  -- ./build -p 8060 --cors  --proxy http://localhost:8060?
 # pm2 start npm  --name foFrozen  --env production -- run prodstart
