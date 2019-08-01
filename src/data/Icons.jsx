@@ -1,6 +1,12 @@
 import React from 'react';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import Fastfood from '@material-ui/icons/Fastfood';
+import Kitchen from '@material-ui/icons/Kitchen';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import Remove from '@material-ui/icons/Remove';
+import Room from '@material-ui/icons/Room';
+import VerticalAlignBottom from '@material-ui/icons/VerticalAlignBottom';
 
 
 export const getIcon = (iconName) => icons[iconName];
@@ -43,7 +49,14 @@ const icons = {
     "size4": <IconSize4 fontSize="default" />,
     "size6": <IconContainerDefault fontSize="default" />,
     
-  }
+    "freezerDefault": <Room fontSize="default" />,
+    "freezerK": <Kitchen fontSize="default" />,
+    "freezerB": <VerticalAlignBottom fontSize="default" />,
+
+    "locationT": <ExpandLess fontSize="default" />,
+    "locationM": <Remove fontSize="default" />,
+    "locationB": <ExpandMore fontSize="default" />,
+}
 
 
 

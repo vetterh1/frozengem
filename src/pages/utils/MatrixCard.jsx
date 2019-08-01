@@ -9,6 +9,7 @@ import Avatar from '@material-ui/core/Avatar';
 const styles = theme => ({
   layout: {
 
+    cursor: 'pointer',
     margin: theme.spacing(1),
 
     [theme.breakpoints.down('xs')]: {
@@ -24,17 +25,13 @@ const styles = theme => ({
     backgroundColor: theme.palette.matrixCard.selected,
     // boxShadow: '3px 3px 6px 2px rgba(0, 0, 0, 0.5), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12)'
   },
-  defaultAvatar: {
-    backgroundColor: theme.palette.secondary.superlight,
-
-  },
   avatar: {
     backgroundColor: theme.palette.secondary.light,
   }
 
 });
 
-const intMatrixCard = ({onClick, selected, id, name, label, icon = null, isDefaultIcon, classes}) => {
+const intMatrixCard = ({onClick, selected, name, label, icon = null, classes}) => {
   
 
   
@@ -48,7 +45,7 @@ const intMatrixCard = ({onClick, selected, id, name, label, icon = null, isDefau
         <CardHeader
           avatar={ icon &&
             <Avatar 
-            className={isDefaultIcon ? classes.defaultAvatar : classes.avatar} 
+            className={classes.avatar} 
               aria-label="-"
             >
               {icon}
