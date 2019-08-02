@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
@@ -41,14 +42,8 @@ const styles = theme => ({
   },
   button: {
     textAlign: 'center',
-    marginLeft: theme.spacing(2),
+    // marginLeft: theme.spacing(2),
   },  
-  divWizard: {
-    marginTop: theme.spacing(2),
-  },
-  iconButton: {
-    padding: 10,
-  },
 });
 
 
@@ -125,7 +120,7 @@ class Results extends React.Component {
     return (
       <div className={"flex-max-height flex-direction-column"}>
 
-        <div className={"flex-max-height flex-direction-column"}>
+        <div className={"flex-normal-height flex-direction-column"}>
           <div className={"flex-normal-height flex-direction-column margin-down margin-top"}>
             <Typography variant="h4" className={"margin-down"}>
               {state.code}
@@ -139,7 +134,7 @@ class Results extends React.Component {
             </Typography>
           </div>
 
-          <FormControl className={"flex-normal-height flex-direction-column big-margin-down"}>
+          <FormControl className={"flex-normal-height flex-direction-column huge-margin-down"}>
             <InputLabel htmlFor="name"><FormattedMessage id="add.results.name.label" defaultMessage="Name (optional)" /></InputLabel>
             <Input
               id="name"
@@ -151,7 +146,7 @@ class Results extends React.Component {
             <FormHelperText id="name-text">{this.props.intl.formatMessage(messages.name)}</FormHelperText>
           </FormControl>
 
-          <div className={"flex-normal-height flex-direction-column big-margin-down"}>
+          <div className={"flex-normal-height flex-direction-column huge-margin-down"}>
             <DatePicker
               views={["year", "month"]}
               value={state.expirationDate}
@@ -164,7 +159,12 @@ class Results extends React.Component {
           </div>
 
           { this.state.dirty && 
-            <Button variant="outlined" color="primary" onClick={this.handleUpdates.bind(this)} className={classes.button}>
+            <Button 
+              variant="outlined" 
+              color="primary" 
+              onClick={this.handleUpdates.bind(this)} 
+              className={clsx(classes.layout, 'huge-margin-down')}
+            >
               <FormattedMessage id="action.update" defaultMessage="Update" />
             </Button> 
           }
@@ -174,20 +174,9 @@ class Results extends React.Component {
             label={intl.formatMessage(messages.cameraAdd)}
           />
 
-          
-{/* 
-          <Button color="primary" onClick={this.handleAddPicture.bind(this)} className={classes.button}>
-            <FormattedMessage id="camera.add" defaultMessage="Add picture" />
-          </Button> 
-          
-          <div className={"flex-max-height flex-direction-column"}>
-            &nbsp;
-          </div> 
-*/}
-
         </div>
 
-        <div className={"flex-normal-height flex-direction-row flex-justifiy-between margin-down"}>
+        <div className={"flex-normal-height flex-direction-row flex-justifiy-between margin-down huge-margin-top"}>
           <Button variant="contained" color="secondary" onClick={this.handleAddNew.bind(this)} className={classes.button}>
             <FormattedMessage id="button.addnew" defaultMessage="Add a new item" />
           </Button> 

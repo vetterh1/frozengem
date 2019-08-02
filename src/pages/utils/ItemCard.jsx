@@ -270,7 +270,7 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
                   <FavoriteIcon />
                 </IconButton>      
                 <PictureSelection 
-                  iconButton
+                  iconOnlyButton
                   onPicture={handleSavePicture}
                   label={intl.formatMessage(thumbnailsOrPictures ? messages.cameraReplace : messages.cameraAdd)}
                 />

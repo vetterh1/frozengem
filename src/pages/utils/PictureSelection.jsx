@@ -14,14 +14,17 @@ import getExifTagsAsync from '../../utils/getExifTagsAsync'
 
 const styles = theme => ({
     button: {
-      margin: theme.spacing(1),
+      padding: '0px',
     },  
+    leftIcon: {
+      marginRight: theme.spacing(1),
+    },
     hiddenInput: {
       display: 'none',
     },  
   });
   
-  const PictureSelection = ({label, iconButton, onPicture, classes}) => {
+  const PictureSelection = ({label, iconOnlyButton, onPicture, classes}) => {
 
 
     const resizePicture = async (img, MAX_WIDTH = 800, MAX_HEIGHT = 800) => {
@@ -139,12 +142,13 @@ const styles = theme => ({
           />
           <label htmlFor="button-choose-picture">
             <>
-              { !iconButton &&
+              { !iconOnlyButton &&
                 <Button component="span" size="small" color="primary" className={classes.button}>
+                  <PhotoCameraIcon  className={classes.leftIcon}/>
                   {label}
                 </Button>
               }
-              { iconButton &&
+              { iconOnlyButton &&
                 <IconButton  component="span" aria-label={label}>
                   <PhotoCameraIcon />
                 </IconButton> 
