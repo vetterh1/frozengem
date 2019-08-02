@@ -18,6 +18,7 @@ const messages = defineMessages({
 class ContainerColorForm extends React.Component {
   static propTypes = {
     handleChange: PropTypes.func.isRequired,
+    isActive: PropTypes.bool,
   }
 
   handleClick = (id) => {
@@ -30,6 +31,8 @@ class ContainerColorForm extends React.Component {
 
 
   render() {
+    if(!this.props.isActive) return null;
+    
     // State is NOT stored in this wizard tab, but in the parent (wizard component)
     const { state, language } = this.props;
     const parentId = state.container;

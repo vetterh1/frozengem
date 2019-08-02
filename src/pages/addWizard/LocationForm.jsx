@@ -18,6 +18,7 @@ const messages = defineMessages({
 class LocationForm extends React.Component {
   static propTypes = {
     handleChange: PropTypes.func.isRequired,
+    isActive: PropTypes.bool,
   }
 
   handleClick = (id) => {
@@ -30,6 +31,8 @@ class LocationForm extends React.Component {
 
 
   render() {
+    if(!this.props.isActive) return null;
+    
     // Get the locations to display from the context
     // and the (possibly) already selected location from the props.state (state from parent)
     let { locations: items } = this.context;

@@ -18,6 +18,7 @@ const messages = defineMessages({
 class ContainerForm extends React.Component {
   static propTypes = {
     handleChange: PropTypes.func.isRequired,
+    isActive: PropTypes.bool,
   }
 
   handleClick = (id) => {
@@ -42,6 +43,8 @@ class ContainerForm extends React.Component {
 
 
   render() {
+    if(!this.props.isActive) return null;
+    
     // Get the containers to display from the context
     // and the (possibly) already selected container from the props.state (state from parent)
     let { containers: items } = this.context;

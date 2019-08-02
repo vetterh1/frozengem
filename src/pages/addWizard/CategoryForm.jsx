@@ -17,6 +17,7 @@ const messages = defineMessages({
 class CategoryForm extends React.Component {
   static propTypes = {
     handleChange: PropTypes.func.isRequired,
+    isActive: PropTypes.bool,
   }
 
   handleClick = (id) => {
@@ -27,6 +28,8 @@ class CategoryForm extends React.Component {
 
 
   render() {
+    if(!this.props.isActive) return null;
+    
     // Get the categories to display from the context
     // and the (possibly) already selected category from the props.state (state from parent)
     let { categories: items } = this.context;

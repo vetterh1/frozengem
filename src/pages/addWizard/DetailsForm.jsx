@@ -17,6 +17,7 @@ const messages = defineMessages({
 class DetailsForm extends React.Component {
   static propTypes = {
     handleChange: PropTypes.func.isRequired,
+    isActive: PropTypes.bool,
   }
 
   handleClick = (id) => { this.props.handleArrayToggle({name:'details', value: id}); };
@@ -25,6 +26,10 @@ class DetailsForm extends React.Component {
 
 
   render() {
+    if(!this.props.isActive) return null;
+    
+    console.log("DetailsForm render ")
+
     // State is NOT stored in this wizard tab, but in the parent (wizard component)
     const { state, language } = this.props;
     const parentId = state.category;

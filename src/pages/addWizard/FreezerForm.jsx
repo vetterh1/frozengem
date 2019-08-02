@@ -16,6 +16,7 @@ const messages = defineMessages({
 class FreezerForm extends React.Component {
   static propTypes = {
     handleChange: PropTypes.func.isRequired,
+    isActive: PropTypes.bool,
   }
 
   handleClick = (id) => {
@@ -28,6 +29,8 @@ class FreezerForm extends React.Component {
 
 
   render() {
+    if(!this.props.isActive) return null;
+    
     // Get the freezers to display from the context
     // and the (possibly) already selected freezer from the props.state (state from parent)
     let { freezers: items } = this.context;

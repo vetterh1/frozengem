@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
@@ -53,6 +54,7 @@ const styles = theme => ({
 
 class Results extends React.Component {
   static propTypes = {
+    isActive: PropTypes.bool,
   }
 
 
@@ -115,6 +117,8 @@ class Results extends React.Component {
 
 
   render() {
+    if(!this.props.isActive) return null;
+    
     // State is NOT stored in this wizard tab, but in the parent (wizard component)
     const { classes, state, intl } = this.props;
 

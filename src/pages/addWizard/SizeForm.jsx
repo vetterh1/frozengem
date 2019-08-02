@@ -18,6 +18,7 @@ const messages = defineMessages({
 class SizeForm extends React.Component {
   static propTypes = {
     handleChange: PropTypes.func.isRequired,
+    isActive: PropTypes.bool,
   }
 
   handleClick = (id) => {
@@ -41,6 +42,8 @@ class SizeForm extends React.Component {
 
 
   render() {
+    if(!this.props.isActive) return null;
+    
     // Get the sizes to display from the context
     // and the (possibly) already selected size from the props.state (state from parent)
     let { sizes: items } = this.context;
