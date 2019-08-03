@@ -38,6 +38,7 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "i18n:extract": "MESSAGE_DIR='./.messages' react-scripts build",
     "i18n:manageTranslations": "node ./translationRunner.js",
+    "postbuild": "find ./build -type f -name '*.js' -exec gzip -k '{}' \\;",
     "eject-be-careful-cannot-be-reverted": "react-scripts eject"
   },
   "eslintConfig": {
