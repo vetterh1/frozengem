@@ -4,6 +4,7 @@ git fetch -a
 git stash
 git pull
 chmod 755 ./prod_update_server.sh
+rm -fr build
 if [[ $1 == "full" ]]; then
     echo "Full update including'npm install'. To do a simple install, please remove the parameter 'full'"
     rm -fr node_modules
