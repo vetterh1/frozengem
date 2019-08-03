@@ -5,6 +5,7 @@ import {WizNavBar, WizPageTitle} from "../utils/WizUtilComponents";
 import SelectFromMatrix from "../utils/SelectFromMatrix";
 import { defineMessages } from "react-intl";
 // import { defineMessages } from 'react-intl.macro';
+import stringifyOnce from '../../utils/stringifyOnce.js'
 
 const messages = defineMessages({
   title: {
@@ -25,10 +26,22 @@ class DetailsForm extends React.Component {
   handleNext = () => { this.props.nextStep(); };
 
 
+  componentWillUpdate(prevProps, prevState) {
+    Object.entries(this.props).forEach(([key, val]) =>
+      prevProps[key] !== val && console.log(`Prop '${key}' changed from ${stringifyOnce(prevProps[key])} to ${stringifyOnce(val)}`)
+    );
+    // Object.entries(this.state).forEach(([key, val]) =>
+    //   prevState[key] !== val && console.log(`State '${key}' changed`)
+    // );
+  }
+
+
+
   render() {
-    if(!this.props.isActive) return null;
+    if(!this.props.isActive || this.props.isActive === false  ) {console.log("DetailsForm no render 1 "); return null;}
+    if(!this.props.currentStep || this.props.currentStep !== 2 ) {console.log("DetailsForm no render 2 "); return null;}
     
-    console.log("DetailsForm render ")
+    console.log("DetailsForm render ", this.props.isActive, this.props.currentStep)
 
     // State is NOT stored in this wizard tab, but in the parent (wizard component)
     const { state, language } = this.props;
