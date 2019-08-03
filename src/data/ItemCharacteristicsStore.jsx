@@ -15,7 +15,7 @@ logItemCharacteristicsStore.debug('--> entering ItemCharacteristicsStore.jsx');
 // (!) Should arrive localized from server (!)
 
 const defaultCharacteristics = {
-    version: 25,    
+    version: 30,    
     categories: [
       {name: {en: 'Bread', fr: 'Pain'}, label: {en: '', fr: ''}, id2: 'B', expiration: '1', expirationMinusPlus:{} },
       {name: {en: 'Vegetables', fr: 'Légumes'}, label: {en: '', fr: ''}, id2: 'V',  expiration: '12', expirationMinusPlus:{DRAW: '-6'}},
@@ -47,6 +47,7 @@ const defaultCharacteristics = {
       {name: {en: 'Vegetarian', fr: 'Végétarien'}, label: {en: '', fr: ''}, id2: 'DVEG', parents:['S', 'P']},
     ],
     containers:[
+        {name: {en: 'Commercial box', fr: 'Emballage commercial'}, label: {en: 'ex: Picard', fr: 'ex: Picard'}, id2: 'C'},
         {name: {en: 'Plastic box', fr: 'Boîte en plastique'}, label: {en: 'ex: Tupperware', fr: 'ex: Tupperware'}, id2: 'P'},
         {name: {en: 'Aluminium box', fr: 'Boîte en aluminium'}, label: {en: 'ex: Doggy box', fr: 'ex: Boîte de restaurant'}, id2: 'A'},
         {name: {en: 'Plastic bag', fr: 'Sac de congélation'}, label: {en: 'ex: Ziplog', fr: 'ex: Ziplog'}, id2: 'B'},
@@ -54,13 +55,13 @@ const defaultCharacteristics = {
         {name: {en: 'Aluminium foil', fr: 'Papier Aluminium'}, label: {en: '', fr: ''}, id2: 'F'},
     ],  
     colors:[
-        {name: {en: 'Transparent', fr: 'Transparent'}, label: {en: '', fr: ''}, id2: 'T', parents:['P'] },
-        {name: {en: 'White', fr: 'Blanc'}, label: {en: '', fr: ''}, id2: 'W', parents:['P', 'S']},
-        {name: {en: 'Blue', fr: 'Bleu'}, label: {en: '', fr: ''}, id2: 'B', parents:['P']},
-        {name: {en: 'Green', fr: 'Vert'}, label: {en: '', fr: ''}, id2: 'G', parents:['P']},
-        {name: {en: 'Red', fr: 'Rouge'}, label: {en: '', fr: ''}, id2: 'R', parents:['P']},
-        {name: {en: 'Brown', fr: 'Brun'}, label: {en: '', fr: ''}, id2: 'N', parents:['P', 'S']},
-        {name: {en: 'Other', fr: 'Autre'}, label: {en: '', fr: ''}, id2: 'O', parents:['P', 'S']},
+        {name: {en: 'Transparent', fr: 'Transparent'}, label: {en: '', fr: ''}, id2: 'T', parents:['P', 'C'] },
+        {name: {en: 'White', fr: 'Blanc'}, label: {en: '', fr: ''}, id2: 'W', parents:['P', 'C', 'S']},
+        {name: {en: 'Blue', fr: 'Bleu'}, label: {en: '', fr: ''}, id2: 'B', parents:['P', 'C']},
+        {name: {en: 'Green', fr: 'Vert'}, label: {en: '', fr: ''}, id2: 'G', parents:['P', 'C']},
+        {name: {en: 'Red', fr: 'Rouge'}, label: {en: '', fr: ''}, id2: 'R', parents:['P', 'C']},
+        {name: {en: 'Brown', fr: 'Brun'}, label: {en: '', fr: ''}, id2: 'N', parents:['P', 'C', 'S']},
+        {name: {en: 'Other', fr: 'Autre'}, label: {en: '', fr: ''}, id2: 'O', parents:['P', 'C', 'S']},
     ],
     sizes:[
         {name: {en: '1', fr: '1'}, label: {en: '1 serving', fr: '1 portion'}, id2: '1'},

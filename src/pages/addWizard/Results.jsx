@@ -114,6 +114,10 @@ class Results extends React.Component {
   render() {
     if(!this.props.isActive) return null;
     
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6, 1);
+
+
     // State is NOT stored in this wizard tab, but in the parent (wizard component)
     const { classes, state, intl } = this.props;
 
@@ -152,7 +156,7 @@ class Results extends React.Component {
               value={state.expirationDate}
               onChange={this.handleDateChange.bind(this)}
               label={this.props.intl.formatMessage(messages.date)}
-              minDate={new Date()}
+              minDate={sixMonthsAgo}
               autoOk
               clearable
             />
