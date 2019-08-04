@@ -15,7 +15,7 @@ logItemCharacteristicsStore.debug('--> entering ItemCharacteristicsStore.jsx');
 // (!) Should arrive localized from server (!)
 
 const defaultCharacteristics = {
-    version: 30,    
+    version: 31,    
     categories: [
       {name: {en: 'Bread', fr: 'Pain'}, label: {en: '', fr: ''}, id2: 'B', expiration: '1', expirationMinusPlus:{} },
       {name: {en: 'Vegetables', fr: 'Légumes'}, label: {en: '', fr: ''}, id2: 'V',  expiration: '12', expirationMinusPlus:{DRAW: '-6'}},
@@ -45,6 +45,11 @@ const defaultCharacteristics = {
       {name: {en: 'Veal', fr: 'Veau'}, label: {en: '', fr: ''}, id2: 'DVEA', parents:['M', 'P']},
       {name: {en: 'Fish', fr: 'Poisson'}, label: {en: '', fr: ''}, id2: 'DFIS', parents:['S', 'P']},
       {name: {en: 'Vegetarian', fr: 'Végétarien'}, label: {en: '', fr: ''}, id2: 'DVEG', parents:['S', 'P']},
+      {name: {en: 'Vegan', fr: 'Végétalien'}, label: {en: '', fr: ''}, id2: 'DVEN', parents:['S', 'P', 'D', 'I']},
+      {name: {en: 'Gluten free', fr: 'Sans gluten'}, label: {en: '', fr: ''}, id2: 'DGLU', parents:['S', 'P', 'D', 'I']},
+      {name: {en: 'Dairy free', fr: 'Sans produits laitiers'}, label: {en: '', fr: ''}, id2: 'DDAI', parents:['S', 'P', 'D', 'I']},
+      {name: {en: 'Egg free', fr: 'Sans oeufs'}, label: {en: '', fr: ''}, id2: 'DEGG', parents:['S', 'P', 'D', 'I']},
+      {name: {en: 'Nut free', fr: 'Sans noix / fruits à coque'}, label: {en: '', fr: ''}, id2: 'DNUT', parents:['S', 'P', 'D', 'I']},
     ],
     containers:[
         {name: {en: 'Commercial box', fr: 'Emballage commercial'}, label: {en: 'ex: Picard', fr: 'ex: Picard'}, id2: 'C'},
