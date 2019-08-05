@@ -8,7 +8,7 @@ import { withSnackbar } from 'notistack';
 import { injectIntl, defineMessages, FormattedMessage } from "react-intl";
 import { withStyles } from '@material-ui/core/styles';
 import { withUserInfo } from '../auth/withUserInfo';
-import ModalOneInput from './utils/ModalOneInput';
+import ButtonWithOneInputModal from './utils/ButtonWithOneInputModal';
 
 const styles = theme => ({
   layout: {
@@ -166,7 +166,7 @@ class ChooseHome extends React.Component {
               <Grid item sm={12} md={6} container direction="column">
                 <Grid className={classes.subtitle} item>
                   <Grid className={classes.subtitle} item >
-                    <ModalOneInput 
+                    <ButtonWithOneInputModal 
                       btnLabel={this.props.intl.formatMessage(messages.joinTitle)}
                       btnIcon="btnHome"
                       modalTitle={this.props.intl.formatMessage(messages.joinShort)}
@@ -175,7 +175,7 @@ class ChooseHome extends React.Component {
                       onOk={this.onJoinHome}
                     >
                       <Add className={classes.leftIcon} />
-                    </ModalOneInput>                  
+                    </ButtonWithOneInputModal>                  
                   </Grid>
                   <Typography variant="body1" component="h2" color="primary">
                     <FormattedMessage id="app.home.join" defaultMessage="...if someone in your home is already using FrozenGem" />
@@ -189,7 +189,7 @@ class ChooseHome extends React.Component {
               <Grid item sm={12} md={6}>
                 <Grid className={classes.subtitle} item>
                   <Grid className={classes.subtitle} item >
-                    <ModalOneInput 
+                    <ButtonWithOneInputModal 
                       btnLabel={this.props.intl.formatMessage(messages.newTitle)}
                       btnIcon="btnHome"
                       modalTitle={this.props.intl.formatMessage(messages.newShort)}
@@ -198,7 +198,7 @@ class ChooseHome extends React.Component {
                       onOk={this.onNewHome}
                     >
                       <Create className={classes.leftIcon} />
-                    </ModalOneInput>   
+                    </ButtonWithOneInputModal>   
                   </Grid>
                   <Typography variant="body1" component="h2" color="primary">
                     <FormattedMessage id="app.home.new" defaultMessage="...if you are the first user in your home" />

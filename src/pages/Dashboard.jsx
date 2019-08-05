@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -16,6 +15,7 @@ import { withItems } from '../auth/withItems';
 import ItemsList from './utils/ItemsList'
 import Filters from './Filters'
 import formatServerErrorMsg from '../utils/formatServerErrorMsg'
+import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
 
 
 

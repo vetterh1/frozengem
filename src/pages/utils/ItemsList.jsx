@@ -1,38 +1,8 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import { FormattedMessage } from "react-intl";
 import ItemCard from './ItemCard'
-
-
-
-// const useStyles = makeStyles(theme => ({
-//   button: {
-//     margin: theme.spacing(1),
-//   },
-// }));
-
-
-// const messages = defineMessages({ 
-//   column_category: {
-//     id: 'dashboard.category',
-//     defaultMessage: 'Category',
-//     description: 'Category',
-//   },
-//   column_expiration: {
-//     id: 'dashboard.expiration',
-//     defaultMessage: 'Expires',
-//     description: 'Expires',
-//   },
-//   column_name: {
-//     id: 'dashboard.name',
-//     defaultMessage: 'Name',
-//     description: 'Name',
-//   },
-//   column_code: {
-//     id: 'dashboard.code',
-//     defaultMessage: 'Code',
-//     description: 'Code',
-//   },
-// });
 
 
 const styles = theme => ({
@@ -43,11 +13,8 @@ const styles = theme => ({
     justifyContent: 'space-around',
     width: 'auto',
     padding: `${theme.spacing(2)}px 0`,
-    // marginLeft: theme.spacing(1),
-    // marginRight: theme.spacing(1),
   },
 });
-
 
 
 
@@ -58,10 +25,19 @@ const intItemsList = ({arrayItems, onSavePicture, onRemoveItem, classes}) => {
   const handleSavePicture = (item, pictureData, thumbnailData) => onSavePicture(item, pictureData, thumbnailData);
   const handleItemRemoved = (item) => onRemoveItem(item);
 
+  const nbItems = arrayItems.length;
+
   return (
     <>
       <div className={classes.layout}>
         {arrayItems.map(item => <ItemCard  key={item.id} item={item} onRemoveItem={handleItemRemoved} onSavePicture={handleSavePicture} /> )}
+        {nbItems <= 0 &&
+            <div className="huge-margin-top">
+              <Typography color="primary" align="center">
+                <FormattedMessage id="dashboard.empty.category.title" defaultMessage="You don't have any product from this category in your freezer yet." />
+              </Typography>
+            </div>
+        }
       </div>
     </>
   );

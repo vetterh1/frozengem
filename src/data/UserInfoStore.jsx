@@ -28,6 +28,7 @@ export class UserInfoStore extends React.Component {
       loadFromServer: (token) => this.loadFromServer(token),
       getHome: () => this.getHome(),
       joinHome: (home) => this.joinHome(home),
+      leaveHome: (home) => this.leaveHome(home),
       joinNewHome: (home) => this.joinNewHome(home),
       setLanguage: (l) => this.setLanguage(l),
       login: (email, password) => this.login(email, password),
@@ -264,7 +265,37 @@ logout() {
 
 
 
+  async leaveHome() {
+    console.info('|--- SERVER CALL ---|--- PUT ---| UserInfoStore.leaveHome');
+    const data = { 'access_token': this.state.accessToken };
+    const options = {
+      method: 'PUT',
+      url: `${config.boUrl}/users/${this.state.id}/home/leave`,
+      crossdomain : true,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      data: qs.stringify(data),
+    };
 
+    try {
+      const response = await axios(options);
+      console.log('leave home response: ' , response);
+
+      const {home, homeOrder} = response.data.user;
+      this.setState({home: home, homeOrder: homeOrder});
+      
+      return null;
+
+    } catch (error) {
+      console.error('register error: ' , error);
+      throw error;
+    }
+  }
+
+
+
+
+
+  
   
   async joinNewHome(name, label) {
     console.info('|--- SERVER CALL ---|--- PUT ---| UserInfoStore.joinNewHome: ', name);

@@ -10,11 +10,16 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import ButtonWithValidation from '../pages/utils/ButtonWithValidation'
 
 
 const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
+  },
+  buttonNoUppercaseChange: {
+    margin: theme.spacing(1),
+    textTransform: 'none',
   },
 }));
 
@@ -23,11 +28,27 @@ const messages = defineMessages({
     id: 'menu_profile.home_clipboard',
     defaultMessage: '{code} copied to clipboard',
     description: 'clip',
-  }
+  },
+  leaveBtn: {
+    id: 'menu_profile.leavehome',
+    defaultMessage: 'Leave current home',
+  },
+  leaveMessage: {
+    id: 'menu_profile.leaveMessage',
+    defaultMessage: 'Do you really want to Leave the current home',
+  },
+  leaveOkLabel: {
+    id: 'menu_profile.leaveOkLabel',
+    defaultMessage: 'Leave',
+  },
+  buttonCancel: {
+    id: 'button.cancel',
+    defaultMessage: 'cancel',
+  },
 });
 
 
-const intMenuProfile = ({homeCode, language, setLanguage, intl}) => {
+const intMenuProfile = ({homeCode, language, setLanguage, leaveHome, intl}) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -42,7 +63,7 @@ const intMenuProfile = ({homeCode, language, setLanguage, intl}) => {
     setAnchorEl(null);
   }
 
-
+  
   function onCopy(code) {
     enqueueSnackbar(
       intl.formatMessage(messages.clipboard, {code: code}), 
@@ -78,17 +99,17 @@ const intMenuProfile = ({homeCode, language, setLanguage, intl}) => {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>
+        {homeCode && <MenuItem onClick={handleClose}>
           <FormattedMessage id="menu_profile.your_code" defaultMessage="Your home code:" />
           <CopyToClipboard
             text={homeCode}
             onCopy={() => onCopy(homeCode)}
           >
-            <Button variant="outlined" component="span" size="small"  className={classes.button} >
+            <Button variant="outlined" component="span" size="small"  className={classes.buttonNoUppercaseChange} >
             {homeCode}
             </Button>
           </CopyToClipboard>
-        </MenuItem>   
+        </MenuItem>}  
 
         {language === "fr" && 
           <MenuItem onClick={e => setLanguage("en")}>Switch to English</MenuItem>
@@ -96,6 +117,17 @@ const intMenuProfile = ({homeCode, language, setLanguage, intl}) => {
         {language === "en" &&
           <MenuItem onClick={e => setLanguage("fr")}>Afficher en Français</MenuItem>
         }        
+
+        {homeCode && <MenuItem>
+          <ButtonWithValidation 
+            btnLabel={intl.formatMessage(messages.leaveBtn)}
+            modalTitle={intl.formatMessage(messages.leaveBtn)}
+            modalText={intl.formatMessage(messages.leaveMessage)}
+            okLabel={intl.formatMessage(messages.leaveOkLabel)}
+            cancelLabel={intl.formatMessage(messages.buttonCancel)}
+            onOk={leaveHome}
+          />
+        </MenuItem>}
 
         <MenuItem component={Link} to="/logout"><FormattedMessage id="menu_profile.logout" defaultMessage="Logout" /></MenuItem>
       </Menu>
