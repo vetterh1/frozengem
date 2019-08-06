@@ -125,6 +125,7 @@ class App extends React.Component {
 
                                         // User exists but has not chosen his home yet: ask him to choose!
                                         const home = getHome();
+                                        console.log("home: ", home)
                                         if(!home) return <ChooseHome {...props} />;
                                         
                                         // Authenticated users see their dashboard:

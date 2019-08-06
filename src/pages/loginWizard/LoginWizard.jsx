@@ -131,7 +131,7 @@ class LoginWizard extends React.Component {
     const { classes } = this.props;
     return (
           <div className={classes.divWizardPage}>
-            <StepWizard isHashEnabled transitions={{}} className={"flex-max-height flex-direction-column"} classNameWrapper={'flex-max-height flex-direction-column'}>
+            <StepWizard isHashEnabled transitions={{}} className={"flex-normal-height flex-direction-column"} classNameWrapper={'flex-normal-height flex-direction-column'}>
               <EmailForm hashKey={'email'} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
               <PasswordForm hashKey={'password'} onSubmit={this.login} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
             </StepWizard>

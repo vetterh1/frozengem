@@ -43,7 +43,7 @@ class ContainerColorForm extends React.Component {
     const items = !colors || !parentId ? [] : colors.filter(color => color.parents.find(oneParent => oneParent === parentId));
     const parentName = !containers || !parentId  ? "item" : containers.find(container => container.id2 === parentId).name[language];
     return (
-      <div className={"flex-max-height flex-direction-column"}>
+      <div className={"flex-normal-height flex-direction-column"}>
         <WizPageTitle message={messages.title} values={{container: parentName.toLowerCase()}} />
         <SelectFromMatrix name="color" defaultIconName={"containerDefault"} items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
         <WizNavBar onClickNext={null} onClickPrevious={this.handlePrevious.bind(this)} />

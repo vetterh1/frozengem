@@ -53,7 +53,7 @@ class DetailsForm extends React.Component {
     const items = !details || !parentId ? [] : details.filter(detail => detail.parents.find(oneParent => oneParent === 'all' || oneParent === parentId));
     const parentName = !categories || !parentId  ? "item" : categories.find(category => category.id2 === parentId).name[language];
     return (
-      <div className={"flex-max-height flex-direction-column"}>
+      <div className={"flex-normal-height flex-direction-column"}>
         <WizPageTitle message={messages.title} values={{category: parentName.toLowerCase()}} />
         <SelectFromMatrix name="details" defaultIconName={"category"+parentId} items={items} itemInState={itemInState} itemInStateIsAnArray={true} handleClick={this.handleClick} />
         <WizNavBar onClickNext={this.handleNext.bind(this)} onClickPrevious={this.handlePrevious.bind(this)} />

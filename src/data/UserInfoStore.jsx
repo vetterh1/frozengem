@@ -21,7 +21,10 @@ export const UserInfoContext = React.createContext();
 export class UserInfoStore extends React.Component {
   state = {
       accessToken: null,
+      id:null,
       name: null,
+      home: null,
+      homeOrder: null,
       language: "en",
       isAuthenticated: () => this.isAuthenticated(),
       loadStateFromLocalStorage: () => this.loadStateFromLocalStorage(),

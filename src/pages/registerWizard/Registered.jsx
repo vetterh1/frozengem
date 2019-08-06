@@ -113,9 +113,9 @@ class NameForm extends React.Component {
 
     return (
 
-      <div className={"flex-max-height flex-direction-column"}>
+      <div className={"flex-normal-height flex-direction-column"}>
 
-        <div className={"flex-max-height flex-direction-column"}>
+        <div className={"flex-normal-height flex-direction-column"}>
           <WizPageTitle message={messages.title} />
 
           <div className={"flex-normal-height flex-direction-row flex-justifiy-around"}>
@@ -124,7 +124,7 @@ class NameForm extends React.Component {
           </div>
         </div>
 
-        <div className={"flex-max-height flex-direction-column"}>
+        <div className={"flex-normal-height flex-direction-column"}>
             &nbsp;
         </div>
 

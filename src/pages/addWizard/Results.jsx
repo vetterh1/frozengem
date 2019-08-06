@@ -122,7 +122,7 @@ class Results extends React.Component {
     const { classes, state, intl } = this.props;
 
     return (
-      <div className={"flex-max-height flex-direction-column"}>
+      <div className={"flex-normal-height flex-direction-column"}>
 
         <div className={"flex-normal-height flex-direction-column"}>
           <div className={"flex-normal-height flex-direction-column margin-down margin-top"}>

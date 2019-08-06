@@ -14,7 +14,7 @@ import { withUserInfo } from '../../auth/withUserInfo';
 
 
 const intSelectFromList = ({ items, itemInState, itemInStateIsAnArray, handleClick, userInfo }) => (
-  <List className={"flex-max-height flex-direction-column big-margin-down"}>
+  <List className={"flex-normal-height flex-direction-column big-margin-down"}>
   {items && items.map((item, index, theArray) => {
     const name = item.name[userInfo.language]
     const label = item.label[userInfo.language]
@@ -67,7 +67,7 @@ export const NextButton = ({onClick, isDisabled}) => (
 );
 
 export const WizNavBar = ({onClickPrevious, onClickNext, isNextDisabled, nextIsSubmit}) => (
-  <div className={"flex-normal-height flex-direction-row flex-justifiy-between margin-down"}>
+  <div className={"flex-normal-height flex-direction-row flex-justifiy-between big-margin-down big-margin-top"}>
     {onClickPrevious && <PreviousButton onClick={onClickPrevious}/>}
     {!onClickPrevious && <span>&nbsp;</span>}
     {(onClickNext && !nextIsSubmit) && <NextButton onClick={onClickNext} isDisabled={isNextDisabled}/>}

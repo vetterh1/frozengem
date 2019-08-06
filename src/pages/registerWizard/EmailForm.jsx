@@ -88,13 +88,13 @@ class EmailForm extends React.Component {
     const {validData} = this.state;
     return (
 
-      <div className={"flex-max-height flex-direction-column"}>
+      <div className={"flex-normal-height flex-direction-column"}>
 
         <WizPageTitle message={messages.title} />
 
-        <form onSubmit={this.handleNext} className={"flex-max-height flex-direction-column huge-margin-down"} noValidate>
+        <form onSubmit={this.handleNext} className={"flex-normal-height flex-direction-column"} noValidate>
 
-          <div className={"flex-max-height flex-direction-column"}>
+          <div className={"flex-normal-height flex-direction-column"}>
 
             <TextField
                 id="email"

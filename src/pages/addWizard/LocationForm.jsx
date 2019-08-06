@@ -38,7 +38,7 @@ class LocationForm extends React.Component {
     let { locations: items } = this.context;
     const { location: itemInState } = this.props.state;
     return (
-      <div className={"flex-max-height flex-direction-column"}>
+      <div className={"flex-normal-height flex-direction-column"}>
         <WizPageTitle message={messages.title} />
         <SelectFromMatrix name="location" items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
         <WizNavBar onClickNext={null} onClickPrevious={this.handlePrevious.bind(this)} />

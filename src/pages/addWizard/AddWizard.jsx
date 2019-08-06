@@ -244,8 +244,8 @@ class AddWizard extends React.Component {
         <div className={classes.divWizardPage}>
           <StepWizard
             isHashEnabled 
-            className={"flex-max-height flex-direction-column"} 
-            classNameWrapper={'flex-max-height flex-direction-column'}
+            className={"flex-normal-height flex-direction-column"} 
+            classNameWrapper={'flex-normal-height flex-direction-column'}
             onStepChange={this.onStepChange}
           >
             {/* !!!! update variable stepsNumber whenever this list changes !!!! */}
