@@ -4,10 +4,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import { injectIntl, defineMessages } from "react-intl";
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+// import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import SearchIcon from '@material-ui/icons/Search';
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
-import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline';
+// import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline';
+import ViewList from '@material-ui/icons/ViewList';
+import SaveAlt from '@material-ui/icons/SaveAlt';
+import { getIcon } from "../data/Icons";
 
 
 const messages = defineMessages({
@@ -65,9 +68,9 @@ function BottomNav({location, intl}) {
 
   return (
     <BottomNavigation value={value} onChange={handleChange} className={classes.root} showLabels>
-      <BottomNavigationAction label={intl.formatMessage(messages.list)} value="/" icon={<ViewHeadlineIcon />} component={Link} to="/" />
-      <BottomNavigationAction label={intl.formatMessage(messages.add)} value="/add" icon={<AddCircleOutlineIcon />} component={Link} to="/add" />
-      <BottomNavigationAction label={intl.formatMessage(messages.retreive)} value="/retreive" icon={<RemoveCircleOutlineIcon />} component={Link} to="/retreive" />
+      <BottomNavigationAction label={intl.formatMessage(messages.list)} value="/" icon={<ViewList />} component={Link} to="/" />
+      <BottomNavigationAction label={intl.formatMessage(messages.add)} value="/add" icon={<SaveAlt />} component={Link} to="/add" />
+      <BottomNavigationAction label={intl.formatMessage(messages.retreive)} value="/retreive" icon={getIcon("remove")} component={Link} to="/retreive" />
       <BottomNavigationAction label={intl.formatMessage(messages.search)} value="/search" icon={<SearchIcon />} component={Link} to="/search" />
     </BottomNavigation>
   );

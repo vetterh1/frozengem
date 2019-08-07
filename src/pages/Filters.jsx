@@ -1,12 +1,20 @@
 
 import React, { useState, useEffect } from "react";
 import { withItemCharacteristics } from '../auth/withItemCharacteristics';
-import { injectIntl } from "react-intl";
+import { injectIntl, defineMessages } from "react-intl";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { getIcon } from "../data/Icons";
 
 
+
+
+const messages = defineMessages({
+  all: {
+    id: 'button.all',
+    defaultMessage: 'All',
+  },
+})
 
 const intFilters = ({language, category, onCategoryChange, size, onSizeChange, itemCharacteristics, intl}) => {
   if(!itemCharacteristics.categories) return null;
@@ -55,7 +63,7 @@ const intFilters = ({language, category, onCategoryChange, size, onSizeChange, i
       >
         <Tab
           key={'all'}
-          label={'all'}
+          label={intl.formatMessage(messages.all)}
           value={'all'}
           icon={getIcon("categoryAll")} 
         />        

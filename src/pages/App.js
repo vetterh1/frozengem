@@ -60,12 +60,12 @@ class App extends React.Component {
       backgroundColor: indigo[50],
 
     };
-    const containerStyle = {
-      display: "flex",
-      flexDirection: "column",
-      flexGrow: 1,
-      padding: '14px',
-    };
+    // const containerStyle = {
+    //   display: "flex",
+    //   flexDirection: "column",
+    //   flexGrow: 1,
+    //   padding: '14px',
+    // };
     const stickToBottom = {
     };
 
@@ -92,20 +92,20 @@ class App extends React.Component {
 
                               <Header />
 
-                              <Container maxWidth="md"  style={containerStyle}>
+                              {/* <Container maxWidth="md"  style={containerStyle}> */}
 
                                 <Switch>
                                   <Route
                                     exact path="/add"
-                                    component={props => <AddWizard {...props} />}
+                                    component={props => <Container><AddWizard {...props} /></Container>}
                                   />
                                   <Route
                                     exact path="/register"
-                                    component={props => <RegisterWizard {...props} />}
+                                    component={props => <Container><RegisterWizard {...props} /></Container>}
                                   />
                                   <Route
                                     exact path="/login"
-                                    component={props => <LoginWizard {...props} />}
+                                    component={props => <Container><LoginWizard {...props} /></Container>}
                                   />
                                   <Route
                                     exact path="/logout"
@@ -113,7 +113,7 @@ class App extends React.Component {
                                   />
                                   <Route
                                     exact path="/about"
-                                    component={() => <About />}
+                                    component={() => <Container><About /></Container>}
                                   />
                                   <Route
                                     exact path="/"
@@ -126,14 +126,14 @@ class App extends React.Component {
                                         // User exists but has not chosen his home yet: ask him to choose!
                                         const home = getHome();
                                         console.log("home: ", home)
-                                        if(!home) return <ChooseHome {...props} />;
+                                        if(!home) return <Container><ChooseHome {...props} /></Container>;
                                         
                                         // Authenticated users see their dashboard:
                                         return <Dashboard {...props} />;
 
                                       } else {
                                         // Non logged users see generic page:
-                                        return <MainPageContent {...props} />;
+                                        return <Container><MainPageContent {...props} /></Container>;
                                       }
                                     }}
                                   />
@@ -143,7 +143,7 @@ class App extends React.Component {
                                   
                                   />
                                 </Switch>          
-                              </Container>
+                              {/* </Container> */}
 
                               { !isAuthenticated() && <Footer location={this.props.location} />}
                               { isAuthenticated() && <BottomNav style={stickToBottom} /> }

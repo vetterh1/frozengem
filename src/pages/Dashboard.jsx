@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -272,7 +273,9 @@ class Dashboard extends React.Component {
 
         <div className={classes.layout}>
           <Filters language={userInfo.language} category={category} onCategoryChange={this.onCategoryChange} />
-          <ItemsList arrayItems={filteredArrayItems} onSavePicture={this.onSavePicture} onRemoveItem={this.onConfirmRemoveItem} />
+          <Container maxWidth="md">
+            <ItemsList arrayItems={filteredArrayItems} onSavePicture={this.onSavePicture} onRemoveItem={this.onConfirmRemoveItem} />
+          </Container>
         </div>          
 
       </React.Fragment>
