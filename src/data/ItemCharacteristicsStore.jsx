@@ -15,7 +15,7 @@ logItemCharacteristicsStore.debug('--> entering ItemCharacteristicsStore.jsx');
 // (!) Should arrive localized from server (!)
 
 const defaultCharacteristics = {
-    version: 32,    
+    version: 34,    
     categories: [
       {name: {en: 'Bread', fr: 'Pain'}, label: {en: '', fr: ''}, id2: 'B', expiration: '1', expirationMinusPlus:{} },
       {name: {en: 'Vegetables', fr: 'Légumes'}, label: {en: '', fr: ''}, id2: 'V',  expiration: '12', expirationMinusPlus:{DRAW: '-6'}},
@@ -25,11 +25,12 @@ const defaultCharacteristics = {
       {name: {en: 'Dish', fr: 'Plat'}, label: {en: '', fr: ''}, id2: 'P',  expiration: '3', expirationMinusPlus:{}},
       {name: {en: 'Meat', fr: 'Viande'}, label: {en: '', fr: ''}, id2: 'M', expiration: '1', expirationMinusPlus:{DCOO: '+3', DPOU: '+2', DPOR: '+2', DBEE: '+4'}},
       {name: {en: 'Fish', fr: 'Poisson'}, label: {en: '', fr: ''}, id2: 'H',  expiration: '2', expirationMinusPlus:{}},
-      {name: {en: 'Desert', fr: 'Dessert'}, label: {en: '', fr: ''}, id2: 'D', expiration: '2', expirationMinusPlus:{}},
+      {name: {en: 'Dessert', fr: 'Dessert'}, label: {en: '', fr: ''}, id2: 'D', expiration: '2', expirationMinusPlus:{}},
       {name: {en: 'Ice cream', fr: 'Glace'}, label: {en: '', fr: ''}, id2: 'I', expiration: '4', expirationMinusPlus:{}},
     ],
     details:[
       {name: {en: 'Homemade', fr: 'Fait maison'}, label: {en: '', fr: ''}, id2: 'DHOM', parents:['all'] },
+      {name: {en: 'Commercial product', fr: 'Produit commercial'}, label: {en: '', fr: ''}, id2: 'DCOM', parents:['all'] },
       {name: {en: 'Cooked', fr: 'Cuit'}, label: {en: '', fr: ''}, id2: 'DCOO', parents:['V', 'S', 'M', 'P', 'H', 'F'] },
       {name: {en: 'Raw', fr: 'Cru'}, label: {en: '', fr: ''}, id2: 'DRAW', parents:['R', 'V', 'S', 'M', 'P', 'H', 'F'] },
       {name: {en: 'Organic', fr: 'Bio'}, label: {en: '', fr: ''}, id2: 'DBIO', parents:['all'] },

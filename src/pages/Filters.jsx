@@ -53,6 +53,12 @@ const intFilters = ({language, category, onCategoryChange, size, onSizeChange, i
         indicatorColor="primary"
         textColor="primary"
       >
+        <Tab
+          key={'all'}
+          label={'all'}
+          value={'all'}
+          icon={getIcon("categoryAll")} 
+        />        
         {sortedCategories.map(category => <Tab
           key={category.id2}
           label={category.name[language]}

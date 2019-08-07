@@ -1,7 +1,7 @@
 import React from 'react';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
-import { indigo, amber, orange, red, blue } from '@material-ui/core/colors';
+import { indigo, amber, orange, red, green } from '@material-ui/core/colors';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 
@@ -24,13 +24,13 @@ const theme = createMuiTheme({
         expired: red['A700'],
         next_30_days: red[500],
         within_3_months: orange[500],
-        later: blue[200],
+        later: green[500],
       },
       cardBackgroundColor: {
         expired: red[100],
         next_30_days: red[50],
         within_3_months: orange[50],
-        later: blue[50],
+        later: green[50],
       },
     },
     matrixCard: {

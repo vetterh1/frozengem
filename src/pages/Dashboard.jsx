@@ -127,7 +127,7 @@ class Dashboard extends React.Component {
 
   onCategoryChange = (category) => {
     const { arrayItems } = this.state;
-    const filteredArrayItems = arrayItems.filter(item => item.category === category);
+    const filteredArrayItems = category === 'all' ? arrayItems : arrayItems.filter(item => item.category === category);
     this.setState({
       category: category, 
       filteredArrayItems: filteredArrayItems
@@ -232,7 +232,7 @@ class Dashboard extends React.Component {
     console.debug('[--- R ---] Render: Dashboard' );
 
     const { classes, userInfo } = this.props;
-    const { filteredArrayItems, arrayItems, removeModalOpened } = this.state;
+    const { category, filteredArrayItems, arrayItems, removeModalOpened } = this.state;
 
     if(!arrayItems || arrayItems.length === 0) return (
       <Box mt={4} display="flex" flexDirection="column" >
@@ -271,7 +271,7 @@ class Dashboard extends React.Component {
         </Dialog>
 
         <div className={classes.layout}>
-          <Filters language={userInfo.language} category={this.category} onCategoryChange={this.onCategoryChange} />
+          <Filters language={userInfo.language} category={category} onCategoryChange={this.onCategoryChange} />
           <ItemsList arrayItems={filteredArrayItems} onSavePicture={this.onSavePicture} onRemoveItem={this.onConfirmRemoveItem} />
         </div>          
 

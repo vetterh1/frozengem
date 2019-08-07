@@ -8,6 +8,8 @@ import Remove from '@material-ui/icons/Remove';
 import Room from '@material-ui/icons/Room';
 import VerticalAlignBottom from '@material-ui/icons/VerticalAlignBottom';
 import ThumbUp from '@material-ui/icons/ThumbUp';
+import Store from '@material-ui/icons/Store';
+import ViewList from '@material-ui/icons/ViewList';
 
 
 export const getIcon = (iconName) => icons[iconName];
@@ -16,6 +18,7 @@ export const getIcon = (iconName) => icons[iconName];
 
 const icons = {
 
+    "categoryAll": <ViewList fontSize="default" />,
     "categoryB": <IconCategoryBread fontSize="default" />,
     "categoryV": <IconCategoryVegetable fontSize="default" />,
     "categoryF": <IconCategoryFruit fontSize="default" />,
@@ -28,6 +31,7 @@ const icons = {
     "categoryR": <IconCategoryCheese fontSize="default" />,
 
     "detailsDHOM": <IconDetailsHomemade fontSize="default" />,
+    "detailsDCOM": <Store fontSize="default" />,
     "detailsDCOO": <IconDetailsCooked fontSize="default" />,
     "detailsDRAW": <IcondetailsRaw fontSize="default" />,
     "detailsDCAK": <IconCategoryDesert fontSize="default" />,
