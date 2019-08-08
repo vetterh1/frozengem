@@ -50,7 +50,7 @@ const messages = defineMessages({
 
 const intMenuProfile = ({homeCode, language, setLanguage, leaveHome, intl}) => {
   const classes = useStyles();
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -65,9 +65,9 @@ const intMenuProfile = ({homeCode, language, setLanguage, leaveHome, intl}) => {
 
   
   function onCopy(code) {
-    enqueueSnackbar(
+    const key = enqueueSnackbar(
       intl.formatMessage(messages.clipboard, {code: code}), 
-      {variant: 'info', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+      {variant: 'info', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {closeSnackbar(key);}}
     );
   }
 

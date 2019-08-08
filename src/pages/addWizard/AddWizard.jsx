@@ -124,9 +124,9 @@ class AddWizard extends React.Component {
         this.handleChange({code: itemUpdated.code})
       } catch (error) {
         console.error('AddWizard.handleChange error: ' , error);
-        this.props.enqueueSnackbar(
+        const key = this.props.enqueueSnackbar(
           this.props.intl.formatMessage(messages.error), 
-          {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+          {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
         ); 
       }
     }
@@ -175,9 +175,9 @@ class AddWizard extends React.Component {
 
       } catch (error) {
         console.error('AddWizard.onStepChange error: ' , error);
-        this.props.enqueueSnackbar(
+        const key = this.props.enqueueSnackbar(
           this.props.intl.formatMessage(messages.error), 
-          {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+          {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
         ); 
       }
     }
@@ -205,15 +205,15 @@ class AddWizard extends React.Component {
     try {
       const { updatePictureItemToServer } = this.props.items;
       await updatePictureItemToServer(this.state.id , pictureData, thumbnailData, this.props.userInfo);
-      this.props.enqueueSnackbar(
+      const key = this.props.enqueueSnackbar(
         this.props.intl.formatMessage(messages.successPicture), 
-        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
       );  
     } catch (error) {
       console.error('AddWizard.handleChange error: ' , error);
-      this.props.enqueueSnackbar(
+      const key = this.props.enqueueSnackbar(
         this.props.intl.formatMessage(messages.errorPicture), 
-        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
       ); 
     }
   }

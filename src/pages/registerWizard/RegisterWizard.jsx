@@ -116,9 +116,9 @@ class RegisterWizard extends React.Component {
 
       // Success message
       this.setState({registrationInProgress: false, registrationFinished: true, registrationSuccess: true });
-      this.props.enqueueSnackbar(
+      const key = this.props.enqueueSnackbar(
         this.props.intl.formatMessage(messages.success), 
-        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
       );      
     } catch (error) {
       console.error('registration error: ' , error);
@@ -128,9 +128,9 @@ class RegisterWizard extends React.Component {
       if (error.request && error.response.status === 409)
         errorKey = messages.alreadyexist;
 
-      this.props.enqueueSnackbar(
+        const key = this.props.enqueueSnackbar(
         this.props.intl.formatMessage(errorKey), 
-        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
       ); 
     }
   }

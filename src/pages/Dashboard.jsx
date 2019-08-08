@@ -154,21 +154,21 @@ class Dashboard extends React.Component {
     // Set the received value in the state 
   // (replacing any existing one)
   onSavePicture = async (item, pictureData, thumbnailData) => {
-    const {items, userInfo, enqueueSnackbar, intl} = this.props;
+    const {items, userInfo, enqueueSnackbar, closeSnackbar, intl} = this.props;
 
     try {
       const { updatePictureItemToServer } = items;
       const itemUpdated = await updatePictureItemToServer(item.id , pictureData, thumbnailData, userInfo);
       this.onItemChange(itemUpdated);
-      enqueueSnackbar(
+      const key = enqueueSnackbar(
         intl.formatMessage(messages.cameraSuccess), 
-        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {closeSnackbar(key);}}
       ); 
       // console.log('itemUpdated: ', itemUpdated);
     } catch (error) {
-      enqueueSnackbar(
+      const key = enqueueSnackbar(
         formatServerErrorMsg(error, intl.formatMessage(messages.cameraError), 'ItemCard.savePicture'), 
-        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {closeSnackbar(key);}}
       ); 
     }
   }
@@ -176,7 +176,7 @@ class Dashboard extends React.Component {
 
 
   onRemoveItem = async () => {
-    const {items, userInfo, enqueueSnackbar, intl} = this.props;
+    const {items, userInfo, enqueueSnackbar, closeSnackbar, intl} = this.props;
 
     const item = this.state.itemToRemove;
     this.setState({itemToRemove: null, removeModalOpened: false})
@@ -186,15 +186,15 @@ class Dashboard extends React.Component {
       const { removeItemOnServer } = items;
       await removeItemOnServer(item.id , userInfo);
       this.onItemRemoved(item);
-      enqueueSnackbar(
+      const key = enqueueSnackbar(
         intl.formatMessage(messages.removeSuccess), 
-        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {closeSnackbar(key);}}
       ); 
       // console.log('itemUpdated: ', itemUpdated);
     } catch (error) {
-      enqueueSnackbar(
+      const key = enqueueSnackbar(
         formatServerErrorMsg(error, intl.formatMessage(messages.removeError), 'ItemCard.removeItem'), 
-        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {closeSnackbar(key);}}
       ); 
     }
   }

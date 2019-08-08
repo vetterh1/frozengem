@@ -2,7 +2,7 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { IntlProvider, addLocaleData } from "react-intl";
-import { SnackbarProvider } from 'notistack';
+import { SnackbarProvider, useSnackbar } from 'notistack';
 import translations from '../i18n/locales';
 import frLocaleData from "react-intl/locale-data/fr";
 import withMyTheme from '../withMyTheme';
@@ -20,6 +20,8 @@ import LoadingUserInfo from './LoadingUserInfo';
 import AddWizard from './addWizard/AddWizard';
 import RegisterWizard from './registerWizard/RegisterWizard';
 import LoginWizard from './loginWizard/LoginWizard';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 // Date util library (moment like) & date picker:
 import DateFnsUtils from '@date-io/date-fns';
@@ -49,117 +51,118 @@ const NotFound = () => <h2>404 error - This page has not been found!</h2>;
 
 
 
+const intApp = (props) => {
 
-class App extends React.Component {
+  const divStyle = {
+    display: "flex",
+    flexDirection: "column",
+    minHeight: "100vh",
+    backgroundColor: indigo[50],
 
-  render() {
-    const divStyle = {
-      display: "flex",
-      flexDirection: "column",
-      minHeight: "100vh",
-      backgroundColor: indigo[50],
-
-    };
-    // const containerStyle = {
-    //   display: "flex",
-    //   flexDirection: "column",
-    //   flexGrow: 1,
-    //   padding: '14px',
-    // };
-    const stickToBottom = {
-    };
+  };
+  // const containerStyle = {
+  //   display: "flex",
+  //   flexDirection: "column",
+  //   flexGrow: 1,
+  //   padding: '14px',
+  // };
+  const stickToBottom = {
+  };
 
 
-    return (
-      <SnackbarProvider maxSnack={3}>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <UserInfoStore>
-            <Items>
-              <UserInfoConsumer>
-                {({ language, isAuthenticated, getHome, name }) => {
-                    if(!language) return null;
-                    return (
-                      <IntlProvider
-                        locale={language}
-                        defaultLocale="en"
-                        key={language}
-                        messages={translations[language]}
-                      >      
-                        <ItemCharacteristicsStore>
-                          <Router basename={process.env.PUBLIC_URL}>
 
-                            <div style={divStyle}>
+  return (
+    <SnackbarProvider 
+      maxSnack={3}
+      hideIconVariant
+    >
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <UserInfoStore>
+          <Items>
+            <UserInfoConsumer>
+              {({ language, isAuthenticated, getHome, name }) => {
+                  if(!language) return null;
+                  return (
+                    <IntlProvider
+                      locale={language}
+                      defaultLocale="en"
+                      key={language}
+                      messages={translations[language]}
+                    >      
+                      <ItemCharacteristicsStore>
+                        <Router basename={process.env.PUBLIC_URL}>
 
-                              <Header />
+                          <div style={divStyle}>
 
-                              {/* <Container maxWidth="md"  style={containerStyle}> */}
+                            <Header />
 
-                                <Switch>
-                                  <Route
-                                    exact path="/add"
-                                    component={props => <Container><AddWizard {...props} /></Container>}
-                                  />
-                                  <Route
-                                    exact path="/register"
-                                    component={props => <Container><RegisterWizard {...props} /></Container>}
-                                  />
-                                  <Route
-                                    exact path="/login"
-                                    component={props => <Container><LoginWizard {...props} /></Container>}
-                                  />
-                                  <Route
-                                    exact path="/logout"
-                                    component={props => <Logout {...props} />}
-                                  />
-                                  <Route
-                                    exact path="/about"
-                                    component={() => <Container><About /></Container>}
-                                  />
-                                  <Route
-                                    exact path="/"
-                                    component={props => { 
-                                      if(isAuthenticated()) {
+                            {/* <Container maxWidth="md"  style={containerStyle}> */}
 
-                                        // Token exists, but no name --> in userinfo loading process:
-                                        if(!name) return <LoadingUserInfo /> ;
+                              <Switch>
+                                <Route
+                                  exact path="/add"
+                                  component={props => <Container><AddWizard {...props} /></Container>}
+                                />
+                                <Route
+                                  exact path="/register"
+                                  component={props => <Container><RegisterWizard {...props} /></Container>}
+                                />
+                                <Route
+                                  exact path="/login"
+                                  component={props => <Container><LoginWizard {...props} /></Container>}
+                                />
+                                <Route
+                                  exact path="/logout"
+                                  component={props => <Logout {...props} />}
+                                />
+                                <Route
+                                  exact path="/about"
+                                  component={() => <Container><About /></Container>}
+                                />
+                                <Route
+                                  exact path="/"
+                                  component={props => { 
+                                    if(isAuthenticated()) {
 
-                                        // User exists but has not chosen his home yet: ask him to choose!
-                                        const home = getHome();
-                                        console.log("home: ", home)
-                                        if(!home) return <Container><ChooseHome {...props} /></Container>;
-                                        
-                                        // Authenticated users see their dashboard:
-                                        return <Dashboard {...props} />;
+                                      // Token exists, but no name --> in userinfo loading process:
+                                      if(!name) return <LoadingUserInfo /> ;
 
-                                      } else {
-                                        // Non logged users see generic page:
-                                        return <Container><MainPageContent {...props} /></Container>;
-                                      }
-                                    }}
-                                  />
-                                  <Route
-                                    exact path="*"
-                                    component={NotFound}
-                                  
-                                  />
-                                </Switch>          
-                              {/* </Container> */}
+                                      // User exists but has not chosen his home yet: ask him to choose!
+                                      const home = getHome();
+                                      console.log("home: ", home)
+                                      if(!home) return <Container><ChooseHome {...props} /></Container>;
+                                      
+                                      // Authenticated users see their dashboard:
+                                      return <Dashboard {...props} />;
 
-                              { !isAuthenticated() && <Footer location={this.props.location} />}
-                              { isAuthenticated() && <BottomNav style={stickToBottom} /> }
-                            </div>
-                          </Router>
-                        </ItemCharacteristicsStore>
-                      </IntlProvider>
-                    );
-                  }}                
-                </UserInfoConsumer>  
-              </Items>      
-            </UserInfoStore>
-          </MuiPickersUtilsProvider>
-        </SnackbarProvider>
-    );
-  }
+                                    } else {
+                                      // Non logged users see generic page:
+                                      return <Container><MainPageContent {...props} /></Container>;
+                                    }
+                                  }}
+                                />
+                                <Route
+                                  exact path="*"
+                                  component={NotFound}
+                                
+                                />
+                              </Switch>          
+                            {/* </Container> */}
+
+                            { !isAuthenticated() && <Footer location={props.location} />}
+                            { isAuthenticated() && <BottomNav style={stickToBottom} /> }
+                          </div>
+                        </Router>
+                      </ItemCharacteristicsStore>
+                    </IntlProvider>
+                  );
+                }}                
+              </UserInfoConsumer>  
+            </Items>      
+          </UserInfoStore>
+        </MuiPickersUtilsProvider>
+      </SnackbarProvider>
+  );
 }
 
-export default withMyTheme(App);
+export default withMyTheme(intApp);

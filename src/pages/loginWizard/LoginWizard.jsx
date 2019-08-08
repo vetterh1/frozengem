@@ -106,9 +106,9 @@ class LoginWizard extends React.Component {
       console.log('userName: ' , userName);
 
       // Success message
-      this.props.enqueueSnackbar(
+      const key = this.props.enqueueSnackbar(
         this.props.intl.formatMessage(messages.success), 
-        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
       );
 
       // navigate to the home route
@@ -119,9 +119,9 @@ class LoginWizard extends React.Component {
       const message = unauthorized ? messages.unauthorized : messages.error;
 
       // Error message
-      this.props.enqueueSnackbar(
+      const key = this.props.enqueueSnackbar(
         this.props.intl.formatMessage(message), 
-        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
       );
     }
   }

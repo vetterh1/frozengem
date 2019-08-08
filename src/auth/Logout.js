@@ -25,9 +25,9 @@ class Logout extends Component {
 
   componentDidMount() {
     const { logout } = this.props.userInfo;
-    this.props.enqueueSnackbar(
+    const key = this.props.enqueueSnackbar(
       this.props.intl.formatMessage(messages.logout), 
-      {variant: 'info', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+      {variant: 'info', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
     );
     logout();
   }

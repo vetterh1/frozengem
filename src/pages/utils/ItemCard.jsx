@@ -33,8 +33,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // import MoreVertIcon from '@material-ui/icons/MoreVert';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 // import ShareIcon from '@material-ui/icons/Share';
-import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
+// import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import { getIcon } from "../../data/Icons";
 
 import config from '../../data/config'
 import PictureSelection from './PictureSelection';
@@ -247,7 +248,7 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
           </CardContent>
           <CardActions disableSpacing>
             <IconButton aria-label="Remove" onClick={handleClickRemove}>
-              <RemoveCircleOutlineIcon />
+              {getIcon("remove")}
             </IconButton>
             <IconButton
               className={clsx(classes.expanded, {

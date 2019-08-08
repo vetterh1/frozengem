@@ -112,16 +112,16 @@ class ChooseHome extends React.Component {
     try {
       await joinHome(idHome);    
       
-      this.props.enqueueSnackbar(
+      const key = this.props.enqueueSnackbar(
         this.props.intl.formatMessage(messages.success), 
-        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
       );  
 
     } catch (error) {
       console.error("onJoinHome error: ", JSON.stringify(error));
-      this.props.enqueueSnackbar(
+      const key = this.props.enqueueSnackbar(
         this.props.intl.formatMessage( error.response.status === 404 ? messages.error_not_found : messages.error), 
-        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
       ); 
     }
   }
@@ -132,16 +132,16 @@ class ChooseHome extends React.Component {
     try {
       await joinNewHome(labelHome, "");    
       
-      this.props.enqueueSnackbar(
+      const key = this.props.enqueueSnackbar(
         this.props.intl.formatMessage(messages.success), 
-        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
       );  
 
     } catch (error) {
       console.error("onJoinNewHome error: ", JSON.stringify(error));
-      this.props.enqueueSnackbar(
+      const key = this.props.enqueueSnackbar(
         this.props.intl.formatMessage( messages.error), 
-        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
       ); 
     }
   }
