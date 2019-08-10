@@ -1,31 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {WizNavBar, WizPageTitle} from "../utils/WizUtilComponents";
-import SelectFromMatrix from "../utils/SelectFromMatrix";
+import {WizNavBar, WizPageTitle} from "./WizUtilComponents";
+import SelectFromMatrix from "./SelectFromMatrix";
 
 
 
-const SizeForm = ({title, handleChange, secondaryHandleChange, items, preselectedItems, nbStepsBack = 1, showNavigation = false, isActive, currentStep, goToStep, nextStep}) => {
+const CharacteristicsSelection = ({name, title, handleChange, secondaryHandleChange, items, preselectedItems, nbStepsBack = 1, nbStepsForward = 1, showNavigation = false, isActive, currentStep, goToStep, nextStep}) => {
 
   if(!items) return null;
   if(isActive === false) return null;
 
   const handleClick = (id) => {
-    handleChange({ size: id });
-    if(secondaryHandleChange) secondaryHandleChange({ size: id });
-    if(isActive !== undefined) nextStep();
+    console.log("CharacteristicsSelection.handleClick: ", nbStepsForward);
+    handleChange({ [name]: id });
+    console.log("CharacteristicsSelection.handleClick: after handleChange");
+    if(secondaryHandleChange) secondaryHandleChange({ [name]: id });
+    if(isActive !== undefined) goToStep(currentStep+nbStepsForward);
   };
 
   const handlePrevious = () => {
+    console.log("CharacteristicsSelection.handlePrevious: ", nbStepsBack);
     // Clear current value when return to previous page
-    handleChange({ size: undefined }); 
+    handleChange({ [name]: undefined }); 
+    console.log("CharacteristicsSelection.handlePrevious: after handlePrevious");
     goToStep(currentStep-nbStepsBack);
   };
 
   return (
     <div className={"flex-normal-height flex-direction-column"}>
       <WizPageTitle message={title} />
-      <SelectFromMatrix name="size" defaultIconName={"sizeDefault"} items={items} itemInState={preselectedItems} itemInStateIsAnArray={false} handleClick={handleClick} />
+      <SelectFromMatrix name={name} defaultIconName={name+"Default"} items={items} itemInState={preselectedItems} itemInStateIsAnArray={false} handleClick={handleClick} />
       {showNavigation &&
         <WizNavBar isBackDisabled={nbStepsBack === 0} onClickNext={null} onClickPrevious={handlePrevious} />
       }
@@ -34,13 +38,14 @@ const SizeForm = ({title, handleChange, secondaryHandleChange, items, preselecte
   )
 }
 
-SizeForm.propTypes = {
+CharacteristicsSelection.propTypes = {
   title: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
   secondaryHandleChange: PropTypes.func,
   items: PropTypes.array.isRequired,
   preselectedItems: PropTypes.oneOfType([PropTypes.string,PropTypes.number]), // can be null: nothing is pre-selected
   nbStepsBack: PropTypes.number,
+  nbStepsForward: PropTypes.number,
   showNavigation: PropTypes.bool,
   // Props for StepWizard, can be null when call NOT from StepWizard:
   hashKey: PropTypes.string,
@@ -51,4 +56,4 @@ SizeForm.propTypes = {
   nextStep: PropTypes.func,
 }
 
-export default SizeForm;
+export default CharacteristicsSelection;

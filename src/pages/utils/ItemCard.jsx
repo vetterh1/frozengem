@@ -42,7 +42,7 @@ import PictureSelection from './PictureSelection';
 
 
 import ButtonToModal from './ButtonToModal'
-import SizeForm from '../addWizard/SizeForm';
+import CharacteristicsSelection from './CharacteristicsSelection';
 
 
 
@@ -267,7 +267,8 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
               cancelLabel="Cancel"
               onOk={null}
             >
-              <SizeForm
+              <CharacteristicsSelection
+                name='size'
                 title={intl.formatMessage(messages.titleRemove)}
                 handleChange={handleClickRemove}
                 items={sizes}

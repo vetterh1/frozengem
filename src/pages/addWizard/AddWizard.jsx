@@ -8,17 +8,16 @@ import { withStyles } from '@material-ui/core/styles';
 import { withUserInfo } from '../../auth/withUserInfo';
 import { withItemCharacteristics } from '../../auth/withItemCharacteristics';
 import { withItems } from '../../auth/withItems';
-import CategoryForm from './CategoryForm';
-import DetailsForm from './DetailsForm';
-import ContainerForm from './ContainerForm';
-import ContainerColorForm from './ContainerColorForm';
-import SizeForm from './SizeForm';
-import FreezerForm from './FreezerForm';
-import LocationForm from './LocationForm';
-import Results from './Results';
+// import DetailsForm from './DetailsForm';
+// import ContainerForm from './ContainerForm';
+// import ContainerColorForm from './ContainerColorForm';
+import CharacteristicsSelection from '../utils/CharacteristicsSelection';
+// import FreezerForm from './FreezerForm';
+// import LocationForm from './LocationForm';
+// import Results from './Results';
 import StepWizard from 'react-step-wizard';
 import { withSnackbar } from 'notistack';
-import setStateAsync from '../../utils/setStateAsync';
+// import setStateAsync from '../../utils/setStateAsync';
 
 
 const styles = theme => ({
@@ -62,6 +61,18 @@ const messages = defineMessages({
     id: 'camera.error',
     defaultMessage: 'Sorry, saving this picture failed. Please try again...',
   },
+  titleCategory: {
+    id: 'add.category.title',
+    defaultMessage: 'What are you storing?',
+  },  
+  titleContainer: {
+    id: 'add.container.title',
+    defaultMessage: 'What container are you using?',
+  },
+  titleColor: {
+    id: 'add.color.title',
+    defaultMessage: 'What color is your {container}?',
+  },
   titleSize: {
     id: 'add.size.title',
     defaultMessage: 'How much quantity are you storing?',
@@ -70,67 +81,63 @@ const messages = defineMessages({
 
 
 
-class AddWizard extends React.Component {
-  static propTypes = {
-    userInfo: PropTypes.object.isRequired,
-    items: PropTypes.object.isRequired,
-    itemCharacteristics: PropTypes.object.isRequired,
-  }
+const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar, closeSnackbar, classes}) => {
 
-  stepsNumber = 8;
-
-  defaultState = {
-    category: null,
-    details: [],
-    container: null,
-    color: null,
-    size: null,
-    freezer: null,
-    location: null,
-    name: "",
-    expirationDate: null,
-    expirationInMonth: 0,
-    code: null,
-
-    cameraDialogState: false,
-  };
-
-  resetState = () => {
-    this.setState({...this.defaultState});
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {...this.defaultState};
-
-    this.handleChange = this.handleChange.bind(this)
-    this.handleArrayToggle = this.handleArrayToggle.bind(this)
-    this.onStepChange = this.onStepChange.bind(this)
-
-
-    // this.handleAddPicture = this.handleAddPicture.bind(this);
-    this.savePicture = this.savePicture.bind(this);
-    // this.closeCameraDialog = this.closeCameraDialog.bind(this);
-  }
-
+  const stepsNumber = 8;
+  
+  const [item, setItemValues] = React.useState(
+    {
+      id: null,
+      category: null,
+      details: [],
+      container: null,
+      containerHasColors: false,
+      color: null,
+      size: null,
+      freezer: null,
+      location: null,
+      name: "",
+      expirationDate: null,
+      expirationInMonth: 0,
+      code: null,
+    }
+  );
+  const [cameraDialogState, setCameraDialogState] = React.useState(false);
   
   // Set the received value in the state 
   // (replacing any existing one)
-  handleChange = async (updates, updateServer = false) => {
-    this.setState(updates);
+  const handleChange = async (updates, updateServer = false) => {
+    console.log("AddWizard.handleChange ", updates);
+
+    const otherChanges = {};
+
+    // If container changes, check if it has a color:
+    if(updates['container']) {
+      const containerHasColors = itemCharacteristics.colors.filter(color => color.parents.find(oneParent => oneParent === updates['container'])).length > 0;
+      otherChanges['containerHasColors'] = containerHasColors;
+      console.log("handleChange: container update found. colors? : ", containerHasColors);
+    }
+
+    
+    setItemValues({
+      ...item,
+      ...updates,
+      ...otherChanges
+    });
+
+
     if(updateServer) {
-      console.log("handleChange: updateServer for id=", this.state.id, ", updates=", updates, "and userInfo=: ", this.props.userInfo);
+      console.log("handleChange: updateServer for id=", item.id, ", updates=", updates, "and userInfo=: ",userInfo);
 
       try {
-        const { updateItemToServer } = this.props.items;
-        const itemUpdated = await updateItemToServer(this.state.id , updates, this.props.userInfo);
+        const itemUpdated = await items.updateItemToServer(item.id , updates, userInfo);
         console.log('itemUpdated: ', itemUpdated);
-        this.handleChange({code: itemUpdated.code})
+        handleChange({code: itemUpdated.code})
       } catch (error) {
         console.error('AddWizard.handleChange error: ' , error);
-        const key = this.props.enqueueSnackbar(
-          this.props.intl.formatMessage(messages.error), 
-          {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
+        const key =enqueueSnackbar(
+         intl.formatMessage(messages.error), 
+          {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {closeSnackbar(key);}}
         ); 
       }
     }
@@ -138,9 +145,9 @@ class AddWizard extends React.Component {
 
   // Add the received value to the state value lists if it does not exist yet
   // If it already exists: remove it
-  handleArrayToggle = (change) => {
+  const handleArrayToggle = (change) => {
     const {name, value} = change;
-    const existingValues = this.state[name];
+    const existingValues = item[name];
     const alreadyExists = existingValues.find(valueInList => valueInList === value);
     let newValues;
     if(alreadyExists){
@@ -148,40 +155,43 @@ class AddWizard extends React.Component {
     } else {
       newValues = [...existingValues, value];
     }
-    this.setState({[name]: newValues})    
+    setItemValues({
+      ...item,
+      [name]: newValues
+    });    
   }
 
-  onStepChange = async ({activeStep}) => {
+  const onStepChange = async ({activeStep}) => {
     console.log("AddWizard.onStepChange: ", activeStep);
-    if(activeStep === this.stepsNumber) {
-      const { saveItemToServer } = this.props.items;
-      console.log("State before setStateAsync ", this.state);
-
+    if(activeStep === stepsNumber) {
+      console.log("Item start of onStepChange: ", item);
 
       try {
-        const {itemCharacteristics} = this.props;
-        const { category, details } = this.state;
 
         // Expiration date calculation
+        const { category, details } = item;
         const expirationInMonth = itemCharacteristics.computeExpiration(category, details);
         const expirationDate = new Date();
         expirationDate.setMonth(expirationDate.getMonth() + expirationInMonth, 1);
         console.log("Date after " + expirationInMonth + " months:", expirationDate);
-        await setStateAsync(this, {expirationDate, expirationInMonth});
-        console.log("State after setStateAsync ", this.state);
+        setItemValues({
+          ...item,
+          expirationDate,
+          expirationInMonth
+        });    
+        console.log("State middle of onStepChange: ", item);
 
         // Server save
-        const itemUpdated = await saveItemToServer(this.state, this.props.userInfo);
+        const itemUpdated = await items.saveItemToServer(item, userInfo);
 
         // Update state with code & id generated by the server:
-        this.handleChange({code: itemUpdated.code})
-        this.handleChange({id: itemUpdated.id})
+        handleChange({code: itemUpdated.code, id: itemUpdated.id})
 
       } catch (error) {
         console.error('AddWizard.onStepChange error: ' , error);
-        const key = this.props.enqueueSnackbar(
-          this.props.intl.formatMessage(messages.error), 
-          {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
+        const key =enqueueSnackbar(
+         intl.formatMessage(messages.error), 
+          {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {closeSnackbar(key);}}
         ); 
       }
     }
@@ -189,92 +199,105 @@ class AddWizard extends React.Component {
 
 
 
-
-
-
-
-
-
-  // handleAddPicture = () => {
-  //   this.setState({cameraDialogState: true});
-  // }
-
-  
+ 
   // Set the received value in the state 
   // (replacing any existing one)
-  savePicture = async (pictureData, thumbnailData) => {
-
-    // this.setState({cameraDialogState: false});
+  const savePicture = async (pictureData, thumbnailData) => {
 
     try {
-      const { updatePictureItemToServer } = this.props.items;
-      await updatePictureItemToServer(this.state.id , pictureData, thumbnailData, this.props.userInfo);
-      const key = this.props.enqueueSnackbar(
-        this.props.intl.formatMessage(messages.successPicture), 
-        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
+      await items.updatePictureItemToServer(item.id , pictureData, thumbnailData, userInfo);
+      const key = enqueueSnackbar(
+        intl.formatMessage(messages.successPicture), 
+        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {closeSnackbar(key);}}
       );  
     } catch (error) {
       console.error('AddWizard.handleChange error: ' , error);
-      const key = this.props.enqueueSnackbar(
-        this.props.intl.formatMessage(messages.errorPicture), 
-        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
+      const key = enqueueSnackbar(
+        intl.formatMessage(messages.errorPicture), 
+        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {closeSnackbar(key);}}
       ); 
     }
   }
 
+  const { isAuthenticated, language } = userInfo;
 
-  
+  if (!isAuthenticated()) return <Redirect to='/' />;
+
+  return (
+      <div className={classes.divWizardPage}>
+        <StepWizard
+          isHashEnabled 
+          className={"flex-normal-height flex-direction-column"} 
+          classNameWrapper={'flex-normal-height flex-direction-column'}
+          onStepChange={onStepChange}
+        >
+          {/* !!!! update variable stepsNumber whenever this list changes !!!! */}
+          {/* <CategoryForm  hashKey={'category'} language={language} handleChange={handleChange} state={state} />
+          <DetailsForm hashKey={'details'} language={language} handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} />
+          <ContainerForm hashKey={'container'} language={language} handleChange={handleChange} state={state} />
+          <ContainerColorForm hashKey={'color'} language={language} handleChange={handleChange} state={state} /> */}
+          <CharacteristicsSelection
+            hashKey={'category'}
+            name='category'
+            title={intl.formatMessage(messages.titleCategory)}
+            handleChange={handleChange}
+            items={itemCharacteristics.categories}
+            preselectedItems={item.category}
+            showNavigation
+            nbStepsBack={0}
+            nbStepsForward={1}
+          />
+          <CharacteristicsSelection
+            hashKey={'container'}
+            name='container'
+            title={intl.formatMessage(messages.titleContainer)}
+            handleChange={handleChange}
+            items={itemCharacteristics.containers}
+            preselectedItems={item.container}
+            showNavigation
+            nbStepsBack={1}
+            nbStepsForward={item.containerHasColors ? 1 : 2}
+          />          
+          <CharacteristicsSelection
+            hashKey={'color'}
+            name='color'
+            title={intl.formatMessage(messages.titleColor, {container: "parentName.toLowerCase()"})}
+            handleChange={handleChange}
+            items={itemCharacteristics.colors}
+            preselectedItems={item.color}
+            showNavigation
+            nbStepsBack={1}
+            nbStepsForward={1}
+          />
+          <CharacteristicsSelection
+            hashKey={'size'}
+            name='size'
+            title={intl.formatMessage(messages.titleSize)}
+            handleChange={handleChange}
+            items={itemCharacteristics.sizes}
+            preselectedItems={item.size}
+            showNavigation
+            nbStepsBack={item.containerHasColors ? 1 : 2}
+            nbStepsForward={1}
+          />
+          {/* <FreezerForm hashKey={'freezer'} language={language} handleChange={handleChange} state={state} />
+          <LocationForm hashKey={'location'} language={language} handleChange={handleChange} state={state} />
+          <Results hashKey={'results'} language={language} handleChange={handleChange} resetState={resetState} state={state} handleAddPicture={savePicture} /> */}
+          {/* !!!! update variable stepsNumber whenever this list changes !!!! */}
+          </StepWizard>
+      </div>
+    );
+}
 
 
-  // closeCameraDialog = () => {
-  //   console.log('closeCameraDialog');
-  //   this.setState({cameraDialogState: false});
-  // }
-
-
-
-
-
-
-
-
-  render() {
-    const { classes, itemCharacteristics } = this.props;
-    const { isAuthenticated, language } = this.props.userInfo;
-
-    if (!isAuthenticated()) return <Redirect to='/' />;
-
-
-    return (
-        <div className={classes.divWizardPage}>
-          <StepWizard
-            isHashEnabled 
-            className={"flex-normal-height flex-direction-column"} 
-            classNameWrapper={'flex-normal-height flex-direction-column'}
-            onStepChange={this.onStepChange}
-          >
-            {/* !!!! update variable stepsNumber whenever this list changes !!!! */}
-            <CategoryForm  hashKey={'category'} language={language} handleChange={this.handleChange} state={this.state} />
-            <DetailsForm hashKey={'details'} language={language} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
-            <ContainerForm hashKey={'container'} language={language} handleChange={this.handleChange} state={this.state} />
-            <ContainerColorForm hashKey={'color'} language={language} handleChange={this.handleChange} state={this.state} />
-            <SizeForm
-              hashKey={'size'}
-              title={this.props.intl.formatMessage(messages.titleSize)}
-              handleChange={this.handleChange}
-              itemsList={itemCharacteristics.sizes}
-              preselectedItems={this.state.size}
-              showNavigation
-              nbStepsBack={this.state.color ? 1 : 2}
-            />
-            <FreezerForm hashKey={'freezer'} language={language} handleChange={this.handleChange} state={this.state} />
-            <LocationForm hashKey={'location'} language={language} handleChange={this.handleChange} state={this.state} />
-            <Results hashKey={'results'} language={language} handleChange={this.handleChange} resetState={this.resetState} state={this.state} handleAddPicture={this.savePicture} />
-            {/* !!!! update variable stepsNumber whenever this list changes !!!! */}
-            </StepWizard>
-        </div>
-      );
-  }
+AddWizard.propTypes = {
+  userInfo: PropTypes.object.isRequired,
+  items: PropTypes.object.isRequired,
+  itemCharacteristics: PropTypes.object.isRequired,
+  intl: PropTypes.object.isRequired,
+  enqueueSnackbar: PropTypes.func.isRequired,
+  closeSnackbar: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
 }
 
 export default injectIntl(withSnackbar(withItems(withItemCharacteristics(withUserInfo(withStyles(styles, { withTheme: true })(AddWizard))))));
