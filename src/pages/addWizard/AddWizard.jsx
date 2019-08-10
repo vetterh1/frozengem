@@ -62,6 +62,10 @@ const messages = defineMessages({
     id: 'camera.error',
     defaultMessage: 'Sorry, saving this picture failed. Please try again...',
   },
+  titleSize: {
+    id: 'add.size.title',
+    defaultMessage: 'How much quantity are you storing?',
+  },
 });
 
 
@@ -235,8 +239,9 @@ class AddWizard extends React.Component {
 
 
   render() {
-    const { classes } = this.props;
+    const { classes, itemCharacteristics } = this.props;
     const { isAuthenticated, language } = this.props.userInfo;
+
     if (!isAuthenticated()) return <Redirect to='/' />;
 
 
@@ -253,7 +258,15 @@ class AddWizard extends React.Component {
             <DetailsForm hashKey={'details'} language={language} handleChange={this.handleChange} handleArrayToggle={this.handleArrayToggle} state={this.state} />
             <ContainerForm hashKey={'container'} language={language} handleChange={this.handleChange} state={this.state} />
             <ContainerColorForm hashKey={'color'} language={language} handleChange={this.handleChange} state={this.state} />
-            <SizeForm hashKey={'size'} language={language} handleChange={this.handleChange} state={this.state} />
+            <SizeForm
+              hashKey={'size'}
+              title={this.props.intl.formatMessage(messages.titleSize)}
+              handleChange={this.handleChange}
+              itemsList={itemCharacteristics.sizes}
+              preselectedItems={this.state.size}
+              showNavigation
+              nbStepsBack={this.state.color ? 1 : 2}
+            />
             <FreezerForm hashKey={'freezer'} language={language} handleChange={this.handleChange} state={this.state} />
             <LocationForm hashKey={'location'} language={language} handleChange={this.handleChange} state={this.state} />
             <Results hashKey={'results'} language={language} handleChange={this.handleChange} resetState={this.resetState} state={this.state} handleAddPicture={this.savePicture} />

@@ -46,6 +46,14 @@ const messages = defineMessages({
     id: 'item.remove.success',
     defaultMessage: 'Item removed!',
   },
+  sizeChangeError: {
+    id: 'item.sizeChange.error',
+    defaultMessage: 'Sorry, changing quantity failed. Please try again...',
+  },  
+  sizeChangeSuccess: {
+    id: 'item.sizeChange.success',
+    defaultMessage: 'Quantity updated!',
+  },
   cameraError: {
     id: 'camera.error',
     defaultMessage: 'Sorry, saving this picture failed. Please try again...',
@@ -181,7 +189,6 @@ class Dashboard extends React.Component {
     const item = this.state.itemToRemove;
     this.setState({itemToRemove: null, removeModalOpened: false})
 
-
     try {
       const { removeItemOnServer } = items;
       await removeItemOnServer(item.id , userInfo);
@@ -194,6 +201,28 @@ class Dashboard extends React.Component {
     } catch (error) {
       const key = enqueueSnackbar(
         formatServerErrorMsg(error, intl.formatMessage(messages.removeError), 'ItemCard.removeItem'), 
+        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {closeSnackbar(key);}}
+      ); 
+    }
+  }
+
+
+  onChangeSize = async (item, size) => {
+    const {items, userInfo, enqueueSnackbar, closeSnackbar, intl} = this.props;
+
+    try {
+      const { removeItemOnServer } = items;
+      const itemUpdated = await removeItemOnServer(item.id , userInfo, size);
+      this.onItemChange(itemUpdated);
+      // this.onItemRemoved(item);
+      const key = enqueueSnackbar(
+        intl.formatMessage(messages.sizeChangeSuccess), 
+        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {closeSnackbar(key);}}
+      ); 
+      // console.log('itemUpdated: ', itemUpdated);
+    } catch (error) {
+      const key = enqueueSnackbar(
+        formatServerErrorMsg(error, intl.formatMessage(messages.sizeChangeError), 'ItemCard.ChangeSize'), 
         {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {closeSnackbar(key);}}
       ); 
     }
@@ -218,8 +247,12 @@ class Dashboard extends React.Component {
   }
 
 
-  onConfirmRemoveItem = (item) => {
-    this.setState({itemToRemove: item, removeModalOpened: true})
+  onConfirmRemoveItem = (item, size) => {
+    if(size === '0')
+      this.setState({itemToRemove: item, removeModalOpened: true})
+    else
+      this.onChangeSize(item, size)
+    
   }
 
   handleCloseRemoveModal = () => {

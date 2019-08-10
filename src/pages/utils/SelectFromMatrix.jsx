@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles'
 import { withUserInfo } from '../../auth/withUserInfo';
 import MatrixCard from './MatrixCard'
@@ -31,7 +32,6 @@ const intSelectFromMatrix = ({ name = "", defaultIconName = "", items, itemInSta
       if(!iconItem) {
         iconItem = getIcon(defaultIconName)
       }
-      // console.log("icon: ", name + item.id2, defaultIconName)
       return <MatrixCard 
         onClick={handleClick.bind(this, item.id2)} 
         selected={itemInStateIsAnArray ? itemInState.find(detail => detail === item.id2) !== undefined : itemInState === item.id2} 
@@ -44,4 +44,17 @@ const intSelectFromMatrix = ({ name = "", defaultIconName = "", items, itemInSta
     })}
   </div>
 );
+
+intSelectFromMatrix.propTypes = {
+  name: PropTypes.string.isRequired,
+  defaultIconName: PropTypes.string.isRequired,
+  items: PropTypes.array.isRequired,
+  itemInState: PropTypes.oneOfType([PropTypes.string,PropTypes.number]), // can be null: nothing is pre-selected
+  itemInStateIsAnArray: PropTypes.bool,
+  handleClick: PropTypes.func,
+  classes: PropTypes.object,
+  userInfo: PropTypes.object,
+}
+
+
 export default withStyles(styles)(withUserInfo(intSelectFromMatrix));

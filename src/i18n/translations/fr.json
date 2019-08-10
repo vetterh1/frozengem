@@ -1,5 +1,6 @@
 {
   "action.add": "Ajouter",
+  "action.remove": "Retirer",
   "action.list": "Liste",
   "action.retreive": "Sortir",
   "action.search": "Chercher",
@@ -73,7 +74,10 @@
   "item.remove.confirmation.cancel": "Annuler",
   "item.remove.confirmation.remove": "Retirer",
   "item.remove.error": "Désolé, une erreur est survenue lors du retrait. Veuillez ré-essayer...",
+  "item.remove.modal.title": "Quelle est la quantité restante ?",
   "item.remove.success": "Retrait effectué !",
+  "item.sizeChange.error": "Désolé, une erreur est survenue lors du changement de quantité. Veuillez ré-essayer...",
+  "item.sizeChange.success": "Changement de quantité effectué",
   "login.error": "Désolé, une erreur est survenue. Veuillez ré-essayer...",
   "login.success": "Félicitations, vous êtes connecté",
   "login.unauthorized": "Identifiant / mot de passe incorrect, veuillez ré-essayer...",

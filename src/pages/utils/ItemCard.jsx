@@ -41,6 +41,12 @@ import config from '../../data/config'
 import PictureSelection from './PictureSelection';
 
 
+import ButtonToModal from './ButtonToModal'
+import SizeForm from '../addWizard/SizeForm';
+
+
+
+
 const messages = defineMessages({ 
   removeError: {
     id: 'item.remove.error',
@@ -82,7 +88,10 @@ const messages = defineMessages({
     id: 'expiration.message.later',
     defaultMessage: 'Expires in more than 3 months',
   },
-  
+  titleRemove: {
+    id: 'item.remove.modal.title',
+    defaultMessage: 'How much quantity is left?',
+  },  
 });
 
 
@@ -154,9 +163,9 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
   };
 
 
-
-  const handleClickRemove = () => {
-    onRemoveItem(item);
+  
+  const handleClickRemove = ({ size }) => {
+    onRemoveItem(item, size);
   };
 
   
@@ -169,38 +178,38 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
 
 
 
-    const expirationLevel = itemCharacteristics.computeExpirationLevel(item.expirationDate);
-    console.log('exp level:', expirationLevel);
-    let avatarBackgroundColor;
-    let cardBackgroundColor;
-    let iconExpiration;
-    let expirationText;
-    switch (expirationLevel) {
-      case ExpirationLevel.EXPIRATION_PASSED:
-        avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.expired;
-        cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.expired;
-        iconExpiration = <PanToolIcon />;
-        expirationText = messages.expirationMessagePassed;
-        break;
-      case ExpirationLevel.EXPIRATION_NEXT_30_DAYS:
-        avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.next_30_days;
-        cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.next_30_days;
-        iconExpiration = <PriorityHighIcon />;
-        expirationText = messages.expirationMessageNext_30_days;
-        break;
-      case ExpirationLevel.EXPIRATION_WITHIN_3_MONTHS:
-        avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.within_3_months;
-        cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.within_3_months;
-        iconExpiration = <TimerIcon />;
-        expirationText = messages.expirationMessageWithin_3_months;
-        break;
-      default:
-        avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.later;
-        cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.later;
-        iconExpiration = <DoneIcon />;
-        expirationText = messages.expirationMessageLater;
-        break;
-    } 
+  const expirationLevel = itemCharacteristics.computeExpirationLevel(item.expirationDate);
+  console.log('exp level:', expirationLevel);
+  let avatarBackgroundColor;
+  let cardBackgroundColor;
+  let iconExpiration;
+  let expirationText;
+  switch (expirationLevel) {
+    case ExpirationLevel.EXPIRATION_PASSED:
+      avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.expired;
+      cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.expired;
+      iconExpiration = <PanToolIcon />;
+      expirationText = messages.expirationMessagePassed;
+      break;
+    case ExpirationLevel.EXPIRATION_NEXT_30_DAYS:
+      avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.next_30_days;
+      cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.next_30_days;
+      iconExpiration = <PriorityHighIcon />;
+      expirationText = messages.expirationMessageNext_30_days;
+      break;
+    case ExpirationLevel.EXPIRATION_WITHIN_3_MONTHS:
+      avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.within_3_months;
+      cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.within_3_months;
+      iconExpiration = <TimerIcon />;
+      expirationText = messages.expirationMessageWithin_3_months;
+      break;
+    default:
+      avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.later;
+      cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.later;
+      iconExpiration = <DoneIcon />;
+      expirationText = messages.expirationMessageLater;
+      break;
+  } 
 
   const name = item.name ? item.name : itemCharacteristics.getCategoryName(item.category, userInfo.language);
   const title = name;
@@ -215,7 +224,8 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
 
   const thumbnailsOrPictures = expandedMedia ? item.pictureName : item.thumbnailName;
 
-
+  const zero = {id2: "0", label: {en: "Remove this item from your freezer", fr: "Retirer ce produit de votre congélateur"}, name: {en: "Nothing", fr: "Rien"}};
+  const sizes = [zero, ...itemCharacteristics.sizes];
   
 
   return (
@@ -247,9 +257,25 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
             </Typography>
           </CardContent>
           <CardActions disableSpacing>
-            <IconButton aria-label="Remove" onClick={handleClickRemove}>
+            {/* <IconButton aria-label="Remove" onClick={handleClickRemove}>
               {getIcon("remove")}
-            </IconButton>
+            </IconButton> */}
+
+            <ButtonToModal 
+              btnLabel="Remove"
+              btnIcon={getIcon("remove")} 
+              cancelLabel="Cancel"
+              onOk={null}
+            >
+              <SizeForm
+                title={intl.formatMessage(messages.titleRemove)}
+                handleChange={handleClickRemove}
+                items={sizes}
+                preselectedItems={item.size}
+              />
+            </ButtonToModal>
+
+
             <IconButton
               className={clsx(classes.expanded, {
                 [classes.expandedOpen]: expanded,

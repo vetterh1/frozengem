@@ -24,7 +24,7 @@ export class Items extends React.Component {
     saveItemToServer: (item, user) => this.saveItemToServer(item, user),
     updateItemToServer: (idItem, updates, user) => this.updateItemToServer(idItem, updates, user),
     updatePictureItemToServer: (idItem, picture, thumbnail, user) => this.updatePictureItemToServer(idItem, picture, thumbnail, user),
-    removeItemOnServer: (item, user) => this.removeItemOnServer(item, user),
+    removeItemOnServer: (item, user, size) => this.removeItemOnServer(item, user, size),
     get: (token, user) => this.get(token, user),
   };
 
@@ -167,9 +167,10 @@ export class Items extends React.Component {
   
   
 
-  async removeItemOnServer(idItem, user) {
-    console.info('|--- SERVER CALL ---|--- POST ---| Items.removeItemOnServer: ', idItem);
+  async removeItemOnServer(idItem, user, size) {
+    console.info('|--- SERVER CALL ---|--- POST ---| Items.removeItemOnServer: ', idItem, size);
     const data = { 'access_token': user.accessToken };
+    if(size) data['size'] = size;
     const options = {
       method: 'POST',
       url: `${config.boUrl}/items/remove/${idItem}`,

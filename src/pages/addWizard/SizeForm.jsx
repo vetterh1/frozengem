@@ -1,63 +1,54 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Context } from "../../data/ItemCharacteristicsStore";
 import {WizNavBar, WizPageTitle} from "../utils/WizUtilComponents";
 import SelectFromMatrix from "../utils/SelectFromMatrix";
-import { defineMessages } from "react-intl";
-// import { defineMessages } from 'react-intl.macro';
-
-const messages = defineMessages({
-  title: {
-    id: 'add.size.title',
-    defaultMessage: 'How much quantity are you storing?',
-    description: 'How much quantity are you storing?',
-  },
-});
 
 
-class SizeForm extends React.Component {
-  static propTypes = {
-    handleChange: PropTypes.func.isRequired,
-    isActive: PropTypes.bool,
-  }
 
-  handleClick = (id) => {
-    const { handleChange, nextStep } = this.props;
+const SizeForm = ({title, handleChange, secondaryHandleChange, items, preselectedItems, nbStepsBack = 1, showNavigation = false, isActive, currentStep, goToStep, nextStep}) => {
+
+  if(!items) return null;
+  if(isActive === false) return null;
+
+  const handleClick = (id) => {
     handleChange({ size: id });
-    nextStep();
+    if(secondaryHandleChange) secondaryHandleChange({ size: id });
+    if(isActive !== undefined) nextStep();
   };
 
-  handlePrevious = () => {
+  const handlePrevious = () => {
     // Clear current value when return to previous page
-    this.props.handleChange({ size: undefined }); 
-
-    const { state, currentStep, goToStep, previousStep } = this.props;
-
-    console.log(state.color);
-    if(state.color)
-      previousStep(); 
-    else
-      goToStep(currentStep-2);
+    handleChange({ size: undefined }); 
+    goToStep(currentStep-nbStepsBack);
   };
 
+  return (
+    <div className={"flex-normal-height flex-direction-column"}>
+      <WizPageTitle message={title} />
+      <SelectFromMatrix name="size" defaultIconName={"sizeDefault"} items={items} itemInState={preselectedItems} itemInStateIsAnArray={false} handleClick={handleClick} />
+      {showNavigation &&
+        <WizNavBar isBackDisabled={nbStepsBack === 0} onClickNext={null} onClickPrevious={handlePrevious} />
+      }
+    </div>
 
-  render() {
-    if(!this.props.isActive) return null;
-    
-    // Get the sizes to display from the context
-    // and the (possibly) already selected size from the props.state (state from parent)
-    let { sizes: items } = this.context;
-    const { size: itemInState } = this.props.state;
-    return (
-      <div className={"flex-normal-height flex-direction-column"}>
-        <WizPageTitle message={messages.title} />
-        <SelectFromMatrix name="size" defaultIconName={"sizeDefault"} items={items} itemInState={itemInState} itemInStateIsAnArray={false} handleClick={this.handleClick} />
-        <WizNavBar onClickNext={null} onClickPrevious={this.handlePrevious.bind(this)} />
-      </div>
-
-    )
-  };
+  )
 }
-SizeForm.contextType = Context;
+
+SizeForm.propTypes = {
+  title: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  secondaryHandleChange: PropTypes.func,
+  items: PropTypes.array.isRequired,
+  preselectedItems: PropTypes.oneOfType([PropTypes.string,PropTypes.number]), // can be null: nothing is pre-selected
+  nbStepsBack: PropTypes.number,
+  showNavigation: PropTypes.bool,
+  // Props for StepWizard, can be null when call NOT from StepWizard:
+  hashKey: PropTypes.string,
+  // Props injected by StepWizard, can be null when call NOT from StepWizard:
+  isActive: PropTypes.bool,
+  currentStep: PropTypes.number,
+  goToStep: PropTypes.func,
+  nextStep: PropTypes.func,
+}
 
 export default SizeForm;

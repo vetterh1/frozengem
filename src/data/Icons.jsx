@@ -10,6 +10,7 @@ import VerticalAlignBottom from '@material-ui/icons/VerticalAlignBottom';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import Store from '@material-ui/icons/Store';
 import Apps from '@material-ui/icons/Apps';
+import CancelPresentation from '@material-ui/icons/CancelPresentation';
 
 
 export const getIcon = (iconName) => icons[iconName];
@@ -63,6 +64,8 @@ const icons = {
     "colorO": <IconContainerColorOther fontSize="default" />,
 
     "sizeDefault": <IconContainerDefault fontSize="default" />,
+    "size0": <CancelPresentation fontSize="default" />,
+    "size1": <IconSize1 fontSize="default" />,
     "size1": <IconSize1 fontSize="default" />,
     "size2": <IconSize2 fontSize="default" />,
     "size4": <IconSize4 fontSize="default" />,

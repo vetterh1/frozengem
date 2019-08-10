@@ -36,15 +36,15 @@ const intSelectFromList = ({ items, itemInState, itemInStateIsAnArray, handleCli
 );
 export const SelectFromList = withUserInfo(intSelectFromList);
 
-const WizPageTitleInt = ({message, values, intl}) => (
+
+
+export const WizPageTitle = ({message}) => (
   <div className={"flex-normal-height flex-direction-column margin-down"}>
     <Typography variant="h6">
-      {intl.formatMessage(message, values)}
+      {message}
     </Typography>
   </div>
 );
-export const WizPageTitle = injectIntl(WizPageTitleInt);
-
 
 
 
@@ -66,10 +66,10 @@ export const NextButton = ({onClick, isDisabled}) => (
   </Button>
 );
 
-export const WizNavBar = ({onClickPrevious, onClickNext, isNextDisabled, nextIsSubmit}) => (
+export const WizNavBar = ({onClickPrevious, onClickNext, isBackDisabled = false, isNextDisabled, nextIsSubmit}) => (
   <div className={"flex-normal-height flex-direction-row flex-justifiy-between big-margin-down big-margin-top"}>
-    {onClickPrevious && <PreviousButton onClick={onClickPrevious}/>}
-    {!onClickPrevious && <span>&nbsp;</span>}
+    {(onClickPrevious && !isBackDisabled) && <PreviousButton onClick={onClickPrevious}/>}
+    {!(onClickPrevious && !isBackDisabled) && <span>&nbsp;</span>}
     {(onClickNext && !nextIsSubmit) && <NextButton onClick={onClickNext} isDisabled={isNextDisabled}/>}
     {(!onClickNext && nextIsSubmit) && <NextButton isDisabled={isNextDisabled}/>}
   </div>
