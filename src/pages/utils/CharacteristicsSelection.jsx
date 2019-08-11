@@ -5,25 +5,24 @@ import SelectFromMatrix from "./SelectFromMatrix";
 
 
 
-const CharacteristicsSelection = ({name, title, handleChange, secondaryHandleChange, items, preselectedItems, nbStepsBack = 1, nbStepsForward = 1, showNavigation = false, isActive, currentStep, goToStep, nextStep}) => {
+const CharacteristicsSelection = ({name, title, handleChange, secondaryHandleChange, handleBack, items, preselectedItems, showNavigation = false, backDisabled = false, isActive, currentStep, goToStep, nextStep}) => {
 
-  if(!items) return null;
   if(isActive === false) return null;
+  if(!items) return null;
 
-  const handleClick = (id) => {
-    console.log("CharacteristicsSelection.handleClick: ", nbStepsForward);
-    handleChange({ [name]: id });
-    console.log("CharacteristicsSelection.handleClick: after handleChange");
+  const handleClick = async (id) => {
+    const nbStepsForward = await handleChange({ [name]: id });
     if(secondaryHandleChange) secondaryHandleChange({ [name]: id });
-    if(isActive !== undefined) goToStep(currentStep+nbStepsForward);
+    if(nbStepsForward)
+      goToStep(currentStep + nbStepsForward);
   };
 
-  const handlePrevious = () => {
-    console.log("CharacteristicsSelection.handlePrevious: ", nbStepsBack);
+  const _handleBack = async () => {
     // Clear current value when return to previous page
-    handleChange({ [name]: undefined }); 
-    console.log("CharacteristicsSelection.handlePrevious: after handlePrevious");
-    goToStep(currentStep-nbStepsBack);
+    if(handleBack){
+      const nbStepsBack = await handleBack({ [name]: undefined }); 
+      goToStep(currentStep - nbStepsBack);
+    }
   };
 
   return (
@@ -31,7 +30,7 @@ const CharacteristicsSelection = ({name, title, handleChange, secondaryHandleCha
       <WizPageTitle message={title} />
       <SelectFromMatrix name={name} defaultIconName={name+"Default"} items={items} itemInState={preselectedItems} itemInStateIsAnArray={false} handleClick={handleClick} />
       {showNavigation &&
-        <WizNavBar isBackDisabled={nbStepsBack === 0} onClickNext={null} onClickPrevious={handlePrevious} />
+        <WizNavBar isBackDisabled={backDisabled} onClickNext={null} onClickPrevious={_handleBack} />
       }
     </div>
 
@@ -39,14 +38,15 @@ const CharacteristicsSelection = ({name, title, handleChange, secondaryHandleCha
 }
 
 CharacteristicsSelection.propTypes = {
+  name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
   secondaryHandleChange: PropTypes.func,
+  handleBack: PropTypes.func,
   items: PropTypes.array.isRequired,
   preselectedItems: PropTypes.oneOfType([PropTypes.string,PropTypes.number]), // can be null: nothing is pre-selected
-  nbStepsBack: PropTypes.number,
-  nbStepsForward: PropTypes.number,
   showNavigation: PropTypes.bool,
+  backDisabled: PropTypes.bool,
   // Props for StepWizard, can be null when call NOT from StepWizard:
   hashKey: PropTypes.string,
   // Props injected by StepWizard, can be null when call NOT from StepWizard:

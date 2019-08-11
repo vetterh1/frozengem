@@ -77,6 +77,14 @@ const messages = defineMessages({
     id: 'add.size.title',
     defaultMessage: 'How much quantity are you storing?',
   },
+  titleFreezer: {
+    id: 'add.freezer.title',
+    defaultMessage: 'In which freezer are you storing it?',
+  },  
+  titleLocation: {
+    id: 'add.location.title',
+    defaultMessage: 'Where exactly do you store it?',
+  },
 });
 
 
@@ -91,7 +99,7 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
       category: null,
       details: [],
       container: null,
-      containerHasColors: false,
+      containerColors: [],      
       color: null,
       size: null,
       freezer: null,
@@ -104,34 +112,31 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
   );
   const [cameraDialogState, setCameraDialogState] = React.useState(false);
   
+
+
+  const handleBack = async (updates, updateServer = false) => {
+    await handleChange(updates, updateServer);
+    return 1;
+  }
+
+  const handleBackToColorOrNot = async (updates, updateServer = false) => {
+    await handleChange(updates, updateServer);
+    return item.containerColors.length > 0 ? 1 : 2;
+  }
+
+
+
+
   // Set the received value in the state 
   // (replacing any existing one)
   const handleChange = async (updates, updateServer = false) => {
-    console.log("AddWizard.handleChange ", updates);
 
-    const otherChanges = {};
-
-    // If container changes, check if it has a color:
-    if(updates['container']) {
-      const containerHasColors = itemCharacteristics.colors.filter(color => color.parents.find(oneParent => oneParent === updates['container'])).length > 0;
-      otherChanges['containerHasColors'] = containerHasColors;
-      console.log("handleChange: container update found. colors? : ", containerHasColors);
-    }
-
-    
-    setItemValues({
-      ...item,
-      ...updates,
-      ...otherChanges
-    });
-
+    // Update the item with the new values
+    setItemValues({ ...item, ...updates });
 
     if(updateServer) {
-      console.log("handleChange: updateServer for id=", item.id, ", updates=", updates, "and userInfo=: ",userInfo);
-
       try {
         const itemUpdated = await items.updateItemToServer(item.id , updates, userInfo);
-        console.log('itemUpdated: ', itemUpdated);
         handleChange({code: itemUpdated.code})
       } catch (error) {
         console.error('AddWizard.handleChange error: ' , error);
@@ -139,9 +144,34 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
          intl.formatMessage(messages.error), 
           {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {closeSnackbar(key);}}
         ); 
+        return null;
       }
     }
+    return 1;
   }
+
+
+
+
+
+  
+  const handleChangeToColorOrNot = async (updates, updateServer = false) => {
+    let containerColors = [];
+
+    // If container changes, check if it has a color:
+    const container = updates['container'];
+    if(container)
+      containerColors = itemCharacteristics.colors.filter(color => color.parents.find(oneParent => oneParent === container));
+
+    await handleChange({...updates, containerColors}, updateServer);
+    return containerColors.length > 0 ? 1 : 2;
+  }
+
+
+
+
+
+
 
   // Add the received value to the state value lists if it does not exist yet
   // If it already exists: remove it
@@ -223,6 +253,9 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
 
   if (!isAuthenticated()) return <Redirect to='/' />;
 
+  // console.log("----------> item : ", item);
+
+
   return (
       <div className={classes.divWizardPage}>
         <StepWizard
@@ -232,10 +265,8 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
           onStepChange={onStepChange}
         >
           {/* !!!! update variable stepsNumber whenever this list changes !!!! */}
-          {/* <CategoryForm  hashKey={'category'} language={language} handleChange={handleChange} state={state} />
-          <DetailsForm hashKey={'details'} language={language} handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} />
-          <ContainerForm hashKey={'container'} language={language} handleChange={handleChange} state={state} />
-          <ContainerColorForm hashKey={'color'} language={language} handleChange={handleChange} state={state} /> */}
+          {/* <DetailsForm hashKey={'details'} language={language} handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} />
+           */}
           <CharacteristicsSelection
             hashKey={'category'}
             name='category'
@@ -244,45 +275,59 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
             items={itemCharacteristics.categories}
             preselectedItems={item.category}
             showNavigation
-            nbStepsBack={0}
-            nbStepsForward={1}
+            backDisabled
           />
           <CharacteristicsSelection
             hashKey={'container'}
             name='container'
             title={intl.formatMessage(messages.titleContainer)}
-            handleChange={handleChange}
+            handleChange={handleChangeToColorOrNot}
+            handleBack={handleBack}
             items={itemCharacteristics.containers}
             preselectedItems={item.container}
             showNavigation
-            nbStepsBack={1}
-            nbStepsForward={item.containerHasColors ? 1 : 2}
           />          
           <CharacteristicsSelection
             hashKey={'color'}
             name='color'
             title={intl.formatMessage(messages.titleColor, {container: "parentName.toLowerCase()"})}
             handleChange={handleChange}
-            items={itemCharacteristics.colors}
+            handleBack={handleBack}
+            items={item.containerColors}
             preselectedItems={item.color}
             showNavigation
-            nbStepsBack={1}
-            nbStepsForward={1}
           />
           <CharacteristicsSelection
             hashKey={'size'}
             name='size'
             title={intl.formatMessage(messages.titleSize)}
             handleChange={handleChange}
+            handleBack={handleBackToColorOrNot}
             items={itemCharacteristics.sizes}
             preselectedItems={item.size}
             showNavigation
-            nbStepsBack={item.containerHasColors ? 1 : 2}
-            nbStepsForward={1}
           />
-          {/* <FreezerForm hashKey={'freezer'} language={language} handleChange={handleChange} state={state} />
-          <LocationForm hashKey={'location'} language={language} handleChange={handleChange} state={state} />
-          <Results hashKey={'results'} language={language} handleChange={handleChange} resetState={resetState} state={state} handleAddPicture={savePicture} /> */}
+          <CharacteristicsSelection
+            hashKey={'freezer'}
+            name='freezer'
+            title={intl.formatMessage(messages.titleFreezer)}
+            handleChange={handleChange}
+            handleBack={handleBack}
+            items={itemCharacteristics.freezers}
+            preselectedItems={item.freezer}
+            showNavigation
+          />
+          <CharacteristicsSelection
+            hashKey={'location'}
+            name='location'
+            title={intl.formatMessage(messages.titleLocation)}
+            handleChange={handleChange}
+            handleBack={handleBack}
+            items={itemCharacteristics.locations}
+            preselectedItems={item.location}
+            showNavigation
+          />            
+                    {/* <Results hashKey={'results'} language={language} handleChange={handleChange} resetState={resetState} state={state} handleAddPicture={savePicture} /> */}
           {/* !!!! update variable stepsNumber whenever this list changes !!!! */}
           </StepWizard>
       </div>

@@ -166,6 +166,7 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
   
   const handleClickRemove = ({ size }) => {
     onRemoveItem(item, size);
+    return null;
   };
 
   
