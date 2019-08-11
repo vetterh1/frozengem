@@ -8,16 +8,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { withUserInfo } from '../../auth/withUserInfo';
 import { withItemCharacteristics } from '../../auth/withItemCharacteristics';
 import { withItems } from '../../auth/withItems';
-// import DetailsForm from './DetailsForm';
-// import ContainerForm from './ContainerForm';
-// import ContainerColorForm from './ContainerColorForm';
 import CharacteristicsSelection from '../utils/CharacteristicsSelection';
-// import FreezerForm from './FreezerForm';
-// import LocationForm from './LocationForm';
-// import Results from './Results';
 import StepWizard from 'react-step-wizard';
 import { withSnackbar } from 'notistack';
-// import setStateAsync from '../../utils/setStateAsync';
 
 
 const styles = theme => ({
@@ -65,6 +58,10 @@ const messages = defineMessages({
     id: 'add.category.title',
     defaultMessage: 'What are you storing?',
   },  
+  titleDetails: {
+    id: 'add.details.title',
+    defaultMessage: 'Tell us a little bit more about your {category}...',
+  },
   titleContainer: {
     id: 'add.container.title',
     defaultMessage: 'What container are you using?',
@@ -97,8 +94,11 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
     {
       id: null,
       category: null,
+      categoryName: "",
+      categoryDetails: [],
       details: [],
       container: null,
+      containerName: "",
       containerColors: [],      
       color: null,
       size: null,
@@ -155,15 +155,71 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
 
 
   
+  const handleChangeToDetails = async (updates, updateServer = false) => {
+    let categoryDetails = [];
+    let categoryName = "";
+
+    // When category is selected, get it's details:
+    const category = updates['category'];
+    if(category){
+      categoryName = !itemCharacteristics.categories ? "item" : itemCharacteristics.categories.find(oneCategory => oneCategory.id2 === category).name[language].toLowerCase();
+      categoryDetails = itemCharacteristics.details.filter(detail => detail.parents.find(oneParent => oneParent === 'all' || oneParent === category));
+    }
+    await handleChange({...updates, categoryName, categoryDetails}, updateServer);
+    return 1;
+  }
+
+
+  
+  
+  const handleMultiselectionChange = (name) => async (updates, updateServer = false) => {
+
+    const updatedValue = updates[name];
+    if(updatedValue){
+      const existingValues = item[name];
+      console.log("existingValues", existingValues)
+      let alreadyExists = false;
+      const undefinedExistingValues = !existingValues || existingValues === undefined;
+      if(!undefinedExistingValues && existingValues.length > 0)
+        alreadyExists = existingValues.find(valueInList => valueInList === updatedValue);
+
+      // Add the received value to the state value lists if it does not exist yet
+      // If it already exists: remove it (toggle action)
+      let newValues;
+      if(alreadyExists){
+        newValues = existingValues.filter(valueInList => valueInList !== updatedValue);
+      } else {
+        if(!undefinedExistingValues)
+          newValues = [...existingValues, updatedValue];
+        else
+          newValues = [updatedValue];
+      }
+      await handleChange({...updates, [name]: newValues}, updateServer);
+    }
+    return null;
+  }
+
+  
+
+  const handleNextFromDetails = () => { return 1; }
+  
+
+
+
+
+  
   const handleChangeToColorOrNot = async (updates, updateServer = false) => {
     let containerColors = [];
+    let containerName = "";
 
     // If container changes, check if it has a color:
     const container = updates['container'];
-    if(container)
+    if(container){
+      containerName = !itemCharacteristics.containers ? "container" : itemCharacteristics.containers.find(oneContainer => oneContainer.id2 === container).name[language].toLowerCase();
       containerColors = itemCharacteristics.colors.filter(color => color.parents.find(oneParent => oneParent === container));
+    }
 
-    await handleChange({...updates, containerColors}, updateServer);
+    await handleChange({...updates, containerName, containerColors}, updateServer);
     return containerColors.length > 0 ? 1 : 2;
   }
 
@@ -172,24 +228,6 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
 
 
 
-
-  // Add the received value to the state value lists if it does not exist yet
-  // If it already exists: remove it
-  const handleArrayToggle = (change) => {
-    const {name, value} = change;
-    const existingValues = item[name];
-    const alreadyExists = existingValues.find(valueInList => valueInList === value);
-    let newValues;
-    if(alreadyExists){
-      newValues = existingValues.filter(valueInList => valueInList !== value);
-    } else {
-      newValues = [...existingValues, value];
-    }
-    setItemValues({
-      ...item,
-      [name]: newValues
-    });    
-  }
 
   const onStepChange = async ({activeStep}) => {
     console.log("AddWizard.onStepChange: ", activeStep);
@@ -271,12 +309,25 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
             hashKey={'category'}
             name='category'
             title={intl.formatMessage(messages.titleCategory)}
-            handleChange={handleChange}
+            handleChange={handleChangeToDetails}
             items={itemCharacteristics.categories}
             preselectedItems={item.category}
             showNavigation
             backDisabled
           />
+          <CharacteristicsSelection
+            hashKey={'details'}
+            name='details'
+            title={intl.formatMessage(messages.titleDetails, {category: item.categoryName})}
+            handleChange={handleMultiselectionChange('details')}
+            handleNext={handleNextFromDetails}
+            handleBack={handleBack}
+            items={item.categoryDetails}
+            preselectedItems={item.details}
+            multiselection
+            showNavigation
+            defaultIconName={"category"+item.category}
+          />          
           <CharacteristicsSelection
             hashKey={'container'}
             name='container'
@@ -290,7 +341,7 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
           <CharacteristicsSelection
             hashKey={'color'}
             name='color'
-            title={intl.formatMessage(messages.titleColor, {container: "parentName.toLowerCase()"})}
+            title={intl.formatMessage(messages.titleColor, {container: item.containerName})}
             handleChange={handleChange}
             handleBack={handleBack}
             items={item.containerColors}

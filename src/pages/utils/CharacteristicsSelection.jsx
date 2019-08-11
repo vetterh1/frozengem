@@ -5,7 +5,12 @@ import SelectFromMatrix from "./SelectFromMatrix";
 
 
 
-const CharacteristicsSelection = ({name, title, handleChange, secondaryHandleChange, handleBack, items, preselectedItems, showNavigation = false, backDisabled = false, isActive, currentStep, goToStep, nextStep}) => {
+// (!) Multi selection caution (!)
+// Returns only the item clicked
+// It's the responsibility of the parent to aggregate the multiple selected 
+// and return them as an array in preselectedItems (with multiselection = true)
+
+const CharacteristicsSelection = ({name, title, handleChange, secondaryHandleChange, handleBack = null, handleNext = null, items, preselectedItems, multiselection = false, showNavigation = false, backDisabled = false, defaultIconName = null, isActive, currentStep, goToStep, nextStep}) => {
 
   if(isActive === false) return null;
   if(!items) return null;
@@ -13,7 +18,7 @@ const CharacteristicsSelection = ({name, title, handleChange, secondaryHandleCha
   const handleClick = async (id) => {
     const nbStepsForward = await handleChange({ [name]: id });
     if(secondaryHandleChange) secondaryHandleChange({ [name]: id });
-    if(nbStepsForward)
+    if(!multiselection && nbStepsForward)
       goToStep(currentStep + nbStepsForward);
   };
 
@@ -25,12 +30,22 @@ const CharacteristicsSelection = ({name, title, handleChange, secondaryHandleCha
     }
   };
 
+  // Only for multiselection 
+  const _handleNext = () => {
+    // Clear current value when return to previous page
+    if(handleNext){
+      const nbStepsForward = handleNext({ [name]: undefined }); 
+      goToStep(currentStep + nbStepsForward);
+    }
+  };
+
+
   return (
     <div className={"flex-normal-height flex-direction-column"}>
       <WizPageTitle message={title} />
-      <SelectFromMatrix name={name} defaultIconName={name+"Default"} items={items} itemInState={preselectedItems} itemInStateIsAnArray={false} handleClick={handleClick} />
+      <SelectFromMatrix name={name} defaultIconName={defaultIconName ? defaultIconName : name+"Default"} items={items} preselectedItems={preselectedItems} multiselection={multiselection} handleClick={handleClick} />
       {showNavigation &&
-        <WizNavBar isBackDisabled={backDisabled} onClickNext={null} onClickPrevious={_handleBack} />
+        <WizNavBar isBackDisabled={backDisabled} onClickNext={_handleNext} onClickPrevious={_handleBack} />
       }
     </div>
 
@@ -43,10 +58,13 @@ CharacteristicsSelection.propTypes = {
   handleChange: PropTypes.func.isRequired,
   secondaryHandleChange: PropTypes.func,
   handleBack: PropTypes.func,
+  handleNext: PropTypes.func,
   items: PropTypes.array.isRequired,
-  preselectedItems: PropTypes.oneOfType([PropTypes.string,PropTypes.number]), // can be null: nothing is pre-selected
+  preselectedItems: PropTypes.oneOfType([PropTypes.array,PropTypes.string,PropTypes.number]), // can be null: nothing is pre-selected
+  multiselection: PropTypes.bool,
   showNavigation: PropTypes.bool,
   backDisabled: PropTypes.bool,
+  defaultIconName: PropTypes.string,
   // Props for StepWizard, can be null when call NOT from StepWizard:
   hashKey: PropTypes.string,
   // Props injected by StepWizard, can be null when call NOT from StepWizard:

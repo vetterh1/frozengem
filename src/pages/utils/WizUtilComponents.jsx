@@ -13,7 +13,7 @@ import { injectIntl, FormattedMessage } from "react-intl";
 import { withUserInfo } from '../../auth/withUserInfo';
 
 
-const intSelectFromList = ({ items, itemInState, itemInStateIsAnArray, handleClick, userInfo }) => (
+const intSelectFromList = ({ items, itemInState, multiselection, handleClick, userInfo }) => (
   <List className={"flex-normal-height flex-direction-column big-margin-down"}>
   {items && items.map((item, index, theArray) => {
     const name = item.name[userInfo.language]
@@ -22,7 +22,7 @@ const intSelectFromList = ({ items, itemInState, itemInStateIsAnArray, handleCli
       <ListItem 
         button 
         onClick={handleClick.bind(this, item.id2)} 
-        selected={itemInStateIsAnArray ? itemInState.find(detail => detail === item.id2) !== undefined : itemInState === item.id2} 
+        selected={multiselection ? itemInState.find(detail => detail === item.id2) !== undefined : itemInState === item.id2} 
         key={item.id2}
       >
         <ListItemText 

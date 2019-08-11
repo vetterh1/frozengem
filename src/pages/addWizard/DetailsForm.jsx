@@ -55,7 +55,7 @@ class DetailsForm extends React.Component {
     return (
       <div className={"flex-normal-height flex-direction-column"}>
         <WizPageTitle message={messages.title} values={{category: parentName.toLowerCase()}} />
-        <SelectFromMatrix name="details" defaultIconName={"category"+parentId} items={items} itemInState={itemInState} itemInStateIsAnArray={true} handleClick={this.handleClick} />
+        <SelectFromMatrix name="details" defaultIconName={"category"+parentId} items={items} itemInState={itemInState} multiselection={true} handleClick={this.handleClick} />
         <WizNavBar onClickNext={this.handleNext.bind(this)} onClickPrevious={this.handlePrevious.bind(this)} />
       </div>
     )
