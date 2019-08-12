@@ -5,12 +5,16 @@ import SelectFromMatrix from "./SelectFromMatrix";
 
 
 
+//
+// (!) handleBack & handleNext & handleChange are async (!)
+//
+
 // (!) Multi selection caution (!)
 // Returns only the item clicked
 // It's the responsibility of the parent to aggregate the multiple selected 
 // and return them as an array in preselectedItems (with multiselection = true)
 
-const CharacteristicsSelection = ({name, title, handleChange, secondaryHandleChange, handleBack = null, handleNext = null, items, preselectedItems, multiselection = false, showNavigation = false, backDisabled = false, defaultIconName = null, isActive, currentStep, goToStep, nextStep}) => {
+const CharacteristicsSelection = ({name, title, handleChange, secondaryHandleChange, handleBack = null, handleNext = null, items, preselectedItems, multiselection = false, showNavigation = false, backDisabled = false, defaultIconName = null, isActive, currentStep, goToStep}) => {
 
   if(isActive === false) return null;
   if(!items) return null;
@@ -31,10 +35,11 @@ const CharacteristicsSelection = ({name, title, handleChange, secondaryHandleCha
   };
 
   // Only for multiselection 
-  const _handleNext = () => {
-    // Clear current value when return to previous page
+  const _handleNext = async () => {
     if(handleNext){
-      const nbStepsForward = handleNext({ [name]: undefined }); 
+      console.log("handleNext", handleNext)
+      const nbStepsForward = await handleNext(); 
+      console.log("nbStepsForward", nbStepsForward)
       goToStep(currentStep + nbStepsForward);
     }
   };
@@ -71,7 +76,6 @@ CharacteristicsSelection.propTypes = {
   isActive: PropTypes.bool,
   currentStep: PropTypes.number,
   goToStep: PropTypes.func,
-  nextStep: PropTypes.func,
 }
 
 export default CharacteristicsSelection;

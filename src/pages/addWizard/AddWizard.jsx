@@ -9,6 +9,7 @@ import { withUserInfo } from '../../auth/withUserInfo';
 import { withItemCharacteristics } from '../../auth/withItemCharacteristics';
 import { withItems } from '../../auth/withItems';
 import CharacteristicsSelection from '../utils/CharacteristicsSelection';
+import TextSelection from '../utils/TextSelection';
 import StepWizard from 'react-step-wizard';
 import { withSnackbar } from 'notistack';
 
@@ -61,6 +62,14 @@ const messages = defineMessages({
   titleDetails: {
     id: 'add.details.title',
     defaultMessage: 'Tell us a little bit more about your {category}...',
+  },
+  titleName: {
+    id: 'add.name.title',
+    defaultMessage: 'Add a name (optional)',
+  },
+  labelName: {
+    id: 'add.name.label',
+    defaultMessage: 'To help you remember later what it is',
   },
   titleContainer: {
     id: 'add.container.title',
@@ -201,7 +210,7 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
 
   
 
-  const handleNextFromDetails = () => { return 1; }
+  const handleNextFromDetails = async () => { return 1; }
   
 
 
@@ -291,7 +300,7 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
 
   if (!isAuthenticated()) return <Redirect to='/' />;
 
-  // console.log("----------> item : ", item);
+  console.log("----------> item : ", item);
 
 
   return (
@@ -302,9 +311,6 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
           classNameWrapper={'flex-normal-height flex-direction-column'}
           onStepChange={onStepChange}
         >
-          {/* !!!! update variable stepsNumber whenever this list changes !!!! */}
-          {/* <DetailsForm hashKey={'details'} language={language} handleChange={handleChange} handleArrayToggle={handleArrayToggle} state={state} />
-           */}
           <CharacteristicsSelection
             hashKey={'category'}
             name='category'
@@ -328,6 +334,16 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
             showNavigation
             defaultIconName={"category"+item.category}
           />          
+          <TextSelection
+            hashKey={'name'}
+            name='name'
+            title={intl.formatMessage(messages.titleName)}
+            label={intl.formatMessage(messages.labelName)}
+            handleBack={handleBack}
+            handleNext={handleChange}
+            initialValue={item.name}
+            showNavigation
+          />
           <CharacteristicsSelection
             hashKey={'container'}
             name='container'

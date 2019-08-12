@@ -116,7 +116,7 @@ class NameForm extends React.Component {
       <div className={"flex-normal-height flex-direction-column"}>
 
         <div className={"flex-normal-height flex-direction-column"}>
-          <WizPageTitle message={messages.title} />
+          <WizPageTitle message={this.props.intl.formatMessage(messages.title)} />
 
           <div className={"flex-normal-height flex-direction-row flex-justifiy-around"}>
             { !(registrationFinished && registrationSuccess) && <RegistrationButtonArea onClickRegister={this.onClickRegister} registrationInProgress={registrationInProgress} /> }

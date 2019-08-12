@@ -122,7 +122,7 @@ class PasswordForm extends React.Component {
 
       <div className={"flex-normal-height flex-direction-column"}>
 
-        <WizPageTitle message={messages.title} />
+        <WizPageTitle message={this.props.intl.formatMessage(messages.title)} />
 
         <form onSubmit={this.handleNext} className={"flex-normal-height flex-direction-column"} noValidate>
 
