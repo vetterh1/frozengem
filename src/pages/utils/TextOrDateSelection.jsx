@@ -49,8 +49,7 @@ const TextOrDateSelection = ({name, isDate = false, title, help, handleBack = nu
 
 
   const _handleSimpleChange = async (value) => {
-    console.log(" %%%%%%%%%%%%%%%%%%%% _handleSimpleChange:", value);
-
+    // console.log(" %%%%%%%%%%%%%%%%%%%% _handleSimpleChange:", value);
     setValue(value);
     if(validityCheck){
       let validationMessage = await validityCheck(value);
@@ -64,8 +63,8 @@ const TextOrDateSelection = ({name, isDate = false, title, help, handleBack = nu
     }
   };
 
-  const _handleDateChange = async (event) => {
-    await _handleSimpleChange(event.target.value);
+  const _handleDateChange = async (dateAsObject) => {
+    await _handleSimpleChange(dateAsObject.getTime());
   };
   
   
@@ -99,7 +98,7 @@ const TextOrDateSelection = ({name, isDate = false, title, help, handleBack = nu
           <DatePicker
             views={["year", "month"]}
             value={value}
-            onChange={_handleSimpleChange}
+            onChange={_handleDateChange}
             label={help}
             minDate={sixMonthsAgo}
             autoOk
@@ -122,7 +121,7 @@ TextOrDateSelection.propTypes = {
   help: PropTypes.string,
   handleBack: PropTypes.func,
   handleNext: PropTypes.func,
-  initialValue: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
+  initialValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   validityCheck: PropTypes.func,  // return null if valid, or otherwise, an error string to display
   showNavigation: PropTypes.bool,
   backDisabled: PropTypes.bool,

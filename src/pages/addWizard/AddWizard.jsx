@@ -109,8 +109,6 @@ const messages = defineMessages({
 
 const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar, closeSnackbar, classes}) => {
 
-  const stepsNumber = 8;
-  
   const [item, setItemValues] = React.useState(
     {
       id: null,
@@ -137,20 +135,15 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
 
 
 
-
-
-
-
   const handleBack = async (updates, updateServer = false) => {
     await handleChange(updates, updateServer);
     return 1;
   }
 
-  const handleBackToColorOrNot = async (updates, updateServer = false) => {
+  const handleBackFromSize = async (updates, updateServer = false) => {
     await handleChange(updates, updateServer);
     return item.containerColors.length > 0 ? 1 : 2;
   }
-
 
 
 
@@ -213,7 +206,11 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
 
 
 
-  const handleChangeToDetails = async (updates, updateServer = false) => {
+
+
+
+
+  const handleNextFromCategory = async (updates, updateServer = false) => {
     let categoryDetails = [];
     let categoryName = "";
 
@@ -229,60 +226,69 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
 
   
 
-  const updateExpirationDate = async (updateServer) => {
-    const expirationInMonth = itemCharacteristics.computeExpiration(item.category, item.details);
-    let expirationDate = new Date();
-    expirationDate.setMonth(expirationDate.getMonth() + expirationInMonth, 1);
-    console.log("updateExpirationDate:   expirationInMonth: " + expirationInMonth + ", expirationDate:", expirationDate, ", expirationDate: ", expirationDate);
 
-    await handleChange({expirationDate, expirationInMonth}, updateServer);    
-  }
-
-  
-  const handleNextDate = async (updates, updateServer = false) => {
-    let expirationInMonth = 0;
-    let expirationDateInDateForm = null;
-
-    console.log("handleNextDate updates:", updates);
-
-    const expirationDate = updates['expirationDate'];
-    if(expirationDate){
-
-      // Expiration date calculation
-      const { category, details } = item;
-      expirationInMonth = itemCharacteristics.computeExpiration(category, details);
-      expirationDateInDateForm = new Date();
-      expirationDate.setMonth(expirationDate.getMonth() + expirationInMonth, 1);
-      console.log("expirationInMonth: " + expirationInMonth + ", expirationDateInDateForm:", expirationDateInDateForm, ", expirationDate: ", expirationDate);
-    }
-    await handleChange({...updates, expirationDate: expirationDateInDateForm, expirationInMonth}, updateServer);
-    return 1;
-  }
-
-  
    
   const handleDetailsChange = async (updates, updateServer = false) => {
-    console.log("handleDetailsChange updates:", updates);
-
     await handleMultiselectionChange('details')(updates, updateServer);
-
-    // // Expiration date calculation
-    // await updateExpirationDate(updateServer);
-
-    // const expirationInMonth = itemCharacteristics.computeExpiration(item.category, item.details);
-    // let expirationDate = new Date();
-    // expirationDate.setMonth(expirationDate.getMonth() + expirationInMonth, 1);
-    // console.log("expirationInMonth: " + expirationInMonth + ", expirationDate:", expirationDate, ", expirationDate: ", expirationDate);
-
-    // await handleChange({...updates, expirationDate, expirationInMonth}, updateServer);
     return null;
   }
 
   
 
 
+  //
+  // Compute expiration date from now & category & details
+  //
+  const computeExpiration =  () => {
+    const defaultExpirationInMonths = itemCharacteristics.getDefaultExpirationInMonths(item.category, item.details);
+    let expirationDateInDateForm = new Date();
+    expirationDateInDateForm.setMonth(expirationDateInDateForm.getMonth() + defaultExpirationInMonths, 1);
+    console.log("computeExpiration - defaultExpirationInMonths: " + defaultExpirationInMonths + ", expirationDateInDateForm:", expirationDateInDateForm);
+
+    return ({ expirationDate: expirationDateInDateForm.getTime(), expirationInMonth: defaultExpirationInMonths});
+  }
+
+
+  function monthDiff(d1, d2) {
+    var months;
+    months = (d2.getFullYear() - d1.getFullYear()) * 12;
+    months -= d1.getMonth() + 1;
+    months += d2.getMonth();
+    return months <= 0 ? 0 : months;
+}
+
+
+  const getMonthsBetweenNowAndDate = (dateInMs) => {
+    const diffInMonths = monthDiff(new Date(), new Date(dateInMs));
+    console.log("getMonthsBetweenNowAndDate diffInMonths:", diffInMonths);
+    return diffInMonths;
+  }
+
+
+
+
+
+  const handleNextFromDetails = async (updateServer = false) => { 
+    const updatesComputed = computeExpiration();
+    await handleChange({...updatesComputed}, updateServer);
+    return 1; 
+  }
   
-  const handleChangeToColorOrNot = async (updates, updateServer = false) => {
+
+
+
+  const handleNextFromDate = async (updates, updateServer = false) => {
+    const expirationDateInMs = updates['expirationDate'];
+    if(expirationDateInMs){
+      const monthsBetweenNowAndDate = getMonthsBetweenNowAndDate(expirationDateInMs);
+      await handleChange({ expirationDate: expirationDateInMs, expirationInMonth: monthsBetweenNowAndDate}, updateServer);
+    }
+    return 1;
+  }
+
+  
+  
+  const handleNextFromContainer = async (updates, updateServer = false) => {
     let containerColors = [];
     let containerName = "";
 
@@ -300,17 +306,6 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
 
 
 
-
-
-
-
-
-
-
-
-
-  const handleNextFromDetails = async () => { return 1; }
-  
 
 
 
@@ -408,13 +403,12 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
           isHashEnabled 
           className={"flex-normal-height flex-direction-column"} 
           classNameWrapper={'flex-normal-height flex-direction-column'}
-          // onStepChange={onStepChange}
         >
           <CharacteristicsSelection
             hashKey={'category'}
             name='category'
             title={intl.formatMessage(messages.titleCategory)}
-            handleChange={handleChangeToDetails}
+            handleChange={handleNextFromCategory}
             items={itemCharacteristics.categories}
             preselectedItems={item.category}
             showNavigation
@@ -450,7 +444,7 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
             title={intl.formatMessage(messages.titleDate)}
             help={intl.formatMessage(messages.helpDate)}
             handleBack={handleBack}
-            handleNext={handleNextDate}
+            handleNext={handleNextFromDate}
             initialValue={item.expirationDate}
             showNavigation
           />          
@@ -458,7 +452,7 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
             hashKey={'container'}
             name='container'
             title={intl.formatMessage(messages.titleContainer)}
-            handleChange={handleChangeToColorOrNot}
+            handleChange={handleNextFromContainer}
             handleBack={handleBack}
             items={itemCharacteristics.containers}
             preselectedItems={item.container}
@@ -479,7 +473,7 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
             name='size'
             title={intl.formatMessage(messages.titleSize)}
             handleChange={handleChange}
-            handleBack={handleBackToColorOrNot}
+            handleBack={handleBackFromSize}
             items={itemCharacteristics.sizes}
             preselectedItems={item.size}
             showNavigation
@@ -504,9 +498,7 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
             preselectedItems={item.location}
             showNavigation
           />            
-                    {/* <Results hashKey={'results'} language={language} handleChange={handleChange} resetState={resetState} state={state} handleAddPicture={savePicture} /> */}
-          {/* !!!! update variable stepsNumber whenever this list changes !!!! */}
-          </StepWizard>
+        </StepWizard>
       </div>
     );
 }

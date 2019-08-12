@@ -99,8 +99,8 @@ export class ItemCharacteristicsStore extends React.Component {
         getCategoryName: (category, language) => this.getCategoryName(category, language),
         getSizeLabel: (size, language) => this.getSizeLabel(size, language),
         getDetailsNamesArray: (detailsArray, language) => this.getDetailsNamesArray(detailsArray, language),
-        computeExpiration: (category, details) => this.computeExpiration(category, details),
-        computeExpirationLevel: (date) => this.computeExpirationLevel(date),
+        getDefaultExpirationInMonths: (category, details) => this.getDefaultExpirationInMonths(category, details),
+        computeExpirationLevel: (dateInMs) => this.computeExpirationLevel(dateInMs),
     };
 
 
@@ -197,9 +197,9 @@ export class ItemCharacteristicsStore extends React.Component {
     }
 
 
-    computeExpiration(category, details) {
-        console.log('computeExpiration: category=', category, " - details=", details);
-        console.log('computeExpiration: this.state=', this.state);
+    getDefaultExpirationInMonths(category, details) {
+        console.log('getDefaultExpirationInMonths: category=', category, " - details=", details);
+        console.log('getDefaultExpirationInMonths: this.state=', this.state);
         if(!category || !details) return null;
 
         // Get the categories. They contain the expiration information
@@ -208,34 +208,34 @@ export class ItemCharacteristicsStore extends React.Component {
         // Find the expiration & expiration exceptions for this category
         const aCategory = categories.find(aCategory => aCategory.id2 === category);
         const {expiration, expirationMinusPlus} = aCategory;
-        console.log('computeExpiration: expiration=', expiration, " - expirationMinusPlus=", expirationMinusPlus);
+        console.log('getDefaultExpirationInMonths: expiration=', expiration, " - expirationMinusPlus=", expirationMinusPlus);
 
         // Find the expiration by taking the category expiration value
         // then + or - the exceptions
         let expirationInMonth = parseInt(expiration);
         details.forEach(detail => {
         const variation = expirationMinusPlus[detail];
-        console.log('computeExpiration: variation=', variation);
+        console.log('getDefaultExpirationInMonths: variation=', variation);
 
         if(variation) {
             const intVariation = parseInt(variation);
             expirationInMonth += intVariation
-            console.log('computeExpiration: intVariation=', intVariation, " - expirationInMonth=", expirationInMonth);
+            console.log('getDefaultExpirationInMonths: intVariation=', intVariation, " - expirationInMonth=", expirationInMonth);
         }
         });
 
-        console.log("computeExpiration: resulting expirationInMonth=" + expirationInMonth);
+        console.log("getDefaultExpirationInMonths=" + expirationInMonth);
         return expirationInMonth;
     }
 
 
 
-    computeExpirationLevel(date) {
+    computeExpirationLevel(dateInMs) {
         const nowInMs = Date.now();
         const oneMonthInMs = 1 * 30 * 24 * 60 * 60 * 1000;
-        if( date < nowInMs ) return ExpirationLevel.EXPIRATION_PASSED;
-        if( date < nowInMs + 1 * oneMonthInMs ) return ExpirationLevel.EXPIRATION_NEXT_30_DAYS;
-        if( date < nowInMs + 3 * oneMonthInMs ) return ExpirationLevel.EXPIRATION_WITHIN_3_MONTHS;
+        if( dateInMs < nowInMs ) return ExpirationLevel.EXPIRATION_PASSED;
+        if( dateInMs < nowInMs + 1 * oneMonthInMs ) return ExpirationLevel.EXPIRATION_NEXT_30_DAYS;
+        if( dateInMs < nowInMs + 3 * oneMonthInMs ) return ExpirationLevel.EXPIRATION_WITHIN_3_MONTHS;
         return ExpirationLevel.EXPIRATION_LATER;
     }
 

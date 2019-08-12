@@ -37,7 +37,7 @@ const intSelectFromMatrix = ({ name = "", defaultIconName = "", items, preselect
       if(!iconItem)  iconItem = getIcon(defaultIconName);
       let selected = false;
       if(multiselection) {
-        console.log("preselectedItems:", preselectedItems)
+        // console.log("preselectedItems:", preselectedItems)
         if(preselectedItems)
           selected = preselectedItems.find(detail => detail === item.id2) !== undefined;
       } else {
