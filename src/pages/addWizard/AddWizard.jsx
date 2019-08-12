@@ -9,7 +9,7 @@ import { withUserInfo } from '../../auth/withUserInfo';
 import { withItemCharacteristics } from '../../auth/withItemCharacteristics';
 import { withItems } from '../../auth/withItems';
 import CharacteristicsSelection from '../utils/CharacteristicsSelection';
-import TextSelection from '../utils/TextSelection';
+import TextOrDateSelection from '../utils/TextOrDateSelection';
 import StepWizard from 'react-step-wizard';
 import { withSnackbar } from 'notistack';
 
@@ -67,8 +67,20 @@ const messages = defineMessages({
     id: 'add.name.title',
     defaultMessage: 'Add a name (optional)',
   },
-  labelName: {
-    id: 'add.name.label',
+  helpName: {
+    id: 'add.name.help',
+    defaultMessage: 'To help you remember later what it is',
+  },
+  titleDate: {
+    id: 'add.date.title',
+    defaultMessage: 'Change expiration date (optional)',
+  },  
+  helpDate: {
+    id: 'add.date.help',
+    defaultMessage: 'The date is computed automatically, but you can change it here.',
+  },  
+  helpName: {
+    id: 'add.name.help',
     defaultMessage: 'To help you remember later what it is',
   },
   titleContainer: {
@@ -123,6 +135,12 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
   
 
 
+
+
+
+
+
+
   const handleBack = async (updates, updateServer = false) => {
     await handleChange(updates, updateServer);
     return 1;
@@ -132,6 +150,11 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
     await handleChange(updates, updateServer);
     return item.containerColors.length > 0 ? 1 : 2;
   }
+
+
+
+
+
 
 
 
@@ -160,26 +183,6 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
   }
 
 
-
-
-
-  
-  const handleChangeToDetails = async (updates, updateServer = false) => {
-    let categoryDetails = [];
-    let categoryName = "";
-
-    // When category is selected, get it's details:
-    const category = updates['category'];
-    if(category){
-      categoryName = !itemCharacteristics.categories ? "item" : itemCharacteristics.categories.find(oneCategory => oneCategory.id2 === category).name[language].toLowerCase();
-      categoryDetails = itemCharacteristics.details.filter(detail => detail.parents.find(oneParent => oneParent === 'all' || oneParent === category));
-    }
-    await handleChange({...updates, categoryName, categoryDetails}, updateServer);
-    return 1;
-  }
-
-
-  
   
   const handleMultiselectionChange = (name) => async (updates, updateServer = false) => {
 
@@ -208,12 +211,74 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
     return null;
   }
 
+
+
+  const handleChangeToDetails = async (updates, updateServer = false) => {
+    let categoryDetails = [];
+    let categoryName = "";
+
+    // When category is selected, get it's details:
+    const category = updates['category'];
+    if(category){
+      categoryName = !itemCharacteristics.categories ? "item" : itemCharacteristics.categories.find(oneCategory => oneCategory.id2 === category).name[language].toLowerCase();
+      categoryDetails = itemCharacteristics.details.filter(detail => detail.parents.find(oneParent => oneParent === 'all' || oneParent === category));
+    }
+    await handleChange({...updates, categoryName, categoryDetails}, updateServer);
+    return 1;
+  }
+
   
 
-  const handleNextFromDetails = async () => { return 1; }
+  const updateExpirationDate = async (updateServer) => {
+    const expirationInMonth = itemCharacteristics.computeExpiration(item.category, item.details);
+    let expirationDate = new Date();
+    expirationDate.setMonth(expirationDate.getMonth() + expirationInMonth, 1);
+    console.log("updateExpirationDate:   expirationInMonth: " + expirationInMonth + ", expirationDate:", expirationDate, ", expirationDate: ", expirationDate);
+
+    await handleChange({expirationDate, expirationInMonth}, updateServer);    
+  }
+
   
+  const handleNextDate = async (updates, updateServer = false) => {
+    let expirationInMonth = 0;
+    let expirationDateInDateForm = null;
 
+    console.log("handleNextDate updates:", updates);
 
+    const expirationDate = updates['expirationDate'];
+    if(expirationDate){
+
+      // Expiration date calculation
+      const { category, details } = item;
+      expirationInMonth = itemCharacteristics.computeExpiration(category, details);
+      expirationDateInDateForm = new Date();
+      expirationDate.setMonth(expirationDate.getMonth() + expirationInMonth, 1);
+      console.log("expirationInMonth: " + expirationInMonth + ", expirationDateInDateForm:", expirationDateInDateForm, ", expirationDate: ", expirationDate);
+    }
+    await handleChange({...updates, expirationDate: expirationDateInDateForm, expirationInMonth}, updateServer);
+    return 1;
+  }
+
+  
+   
+  const handleDetailsChange = async (updates, updateServer = false) => {
+    console.log("handleDetailsChange updates:", updates);
+
+    await handleMultiselectionChange('details')(updates, updateServer);
+
+    // // Expiration date calculation
+    // await updateExpirationDate(updateServer);
+
+    // const expirationInMonth = itemCharacteristics.computeExpiration(item.category, item.details);
+    // let expirationDate = new Date();
+    // expirationDate.setMonth(expirationDate.getMonth() + expirationInMonth, 1);
+    // console.log("expirationInMonth: " + expirationInMonth + ", expirationDate:", expirationDate, ", expirationDate: ", expirationDate);
+
+    // await handleChange({...updates, expirationDate, expirationInMonth}, updateServer);
+    return null;
+  }
+
+  
 
 
   
@@ -238,41 +303,66 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
 
 
 
-  const onStepChange = async ({activeStep}) => {
-    console.log("AddWizard.onStepChange: ", activeStep);
-    if(activeStep === stepsNumber) {
-      console.log("Item start of onStepChange: ", item);
 
-      try {
 
-        // Expiration date calculation
-        const { category, details } = item;
-        const expirationInMonth = itemCharacteristics.computeExpiration(category, details);
-        const expirationDate = new Date();
-        expirationDate.setMonth(expirationDate.getMonth() + expirationInMonth, 1);
-        console.log("Date after " + expirationInMonth + " months:", expirationDate);
-        setItemValues({
-          ...item,
-          expirationDate,
-          expirationInMonth
-        });    
-        console.log("State middle of onStepChange: ", item);
 
-        // Server save
-        const itemUpdated = await items.saveItemToServer(item, userInfo);
 
-        // Update state with code & id generated by the server:
-        handleChange({code: itemUpdated.code, id: itemUpdated.id})
 
-      } catch (error) {
-        console.error('AddWizard.onStepChange error: ' , error);
-        const key =enqueueSnackbar(
-         intl.formatMessage(messages.error), 
-          {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {closeSnackbar(key);}}
-        ); 
-      }
-    }
-  }
+
+  const handleNextFromDetails = async () => { return 1; }
+  
+
+
+
+
+
+
+
+
+
+
+  // const onStepChange = async ({activeStep}) => {
+  //   console.log("AddWizard.onStepChange: ", activeStep);
+  //   if(activeStep === stepsNumber) {
+  //     console.log("Item start of onStepChange: ", item);
+
+  //     try {
+
+  //       // Expiration date calculation
+  //       const { category, details } = item;
+  //       const expirationInMonth = itemCharacteristics.computeExpiration(category, details);
+  //       const expirationDate = new Date();
+  //       expirationDate.setMonth(expirationDate.getMonth() + expirationInMonth, 1);
+  //       console.log("Date after " + expirationInMonth + " months:", expirationDate);
+  //       setItemValues({
+  //         ...item,
+  //         expirationDate,
+  //         expirationInMonth
+  //       });    
+  //       console.log("State middle of onStepChange: ", item);
+
+  //       // Server save
+  //       const itemUpdated = await items.saveItemToServer(item, userInfo);
+
+  //       // Update state with code & id generated by the server:
+  //       handleChange({code: itemUpdated.code, id: itemUpdated.id})
+
+  //     } catch (error) {
+  //       console.error('AddWizard.onStepChange error: ' , error);
+  //       const key =enqueueSnackbar(
+  //        intl.formatMessage(messages.error), 
+  //         {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {closeSnackbar(key);}}
+  //       ); 
+  //     }
+  //   }
+  // }
+
+
+
+
+
+
+
 
 
 
@@ -296,6 +386,15 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
     }
   }
 
+
+
+
+
+
+
+
+
+
   const { isAuthenticated, language } = userInfo;
 
   if (!isAuthenticated()) return <Redirect to='/' />;
@@ -309,7 +408,7 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
           isHashEnabled 
           className={"flex-normal-height flex-direction-column"} 
           classNameWrapper={'flex-normal-height flex-direction-column'}
-          onStepChange={onStepChange}
+          // onStepChange={onStepChange}
         >
           <CharacteristicsSelection
             hashKey={'category'}
@@ -325,7 +424,7 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
             hashKey={'details'}
             name='details'
             title={intl.formatMessage(messages.titleDetails, {category: item.categoryName})}
-            handleChange={handleMultiselectionChange('details')}
+            handleChange={handleDetailsChange}
             handleNext={handleNextFromDetails}
             handleBack={handleBack}
             items={item.categoryDetails}
@@ -334,16 +433,27 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
             showNavigation
             defaultIconName={"category"+item.category}
           />          
-          <TextSelection
+          <TextOrDateSelection
             hashKey={'name'}
             name='name'
             title={intl.formatMessage(messages.titleName)}
-            label={intl.formatMessage(messages.labelName)}
+            help={intl.formatMessage(messages.helpName)}
             handleBack={handleBack}
             handleNext={handleChange}
             initialValue={item.name}
             showNavigation
           />
+          <TextOrDateSelection
+            hashKey={'expirationDate'}
+            name='expirationDate'
+            isDate
+            title={intl.formatMessage(messages.titleDate)}
+            help={intl.formatMessage(messages.helpDate)}
+            handleBack={handleBack}
+            handleNext={handleNextDate}
+            initialValue={item.expirationDate}
+            showNavigation
+          />          
           <CharacteristicsSelection
             hashKey={'container'}
             name='container'

@@ -19,7 +19,7 @@ const CharacteristicsSelection = ({name, title, handleChange, secondaryHandleCha
   if(isActive === false) return null;
   if(!items) return null;
 
-  const handleClick = async (id) => {
+  const _handleClick = async (id) => {
     const nbStepsForward = await handleChange({ [name]: id });
     if(secondaryHandleChange) secondaryHandleChange({ [name]: id });
     if(!multiselection && nbStepsForward)
@@ -48,7 +48,7 @@ const CharacteristicsSelection = ({name, title, handleChange, secondaryHandleCha
   return (
     <div className={"flex-normal-height flex-direction-column"}>
       <WizPageTitle message={title} />
-      <SelectFromMatrix name={name} defaultIconName={defaultIconName ? defaultIconName : name+"Default"} items={items} preselectedItems={preselectedItems} multiselection={multiselection} handleClick={handleClick} />
+      <SelectFromMatrix name={name} defaultIconName={defaultIconName ? defaultIconName : name+"Default"} items={items} preselectedItems={preselectedItems} multiselection={multiselection} handleClick={_handleClick} />
       {showNavigation &&
         <WizNavBar isBackDisabled={backDisabled} onClickNext={_handleNext} onClickPrevious={_handleBack} />
       }
