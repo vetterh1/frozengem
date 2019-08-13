@@ -13,8 +13,13 @@ import getExifTagsAsync from '../../utils/getExifTagsAsync'
 
 
 const styles = theme => ({
-    button: {
-      padding: '0px',
+    button : {
+      padding: theme.spacing(2),
+      // background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    }, 
+    buttonContentFlexVertical : {
+      display: 'flex',
+      flexDirection: 'column',
     },  
     leftIcon: {
       marginRight: theme.spacing(1),
@@ -24,7 +29,7 @@ const styles = theme => ({
     },  
   });
   
-  const PictureSelection = ({label, iconOnlyButton, onPicture, classes}) => {
+  const PictureSelection = ({label, iconOnlyButton, hugeIcon, onPicture, classes}) => {
 
 
     const resizePicture = async (img, MAX_WIDTH = 800, MAX_HEIGHT = 800) => {
@@ -129,7 +134,8 @@ const styles = theme => ({
     };
 
 
-  
+    const iconStyle = hugeIcon ? { fontSize: 96 } : {};
+    const specialClasses = (hugeIcon && !iconOnlyButton) ? {label: classes.buttonContentFlexVertical} : {};
   
     return (
         <>
@@ -143,14 +149,14 @@ const styles = theme => ({
           <label htmlFor="button-choose-picture">
             <>
               { !iconOnlyButton &&
-                <Button component="span" size="small" color="primary" className={classes.button}>
-                  <PhotoCameraIcon  className={classes.leftIcon}/>
-                  {label}
+                <Button component="span" size="small" color="primary" className={classes.button} classes={specialClasses}>
+                  <PhotoCameraIcon  className={classes.leftIcon} style={iconStyle} />
+                  <span>{label}</span>
                 </Button>
               }
               { iconOnlyButton &&
-                <IconButton  component="span" aria-label={label}>
-                  <PhotoCameraIcon />
+                <IconButton component="span" aria-label={label}>
+                  <PhotoCameraIcon  style={iconStyle} />
                 </IconButton> 
               }              
             </>

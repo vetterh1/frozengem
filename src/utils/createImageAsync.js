@@ -4,7 +4,7 @@ export default function createImageAsync(content) {
       let img = new Image();
 
       img.onload = function () {
-        console.log("createImageAsync.onload: ", img)
+        // console.log("createImageAsync.onload: ", img)
         resolve(img); 
       };
 

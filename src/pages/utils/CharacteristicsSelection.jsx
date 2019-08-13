@@ -50,7 +50,7 @@ const CharacteristicsSelection = ({name, title, handleChange, secondaryHandleCha
       <WizPageTitle message={title} />
       <SelectFromMatrix name={name} defaultIconName={defaultIconName ? defaultIconName : name+"Default"} items={items} preselectedItems={preselectedItems} multiselection={multiselection} handleClick={_handleClick} />
       {showNavigation &&
-        <WizNavBar isBackDisabled={backDisabled} onClickNext={_handleNext} onClickPrevious={_handleBack} />
+        <WizNavBar isBackDisabled={backDisabled} onClickNext={handleNext ? _handleNext : null} onClickPrevious={_handleBack} />
       }
     </div>
 

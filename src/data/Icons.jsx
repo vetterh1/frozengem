@@ -66,7 +66,6 @@ const icons = {
     "sizeDefault": <IconContainerDefault fontSize="default" />,
     "size0": <CancelPresentation fontSize="default" />,
     "size1": <IconSize1 fontSize="default" />,
-    "size1": <IconSize1 fontSize="default" />,
     "size2": <IconSize2 fontSize="default" />,
     "size4": <IconSize4 fontSize="default" />,
     "size6": <IconContainerDefault fontSize="default" />,

@@ -48,22 +48,6 @@ import CharacteristicsSelection from './CharacteristicsSelection';
 
 
 const messages = defineMessages({ 
-  removeError: {
-    id: 'item.remove.error',
-    defaultMessage: 'Sorry, removing this item failed. Please try again...',
-  },  
-  removeSuccess: {
-    id: 'item.remove.success',
-    defaultMessage: 'Item removed!',
-  },
-  cameraError: {
-    id: 'camera.error',
-    defaultMessage: 'Sorry, saving this picture failed. Please try again...',
-  },  
-  cameraSuccess: {
-    id: 'camera.success',
-    defaultMessage: 'Picture saved!',
-  },
   cameraReplace: {
     id: 'camera.replace',
     defaultMessage: 'Retake picture',
@@ -71,6 +55,22 @@ const messages = defineMessages({
   cameraAdd: {
     id: 'camera.add',
     defaultMessage: 'Add picture',
+  },
+  remove: {
+    id: 'action.remove',
+    defaultMessage: 'Remove',
+  },
+  removeNothing: {
+    id: 'item.remove.nothing',
+    defaultMessage: 'Nothing',
+  },
+  removeFromFreezer: {
+    id: 'item.remove.from_freezer',
+    defaultMessage: 'Remove this item from your freezer',
+  },
+  cancel: {
+    id: 'button.cancel',
+    defaultMessage: 'Cancel',
   },
   expirationMessagePassed: {
     id: 'expiration.message.passed',
@@ -225,7 +225,11 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
 
   const thumbnailsOrPictures = expandedMedia ? item.pictureName : item.thumbnailName;
 
-  const zero = {id2: "0", label: {en: "Remove this item from your freezer", fr: "Retirer ce produit de votre congélateur"}, name: {en: "Nothing", fr: "Rien"}};
+  const zero = {
+    id2: "0", 
+    label: {en: intl.formatMessage(messages.removeFromFreezer), fr: intl.formatMessage(messages.removeFromFreezer)}, 
+    name: {en: intl.formatMessage(messages.removeNothing), fr: intl.formatMessage(messages.removeNothing)},
+  };
   const sizes = [zero, ...itemCharacteristics.sizes];
   
 
@@ -258,14 +262,10 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
             </Typography>
           </CardContent>
           <CardActions disableSpacing>
-            {/* <IconButton aria-label="Remove" onClick={handleClickRemove}>
-              {getIcon("remove")}
-            </IconButton> */}
-
             <ButtonToModal 
-              btnLabel="Remove"
+              btnLabel={intl.formatMessage(messages.remove)}
               btnIcon={getIcon("remove")} 
-              cancelLabel="Cancel"
+              cancelLabel={intl.formatMessage(messages.cancel)}
               onOk={null}
             >
               <CharacteristicsSelection
