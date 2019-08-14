@@ -1,46 +1,32 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-
+import { withStyles } from '@material-ui/core/styles';
 import { withSnackbar } from 'notistack';
 import { withUserInfo } from '../../auth/withUserInfo';
 import { withItemCharacteristics } from '../../auth/withItemCharacteristics';
 import { ExpirationLevel } from "../../data/ItemCharacteristicsStore";
-
-
 import { injectIntl, defineMessages } from "react-intl";
+
 import Typography from '@material-ui/core/Typography';
-// import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
-
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Collapse from '@material-ui/core/Collapse';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 import PanToolIcon from '@material-ui/icons/PanTool';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import TimerIcon from '@material-ui/icons/Timer';
 import DoneIcon from '@material-ui/icons/Done';
-
-
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardMedia from '@material-ui/core/CardMedia';
-import Collapse from '@material-ui/core/Collapse';
-
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-// import MoreVertIcon from '@material-ui/icons/MoreVert';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-// import ShareIcon from '@material-ui/icons/Share';
-// import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { getIcon } from "../../data/Icons";
 
-import config from '../../data/config'
 import PictureSelection from './PictureSelection';
-
-
+import ItemImage from './ItemImage';
 import ButtonToModal from './ButtonToModal'
 import CharacteristicsSelection from './CharacteristicsSelection';
 
@@ -143,44 +129,26 @@ const styles = theme => ({
 
 
 const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo, itemCharacteristics, theme}) => {
-  console.debug('[--- FC ---] Functional component: ItemCard -  item: ', item.id);
+  // console.debug('[--- FC ---] Functional component: ItemCard -  item: ', item.id);
 
   const [expanded, setExpanded] = React.useState(false);
-  const [expandedMedia, setExpandedMedia] = React.useState(false);
+  const [timestampClickAway, setSimestampClickAway] = React.useState(0);
 
-
-  const handleExpanded = () => {
-    setExpanded(prev => !prev);
-  }
-
-  const handleExpandedMedia = () => {
-    setExpandedMedia(prev => !prev);
-  }
-
-  const handleClickAway = () => {
-    setExpanded(false);
-    setExpandedMedia(false);
-  };
-
-
+  const handleExpanded = () => { setExpanded(prev => !prev); }
+  const handleClickAway = () => { setExpanded(false); setSimestampClickAway(Date.now())};
   
   const handleClickRemove = ({ size }) => {
     onRemoveItem(item, size);
     return null;
   };
 
-  
-  
   const handleSavePicture = (pictureData, thumbnailData) => {
     onSavePicture(item, pictureData, thumbnailData);
   };
 
 
 
-
-
   const expirationLevel = itemCharacteristics.computeExpirationLevel(item.expirationDate);
-  console.log('exp level:', expirationLevel);
   let avatarBackgroundColor;
   let cardBackgroundColor;
   let iconExpiration;
@@ -214,16 +182,10 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
 
   const name = item.name ? item.name : itemCharacteristics.getCategoryName(item.category, userInfo.language);
   const title = name;
-  
-  // const d = new Date(item.expirationDate);
-  // const expiration = `Expires ${d.getUTCMonth() + 1}/${d.getUTCFullYear()}`;
-
   const size = itemCharacteristics.getSizeLabel(item.size, userInfo.language);
-
   const detailsNamesArray = itemCharacteristics.getDetailsNamesArray(item.detailsArray, userInfo.language);
   const detailsNames = detailsNamesArray ? detailsNamesArray.join( ', ') : null;
-
-  const thumbnailsOrPictures = expandedMedia ? item.pictureName : item.thumbnailName;
+  const imageExists = item.pictureName || item.thumbnailName;
 
   const zero = {
     id2: "0", 
@@ -231,7 +193,6 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
     name: {en: intl.formatMessage(messages.removeNothing), fr: intl.formatMessage(messages.removeNothing)},
   };
   const sizes = [zero, ...itemCharacteristics.sizes];
-  
 
   return (
     <>
@@ -247,15 +208,7 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
             title={title}
             subheader={intl.formatMessage(expirationText)}
           />
-          {thumbnailsOrPictures && 
-            <CardActionArea onClick={handleExpandedMedia} disableRipple={true}>
-              <CardMedia
-                className={expandedMedia ? classes.mediaOpen : classes.media}
-                image={`${config.staticUrl}/static/pictures/items/${thumbnailsOrPictures}`}
-                title={item.name}
-              />
-            </CardActionArea>
-          }          
+          <ItemImage item={item} timestampClickAway={timestampClickAway} />
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
               Size: {size}
@@ -301,7 +254,7 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
                 <PictureSelection 
                   iconOnlyButton
                   onPicture={handleSavePicture}
-                  label={intl.formatMessage(thumbnailsOrPictures ? messages.cameraReplace : messages.cameraAdd)}
+                  label={intl.formatMessage(imageExists ? messages.cameraReplace : messages.cameraAdd)}
                 />
               </CardActions>
             </>

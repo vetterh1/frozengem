@@ -122,6 +122,8 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
     name: "",
     expirationDate: null,
     expirationInMonth: 0,
+    pictureName: null,
+    thumbnailName: null,
     code: null,
   };
   const [item, setItemValues] = React.useState(emptyEmpty);
@@ -351,7 +353,8 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
   const _savePicture = async (pictureData, thumbnailData) => {
 
     try {
-      await items.updatePictureItemToServer(item.id , pictureData, thumbnailData, userInfo);
+      const itemUpdated = await items.updatePictureItemToServer(item.id , pictureData, thumbnailData, userInfo);
+      handleChange({pictureName: itemUpdated.pictureName, thumbnailName: itemUpdated.thumbnailName}, false);
       const key = enqueueSnackbar(
         intl.formatMessage(messages.successPicture), 
         {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {closeSnackbar(key);}}

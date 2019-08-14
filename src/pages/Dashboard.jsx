@@ -62,14 +62,6 @@ const messages = defineMessages({
     id: 'camera.success',
     defaultMessage: 'Picture saved!',
   },
-  cameraReplace: {
-    id: 'camera.replace',
-    defaultMessage: 'Retake picture',
-  },  
-  cameraAdd: {
-    id: 'camera.add',
-    defaultMessage: 'Add picture',
-  },
 });
 
 
