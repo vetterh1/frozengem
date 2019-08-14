@@ -73,17 +73,17 @@ const Results = ({item, onResetState, handleAddPicture, isActive, firstStep, int
     <div className={"flex-normal-height flex-direction-column"}>
 
       <div className={"flex-normal-height flex-direction-column"}>
-        <div className={"flex-normal-height flex-direction-column margin-down margin-top"}>
+        <div className={"flex-normal-height flex-direction-column"}>
           <div className={classes.centerFlex}>
             <CheckCircleOutlineIcon  className={classes.leftIcon} style={{ fontSize: 96 }} />
-            <Typography variant="h5" className={"margin-down"}>
+            <Typography variant="h5" className={"small-margin-down"}>
               <FormattedMessage id="item.add.success" defaultMessage="Successfully added {name}" values={{name: isEmpty(item.name) ? item.categoryName : item.name}} />
             </Typography>
           </div>
-          <Typography variant="h4" className={"margin-down"}>
+          <Typography variant="h4" className={"small-margin-down"}>
             <FormattedMessage id="add.results.code" defaultMessage="Code" />: {item.code}
           </Typography>
-          <Typography variant="subtitle1">
+          <Typography variant="subtitle1" className={"small-margin-down"}>
             <ul>
               <li><FormattedMessage id="add.results.explanation1" defaultMessage="Write down this code on a sticker" /></li>
               <li><FormattedMessage id="add.results.explanation2" defaultMessage="Stick it to your container" /></li>
@@ -101,7 +101,7 @@ const Results = ({item, onResetState, handleAddPicture, isActive, firstStep, int
         </div>
       </div>
 
-      <div className={"flex-normal-height flex-direction-row flex-justifiy-between margin-down huge-margin-top"}>
+      <div className={"flex-normal-height flex-direction-row flex-justifiy-between margin-down"}>
         <Button variant="contained" color="secondary" onClick={_handleAddNew} className={classes.button}>
           <FormattedMessage id="button.addnew" defaultMessage="Add a new item" />
         </Button> 

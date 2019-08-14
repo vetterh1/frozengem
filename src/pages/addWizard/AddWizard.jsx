@@ -10,6 +10,7 @@ import { withItemCharacteristics } from '../../auth/withItemCharacteristics';
 import { withItems } from '../../auth/withItems';
 import CharacteristicsSelection from '../utils/CharacteristicsSelection';
 import TextOrDateSelection from '../utils/TextOrDateSelection';
+import Stepper from '../utils/Stepper';
 import Results from './Results';
 import StepWizard from 'react-step-wizard';
 import { withSnackbar } from 'notistack';
@@ -78,7 +79,7 @@ const messages = defineMessages({
   },  
   helpDate: {
     id: 'add.date.help',
-    defaultMessage: 'Change the computed date here',
+    defaultMessage: 'if the computed one does not suit you',
   },  
   titleContainer: {
     id: 'add.container.title',
@@ -391,6 +392,7 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
           transitions={{}}
           className={"flex-normal-height flex-direction-column"} 
           classNameWrapper={'flex-normal-height flex-direction-column'}
+          nav={<Stepper />}
         >
           <CharacteristicsSelection
             hashKey={'category'}

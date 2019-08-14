@@ -13,7 +13,7 @@
   "add.name.help": "Pour vous aider à vous rappeler de quoi il s'agit",
   "add.name.title": "Ajoutez un nom (optionel)",
   "add.date.title": "Changez la date d'expiration (optionel)",
-  "add.date.help": "Changez la date calculée automatiquement ici",
+  "add.date.help": "si la date calculée automatiquement ne vous convient pas",
   "add.results.code": "Code",
   "add.results.explanation1": "Ecrivez ce code sur un autocollant",
   "add.results.explanation2": "Collez-le sur l'emballage",

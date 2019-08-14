@@ -1,7 +1,10 @@
 .margin-left {
   margin-left: 15px !important;
 }
-  
+ 
+.small-margin-top {
+  margin-top: 7px !important;
+}
 .margin-top {
   margin-top: 15px !important;
 }
@@ -12,6 +15,9 @@
   margin-top: 50px !important;
 }
   
+.small-margin-down {
+  margin-bottom: 7px !important;
+}
 .margin-down {
   margin-bottom: 15px !important;
 }
@@ -65,4 +71,30 @@ video {
   width: 100%;
   object-fit: cover;
   object-position: center;
+}
+
+
+
+
+
+.text-center {
+  text-align: center;
+}
+
+
+
+.stepper_dot {
+  color: black;
+  cursor: pointer;
+  font-size: 36px;
+  line-height: 1;
+  margin: 0 5px;
+  opacity: .2;
+  text-shadow: none;
+}
+
+.stepper_active {
+  color: black;
+  opacity: .6;
+  text-shadow: 0 0px 2px;
 }
