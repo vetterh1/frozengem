@@ -388,6 +388,7 @@ const AddWizard = ({userInfo, items, itemCharacteristics, intl, enqueueSnackbar,
       <div className={classes.divWizardPage}>
         <StepWizard
           isHashEnabled 
+          transitions={{}}
           className={"flex-normal-height flex-direction-column"} 
           classNameWrapper={'flex-normal-height flex-direction-column'}
         >
