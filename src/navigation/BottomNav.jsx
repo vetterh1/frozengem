@@ -69,8 +69,8 @@ function BottomNav({location, intl}) {
     <BottomNavigation value={value} onChange={handleChange} className={classes.root} showLabels>
       <BottomNavigationAction label={intl.formatMessage(messages.list)} value="/" icon={<ViewList />} component={Link} to="/" />
       <BottomNavigationAction label={intl.formatMessage(messages.add)} value="/add" icon={<SaveAlt />} component={Link} to="/add" />
-      <BottomNavigationAction label={intl.formatMessage(messages.remove)} value="/remove" icon={getIcon("remove")} component={Link} to="/remove" />
-      <BottomNavigationAction label={intl.formatMessage(messages.search)} value="/search" icon={<SearchIcon />} component={Link} to="/search" />
+      {/* <BottomNavigationAction label={intl.formatMessage(messages.remove)} value="/remove" icon={getIcon("remove")} component={Link} to="/remove" />
+      <BottomNavigationAction label={intl.formatMessage(messages.search)} value="/search" icon={<SearchIcon />} component={Link} to="/search" /> */}
     </BottomNavigation>
   );
 }

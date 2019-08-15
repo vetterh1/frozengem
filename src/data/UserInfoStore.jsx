@@ -14,6 +14,13 @@ logUserInfoStore.setLevel('debug');
 logUserInfoStore.debug('--> entering UserInfoStore.jsx');
 
 
+
+export const NavigationStyle = {
+  NAVIGATION_BOTTOMNAV: 0,
+  NAVIGATION_TOOLBAR: 1,
+  NAVIGATION_FLOATING: 2,
+};
+
 export const UserInfoContext = React.createContext();
 
 
@@ -26,6 +33,7 @@ export class UserInfoStore extends React.Component {
       home: null,
       homeOrder: null,
       language: "en",
+      navigationStyle: NavigationStyle.NAVIGATION_BOTTOMNAV,
       isAuthenticated: () => this.isAuthenticated(),
       loadStateFromLocalStorage: () => this.loadStateFromLocalStorage(),
       loadFromServer: (token) => this.loadFromServer(token),

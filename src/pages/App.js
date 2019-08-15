@@ -28,7 +28,7 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 // Stores
 import { ItemCharacteristicsStore } from "../data/ItemCharacteristicsStore";
-import { UserInfoStore, UserInfoConsumer } from "../data/UserInfoStore";
+import { UserInfoStore, UserInfoConsumer, NavigationStyle  } from "../data/UserInfoStore";
 import { Items } from "../data/ItemsStore";
 
 
@@ -79,7 +79,7 @@ const intApp = (props) => {
         <UserInfoStore>
           <Items>
             <UserInfoConsumer>
-              {({ language, isAuthenticated, getHome, name }) => {
+              {({ language, isAuthenticated, getHome, name, navigationStyle }) => {
                   if(!language) return null;
                   return (
                     <IntlProvider
@@ -149,7 +149,8 @@ const intApp = (props) => {
                             {/* </Container> */}
 
                             { !isAuthenticated() && <Footer location={props.location} />}
-                            { isAuthenticated() && <BottomNav style={stickToBottom} /> }
+                            { isAuthenticated() && navigationStyle === NavigationStyle.NAVIGATION_BOTTOMNAV && 
+                              <BottomNav style={stickToBottom} /> }
                           </div>
                         </Router>
                       </ItemCharacteristicsStore>
