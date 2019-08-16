@@ -28,6 +28,4 @@ Stepper.propTypes = {
     currentStep: PropTypes.number,
 }
   
-
-// export default withStyles(styles, { withTheme: true })(Stepper);
 export default Stepper;

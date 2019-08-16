@@ -8,7 +8,7 @@ import frLocaleData from "react-intl/locale-data/fr";
 import withMyTheme from '../withMyTheme';
 import { indigo } from '@material-ui/core/colors';
 import Container from '@material-ui/core/Container';
-import Logout from '../auth/Logout';
+import Logout from '../navigation/Logout';
 import About from './About';
 import Header from '../navigation/Header';
 import Footer from '../navigation/Footer';

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles'
-import { withUserInfo } from '../../auth/withUserInfo';
+import { withUserInfo } from '../../with/withUserInfo';
 import MatrixCard from './MatrixCard'
 import { getIcon } from "../../data/Icons";
 

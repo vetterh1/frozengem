@@ -28,7 +28,7 @@ export class UserInfoStore extends React.Component {
       home: null,
       homeOrder: null,
       language: "en",
-      navigationStyle: NavigationStyle.NAVIGATION_BOTTOMNAV,
+      navigationStyle: NavigationStyle.NAVIGATION_TOOLBAR,
       isAuthenticated: () => this.isAuthenticated(),
       loadStateFromLocalStorage: () => this.loadStateFromLocalStorage(),
       loadFromServer: (token) => this.loadFromServer(token),

@@ -7,7 +7,7 @@ import { Create, Add } from '@material-ui/icons'
 import { withSnackbar } from 'notistack';
 import { injectIntl, defineMessages, FormattedMessage } from "react-intl";
 import { withStyles } from '@material-ui/core/styles';
-import { withUserInfo } from '../auth/withUserInfo';
+import { withUserInfo } from '../with/withUserInfo';
 import ButtonWithOneInputModal from './utils/ButtonWithOneInputModal';
 
 const styles = theme => ({

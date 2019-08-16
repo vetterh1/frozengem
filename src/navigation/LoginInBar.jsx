@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from "react-intl";
 import Button from '@material-ui/core/Button';
-import { withUserInfo } from './withUserInfo';
+import { withUserInfo } from '../with/withUserInfo';
 import { MenuProfile } from './MenuProfile';
 
 class LoginInBar extends React.Component {

@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { FormattedMessage } from "react-intl";
-import { withUserInfo } from '../../auth/withUserInfo';
+import { withUserInfo } from '../../with/withUserInfo';
 
 
 const intSelectFromList = ({ items, itemInState, multiselection, handleClick, userInfo }) => (

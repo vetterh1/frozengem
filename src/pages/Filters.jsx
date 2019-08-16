@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { withItemCharacteristics } from '../auth/withItemCharacteristics';
+import { withItemCharacteristics } from '../with/withItemCharacteristics';
 import { injectIntl, defineMessages } from "react-intl";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';

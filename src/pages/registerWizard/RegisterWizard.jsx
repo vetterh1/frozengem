@@ -3,7 +3,7 @@ import React from 'react';
 import { Redirect } from 'react-router'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { withUserInfo } from '../../auth/withUserInfo';
+import { withUserInfo } from '../../with/withUserInfo';
 import { withSnackbar } from 'notistack';
 import { injectIntl, defineMessages } from "react-intl";
 // import { defineMessages } from 'react-intl.macro';

@@ -11,8 +11,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { injectIntl, FormattedMessage, defineMessages } from "react-intl";
 import { withSnackbar } from 'notistack';
 import { withStyles } from '@material-ui/core/styles';
-import { withUserInfo } from '../auth/withUserInfo';
-import { withItems } from '../auth/withItems';
+import { withUserInfo } from '../with/withUserInfo';
+import { withItems } from '../with/withItems';
 import ItemsList from './utils/ItemsList'
 import Filters from './Filters'
 import formatServerErrorMsg from '../utils/formatServerErrorMsg'

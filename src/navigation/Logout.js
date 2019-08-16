@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router'
 import { injectIntl, defineMessages } from "react-intl";
 import { withSnackbar } from 'notistack';
-import { withUserInfo } from './withUserInfo';
+import { withUserInfo } from '../with/withUserInfo';
 
 
 

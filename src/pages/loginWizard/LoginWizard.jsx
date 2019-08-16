@@ -6,7 +6,7 @@ import { injectIntl, defineMessages } from "react-intl";
 // import { defineMessages } from 'react-intl.macro';
 import { withStyles } from '@material-ui/core/styles';
 import { withSnackbar } from 'notistack';
-import { withUserInfo } from '../../auth/withUserInfo';
+import { withUserInfo } from '../../with/withUserInfo';
 import StepWizard from 'react-step-wizard';
 import EmailForm from './EmailForm';
 import PasswordForm from './PasswordForm';

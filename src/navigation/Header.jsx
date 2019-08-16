@@ -4,16 +4,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from "react-intl";
+import { withUserInfo } from '../with/withUserInfo';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import SaveAltIcon from '@material-ui/icons/SaveAlt';
-import ViewListIcon from '@material-ui/icons/ViewList';
-import { withUserInfo } from '../auth/withUserInfo';
-import LoginInBar from '../auth/LoginInBar';
+import LoginInBar from '../navigation/LoginInBar';
+import MenuNav from './MenuNav';
 import { NavigationStyle } from './configNavigation'
 
 
@@ -70,26 +68,7 @@ class Header extends React.Component {
           }
 
           {isAuthenticated() && navigationStyle === NavigationStyle.NAVIGATION_TOOLBAR && 
-            <nav>
-              <IconButton
-                aria-label="List"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                className={classes.margin} component={Link} to="/"
-                color="inherit"
-              >
-                <ViewListIcon />
-              </IconButton>
-              <IconButton
-                aria-label="Add"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                className={classes.margin} component={Link} to="/add"
-                color="inherit"
-              >
-                <SaveAltIcon />
-              </IconButton>
-            </nav>
+            <MenuNav />
           }
 
           <LoginInBar userInfo={this.props.userInfo} />

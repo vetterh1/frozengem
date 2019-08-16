@@ -2,8 +2,8 @@ import React from 'react';
 import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles';
 import { withSnackbar } from 'notistack';
-import { withUserInfo } from '../../auth/withUserInfo';
-import { withItemCharacteristics } from '../../auth/withItemCharacteristics';
+import { withUserInfo } from '../../with/withUserInfo';
+import { withItemCharacteristics } from '../../with/withItemCharacteristics';
 import { ExpirationLevel } from "../../data/ItemCharacteristicsStore";
 import { injectIntl, defineMessages } from "react-intl";
 
