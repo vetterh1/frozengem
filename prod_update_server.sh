@@ -16,3 +16,14 @@ fi
 npm run build
 pm2 start /usr/local/bin/http-server --name foFrozen  -- ./build -p 8060 --cors  --proxy http://localhost:8060? --gzip -c2592000
 # pm2 start npm  --name foFrozen  --env production -- run prodstart
+
+# Info on backups:
+echo " "
+echo " "
+echo "*******************************************************************"
+echo "Backup disk usage:"
+du -sh ~/frozengem_files_backup/
+du -sh ~/frozengem_db_backup/
+echo "*******************************************************************"
+echo " "
+echo " "
