@@ -135,18 +135,28 @@ class Dashboard extends React.Component {
     });
   }
 
-  onItemChange = (item) => {
-    const { filteredArrayItems } = this.state;
+
+
+  
+  updateStateArray = (arrayName, item) => {
+    const arrayToUpdate = this.state[arrayName];
 
     // Find the updated item in array:
-    let indexItem = filteredArrayItems.findIndex(({id}) => id === item.id);
+    let indexItem = arrayToUpdate.findIndex(({id}) => id === item.id);
     const newArray = [
-      ...filteredArrayItems.slice(0, indexItem),
+      ...arrayToUpdate.slice(0, indexItem),
       item,
-      ...filteredArrayItems.slice(indexItem + 1)
+      ...arrayToUpdate.slice(indexItem + 1)
     ];
 
-    this.setState({filteredArrayItems: newArray});
+    this.setState({[arrayName]: newArray});
+  }
+
+
+  onItemChange = (item) => {
+    // Update both the current (filtered list) and the entire list
+    this.updateStateArray('filteredArrayItems', item);
+    this.updateStateArray('arrayItems', item);
   }
 
 
