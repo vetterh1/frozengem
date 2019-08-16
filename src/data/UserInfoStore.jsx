@@ -37,6 +37,7 @@ export class UserInfoStore extends React.Component {
       leaveHome: (home) => this.leaveHome(home),
       joinNewHome: (home) => this.joinNewHome(home),
       setLanguage: (l) => this.setLanguage(l),
+      setNavigationStyle: (l) => this.setNavigationStyle(l),
       login: (email, password) => this.login(email, password),
       logout: () => this.logout(),
       registerToServer: (email, password, name) => this.registerToServer(email, password, name),
@@ -92,17 +93,17 @@ export class UserInfoStore extends React.Component {
   }
 
   
-  async setLanguage (language) {
-      console.info('|--- SERVER CALL ---|--- POST ---| UserInfoStore.setLanguage: ', language);
+  async setStateAndServer (key, value) {
+      console.info('|--- SERVER CALL ---|--- POST ---| UserInfoStore.setStateAndServer: ', key, value);
 
       // Update state:
-      this.setState({language});
+      this.setState({[key]: value});
 
       // don't save if not authenticated
       if(!this.isAuthenticated()) return null;
 
       // Update user on server:
-      const data = { 'access_token': this.state.accessToken, language };
+      const data = { 'access_token': this.state.accessToken, [key]: value };
       const options = {
         method: 'PUT',
         url: `${config.boUrl}/users/${this.state.id}`,
@@ -115,8 +116,17 @@ export class UserInfoStore extends React.Component {
         await axios(options);
         return null;
       } catch (error) {
-        console.error('setLanguage error: ' , error);
+        console.error('setStateAndServer error: ' , error);
       }      
+  }
+
+
+  async setLanguage (language) {
+      await this.setStateAndServer("language", language);
+  }
+
+  async setNavigationStyle (navigationStyle) {
+    await this.setStateAndServer("navigationStyle", navigationStyle);
   }
 
 

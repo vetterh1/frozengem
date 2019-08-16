@@ -18,11 +18,19 @@ class LoginInBar extends React.Component {
 
 
   render() {
-    const { isAuthenticated, getHome, language, setLanguage, leaveHome } = this.props.userInfo;
+    const { isAuthenticated, getHome, language, setLanguage, navigationStyle, setNavigationStyle, leaveHome } = this.props.userInfo;
     return ( 
       <div>
         { !isAuthenticated() && (<Button color="inherit"  component={Link} to="/login"><FormattedMessage id="menu_profile.login" defaultMessage="Login" /></Button>) }
-        { isAuthenticated() && <MenuProfile homeCode={getHome()} language={language} setLanguage={setLanguage} leaveHome={leaveHome} />}
+        { isAuthenticated() && <MenuProfile 
+            homeCode={getHome()} 
+            language={language} 
+            setLanguage={setLanguage} 
+            navigationStyle={navigationStyle} 
+            setNavigationStyle={setNavigationStyle} 
+            leaveHome={leaveHome} 
+          />
+        }
       </div>
     );
   }

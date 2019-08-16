@@ -11,6 +11,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import ButtonWithValidation from '../pages/utils/ButtonWithValidation'
+import { NavigationStyle } from "./configNavigation";
 
 
 const useStyles = makeStyles(theme => ({
@@ -48,7 +49,7 @@ const messages = defineMessages({
 });
 
 
-const intMenuProfile = ({homeCode, language, setLanguage, leaveHome, intl}) => {
+const intMenuProfile = ({homeCode, language, setLanguage, navigationStyle, setNavigationStyle, leaveHome, intl}) => {
   const classes = useStyles();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
@@ -112,10 +113,17 @@ const intMenuProfile = ({homeCode, language, setLanguage, leaveHome, intl}) => {
         </MenuItem>}  
 
         {language === "fr" && 
-          <MenuItem onClick={e => setLanguage("en")}>Switch to English</MenuItem>
+          <MenuItem onClick={() => { setLanguage("en"); handleClose()}}>Switch to English</MenuItem>
         }
         {language === "en" &&
-          <MenuItem onClick={e => setLanguage("fr")}>Afficher en Français</MenuItem>
+          <MenuItem onClick={() => { setLanguage("fr"); handleClose()}}>Afficher en Français</MenuItem>
+        }     
+
+        {navigationStyle === NavigationStyle.NAVIGATION_TOOLBAR && 
+          <MenuItem onClick={() => {setNavigationStyle(NavigationStyle.NAVIGATION_BOTTOMNAV); handleClose()}}>Switch to bottom navigation</MenuItem>
+        }
+        {navigationStyle === NavigationStyle.NAVIGATION_BOTTOMNAV &&
+          <MenuItem onClick={() => {setNavigationStyle(NavigationStyle.NAVIGATION_TOOLBAR); handleClose()}}>Switch to top navigation</MenuItem>
         }        
 
         {homeCode && <MenuItem>
