@@ -1,44 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import clsx from 'clsx';
-// import { withStyles } from '@material-ui/core/styles';
 
-
-// const styles = theme => ({
-//     stepper: {
-//         marginBottom: '15px',
-//         textAlign: 'center',
-//     },
+const Stepper = ({totalSteps, currentStep}) => {
+    if(totalSteps === undefined || currentStep === undefined) return null;
     
-//     dot: {
-//         color: 'black',
-//         cursor: 'pointer',
-//         fontSize: '36px',
-//         lineHeight: 1,
-//         margin: '0 15px',
-//         opacity: '.4',
-//         textShadow: 'none',
-//     },
-    
-//     active: {
-//         color: 'red',
-//         opacity: 1,
-//         textShadow: '0 0px 8px',
-//     }    
-// });
-
-
-const Stepper = (props, classes) => {
     const dots = [];
-    for (let i = 1; i <= props.totalSteps; i += 1) {
-        const isActive = props.currentStep === i;
+    for (let i = 1; i <= totalSteps; i += 1) {
+        const isActive = currentStep === i;
         dots.push((
             <span
                 key={`step-${i}`}
-                className={`stepper_dot ${isActive ? 'stepper_active' : ''}`}
-                // className={clsx(classes.dot, {
-                //     [classes.active]: isActive,
-                //   })}                
+                className={`stepper_dot ${isActive ? 'stepper_active' : ''}`}           
             >
                 &bull;
             </span>
@@ -52,9 +24,8 @@ const Stepper = (props, classes) => {
 
 
 Stepper.propTypes = {
-    totalSteps: PropTypes.number.isRequired,
-    currentStep: PropTypes.number.isRequired,
-    // classes: PropTypes.object.isRequired,
+    totalSteps: PropTypes.number,
+    currentStep: PropTypes.number,
 }
   
 

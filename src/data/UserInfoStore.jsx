@@ -7,6 +7,7 @@ import * as log from 'loglevel';
 import qs from 'qs';
 import axios from 'axios';
 import config from '../data/config'
+import { NavigationStyle } from '../navigation/configNavigation'
 
 
 const logUserInfoStore = log.getLogger('logUserInfoStore');
@@ -14,12 +15,6 @@ logUserInfoStore.setLevel('debug');
 logUserInfoStore.debug('--> entering UserInfoStore.jsx');
 
 
-
-export const NavigationStyle = {
-  NAVIGATION_BOTTOMNAV: 0,
-  NAVIGATION_TOOLBAR: 1,
-  NAVIGATION_FLOATING: 2,
-};
 
 export const UserInfoContext = React.createContext();
 

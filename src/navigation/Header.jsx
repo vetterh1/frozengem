@@ -13,8 +13,8 @@ import IconButton from '@material-ui/core/IconButton';
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
 import ViewListIcon from '@material-ui/icons/ViewList';
 import { withUserInfo } from '../auth/withUserInfo';
-import { NavigationStyle  } from "../data/UserInfoStore";
 import LoginInBar from '../auth/LoginInBar';
+import { NavigationStyle } from './configNavigation'
 
 
 const styles = theme => ({

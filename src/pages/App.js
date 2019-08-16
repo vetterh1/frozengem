@@ -13,6 +13,7 @@ import About from './About';
 import Header from '../navigation/Header';
 import Footer from '../navigation/Footer';
 import BottomNav from '../navigation/BottomNav';
+import FloatingNav from '../navigation/FloatingNav';
 import MainPageContent from './MainPageContent';
 import Dashboard from './Dashboard';
 import ChooseHome from './ChooseHome';
@@ -20,6 +21,8 @@ import LoadingUserInfo from './LoadingUserInfo';
 import AddWizard from './addWizard/AddWizard';
 import RegisterWizard from './registerWizard/RegisterWizard';
 import LoginWizard from './loginWizard/LoginWizard';
+import { NavigationStyle } from '../navigation/configNavigation'
+
 
 
 // Date util library (moment like) & date picker:
@@ -28,7 +31,7 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 // Stores
 import { ItemCharacteristicsStore } from "../data/ItemCharacteristicsStore";
-import { UserInfoStore, UserInfoConsumer, NavigationStyle  } from "../data/UserInfoStore";
+import { UserInfoStore, UserInfoConsumer  } from "../data/UserInfoStore";
 import { Items } from "../data/ItemsStore";
 
 
@@ -151,6 +154,9 @@ const intApp = (props) => {
                             { !isAuthenticated() && <Footer location={props.location} />}
                             { isAuthenticated() && navigationStyle === NavigationStyle.NAVIGATION_BOTTOMNAV && 
                               <BottomNav style={stickToBottom} /> }
+                            { isAuthenticated() && navigationStyle === NavigationStyle.NAVIGATION_FLOATING && 
+                              <FloatingNav /> }                              
+
                           </div>
                         </Router>
                       </ItemCharacteristicsStore>
