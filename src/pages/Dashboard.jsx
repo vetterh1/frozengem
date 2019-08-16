@@ -72,12 +72,15 @@ const styles = theme => ({
     flexDirection: "column",
     width: 'auto',
   },
-  subtitle: {
-    textAlign: 'center',
-    marginBottom: theme.spacing(2),
+  container: {
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
   },
 });
 
+const containerStyle = {
+  padding: '0 5px',
+};
 
 
 
@@ -308,7 +311,7 @@ class Dashboard extends React.Component {
 
         <div className={classes.layout}>
           <Filters language={userInfo.language} category={category} onCategoryChange={this.onCategoryChange} />
-          <Container maxWidth="md">
+          <Container maxWidth="md" className={classes.container}>
             <ItemsList arrayItems={filteredArrayItems} onSavePicture={this.onSavePicture} onRemoveItem={this.onConfirmRemoveItem} />
           </Container>
         </div>          

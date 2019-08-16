@@ -1,4 +1,5 @@
 import React from 'react';
+import {Months} from '../../i18n/i18nDates';
 import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles';
 import { withSnackbar } from 'notistack';
@@ -83,9 +84,11 @@ const messages = defineMessages({
 
 
 const styles = theme => ({
-  layout: {
+  card: {
+    display: 'flex',
+    flexDirection: 'row',
 
-    margin: theme.spacing(1),
+    marginBottom: theme.spacing(1),
 
     [theme.breakpoints.down('xs')]: {
       minWidth: '100%',
@@ -97,12 +100,29 @@ const styles = theme => ({
     },
 
   },
-  media: {
-    minHeight: 150,
+
+  cardContent: {
+    display: 'flex',
+    flexDirection: 'row',
   },
-  mediaOpen: {
-    minHeight: 400,
-  },  
+
+  cardMain: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+
+  cardIcons: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+
+  cardRight: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+
+  
+
   expanded: {
     transform: 'rotate(0deg)',
     marginLeft: 'auto',
@@ -187,6 +207,11 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
   const detailsNames = detailsNamesArray ? detailsNamesArray.join( ', ') : null;
   const imageExists = item.pictureName || item.thumbnailName;
 
+  const expirationAsDate = new Date(item.expirationDate);
+  const yearExpiration = expirationAsDate.getFullYear();
+  const monthExpiration = expirationAsDate.getMonth();
+  const monthAsText = Months[userInfo.language][monthExpiration];
+
   const zero = {
     id2: "0", 
     label: {en: intl.formatMessage(messages.removeFromFreezer), fr: intl.formatMessage(messages.removeFromFreezer)}, 
@@ -197,6 +222,39 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
   return (
     <>
       <ClickAwayListener onClickAway={handleClickAway}>
+
+        <Card className={classes.card} style={{backgroundColor: cardBackgroundColor}}>
+          <ItemImage item={item} thumbnailSize={90} timestampClickAway={timestampClickAway} />
+          <CardContent className={classes.cardContent} >
+            <div className={classes.cardMain} >
+              <Typography variant="body2" component="h2">
+                {title}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                Size: {size}
+              </Typography>
+            </div>
+            <div className={classes.cardIcons} >
+            </div>
+          </CardContent>
+          <div className={classes.cardRight} >
+              <Typography variant="body1" color="textSecondary" component="div">
+                {yearExpiration}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="div">
+                {monthAsText}
+              </Typography>              
+          </div>
+          </Card>
+
+      </ClickAwayListener>
+    </>
+  );
+}
+export default injectIntl(withSnackbar(withUserInfo(withItemCharacteristics(withStyles(styles, { withTheme: true })(intItemCard)))));
+
+/*
+
 
         <Card className={classes.layout} style={{backgroundColor: cardBackgroundColor}}>
           <CardHeader
@@ -261,9 +319,5 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
           </Collapse>
         </Card>
 
-      </ClickAwayListener>
-    </>
-  );
-}
-export default injectIntl(withSnackbar(withUserInfo(withItemCharacteristics(withStyles(styles, { withTheme: true })(intItemCard)))));
 
+*/

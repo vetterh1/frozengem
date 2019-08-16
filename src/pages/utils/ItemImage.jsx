@@ -7,7 +7,7 @@ import config from '../../data/config'
 const regularHeight = '150px';
 const expandedHeight = '400px';
 
-const ItemImage = ({item, timestampClickAway = 0}) => {
+const ItemImage = ({item, thumbnailSize = null, timestampClickAway = 0}) => {
 
   const imageExists = item.pictureName || item.thumbnailName;
   if(!imageExists) return null;
@@ -24,10 +24,29 @@ const ItemImage = ({item, timestampClickAway = 0}) => {
 
   const thumbnailsOrPictures = expanded ? item.pictureName : item.thumbnailName;
 
+  
+  let style = {};
+  if(thumbnailSize) {
+    const stringSize = `${thumbnailSize}px`;
+    style = {
+      height: expanded ? expandedHeight : stringSize,
+      width: expanded ? expandedHeight : stringSize,
+    };
+  } else {
+    style = {
+      minHeight: expanded ? expandedHeight : regularHeight
+    };
+  }
+
+   
   return (
-    <CardActionArea onClick={handleExpanded} disableRipple={true}>
+    <CardActionArea
+      style={style}
+      onClick={handleExpanded}
+      disableRipple={true}
+    >
       <CardMedia
-        style={{minHeight: expanded ? expandedHeight : regularHeight}}
+        style={style}
         image={`${config.staticUrl}/static/pictures/items/${thumbnailsOrPictures}`}
         title={item.name}
       />
@@ -37,6 +56,7 @@ const ItemImage = ({item, timestampClickAway = 0}) => {
 
 ItemImage.propTypes = {
   item: PropTypes.object.isRequired,
+  thumbnailSize: PropTypes.number,
   timestampClickAway: PropTypes.number,
 }
 
