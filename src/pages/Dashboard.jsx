@@ -157,6 +157,8 @@ class Dashboard extends React.Component {
 
 
   onItemChange = (item) => {
+    console.log("Dashboard.onItemChange: ", item.id);
+
     // Update both the current (filtered list) and the entire list
     this.updateStateArray('filteredArrayItems', item);
     this.updateStateArray('arrayItems', item);

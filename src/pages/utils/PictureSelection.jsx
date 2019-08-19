@@ -29,15 +29,14 @@ const styles = theme => ({
     },  
   });
   
-  const PictureSelection = ({label, iconOnlyButton, hugeIcon, onPicture, classes}) => {
-
+  const PictureSelection = ({itemId, label, iconOnlyButton, hugeIcon, onPicture, classes}) => {
 
     const resizePicture = async (img, MAX_WIDTH = 800, MAX_HEIGHT = 800) => {
 
       var canvas = document.createElement("canvas");
 
       const exifTags = await getExifTagsAsync(img);
-      console.log(`resizePicture: exifTags=`, exifTags);
+      // console.log(`resizePicture: exifTags=`, exifTags);
 
       const orientation = exifTags.Orientation;
       let turn = ([5, 6, 7, 8].indexOf(orientation) > -1);
@@ -63,8 +62,8 @@ const styles = theme => ({
       canvas.width = w;
       canvas.height = h;
 
-      const msg2 = `resizePicture: to... w=${w}, h=${h}, o=${orientation}`;
-      console.log(msg2);
+      // const msg2 = `resizePicture: to... w=${w}, h=${h}, o=${orientation}`;
+      // console.log(msg2);
       // alert(msg2);
 
       var ctx = canvas.getContext("2d");
@@ -110,24 +109,27 @@ const styles = theme => ({
 
 
     const onInputChange = async (e) => {
+
+        console.log("PictureSelection.onInputChange: itemId=", itemId);
+
         if(e.target.files.length < 1) return null;
 
         // Read the raw image data
         const file = e.target.files[0];
         const fileContent = await readAsDataURLAsync(file);
-        console.log(`file: `, file, ` (length: ${sizeInMB(fileContent.length)})`);
+        // console.log(`file: `, file, ` (length: ${sizeInMB(fileContent.length)})`);
 
         // Create an <img> with it (full size)
         const img = await createImageAsync(fileContent);
-        console.log(`resizePicture: 0 image width=${img.width}, height=${img.height}`);
+        // console.log(`resizePicture: 0 image width=${img.width}, height=${img.height}`);
 
         // Resize the image and get is as binary data
         const resizedPictureBlob = await resizePicture(img);
-        console.log(`after resize: length: ${sizeInMB(resizedPictureBlob.size)}`);
+        // console.log(`after resize: length: ${sizeInMB(resizedPictureBlob.size)}`);
 
         // Resize again for thumbnail and get is as binary data
         const resizedThumbnailBlob = await resizePicture(img, 400, 400);
-        console.log(`thumbnail after resize: length: ${sizeInMB(resizedThumbnailBlob.size)}`);
+        // console.log(`thumbnail after resize: length: ${sizeInMB(resizedThumbnailBlob.size)}`);
 
         // Call the props when it's done for saving
         onPicture(resizedPictureBlob, resizedThumbnailBlob);    

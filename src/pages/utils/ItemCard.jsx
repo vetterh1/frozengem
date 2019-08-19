@@ -166,7 +166,7 @@ const styles = theme => ({
 
 
 const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo, itemCharacteristics, theme}) => {
-  console.debug('[--- FC ---] Functional component: ItemCard -  item: ', item.id);
+  // console.debug('[--- FC ---] Functional component: ItemCard -  item: ', item.id);
 
   const [expanded, setExpanded] = React.useState(false);
   const [timestampClickAway, setSimestampClickAway] = React.useState(0);
@@ -175,12 +175,13 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
   const handleClickAway = () => { setExpanded(false); setSimestampClickAway(Date.now())};
   
   const handleClickRemove = ({ size }) => {
+    console.log("ItemCard.handleClickRemove: ", item.id);
     onRemoveItem(item, size);
     return null;
   };
 
   const handleSavePicture = (pictureData, thumbnailData) => {
-    console.log("ItemCard.handeSavePicture: ", item);
+    console.log("ItemCard.handeSavePicture: ", item.id);
     onSavePicture(item, pictureData, thumbnailData);
   };
 
@@ -276,6 +277,7 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
               </ButtonToModal>
 
               <PictureSelection 
+                    itemId={item.id}
                     iconOnlyButton
                     onPicture={handleSavePicture}
                     label={intl.formatMessage(imageExists ? messages.cameraReplace : messages.cameraAdd)}
