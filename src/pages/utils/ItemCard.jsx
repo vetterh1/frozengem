@@ -101,15 +101,22 @@ const styles = theme => ({
 
   },
 
+  cardLeft: {
+    width: '100px',
+    alignSelf: 'center',
+    textAlign: 'center',
+    flexGrow: 0,
+  },
+  
   cardCenter: {
     display: 'flex',
     flexGrow: 1,
     flexDirection: 'column',
-    margin: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
     padding: 0,
-  },
+    margin: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+   },
 
-  cardContent: {
+   cardContent: {
     display: 'flex',
     flexGrow: 1,
     flexDirection: 'column',
@@ -143,11 +150,13 @@ const styles = theme => ({
   },
 
   cardRight: {
+    width: '85px',
     display: 'flex',
     flexDirection: 'column',
     padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
     justifyContent: 'top',
     textAlign: 'center',
+    flexGrow: 0,
   },
 
   
@@ -255,7 +264,9 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
       <ClickAwayListener onClickAway={handleClickAway}>
 
         <Card className={classes.card} >
-          <ItemImage item={item} thumbnailSize={90} timestampClickAway={timestampClickAway} />
+          <div className={classes.cardLeft}>
+            <ItemImage item={item} thumbnailSize={100} timestampClickAway={timestampClickAway} />
+          </div>
           <div className={classes.cardCenter}>
             <CardContent className={classes.cardContent} >
               <div className={classes.cardMain} >
