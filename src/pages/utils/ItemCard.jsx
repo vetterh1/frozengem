@@ -101,14 +101,28 @@ const styles = theme => ({
 
   },
 
+  cardCenter: {
+    display: 'flex',
+    flexGrow: 1,
+    flexDirection: 'column',
+    margin: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+    padding: 0,
+  },
+
   cardContent: {
     display: 'flex',
-    flexDirection: 'row',
-  },
+    flexGrow: 1,
+    flexDirection: 'column',
+    padding: 0,
+   },
 
   cardMain: {
     display: 'flex',
     flexDirection: 'column',
+  },
+  
+  cardActions: {
+    padding: 0,
   },
 
   cardIcons: {
@@ -119,6 +133,9 @@ const styles = theme => ({
   cardRight: {
     display: 'flex',
     flexDirection: 'column',
+    padding: theme.spacing(2),
+    justifyContent: 'center',
+    textAlign: 'center',
   },
 
   
@@ -149,7 +166,7 @@ const styles = theme => ({
 
 
 const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo, itemCharacteristics, theme}) => {
-  // console.debug('[--- FC ---] Functional component: ItemCard -  item: ', item.id);
+  console.debug('[--- FC ---] Functional component: ItemCard -  item: ', item.id);
 
   const [expanded, setExpanded] = React.useState(false);
   const [timestampClickAway, setSimestampClickAway] = React.useState(0);
@@ -163,6 +180,7 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
   };
 
   const handleSavePicture = (pictureData, thumbnailData) => {
+    console.log("ItemCard.handeSavePicture: ", item);
     onSavePicture(item, pictureData, thumbnailData);
   };
 
@@ -200,8 +218,7 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
       break;
   } 
 
-  const name = item.name ? item.name : itemCharacteristics.getCategoryName(item.category, userInfo.language);
-  const title = name;
+  const name = item.name && item.name.length > 0 ? item.name : itemCharacteristics.getCategoryName(item.category, userInfo.language);
   const size = itemCharacteristics.getSizeLabel(item.size, userInfo.language);
   const detailsNamesArray = itemCharacteristics.getDetailsNamesArray(item.detailsArray, userInfo.language);
   const detailsNames = detailsNamesArray ? detailsNamesArray.join( ', ') : null;
@@ -223,25 +240,64 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
     <>
       <ClickAwayListener onClickAway={handleClickAway}>
 
-        <Card className={classes.card} style={{backgroundColor: cardBackgroundColor}}>
+        <Card className={classes.card} >
           <ItemImage item={item} thumbnailSize={90} timestampClickAway={timestampClickAway} />
-          <CardContent className={classes.cardContent} >
-            <div className={classes.cardMain} >
-              <Typography variant="body2" component="h2">
-                {title}
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                Size: {size}
-              </Typography>
-            </div>
-            <div className={classes.cardIcons} >
-            </div>
-          </CardContent>
-          <div className={classes.cardRight} >
-              <Typography variant="body1" color="textSecondary" component="div">
+          <div className={classes.cardCenter}>
+            <CardContent className={classes.cardContent} >
+              <div className={classes.cardMain} >
+                <Typography variant="body2" component="h2">
+                  {name}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  Size: {size}
+                </Typography>
+                {/* <div  className={classes.cardActionLine}>
+
+                </div> */}
+              </div>
+              <div className={classes.cardIcons} >
+              </div>
+            </CardContent>
+            <CardActions disableSpacing size="small" className={classes.cardActions}>
+              <ButtonToModal 
+                iconOnlyButton
+                btnLabel={intl.formatMessage(messages.remove)}
+                btnIcon={getIcon("remove")} 
+                cancelLabel={intl.formatMessage(messages.cancel)}
+                onOk={null}
+              >
+                <CharacteristicsSelection
+                  name='size'
+                  title={intl.formatMessage(messages.titleRemove)}
+                  handleChange={handleClickRemove}
+                  items={sizes}
+                  preselectedItems={item.size}
+                />
+              </ButtonToModal>
+
+              <PictureSelection 
+                    iconOnlyButton
+                    onPicture={handleSavePicture}
+                    label={intl.formatMessage(imageExists ? messages.cameraReplace : messages.cameraAdd)}
+              />
+
+              <IconButton
+                className={clsx(classes.expanded, {
+                  [classes.expandedOpen]: expanded,
+                })}
+                onClick={handleExpanded}
+                aria-expanded={expanded}
+                aria-label="Show more"
+              >
+                <ExpandMoreIcon />
+              </IconButton>
+            </CardActions>
+          </div>
+          <div className={classes.cardRight} style={{backgroundColor: cardBackgroundColor}}>
+              <Typography variant="body1" component="div">
                 {yearExpiration}
               </Typography>
-              <Typography variant="body2" color="textSecondary" component="div">
+              <Typography variant="body2" component="div">
                 {monthAsText}
               </Typography>              
           </div>

@@ -18,7 +18,7 @@ const styles = theme => ({
 });
 
 
-const ButtonToModal = ({btnLabel, btnIcon, modalTitle, okLabel, cancelLabel, onOk, onCancel, classes, children}) => {
+const ButtonToModal = ({btnLabel, iconOnlyButton, btnIcon, modalTitle, okLabel, cancelLabel, onOk, onCancel, classes, children}) => {
   const [open, setOpen] = React.useState(false);
 
   function handleClickOpen() {
@@ -41,7 +41,9 @@ const ButtonToModal = ({btnLabel, btnIcon, modalTitle, okLabel, cancelLabel, onO
         { btnIcon &&
           <div className={classes.leftIcon}>{btnIcon}</div>
         }
-        {btnLabel}
+       { !iconOnlyButton &&
+          {btnLabel}
+       }
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         { modalTitle && 
@@ -66,7 +68,8 @@ const ButtonToModal = ({btnLabel, btnIcon, modalTitle, okLabel, cancelLabel, onO
 }
 
 ButtonToModal.propTypes = {
-  btnLabel: PropTypes.string.isRequired,
+  btnLabel: PropTypes.string,
+  iconOnlyButton: PropTypes.bool,
   btnIcon: PropTypes.object,
   modalTitle: PropTypes.string,
   okLabel: PropTypes.string,

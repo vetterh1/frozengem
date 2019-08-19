@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardMedia from '@material-ui/core/CardMedia';
 import config from '../../data/config'
+import { getIcon } from "../../data/Icons";
 
 const regularHeight = '150px';
 const expandedHeight = '400px';
@@ -10,7 +11,15 @@ const expandedHeight = '400px';
 const ItemImage = ({item, thumbnailSize = null, timestampClickAway = 0}) => {
 
   const imageExists = item.pictureName || item.thumbnailName;
-  if(!imageExists) return null;
+  
+  // No image, display the category icon instead!
+  if(!imageExists) {
+    return (
+      <div>
+        {getIcon("category"+item.category)}
+      </div>
+    )
+  }
 
   const [expanded, setExpanded] = React.useState(false);
   const handleExpanded = () => { setExpanded(prev => !prev); }
