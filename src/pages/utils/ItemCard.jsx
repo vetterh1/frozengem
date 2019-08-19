@@ -10,20 +10,20 @@ import { injectIntl, defineMessages } from "react-intl";
 
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Collapse from '@material-ui/core/Collapse';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+// import Avatar from '@material-ui/core/Avatar';
+// import CardHeader from '@material-ui/core/CardHeader';
+// import Collapse from '@material-ui/core/Collapse';
 
 import PanToolIcon from '@material-ui/icons/PanTool';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import TimerIcon from '@material-ui/icons/Timer';
 import DoneIcon from '@material-ui/icons/Done';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+// import FavoriteIcon from '@material-ui/icons/Favorite';
 import { getIcon } from "../../data/Icons";
 
 import PictureSelection from './PictureSelection';
@@ -123,8 +123,20 @@ const styles = theme => ({
   
   cardActions: {
     padding: 0,
+    marginTop: theme.spacing(1),
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
 
+  cardActionsMain: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexGrow: 1,
+  },
+  cardActionsItem: {
+    marginRight: theme.spacing(1),
+  },
   cardIcons: {
     display: 'flex',
     flexDirection: 'column',
@@ -133,8 +145,8 @@ const styles = theme => ({
   cardRight: {
     display: 'flex',
     flexDirection: 'column',
-    padding: theme.spacing(2),
-    justifyContent: 'center',
+    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+    justifyContent: 'top',
     textAlign: 'center',
   },
 
@@ -143,6 +155,7 @@ const styles = theme => ({
   expanded: {
     transform: 'rotate(0deg)',
     marginLeft: 'auto',
+    padding: 0,
     transition: theme.transitions.create('transform', {
       duration: theme.transitions.duration.shortest,
     }),
@@ -221,8 +234,8 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
 
   const name = item.name && item.name.length > 0 ? item.name : itemCharacteristics.getCategoryName(item.category, userInfo.language);
   const size = itemCharacteristics.getSizeLabel(item.size, userInfo.language);
-  const detailsNamesArray = itemCharacteristics.getDetailsNamesArray(item.detailsArray, userInfo.language);
-  const detailsNames = detailsNamesArray ? detailsNamesArray.join( ', ') : null;
+  // const detailsNamesArray = itemCharacteristics.getDetailsNamesArray(item.detailsArray, userInfo.language);
+  // const detailsNames = detailsNamesArray ? detailsNamesArray.join( ', ') : null;
   const imageExists = item.pictureName || item.thumbnailName;
 
   const expirationAsDate = new Date(item.expirationDate);
@@ -260,29 +273,33 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
               </div>
             </CardContent>
             <CardActions disableSpacing size="small" className={classes.cardActions}>
-              <ButtonToModal 
-                iconOnlyButton
-                btnLabel={intl.formatMessage(messages.remove)}
-                btnIcon={getIcon("remove")} 
-                cancelLabel={intl.formatMessage(messages.cancel)}
-                onOk={null}
-              >
-                <CharacteristicsSelection
-                  name='size'
-                  title={intl.formatMessage(messages.titleRemove)}
-                  handleChange={handleClickRemove}
-                  items={sizes}
-                  preselectedItems={item.size}
-                />
-              </ButtonToModal>
-
-              <PictureSelection 
-                    itemId={item.id}
+              <div className={classes.cardActionsMain}>
+                <div className={classes.cardActionsItem}>
+                  <ButtonToModal 
                     iconOnlyButton
-                    onPicture={handleSavePicture}
-                    label={intl.formatMessage(imageExists ? messages.cameraReplace : messages.cameraAdd)}
-              />
-
+                    btnLabel={intl.formatMessage(messages.remove)}
+                    btnIcon={getIcon("remove")} 
+                    cancelLabel={intl.formatMessage(messages.cancel)}
+                    onOk={null}
+                  >
+                    <CharacteristicsSelection
+                      name='size'
+                      title={intl.formatMessage(messages.titleRemove)}
+                      handleChange={handleClickRemove}
+                      items={sizes}
+                      preselectedItems={item.size}
+                    />
+                  </ButtonToModal>
+                </div>
+                <div className={classes.cardActionsItem}>
+                  <PictureSelection 
+                        itemId={item.id}
+                        iconOnlyButton
+                        onPicture={handleSavePicture}
+                        label={intl.formatMessage(imageExists ? messages.cameraReplace : messages.cameraAdd)}
+                  />
+                </div>
+              </div>
               <IconButton
                 className={clsx(classes.expanded, {
                   [classes.expandedOpen]: expanded,
@@ -299,7 +316,7 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
               <Typography variant="body1" component="div">
                 {yearExpiration}
               </Typography>
-              <Typography variant="body2" component="div">
+              <Typography variant="h5" component="div">
                 {monthAsText}
               </Typography>              
           </div>

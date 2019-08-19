@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -15,6 +16,9 @@ const styles = theme => ({
   leftIcon: {
     marginRight: theme.spacing(1),
   },
+  buttonIconOnly: {
+    padding: 0,
+  },  
 });
 
 
@@ -37,14 +41,19 @@ const ButtonToModal = ({btnLabel, iconOnlyButton, btnIcon, modalTitle, okLabel, 
 
   return (
     <React.Fragment>
-      <Button component="span" size="small" color="primary"  className={classes.button} onClick={handleClickOpen}>
-        { btnIcon &&
+
+      { !iconOnlyButton &&
+        <Button component="span" size="small" color="primary" className={classes.button} onClick={handleClickOpen}>
           <div className={classes.leftIcon}>{btnIcon}</div>
-        }
-       { !iconOnlyButton &&
-          {btnLabel}
-       }
-      </Button>
+          <span>{btnLabel}</span>
+        </Button>
+      }
+      { iconOnlyButton &&
+        <IconButton component="span"  color="primary" aria-label={btnLabel} className={classes.buttonIconOnly} onClick={handleClickOpen}>
+          {btnIcon}
+        </IconButton> 
+      }     
+
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         { modalTitle && 
           <DialogTitle id="form-dialog-title">{modalTitle}</DialogTitle>

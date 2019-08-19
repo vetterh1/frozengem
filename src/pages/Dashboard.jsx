@@ -78,10 +78,6 @@ const styles = theme => ({
   },
 });
 
-const containerStyle = {
-  padding: '0 5px',
-};
-
 
 
 
@@ -141,16 +137,24 @@ class Dashboard extends React.Component {
 
 
   
-  updateStateArray = (arrayName, item) => {
+  updateStateArray = (arrayName, item, remove = false) => {
     const arrayToUpdate = this.state[arrayName];
 
     // Find the updated item in array:
     let indexItem = arrayToUpdate.findIndex(({id}) => id === item.id);
-    const newArray = [
-      ...arrayToUpdate.slice(0, indexItem),
-      item,
-      ...arrayToUpdate.slice(indexItem + 1)
-    ];
+    let newArray = [];
+    if(remove) {
+      newArray = [
+        ...arrayToUpdate.slice(0, indexItem),
+        ...arrayToUpdate.slice(indexItem + 1)
+      ];
+    } else {
+      newArray = [
+        ...arrayToUpdate.slice(0, indexItem),
+        item,
+        ...arrayToUpdate.slice(indexItem + 1)
+      ];
+    }
 
     this.setState({[arrayName]: newArray});
   }
@@ -239,15 +243,10 @@ class Dashboard extends React.Component {
 
 
   onItemRemoved = (item) => {
-    const { filteredArrayItems } = this.state;
 
-    // Front side: remove the item from array:
-    let indexItem = filteredArrayItems.findIndex(({id}) => id === item.id);
-    const newArray = [
-      ...filteredArrayItems.slice(0, indexItem),
-      ...filteredArrayItems.slice(indexItem + 1)
-    ];
-    this.setState({filteredArrayItems: newArray});
+    // Update both the current (filtered list) and the entire list
+    this.updateStateArray('filteredArrayItems', item, true);
+    this.updateStateArray('arrayItems', item, true);    
 
     // Back side: remove from server
     // This is done directly in the caller (ItemCard.handleClickRemove)

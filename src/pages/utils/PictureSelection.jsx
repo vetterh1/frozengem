@@ -8,7 +8,7 @@ import readAsDataURLAsync from '../../utils/readAsDataURLAsync';
 // import stringifyOnce from '../../utils/stringifyOnce.js'
 import canvasToBlobAsync from '../../utils/canvasToBlobAsync.js'
 import createImageAsync from '../../utils/createImageAsync.js'
-import sizeInMB from '../../utils/sizeInMB'
+// import sizeInMB from '../../utils/sizeInMB'
 import getExifTagsAsync from '../../utils/getExifTagsAsync'
 
 
@@ -21,6 +21,9 @@ const styles = theme => ({
       display: 'flex',
       flexDirection: 'column',
     },  
+    buttonIconOnly: {
+      padding: 0,
+    },
     leftIcon: {
       marginRight: theme.spacing(1),
     },
@@ -30,6 +33,7 @@ const styles = theme => ({
   });
   
   const PictureSelection = ({itemId, label, iconOnlyButton, hugeIcon, onPicture, classes}) => {
+
 
     const resizePicture = async (img, MAX_WIDTH = 800, MAX_HEIGHT = 800) => {
 
@@ -109,9 +113,6 @@ const styles = theme => ({
 
 
     const onInputChange = async (e) => {
-
-        console.log("PictureSelection.onInputChange: itemId=", itemId);
-
         if(e.target.files.length < 1) return null;
 
         // Read the raw image data
@@ -138,17 +139,18 @@ const styles = theme => ({
 
     const iconStyle = hugeIcon ? { fontSize: 96 } : {};
     const specialClasses = (hugeIcon && !iconOnlyButton) ? {label: classes.buttonContentFlexVertical} : {};
-  
+    const idInput = `input-${itemId}`
+
     return (
         <>
           <input
               accept="image/x-png,image/jpeg,image/gif"
               className={classes.hiddenInput}
-              id="button-choose-picture"
+              id={idInput}
               type="file"
               onChange={onInputChange}
           />
-          <label htmlFor="button-choose-picture">
+          <label htmlFor={idInput}>
             <>
               { !iconOnlyButton &&
                 <Button component="span" size="small" color="primary" className={classes.button} classes={specialClasses}>
@@ -157,8 +159,8 @@ const styles = theme => ({
                 </Button>
               }
               { iconOnlyButton &&
-                <IconButton component="span" aria-label={label}>
-                  <PhotoCameraIcon  style={iconStyle} />
+                <IconButton component="span"  color="primary" aria-label={label} className={classes.buttonIconOnly}>
+                  <PhotoCameraIcon style={iconStyle} />
                 </IconButton> 
               }              
             </>

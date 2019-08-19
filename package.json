@@ -1,6 +1,6 @@
 {
   "name": "frozen-gem",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "private": true,
   "homepage": ".",
   "homepage-guithub": "https://vetterh1.github.io/frozengem/",
@@ -20,7 +20,7 @@
     "react": "^16.8.6",
     "react-app-polyfill": "^1.0.1",
     "react-copy-to-clipboard": "^5.0.1",
-    "react-dom": "^16.8.6",
+    "react-dom": "^16.9.0",
     "react-intl": "^2.8.0",
     "react-intl.macro": "^0.3.6",
     "react-router-dom": "^5.0.1",

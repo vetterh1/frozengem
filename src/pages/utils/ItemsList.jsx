@@ -20,7 +20,7 @@ const styles = theme => ({
 
 
 const intItemsList = ({arrayItems, onSavePicture, onRemoveItem, classes}) => {
-  console.debug('[--- FC ---] Functional component: ItemsList -  arrayItems: ', arrayItems);
+  console.debug('[--- FC Render ---] ItemsList -  arrayItems: ', arrayItems);
 
   const handleSavePicture = (item, pictureData, thumbnailData) => onSavePicture(item, pictureData, thumbnailData);
   const handleItemRemoved = (item, size) => onRemoveItem(item, size);
