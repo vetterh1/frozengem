@@ -40,6 +40,8 @@ const intFilters = ({language, category, onCategoryChange, size, onSizeChange, i
       let sel = localStorage.getItem('selectedCategory');
       if(!sel) 
         sel = sortedCategories[0].id2;
+      if(sel === 'removed')
+        sel = 'all';
       setSelectedCategory( sel );
       onCategoryChange(sel);
     }

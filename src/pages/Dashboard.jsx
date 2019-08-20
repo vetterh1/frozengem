@@ -92,6 +92,7 @@ class Dashboard extends React.Component {
     this.state = {
       arrayItems:[], 
       arrayFilters:[], 
+      arrayRemovedItems:[],
       filteredArrayItems:[],
       category: null,
 
@@ -120,13 +121,24 @@ class Dashboard extends React.Component {
     this.setState({arrayItems: sortedItems});
   }
 
+  getRemoved = async () => {
+    const {items, userInfo} = this.props;
+
+    const result = await items.get(userInfo.accessToken, userInfo.id, true);
+    if(!result) {
+      console.error('ItemsList: could not retrieve removed items' );
+    }
+    const removedItems = result.data.sort((a, b) => (a.updatedAt > b.updatedAt) ? 1 : -1)
+    return removedItems;
+  }
+
   componentDidMount() {
     this.getItems();
   }
 
 
-  updateFilterArrayAndCategory = (category) => {
-    const { arrayItems } = this.state;
+  updateFilterArrayAndCategory = async (category) => {
+    const { arrayItems, arrayRemovedItems } = this.state;
     let filteredArrayItems = [];
     switch(category) {
       case 'all': {
@@ -142,7 +154,7 @@ class Dashboard extends React.Component {
         break;
       }
       case 'removed': {
-        // filteredArrayItems = arrayRemovedItems;
+        filteredArrayItems = await this.getRemoved();
         break;
       }
       default: {

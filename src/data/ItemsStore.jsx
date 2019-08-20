@@ -25,7 +25,7 @@ export class Items extends React.Component {
     updateItemToServer: (idItem, updates, user) => this.updateItemToServer(idItem, updates, user),
     updatePictureItemToServer: (idItem, picture, thumbnail, user) => this.updatePictureItemToServer(idItem, picture, thumbnail, user),
     removeItemOnServer: (item, user, size) => this.removeItemOnServer(item, user, size),
-    get: (token, user) => this.get(token, user),
+    get: (token, user, removed = false) => this.get(token, user, removed),
   };
 
 
@@ -54,12 +54,13 @@ export class Items extends React.Component {
 
 */
 
-  async get(token, user) {
+  async get(token, user, removed = false) {
     console.info('|--- SERVER CALL ---|--- GET ---| Items.get loads items from server');
     const params = { 'access_token': token, 'user': user };
+    const removedOption = removed ? "/removed" : "";
     const options = {
       method: 'GET',
-      url: `${config.boUrl}/items?${qs.stringify(params)}`,
+      url: `${config.boUrl}/items${removedOption}?${qs.stringify(params)}`,
       crossdomain : true,
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
     };
