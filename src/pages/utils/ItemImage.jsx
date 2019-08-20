@@ -1,12 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardMedia from '@material-ui/core/CardMedia';
 import config from '../../data/config'
 import { getIcon } from "../../data/Icons";
 
+
 const regularHeight = '150px';
 const expandedHeight = '400px';
+
+
+const useStyles = makeStyles({
+  media: {borderRadius: '3px'}, // a style rule
+});
+
 
 const ItemImage = ({item, thumbnailSize = null, timestampClickAway = 0}) => {
 
@@ -47,6 +55,8 @@ const ItemImage = ({item, thumbnailSize = null, timestampClickAway = 0}) => {
     };
   }
 
+  const classes = useStyles();
+
    
   return (
     <CardActionArea
@@ -58,6 +68,7 @@ const ItemImage = ({item, thumbnailSize = null, timestampClickAway = 0}) => {
         style={style}
         image={`${config.staticUrl}/static/pictures/items/${thumbnailsOrPictures}`}
         title={item.name}
+        className={classes.media}
       />
     </CardActionArea>
   );

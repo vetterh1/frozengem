@@ -11,8 +11,16 @@ import { getIcon } from "../data/Icons";
 
 const messages = defineMessages({
   all: {
-    id: 'button.all',
+    id: 'filter.all',
     defaultMessage: 'All',
+  },
+  latest: {
+    id: 'filter.latest',
+    defaultMessage: 'Latest',
+  },
+  removed: {
+    id: 'filter.removed',
+    defaultMessage: 'Removed',
   },
 })
 
@@ -26,7 +34,7 @@ const intFilters = ({language, category, onCategoryChange, size, onSizeChange, i
 
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-
+  // Restore tab used in previous session:
   useEffect(() => {
     if(!selectedCategory) {
       let sel = localStorage.getItem('selectedCategory');
@@ -36,8 +44,6 @@ const intFilters = ({language, category, onCategoryChange, size, onSizeChange, i
       onCategoryChange(sel);
     }
   }, []);
-
-
 
 
 
@@ -65,14 +71,26 @@ const intFilters = ({language, category, onCategoryChange, size, onSizeChange, i
           key={'all'}
           label={intl.formatMessage(messages.all)}
           value={'all'}
-          icon={getIcon("categoryAll")} 
-        />        
+          icon={getIcon("all")} 
+        />
+        <Tab
+          key={'latest'}
+          label={intl.formatMessage(messages.latest)}
+          value={'latest'}
+          icon={getIcon("latest")} 
+        />
         {sortedCategories.map(category => <Tab
           key={category.id2}
           label={category.name[language]}
           value={category.id2}
           icon={getIcon("category"+category.id2)} 
         />)}
+        <Tab
+          key={'removed'}
+          label={intl.formatMessage(messages.removed)}
+          value={'removed'}
+          icon={getIcon("removed")} 
+        />
       </Tabs>      
 
     </React.Fragment>

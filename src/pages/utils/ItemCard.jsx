@@ -14,9 +14,9 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Collapse from '@material-ui/core/Collapse';
 // import Avatar from '@material-ui/core/Avatar';
 // import CardHeader from '@material-ui/core/CardHeader';
-// import Collapse from '@material-ui/core/Collapse';
 
 import PanToolIcon from '@material-ui/icons/PanTool';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
@@ -86,9 +86,7 @@ const messages = defineMessages({
 const styles = theme => ({
   card: {
     display: 'flex',
-    flexDirection: 'row',
-
-    marginBottom: theme.spacing(1),
+    flexDirection: 'column',
 
     [theme.breakpoints.down('xs')]: {
       minWidth: '100%',
@@ -99,27 +97,38 @@ const styles = theme => ({
       maxWidth: 350,
     },
 
-  },
+    marginBottom: theme.spacing(1),
+},
+
+  cardAlwaysVisible: {
+    display: 'flex',
+    flexDirection: 'row',
+},
 
   cardLeft: {
+    display: 'flex',
+    flexGrow: 0,
+
     width: '100px',
+
     alignSelf: 'center',
     textAlign: 'center',
-    flexGrow: 0,
   },
   
   cardCenter: {
     display: 'flex',
-    flexGrow: 1,
     flexDirection: 'column',
+    flexGrow: 1,
+
     padding: 0,
     margin: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
    },
 
    cardContent: {
     display: 'flex',
-    flexGrow: 1,
     flexDirection: 'column',
+    flexGrow: 1,
+
     padding: 0,
    },
 
@@ -129,10 +138,12 @@ const styles = theme => ({
   },
   
   cardActions: {
-    padding: 0,
-    marginTop: theme.spacing(1),
     display: 'flex',
     flexDirection: 'row',
+
+    padding: 0,
+    marginTop: theme.spacing(1),
+
     justifyContent: 'space-between'
   },
 
@@ -141,25 +152,32 @@ const styles = theme => ({
     flexDirection: 'row',
     flexGrow: 1,
   },
+
   cardActionsItem: {
     marginRight: theme.spacing(1),
   },
+
   cardIcons: {
     display: 'flex',
     flexDirection: 'column',
   },
 
   cardRight: {
-    width: '85px',
     display: 'flex',
     flexDirection: 'column',
+    flexGrow: 0,
+
+    width: '85px',
+    minWidth: '85px',
+    maxWidth: '85px',
+
     padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+
     justifyContent: 'top',
     textAlign: 'center',
-    flexGrow: 0,
-  },
 
-  
+    borderRadius: '3px',
+  },
 
   expanded: {
     transform: 'rotate(0deg)',
@@ -169,18 +187,23 @@ const styles = theme => ({
       duration: theme.transitions.duration.shortest,
     }),
   },
+
   expandedOpen: {
     transform: 'rotate(180deg)',
   },
+
   details: {
     marginRight: theme.spacing(1),
   },
+
   button: {
     margin: theme.spacing(1),
   },  
+
   input: {
     display: 'none',
   },  
+
 });
 
 
@@ -243,8 +266,8 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
 
   const name = item.name && item.name.length > 0 ? item.name : itemCharacteristics.getCategoryName(item.category, userInfo.language);
   const size = itemCharacteristics.getSizeLabel(item.size, userInfo.language);
-  // const detailsNamesArray = itemCharacteristics.getDetailsNamesArray(item.detailsArray, userInfo.language);
-  // const detailsNames = detailsNamesArray ? detailsNamesArray.join( ', ') : null;
+  const detailsNamesArray = itemCharacteristics.getDetailsNamesArray(item.detailsArray, userInfo.language);
+  const detailsNames = detailsNamesArray ? detailsNamesArray.join( ', ') : null;
   const imageExists = item.pictureName || item.thumbnailName;
 
   const expirationAsDate = new Date(item.expirationDate);
@@ -264,74 +287,86 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
       <ClickAwayListener onClickAway={handleClickAway}>
 
         <Card className={classes.card} >
-          <div className={classes.cardLeft}>
-            <ItemImage item={item} thumbnailSize={100} timestampClickAway={timestampClickAway} />
-          </div>
-          <div className={classes.cardCenter}>
-            <CardContent className={classes.cardContent} >
-              <div className={classes.cardMain} >
-                <Typography variant="body2" component="h2">
-                  {name}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  Size: {size}
-                </Typography>
-                {/* <div  className={classes.cardActionLine}>
+          <div className={classes.cardAlwaysVisible}>
+            <div className={classes.cardLeft}>
+              <ItemImage item={item} thumbnailSize={100} timestampClickAway={timestampClickAway} />
+            </div>
+            <div className={classes.cardCenter}>
+              <CardContent className={classes.cardContent} >
+                <div className={classes.cardMain} >
+                  <Typography variant="body2" component="h2">
+                    {name}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" component="p">
+                    Size: {size}
+                  </Typography>
+                  {/* <div  className={classes.cardActionLine}>
 
-                </div> */}
-              </div>
-              <div className={classes.cardIcons} >
-              </div>
-            </CardContent>
-            <CardActions disableSpacing size="small" className={classes.cardActions}>
-              <div className={classes.cardActionsMain}>
-                <div className={classes.cardActionsItem}>
-                  <ButtonToModal 
-                    iconOnlyButton
-                    btnLabel={intl.formatMessage(messages.remove)}
-                    btnIcon={getIcon("remove")} 
-                    cancelLabel={intl.formatMessage(messages.cancel)}
-                    onOk={null}
-                  >
-                    <CharacteristicsSelection
-                      name='size'
-                      title={intl.formatMessage(messages.titleRemove)}
-                      handleChange={handleClickRemove}
-                      items={sizes}
-                      preselectedItems={item.size}
+                  </div> */}
+                </div>
+                <div className={classes.cardIcons} >
+                </div>
+              </CardContent>
+              <CardActions disableSpacing size="small" className={classes.cardActions}>
+                <div className={classes.cardActionsMain}>
+                  <div className={classes.cardActionsItem}>
+                    <ButtonToModal 
+                      iconOnlyButton
+                      btnLabel={intl.formatMessage(messages.remove)}
+                      btnIcon={getIcon("remove")} 
+                      cancelLabel={intl.formatMessage(messages.cancel)}
+                      onOk={null}
+                    >
+                      <CharacteristicsSelection
+                        name='size'
+                        title={intl.formatMessage(messages.titleRemove)}
+                        handleChange={handleClickRemove}
+                        items={sizes}
+                        preselectedItems={item.size}
+                      />
+                    </ButtonToModal>
+                  </div>
+                  <div className={classes.cardActionsItem}>
+                    <PictureSelection 
+                          itemId={item.id}
+                          iconOnlyButton
+                          onPicture={handleSavePicture}
+                          label={intl.formatMessage(imageExists ? messages.cameraReplace : messages.cameraAdd)}
                     />
-                  </ButtonToModal>
+                  </div>
                 </div>
-                <div className={classes.cardActionsItem}>
-                  <PictureSelection 
-                        itemId={item.id}
-                        iconOnlyButton
-                        onPicture={handleSavePicture}
-                        label={intl.formatMessage(imageExists ? messages.cameraReplace : messages.cameraAdd)}
-                  />
-                </div>
-              </div>
-              <IconButton
-                className={clsx(classes.expanded, {
-                  [classes.expandedOpen]: expanded,
-                })}
-                onClick={handleExpanded}
-                aria-expanded={expanded}
-                aria-label="Show more"
-              >
-                <ExpandMoreIcon />
-              </IconButton>
-            </CardActions>
+                <IconButton
+                  className={clsx(classes.expanded, {
+                    [classes.expandedOpen]: expanded,
+                  })}
+                  onClick={handleExpanded}
+                  aria-expanded={expanded}
+                  aria-label="Show more"
+                >
+                  <ExpandMoreIcon />
+                </IconButton>
+              </CardActions>
+            </div>
+            <div className={classes.cardRight} style={{backgroundColor: cardBackgroundColor}}>
+                <Typography variant="body1" component="div">
+                  {yearExpiration}
+                </Typography>
+                <Typography variant="h5" component="div">
+                  {monthAsText}
+                </Typography>              
+            </div>
           </div>
-          <div className={classes.cardRight} style={{backgroundColor: cardBackgroundColor}}>
-              <Typography variant="body1" component="div">
-                {yearExpiration}
-              </Typography>
-              <Typography variant="h5" component="div">
-                {monthAsText}
-              </Typography>              
-          </div>
-          </Card>
+
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <>
+              <CardContent>
+                {detailsNames && <Typography paragraph>Details: {detailsNames}</Typography>}
+                <Typography paragraph>Code: {item.code}</Typography>
+              </CardContent>
+            </>
+          </Collapse>
+
+        </Card>
 
       </ClickAwayListener>
     </>

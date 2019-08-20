@@ -10,7 +10,9 @@ import VerticalAlignBottom from '@material-ui/icons/VerticalAlignBottom';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import Store from '@material-ui/icons/Store';
 import Apps from '@material-ui/icons/Apps';
+import FilterList from '@material-ui/icons/FilterList';
 import CancelPresentation from '@material-ui/icons/CancelPresentation';
+import RemoveCircleOutline from '@material-ui/icons/RemoveCircleOutline';
 
 
 export const getIcon = (iconName) => icons[iconName];
@@ -19,9 +21,12 @@ export const getIcon = (iconName) => icons[iconName];
 
 const icons = {
 
+    "all": <Apps fontSize="default" />,
+    "latest": <FilterList fontSize="default" />,
+    "removed": <RemoveCircleOutline fontSize="default" />,
+
     "remove": <IconRemove fontSize="default" />,
 
-    "categoryAll": <Apps fontSize="default" />,
     "categoryB": <IconCategoryBread fontSize="default" />,
     "categoryV": <IconCategoryVegetable fontSize="default" />,
     "categoryF": <IconCategoryFruit fontSize="default" />,

@@ -125,9 +125,31 @@ class Dashboard extends React.Component {
   }
 
 
-  onCategoryChange = (category) => {
+  updateFilterArrayAndCategory = (category) => {
     const { arrayItems } = this.state;
-    const filteredArrayItems = category === 'all' ? arrayItems : arrayItems.filter(item => item.category === category);
+    let filteredArrayItems = [];
+    switch(category) {
+      case 'all': {
+        filteredArrayItems = arrayItems;
+        break;
+      }
+      case 'latest': {
+        const nowInMs = Date.now();
+        const oneWeekInMs = 1 * 7 * 24 * 60 * 60 * 1000;
+        // const oneMonthInMs = 1 * 30 * 24 * 60 * 60 * 1000;
+        const filter1 = arrayItems.filter(item => item.updatedAt > nowInMs - oneWeekInMs);
+        filteredArrayItems = filter1.sort((a, b) => (a.updatedAt < b.updatedAt) ? 1 : -1)
+        break;
+      }
+      case 'removed': {
+        // filteredArrayItems = arrayRemovedItems;
+        break;
+      }
+      default: {
+        filteredArrayItems = arrayItems.filter(item => item.category === category);
+        break;
+      }                  
+    }
     this.setState({
       category: category, 
       filteredArrayItems: filteredArrayItems
@@ -135,6 +157,9 @@ class Dashboard extends React.Component {
   }
 
 
+  onCategoryChange = (category) => {
+    this.updateFilterArrayAndCategory(category);
+  }
 
   
   updateStateArray = (arrayName, item, remove = false) => {
