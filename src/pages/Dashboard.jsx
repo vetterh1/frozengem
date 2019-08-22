@@ -128,7 +128,7 @@ class Dashboard extends React.Component {
     if(!result) {
       console.error('ItemsList: could not retrieve removed items' );
     }
-    const removedItems = result.data.sort((a, b) => (a.updatedAt > b.updatedAt) ? 1 : -1)
+    const removedItems = result.data.sort((a, b) => (a.updatedAt < b.updatedAt) ? 1 : -1)
     return removedItems;
   }
 
