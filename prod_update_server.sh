@@ -27,12 +27,3 @@ du -sh ~/frozengem_db_backup/
 echo "*******************************************************************"
 echo " "
 echo " "
-
-# Make backup downloadable from browser:
-echo "Copy latest files & db backup to public folder"
-echo "available here: "
-echo "https://frozengem.com/public-backup/files.tar.gz"
-echo "https://frozengem.com/public-backup/db.tar.gz"
-mkdir ~/workspace/frozengem/build/frozenbackup
-cp -p "`ls -dftr1 ~/frozengem_files_backup/* | tail -1`" ~/workspace/frozengem/build/frozenbackup/files.tar.gz
-cp -p "`ls -dftr1 ~/frozengem_db_backup/* | tail -1`" ~/workspace/frozengem/build/frozenbackup/db.tar.gz
