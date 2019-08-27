@@ -57,7 +57,7 @@ export class Items extends React.Component {
   async get(token, user, removed = false) {
     console.info('|--- SERVER CALL ---|--- GET ---| Items.get loads items from server');
     const params = { 'access_token': token, 'user': user };
-    const removedOption = removed ? "/removed " : "";
+    const removedOption = removed ? "/removed" : "";
     const options = {
       method: 'GET',
       url: `${config.boUrl}/items${removedOption}?${qs.stringify(params)}`,
