@@ -214,10 +214,14 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
   // console.debug('[--- FC ---] Functional component: ItemCard -  item: ', item.id);
 
   const [expanded, setExpanded] = React.useState(false);
+  const [details, setDetails] = React.useState(false);
   const [timestampClickAway, setSimestampClickAway] = React.useState(0);
 
   const handleExpanded = () => { setExpanded(prev => !prev); }
   const handleClickAway = () => { setExpanded(false); setSimestampClickAway(Date.now())};
+  
+  const handleClickForDetails = () => { setDetails(prev => !prev); }
+
   
   const handleClickRemove = ({ size }) => {
     console.log("ItemCard.handleClickRemove: ", item.id);
@@ -291,7 +295,7 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, classes, intl, userInfo
             <div className={classes.cardLeft}>
               <ItemImage item={item} thumbnailSize={100} timestampClickAway={timestampClickAway} />
             </div>
-            <div className={classes.cardCenter}>
+            <div className={classes.cardCenter} onClick={handleClickForDetails}>
               <CardContent className={classes.cardContent} >
                 <div className={classes.cardMain} >
                   <Typography variant="body2" component="h2">
