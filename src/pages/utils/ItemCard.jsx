@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { withSnackbar } from 'notistack';
 import { withUserInfo } from '../../with/withUserInfo';
@@ -27,45 +28,9 @@ import ItemImage from './ItemImage';
 // import DoneIcon from '@material-ui/icons/Done';
 // import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // import FavoriteIcon from '@material-ui/icons/Favorite';
-// import { getIcon } from "../../data/Icons";
-
-// import PictureSelection from './PictureSelection';
-// import ButtonToModal from './ButtonToModal'
-// import CharacteristicsSelection from './CharacteristicsSelection';
 
 
 
-
-// const messages = defineMessages({ 
-//   cameraReplace: {
-//     id: 'camera.replace',
-//     defaultMessage: 'Retake picture',
-//   },  
-//   cameraAdd: {
-//     id: 'camera.add',
-//     defaultMessage: 'Add picture',
-//   },
-//   remove: {
-//     id: 'action.remove',
-//     defaultMessage: 'Remove',
-//   },
-//   removeNothing: {
-//     id: 'item.remove.nothing',
-//     defaultMessage: 'Nothing',
-//   },
-//   removeFromFreezer: {
-//     id: 'item.remove.from_freezer',
-//     defaultMessage: 'Remove this item from your freezer',
-//   },
-//   cancel: {
-//     id: 'button.cancel',
-//     defaultMessage: 'Cancel',
-//   },
-//   titleRemove: {
-//     id: 'item.remove.modal.title',
-//     defaultMessage: 'How much quantity is left?',
-//   },  
-// });
 
 
 
@@ -196,8 +161,10 @@ const styles = theme => ({
 
 
 
-const intItemCard = ({item, onSavePicture, onRemoveItem, onShowDetails, classes, intl, userInfo, itemCharacteristics, theme}) => {
-  // console.debug('[--- FC ---] Functional component: ItemCard -  item: ', item.id);
+const intItemCard = ({item, onShowDetails, classes}) => {
+  // const intItemCard = ({item, onShowDetails, classes, intl, userInfo, itemCharacteristics, theme}) => {
+
+    console.debug('[--- FC ---] Functional component: ItemCard -  item: ', item.id);
 
   const [expanded, setExpanded] = React.useState(false);
   const [timestampClickAway, setSimestampClickAway] = React.useState(0);
@@ -207,26 +174,6 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, onShowDetails, classes,
   
   const handleClickForDetails = (e) => { onShowDetails(item); e.stopPropagation(); }
 
-  
-  // const handleClickRemove = ({ size }) => {
-  //   console.log("ItemCard.handleClickRemove: ", item.id);
-  //   onRemoveItem(item, size);
-  //   return null;
-  // };
-
-  // const handleSavePicture = (pictureData, thumbnailData) => {
-  //   console.log("ItemCard.handeSavePicture: ", item.id);
-  //   onSavePicture(item, pictureData, thumbnailData);
-  // };
-
-
-
-  // const zero = {
-  //   id2: "0", 
-  //   label: {en: intl.formatMessage(messages.removeFromFreezer), fr: intl.formatMessage(messages.removeFromFreezer)}, 
-  //   name: {en: intl.formatMessage(messages.removeNothing), fr: intl.formatMessage(messages.removeNothing)},
-  // };
-  // const sizes = [zero, ...itemCharacteristics.sizes];
 
   return (
     <>
@@ -253,45 +200,7 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, onShowDetails, classes,
                 <div className={classes.cardIcons} >
                 </div>
               </CardContent>
-              {/* <CardActions disableSpacing size="small" className={classes.cardActions}>
-                <div className={classes.cardActionsMain}>
-                  <div className={classes.cardActionsItem}>
-                    <ButtonToModal 
-                      iconOnlyButton
-                      btnLabel={intl.formatMessage(messages.remove)}
-                      btnIcon={getIcon("remove")} 
-                      cancelLabel={intl.formatMessage(messages.cancel)}
-                      onOk={null}
-                    >
-                      <CharacteristicsSelection
-                        name='size'
-                        title={intl.formatMessage(messages.titleRemove)}
-                        handleChange={handleClickRemove}
-                        items={sizes}
-                        preselectedItems={item.size}
-                      />
-                    </ButtonToModal>
-                  </div>
-                  <div className={classes.cardActionsItem}>
-                    <PictureSelection 
-                          itemId={item.id}
-                          iconOnlyButton
-                          onPicture={handleSavePicture}
-                          label={intl.formatMessage(imageExists ? messages.cameraReplace : messages.cameraAdd)}
-                    />
-                  </div>
-                </div>
-                <IconButton
-                  className={clsx(classes.expanded, {
-                    [classes.expandedOpen]: expanded,
-                  })}
-                  onClick={handleExpanded}
-                  aria-expanded={expanded}
-                  aria-label="Show more"
-                >
-                  <ExpandMoreIcon />
-                </IconButton>
-              </CardActions> */}
+
             </div>
             <div className={classes.cardRight} style={{backgroundColor: item.__cardBackgroundColor}}>
                 <Typography variant="body1" component="div">
@@ -318,4 +227,17 @@ const intItemCard = ({item, onSavePicture, onRemoveItem, onShowDetails, classes,
     </>
   );
 }
+
+
+intItemCard.propTypes = {
+  // Props from caller
+  item: PropTypes.object.isRequired,
+  onShowDetails: PropTypes.func.isRequired,
+  
+  // Props from other HOC
+  classes: PropTypes.object.isRequired,
+}
+
+
+
 export default injectIntl(withSnackbar(withUserInfo(withItemCharacteristics(withStyles(styles, { withTheme: true })(intItemCard)))));

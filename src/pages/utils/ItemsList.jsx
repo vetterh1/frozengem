@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { FormattedMessage } from "react-intl";
@@ -19,11 +20,8 @@ const styles = theme => ({
 
 
 
-const intItemsList = ({arrayItems, onSavePicture, onRemoveItem, onShowDetails, classes}) => {
+const intItemsList = ({arrayItems, onShowDetails, classes}) => {
   console.debug('[--- FC Render ---] ItemsList -  arrayItems: ', arrayItems);
-
-  const handleSavePicture = (item, pictureData, thumbnailData) => onSavePicture(item, pictureData, thumbnailData);
-  const handleItemRemoved = (item, size) => onRemoveItem(item, size);
 
   const nbItems = arrayItems.length;
 
@@ -33,9 +31,7 @@ const intItemsList = ({arrayItems, onSavePicture, onRemoveItem, onShowDetails, c
         {arrayItems.map(item => 
           <ItemCard  
             key={item.id} item={item} 
-            onRemoveItem={handleItemRemoved} 
             onShowDetails={onShowDetails} 
-            onSavePicture={handleSavePicture} 
           />
         )}
         {nbItems <= 0 &&
@@ -48,6 +44,15 @@ const intItemsList = ({arrayItems, onSavePicture, onRemoveItem, onShowDetails, c
       </div>
     </>
   );
+}
+
+
+intItemsList.propTypes = {
+  // Props from caller
+  arrayItems: PropTypes.array.isRequired,
+  onShowDetails: PropTypes.func.isRequired,
+  // Props from other HOC
+  classes: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles)(intItemsList);

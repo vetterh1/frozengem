@@ -312,6 +312,8 @@ const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackb
             opened={detailsModalOpened}
             item={itemShownInDetails}
             onClose={handleCloseDetailsModal}
+            onSavePicture={onSavePicture}
+            onRemoveItem={onConfirmRemoveItem}
           />
       }
       { removeModalOpened && 
@@ -324,7 +326,7 @@ const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackb
       <div className={classes.layout}>
         <Filters language={userInfo.language} category={category} onCategoryChange={onCategoryChange} />
         <Container maxWidth="md" className={classes.container}>
-          <ItemsList arrayItems={filteredArrayItems} onSavePicture={onSavePicture} onRemoveItem={onConfirmRemoveItem} onShowDetails={handleShowDetails} />
+          <ItemsList arrayItems={filteredArrayItems} onShowDetails={handleShowDetails} />
         </Container>
       </div>          
 
@@ -332,18 +334,16 @@ const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackb
   );
 }
 
-
-
 Dashboard.propTypes = {
   // Props from caller
   items: PropTypes.object.isRequired,
   // Props from other HOC
   userInfo: PropTypes.object.isRequired,
-  // items: PropTypes.object.isRequired,
   intl: PropTypes.object.isRequired,
   enqueueSnackbar: PropTypes.func.isRequired,
   closeSnackbar: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
+  itemCharacteristics: PropTypes.object.isRequired,
 }
 
 
