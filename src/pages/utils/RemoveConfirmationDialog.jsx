@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { useTheme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -11,22 +9,18 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { FormattedMessage } from "react-intl";
 
 
-const Details = ({opened, onClose, item}) => {
+const RemoveConfirmationDialog = ({opened, onClose, onRemoveItem}) => {
 
-  console.debug('[--- FC ---] Functional component: Details');
-
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  console.debug('[--- FC ---] Functional component: RemoveConfirmationDialog');
 
   return (
     <Dialog
-      fullScreen={fullScreen}
       open={opened}
       onClose={onClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">{item.code}</DialogTitle>
+      <DialogTitle id="alert-dialog-title"><FormattedMessage id="item.remove.confirmation.title" defaultMessage="Remove this item?" /></DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
           <FormattedMessage id="item.remove.confirmation.text" defaultMessage="This item will not be shown anymore. Use this when you remove an item from your freezer." />
@@ -34,7 +28,10 @@ const Details = ({opened, onClose, item}) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
-          <FormattedMessage id="button.close" defaultMessage="Close" />
+          <FormattedMessage id="item.remove.confirmation.cancel" defaultMessage="Cancel" />
+        </Button>
+        <Button onClick={onRemoveItem} color="primary" autoFocus>
+          <FormattedMessage id="item.remove.confirmation.remove" defaultMessage="Remove" />
         </Button>
       </DialogActions>
     </Dialog>
@@ -43,12 +40,12 @@ const Details = ({opened, onClose, item}) => {
 
 
 
-Details.propTypes = {
+RemoveConfirmationDialog.propTypes = {
   // Props from caller
   opened: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  item: PropTypes.object.isRequired,
+  onRemoveItem: PropTypes.func.isRequired,
 }
 
 
-export default Details;
+export default RemoveConfirmationDialog;

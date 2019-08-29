@@ -2,18 +2,16 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import { injectIntl, FormattedMessage, defineMessages } from "react-intl";
 import { withSnackbar } from 'notistack';
 import { withStyles } from '@material-ui/core/styles';
+import { useTheme } from '@material-ui/core/styles';
 import { withUserInfo } from '../with/withUserInfo';
 import { withItems } from '../with/withItems';
+import { withItemCharacteristics } from '../with/withItemCharacteristics';
+import Details from './Details'
 import ItemsList from './utils/ItemsList'
+import RemoveConfirmationDialog from './utils/RemoveConfirmationDialog'
 import Filters from './Filters'
 import formatServerErrorMsg from '../utils/formatServerErrorMsg'
 import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
@@ -22,22 +20,6 @@ import Box from '@material-ui/core/Box'; // ! must be at the end of the material
 
 
 const messages = defineMessages({ 
-  // removeConfirmationTitle: {
-  //   id: 'item.remove.confirmation.title',
-  //   defaultMessage: 'Remove this item?',
-  // },  
-  // removeConfirmationText: {
-  //   id: 'item.remove.confirmation.text',
-  //   defaultMessage: 'This item will not be shown anymore. Use this when you remove an item from your freezer.',
-  // },  
-  // removeConfirmationCancel: {
-  //   id: 'item.remove.confirmation.cancel',
-  //   defaultMessage: 'Cancel',
-  // },
-  // removeConfirmationRemove: {
-  //   id: 'item.remove.confirmation.remove',
-  //   defaultMessage: 'Remove',
-  // },    
   removeError: {
     id: 'item.remove.error',
     defaultMessage: 'Sorry, removing this item failed. Please try again...',
@@ -79,7 +61,7 @@ const styles = theme => ({
 });
 
 
-const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackbar}) => {
+const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
 
   console.debug('[--- FC ---] Functional component: Dashboard');
 
@@ -89,7 +71,7 @@ const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackb
   useEffect(() => {
 
     const getItems = async () => {
-      const result = await items.get(userInfo.accessToken, userInfo.id);
+      const result = await items.get(userInfo.accessToken, userInfo.id, itemCharacteristics, userInfo, theme);
       if(!result) {
         console.error('ItemsList: could not retrieve items' );
       }
@@ -112,9 +94,10 @@ const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackb
 
 
 
+  const theme = useTheme();
 
   const getRemoved = async () => {
-    const result = await items.get(userInfo.accessToken, userInfo.id, true);
+    const result = await items.get(userInfo.accessToken, userInfo.id, itemCharacteristics, userInfo, theme, true);
     if(!result) {
       console.error('ItemsList: could not retrieve removed items' );
     }
@@ -191,6 +174,9 @@ const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackb
   const onItemChange = (item) => {
     console.log("Dashboard.onItemChange: ", item.id);
 
+    // Update the __xxx variables:
+    items.addUtilityFieldsToItem(item, itemCharacteristics, userInfo, theme);
+
     // Update both the current (filtered list) and the entire list
     updateStateArray('filteredArrayItems', item);
     updateStateArray('arrayItems', item);
@@ -220,7 +206,7 @@ const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackb
 
 
 
-  const onRemoveItem = async () => {
+  const handleRemoveItem = async () => {
     try {
       const { removeItemOnServer } = items;
       await removeItemOnServer(itemToRemove.id , userInfo);
@@ -264,9 +250,14 @@ const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackb
 
 
   const onItemRemoved = (item) => {
+
+    // Update the __xxx variables:
+    items.addUtilityFieldsToItem(item, itemCharacteristics, userInfo, theme);
+
     // Update both the current (filtered list) and the entire list
     updateStateArray('filteredArrayItems', item, true);
     updateStateArray('arrayItems', item, true);    
+
     // Back side: remove from server
     // This is done directly in the caller (ItemCard.handleClickRemove)
   }
@@ -290,7 +281,7 @@ const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackb
 
 
 
-  const onShowDetails = (item) => {
+  const handleShowDetails = (item) => {
     setItemShownInDetails(item);
     setDetailsModalOpened(true);
   }
@@ -316,33 +307,24 @@ const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackb
 
   return (
     <React.Fragment>
-
-      <Dialog
-        open={removeModalOpened}
-        onClose={handleCloseRemoveModal}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title"><FormattedMessage id="item.remove.confirmation.title" defaultMessage="Remove this item?" /></DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            <FormattedMessage id="item.remove.confirmation.text" defaultMessage="This item will not be shown anymore. Use this when you remove an item from your freezer." />
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseRemoveModal} color="primary">
-            <FormattedMessage id="item.remove.confirmation.cancel" defaultMessage="Cancel" />
-          </Button>
-          <Button onClick={onRemoveItem} color="primary" autoFocus>
-            <FormattedMessage id="item.remove.confirmation.remove" defaultMessage="Remove" />
-          </Button>
-        </DialogActions>
-      </Dialog>
-
+      { detailsModalOpened && 
+          <Details 
+            opened={detailsModalOpened}
+            item={itemShownInDetails}
+            onClose={handleCloseDetailsModal}
+          />
+      }
+      { removeModalOpened && 
+          <RemoveConfirmationDialog 
+            opened={removeModalOpened}
+            onClose={handleCloseRemoveModal}
+            onRemoveItem={handleRemoveItem}
+          />
+      }      
       <div className={classes.layout}>
         <Filters language={userInfo.language} category={category} onCategoryChange={onCategoryChange} />
         <Container maxWidth="md" className={classes.container}>
-          <ItemsList arrayItems={filteredArrayItems} onSavePicture={onSavePicture} onRemoveItem={onConfirmRemoveItem} onShowDetails={onShowDetails} />
+          <ItemsList arrayItems={filteredArrayItems} onSavePicture={onSavePicture} onRemoveItem={onConfirmRemoveItem} onShowDetails={handleShowDetails} />
         </Container>
       </div>          
 
@@ -365,4 +347,4 @@ Dashboard.propTypes = {
 }
 
 
-export default injectIntl(withSnackbar(withItems(withUserInfo(withStyles(styles)(Dashboard)))));
+export default withItemCharacteristics(injectIntl(withSnackbar(withItems(withUserInfo(withStyles(styles)(Dashboard))))));

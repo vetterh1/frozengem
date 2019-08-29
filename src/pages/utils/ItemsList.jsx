@@ -19,7 +19,7 @@ const styles = theme => ({
 
 
 
-const intItemsList = ({arrayItems, onSavePicture, onRemoveItem, classes}) => {
+const intItemsList = ({arrayItems, onSavePicture, onRemoveItem, onShowDetails, classes}) => {
   console.debug('[--- FC Render ---] ItemsList -  arrayItems: ', arrayItems);
 
   const handleSavePicture = (item, pictureData, thumbnailData) => onSavePicture(item, pictureData, thumbnailData);
@@ -30,7 +30,14 @@ const intItemsList = ({arrayItems, onSavePicture, onRemoveItem, classes}) => {
   return (
     <>
       <div className={classes.layout}>
-        {arrayItems.map(item => <ItemCard  key={item.id} item={item} onRemoveItem={handleItemRemoved} onSavePicture={handleSavePicture} /> )}
+        {arrayItems.map(item => 
+          <ItemCard  
+            key={item.id} item={item} 
+            onRemoveItem={handleItemRemoved} 
+            onShowDetails={onShowDetails} 
+            onSavePicture={handleSavePicture} 
+          />
+        )}
         {nbItems <= 0 &&
             <div className="huge-margin-top">
               <Typography color="primary" align="center">
