@@ -83,7 +83,7 @@ const styles = theme => ({
 
 
 
-const Details = ({opened, item, onClose, onSavePicture, onRemoveItem, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
+const Details = ({opened, item, onClose, onSavePicture, onRemoveItem, onEditItem, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
 
   console.debug('[--- FC ---] Functional component: Details');
 
@@ -103,6 +103,31 @@ const Details = ({opened, item, onClose, onSavePicture, onRemoveItem, classes, i
     console.log("ItemCard.handeSavePicture: ", item.id);
     onSavePicture(item, pictureData, thumbnailData);
   };
+
+  
+  const handleEditCode = (e) => {
+    e.stopPropagation();
+    console.log("ItemCard.handleEditCode: ", item.id);
+    onEditItem(item, 'name');
+    return null;
+  };
+
+
+  const handleEditDetails = (e) => {
+    e.stopPropagation();
+    console.log("ItemCard.handleEditDetails: ", item.id);
+    onEditItem(item, 'details');
+    return null;
+  };
+
+
+  const handleEditExpiration = (e) => {
+    e.stopPropagation();
+    console.log("ItemCard.handleEditExpiration: ", item.id);
+    onEditItem(item, 'expirationDate');
+    return null;
+  };
+
 
 
 
@@ -124,9 +149,11 @@ const Details = ({opened, item, onClose, onSavePicture, onRemoveItem, classes, i
       aria-describedby="alert-dialog-description"
     >
 
-      Code: {item.code}
-      Details: {item.__detailsNames}
-      Expiration level: {item.__expirationLevel}
+      <div onClick={handleEditCode}>Code: {item.code}</div>
+      <div onClick={handleEditDetails}>Details: {item.__detailsNames}</div>
+      <div onClick={handleEditExpiration}>Expiration level: {item.__expirationLevel}</div>
+      
+      
       {/* {item.__iconExpiration}
       {item.__expirationText}
       {item.__sizeInText}
@@ -177,6 +204,7 @@ Details.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSavePicture: PropTypes.func.isRequired,
   onRemoveItem: PropTypes.func.isRequired,
+  onEditItem: PropTypes.func.isRequired,
 
   // Props from other HOC
   userInfo: PropTypes.object.isRequired,

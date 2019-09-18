@@ -15,6 +15,7 @@ import RemoveConfirmationDialog from './utils/RemoveConfirmationDialog'
 import Filters from './Filters'
 import formatServerErrorMsg from '../utils/formatServerErrorMsg'
 import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
+import AddWizard from './addWizard/AddWizard';
 
 
 
@@ -92,6 +93,7 @@ const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackb
   const [detailsModalOpened, setDetailsModalOpened] = React.useState(false);
   const [itemShownInDetails, setItemShownInDetails] = React.useState(null);
 
+  const [updateWizardOpened, setUpdateWizardOpened] = React.useState(false);
 
 
   const theme = useTheme();
@@ -291,6 +293,11 @@ const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackb
     setDetailsModalOpened(false);
   }
 
+  const handleEditItem = (item, page) => {
+    if(page === 'name') {
+      setUpdateWizardOpened(true);
+    } 
+  }
 
 
 
@@ -314,6 +321,7 @@ const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackb
             onClose={handleCloseDetailsModal}
             onSavePicture={onSavePicture}
             onRemoveItem={onConfirmRemoveItem}
+            onEditItem={handleEditItem}
           />
       }
       { removeModalOpened && 
@@ -322,7 +330,12 @@ const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackb
             onClose={handleCloseRemoveModal}
             onRemoveItem={handleRemoveItem}
           />
-      }      
+      }
+      { updateWizardOpened && 
+        <AddWizard
+
+        />
+      }   
       <div className={classes.layout}>
         <Filters language={userInfo.language} category={category} onCategoryChange={onCategoryChange} />
         <Container maxWidth="md" className={classes.container}>
