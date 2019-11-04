@@ -149,9 +149,15 @@ const Details = ({opened, item, onClose, onSavePicture, onRemoveItem, onEditItem
       aria-describedby="alert-dialog-description"
     >
 
+      <div>Name: {item.name}</div>
       <div onClick={handleEditCode}>Code: {item.code}</div>
       <div onClick={handleEditDetails}>Details: {item.__detailsNames}</div>
       <div onClick={handleEditExpiration}>Expiration level: {item.__expirationLevel}</div>
+      <div>Container: {item.container}</div>
+      <div>Color: {item.color}</div>
+      <div>Freezer: {item.freezer}</div>
+      <div>Location: {item.location}</div>
+      <div>Size: {item.__sizeInText}</div>
       
       
       {/* {item.__iconExpiration}
