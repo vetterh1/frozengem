@@ -150,13 +150,14 @@ const Details = ({opened, item, onClose, onSavePicture, onRemoveItem, onEditItem
     >
 
       <div>Name: {item.name}</div>
+      <div>Category: {item.__categoryText}</div>
       <div onClick={handleEditCode}>Code: {item.code}</div>
       <div onClick={handleEditDetails}>Details: {item.__detailsNames}</div>
       <div onClick={handleEditExpiration}>Expiration level: {item.__expirationLevel}</div>
-      <div>Container: {item.container}</div>
-      <div>Color: {item.color}</div>
-      <div>Freezer: {item.freezer}</div>
-      <div>Location: {item.location}</div>
+      <div>Container: {item.__containerText}</div>
+      <div>Color: {item.__colorText}</div>
+      <div>Freezer: {item.__freezerText}</div>
+      <div>Location: {item.__locationText}</div>
       <div>Size: {item.__sizeInText}</div>
       
       

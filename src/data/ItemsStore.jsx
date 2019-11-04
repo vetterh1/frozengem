@@ -93,6 +93,7 @@ export class Items extends React.Component {
         __cardBackgroundColor
         __iconExpiration
         __expirationText
+        __categoryText
         __nameOrCategory
         __sizeInText
         __detailsNames
@@ -138,6 +139,11 @@ export class Items extends React.Component {
       __cardBackgroundColor
       __iconExpiration
       __expirationText
+      __categoryText
+      __containerText
+      __colorText
+      __freezerText
+      __locationText
       __nameOrCategory
       __sizeInText
       __detailsNames
@@ -176,7 +182,13 @@ export class Items extends React.Component {
         break;
     } 
 
-    item.__nameOrCategory = item.name && item.name.length > 0 ? item.name : itemCharacteristics.getCategoryName(item.category, userInfo.language);
+    
+    item.__categoryText = itemCharacteristics.getCategoryName(item.category, userInfo.language);
+    item.__containerText = itemCharacteristics.getContainerName(item.container, userInfo.language);
+    item.__colorText = itemCharacteristics.getColorName(item.color, userInfo.language);
+    item.__freezerText = itemCharacteristics.getFreezerName(item.freezer, userInfo.language);
+    item.__locationText = itemCharacteristics.getLocationName(item.location, userInfo.language);
+    item.__nameOrCategory = item.name && item.name.length > 0 ? item.name : item.__categoryText;
     item.__sizeInText = itemCharacteristics.getSizeLabel(item.size, userInfo.language);
     const detailsNamesArray = itemCharacteristics.getDetailsNamesArray(item.__detailsArray, userInfo.language);
     item.__detailsNames = detailsNamesArray ? detailsNamesArray.join( ', ') : null;
