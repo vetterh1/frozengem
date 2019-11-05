@@ -9,7 +9,6 @@ import { useTheme } from '@material-ui/core/styles';
 import { withUserInfo } from '../with/withUserInfo';
 import { withItems } from '../with/withItems';
 import { withItemCharacteristics } from '../with/withItemCharacteristics';
-import Details from './Details'
 import ItemsList from './utils/ItemsList'
 import RemoveConfirmationDialog from './utils/RemoveConfirmationDialog'
 import Filters from './Filters'
@@ -89,9 +88,6 @@ const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackb
 
   const [removeModalOpened, setRemoveModalOpened] = React.useState(false);
   const [itemToRemove, setItemToRemove] = React.useState(null);
-
-  const [detailsModalOpened, setDetailsModalOpened] = React.useState(false);
-  const [itemShownInDetails, setItemShownInDetails] = React.useState(null);
 
   const [updateWizardOpened, setUpdateWizardOpened] = React.useState(false);
 
@@ -283,16 +279,6 @@ const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackb
 
 
 
-  const handleShowDetails = (item) => {
-    setItemShownInDetails(item);
-    setDetailsModalOpened(true);
-  }
-
-  const handleCloseDetailsModal = () => {
-    setItemShownInDetails(null);
-    setDetailsModalOpened(false);
-  }
-
   const handleEditItem = (item, page) => {
     if(page === 'name') {
       setUpdateWizardOpened(true);
@@ -314,7 +300,7 @@ const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackb
 
   return (
     <React.Fragment>
-      { detailsModalOpened && 
+      {/* { detailsModalOpened && 
           <Details 
             opened={detailsModalOpened}
             item={itemShownInDetails}
@@ -323,7 +309,7 @@ const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackb
             onRemoveItem={onConfirmRemoveItem}
             onEditItem={handleEditItem}
           />
-      }
+      } */}
       { removeModalOpened && 
           <RemoveConfirmationDialog 
             opened={removeModalOpened}
@@ -339,7 +325,7 @@ const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackb
       <div className={classes.layout}>
         <Filters language={userInfo.language} category={category} onCategoryChange={onCategoryChange} />
         <Container maxWidth="md" className={classes.container}>
-          <ItemsList arrayItems={filteredArrayItems} onShowDetails={handleShowDetails} />
+          <ItemsList arrayItems={filteredArrayItems} />
         </Container>
       </div>          
 

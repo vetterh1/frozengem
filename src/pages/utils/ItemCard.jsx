@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router'
 import { withStyles } from '@material-ui/core/styles';
 import { withSnackbar } from 'notistack';
 import { withUserInfo } from '../../with/withUserInfo';
@@ -161,10 +162,12 @@ const styles = theme => ({
 
 
 
-const intItemCard = ({item, onShowDetails, classes}) => {
-  // const intItemCard = ({item, onShowDetails, classes, intl, userInfo, itemCharacteristics, theme}) => {
+const intItemCard = ({item, classes}) => {
+  // const intItemCard = ({item, classes, intl, userInfo, itemCharacteristics, theme}) => {
 
-    console.debug('[--- FC ---] Functional component: ItemCard -  item: ', item.id);
+  console.debug('[--- FC ---] Functional component: ItemCard -  item: ', item.id);
+
+  const [toDetails, setToDetails] = React.useState(false);
 
   const [expanded, setExpanded] = React.useState(false);
   const [timestampClickAway, setSimestampClickAway] = React.useState(0);
@@ -172,8 +175,11 @@ const intItemCard = ({item, onShowDetails, classes}) => {
   // const handleExpanded = () => { setExpanded(prev => !prev); }
   const handleClickAway = () => { setExpanded(false); setSimestampClickAway(Date.now())};
   
-  const handleClickForDetails = (e) => { onShowDetails(item); e.stopPropagation(); }
+  const handleClickForDetails = (e) => { setToDetails(true); e.stopPropagation(); }
 
+  if (toDetails === true) {
+    return <Redirect to={`/details/${item.id}`} />
+  }
 
   return (
     <>
@@ -232,7 +238,6 @@ const intItemCard = ({item, onShowDetails, classes}) => {
 intItemCard.propTypes = {
   // Props from caller
   item: PropTypes.object.isRequired,
-  onShowDetails: PropTypes.func.isRequired,
   
   // Props from other HOC
   classes: PropTypes.object.isRequired,

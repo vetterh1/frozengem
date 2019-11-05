@@ -16,6 +16,7 @@ import BottomNav from '../navigation/BottomNav';
 import FloatingNav from '../navigation/FloatingNav';
 import MainPageContent from './MainPageContent';
 import Dashboard from './Dashboard';
+import Details from './Details';
 import ChooseHome from './ChooseHome';
 import LoadingUserInfo from './LoadingUserInfo';
 import AddWizard from './addWizard/AddWizard';
@@ -101,6 +102,10 @@ const intApp = (props) => {
                             {/* <Container maxWidth="md"  style={containerStyle}> */}
 
                               <Switch>
+                                <Route
+                                  exact path="/details/:id"
+                                  component={props => <Container><Details {...props} /></Container>}
+                                />
                                 <Route
                                   exact path="/add"
                                   component={props => <Container><AddWizard {...props} /></Container>}

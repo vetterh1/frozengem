@@ -82,10 +82,13 @@ const styles = theme => ({
 
 
 
+// const Details = ({opened, item, onClose, onSavePicture, onRemoveItem, onEditItem, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
 
-const Details = ({opened, item, onClose, onSavePicture, onRemoveItem, onEditItem, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
+const Details = ({match, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
 
-  console.debug('[--- FC ---] Functional component: Details');
+  const id = match.params.id;
+
+  console.debug('[--- FC ---] Functional component: Details id!', id);
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -206,19 +209,23 @@ const Details = ({opened, item, onClose, onSavePicture, onRemoveItem, onEditItem
 
 Details.propTypes = {
   // Props from caller
-  opened: PropTypes.bool.isRequired,
-  item: PropTypes.object.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onSavePicture: PropTypes.func.isRequired,
-  onRemoveItem: PropTypes.func.isRequired,
-  onEditItem: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired,
+
+
+  // opened: PropTypes.bool.isRequired,
+  // item: PropTypes.object.isRequired,
+  // onClose: PropTypes.func.isRequired,
+  // onSavePicture: PropTypes.func.isRequired,
+  // onRemoveItem: PropTypes.func.isRequired,
+  // onEditItem: PropTypes.func.isRequired,
+
 
   // Props from other HOC
-  userInfo: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
   intl: PropTypes.object.isRequired,
+  userInfo: PropTypes.object.isRequired,
   enqueueSnackbar: PropTypes.func.isRequired,
   closeSnackbar: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
   itemCharacteristics: PropTypes.object.isRequired,
 }
 
