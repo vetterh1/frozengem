@@ -1,6 +1,6 @@
 {
   "name": "frozen-gem",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "private": true,
   "homepage": ".",
   "homepage-guithub": "https://vetterh1.github.io/frozengem/",
@@ -29,11 +29,11 @@
     "source-map-explorer": "^2.0.1"
   },
   "scripts": {
-    "start": "REACT_APP_VERSION=$npm_package_version react-scripts start",
-    "build": "REACT_APP_VERSION=$npm_package_version react-scripts build",
-    "startprod": "REACT_APP_VERSION=$npm_package_version /usr/local/bin/http-server ./build -p 8060 --cors",
+    "start": "cross-env REACT_APP_VERSION=$npm_package_version react-scripts start",
+    "build": "cross-env REACT_APP_VERSION=$npm_package_version react-scripts build",
+    "startprod": "cross-env REACT_APP_VERSION=$npm_package_version /usr/local/bin/http-server ./build -p 8060 --cors",
     "startprod:old": "serve -s build",
-    "test": "CI=true react-scripts test",
+    "test": "cross-env CI=true react-scripts test",
     "test:coverage": "npm test -- --coverage",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "i18n:extract": "MESSAGE_DIR='./.messages' react-scripts build",
@@ -53,6 +53,7 @@
   "devDependencies": {
     "babel-plugin-macros": "^2.6.1",
     "compression-webpack-plugin": "^3.0.0",
+    "cross-env": "^5.2.0",
     "react-intl-translations-manager": "^5.0.3"
   }
 }

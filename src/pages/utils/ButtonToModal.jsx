@@ -25,7 +25,8 @@ const styles = theme => ({
 const ButtonToModal = ({btnLabel, iconOnlyButton, btnIcon, modalTitle, okLabel, cancelLabel, onOk, onCancel, classes, children}) => {
   const [open, setOpen] = React.useState(false);
 
-  function handleClickOpen() {
+  function handleClickOpen(e) {
+    e.stopPropagation();
     setOpen(true);
   }
 

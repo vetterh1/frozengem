@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { FormattedMessage } from "react-intl";
@@ -19,18 +20,20 @@ const styles = theme => ({
 
 
 
-const intItemsList = ({arrayItems, onSavePicture, onRemoveItem, classes}) => {
+const intItemsList = ({arrayItems, onShowDetails, classes}) => {
   console.debug('[--- FC Render ---] ItemsList -  arrayItems: ', arrayItems);
-
-  const handleSavePicture = (item, pictureData, thumbnailData) => onSavePicture(item, pictureData, thumbnailData);
-  const handleItemRemoved = (item, size) => onRemoveItem(item, size);
 
   const nbItems = arrayItems.length;
 
   return (
     <>
       <div className={classes.layout}>
-        {arrayItems.map(item => <ItemCard  key={item.id} item={item} onRemoveItem={handleItemRemoved} onSavePicture={handleSavePicture} /> )}
+        {arrayItems.map(item => 
+          <ItemCard  
+            key={item.id} item={item} 
+            onShowDetails={onShowDetails} 
+          />
+        )}
         {nbItems <= 0 &&
             <div className="huge-margin-top">
               <Typography color="primary" align="center">
@@ -41,6 +44,15 @@ const intItemsList = ({arrayItems, onSavePicture, onRemoveItem, classes}) => {
       </div>
     </>
   );
+}
+
+
+intItemsList.propTypes = {
+  // Props from caller
+  arrayItems: PropTypes.array.isRequired,
+  onShowDetails: PropTypes.func.isRequired,
+  // Props from other HOC
+  classes: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles)(intItemsList);

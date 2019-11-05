@@ -1,43 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import { injectIntl, FormattedMessage, defineMessages } from "react-intl";
 import { withSnackbar } from 'notistack';
 import { withStyles } from '@material-ui/core/styles';
+import { useTheme } from '@material-ui/core/styles';
 import { withUserInfo } from '../with/withUserInfo';
 import { withItems } from '../with/withItems';
+import { withItemCharacteristics } from '../with/withItemCharacteristics';
+import Details from './Details'
 import ItemsList from './utils/ItemsList'
+import RemoveConfirmationDialog from './utils/RemoveConfirmationDialog'
 import Filters from './Filters'
 import formatServerErrorMsg from '../utils/formatServerErrorMsg'
 import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
+import AddWizard from './addWizard/AddWizard';
 
 
 
 
 const messages = defineMessages({ 
-  // removeConfirmationTitle: {
-  //   id: 'item.remove.confirmation.title',
-  //   defaultMessage: 'Remove this item?',
-  // },  
-  // removeConfirmationText: {
-  //   id: 'item.remove.confirmation.text',
-  //   defaultMessage: 'This item will not be shown anymore. Use this when you remove an item from your freezer.',
-  // },  
-  // removeConfirmationCancel: {
-  //   id: 'item.remove.confirmation.cancel',
-  //   defaultMessage: 'Cancel',
-  // },
-  // removeConfirmationRemove: {
-  //   id: 'item.remove.confirmation.remove',
-  //   defaultMessage: 'Remove',
-  // },    
   removeError: {
     id: 'item.remove.error',
     defaultMessage: 'Sorry, removing this item failed. Please try again...',
@@ -79,52 +62,44 @@ const styles = theme => ({
 });
 
 
+const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
 
+  console.debug('[--- FC ---] Functional component: Dashboard');
 
-class Dashboard extends React.Component {
-  static propTypes = {
-    userInfo: PropTypes.object.isRequired,
-    items: PropTypes.object.isRequired,
-  }
+  const [arrayItems, setArrayItems] = React.useState(null);
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      arrayItems:[], 
-      arrayFilters:[], 
-      arrayRemovedItems:[],
-      filteredArrayItems:[],
-      category: null,
+  // First render: get the items from the server
+  useEffect(() => {
 
-      removeModalOpened: false,
-      itemToRemove: null,
+    const getItems = async () => {
+      const result = await items.get(userInfo.accessToken, userInfo.id, itemCharacteristics, userInfo, theme);
+      if(!result) {
+        console.error('ItemsList: could not retrieve items' );
+      }
+      const sortedItems = result.data.sort((a, b) => (a.expirationDate > b.expirationDate) ? 1 : -1)
+      setArrayItems(sortedItems);
     };
-
-    this.onCategoryChange = this.onCategoryChange.bind(this);
-    this.onItemChange = this.onItemChange.bind(this);
-    this.onItemRemoved = this.onItemRemoved.bind(this);
-    this.onRemoveItem = this.onRemoveItem.bind(this);
-    this.onConfirmRemoveItem = this.onConfirmRemoveItem.bind(this);
-    this.handleCloseRemoveModal = this.handleCloseRemoveModal.bind(this);
-  }
+    getItems();
+  }, []);
 
 
 
-  getItems = async () => {
-    const {items, userInfo} = this.props;
+  const [filteredArrayItems, setFilteredArrayItems] = React.useState([]);
+  const [category, setCategory] = React.useState(null);
 
-    const result = await items.get(userInfo.accessToken, userInfo.id);
-    if(!result) {
-      console.error('ItemsList: could not retrieve items' );
-    }
-    const sortedItems = result.data.sort((a, b) => (a.expirationDate > b.expirationDate) ? 1 : -1)
-    this.setState({arrayItems: sortedItems});
-  }
+  const [removeModalOpened, setRemoveModalOpened] = React.useState(false);
+  const [itemToRemove, setItemToRemove] = React.useState(null);
 
-  getRemoved = async () => {
-    const {items, userInfo} = this.props;
+  const [detailsModalOpened, setDetailsModalOpened] = React.useState(false);
+  const [itemShownInDetails, setItemShownInDetails] = React.useState(null);
 
-    const result = await items.get(userInfo.accessToken, userInfo.id, true);
+  const [updateWizardOpened, setUpdateWizardOpened] = React.useState(false);
+
+
+  const theme = useTheme();
+
+  const getRemoved = async () => {
+    const result = await items.get(userInfo.accessToken, userInfo.id, itemCharacteristics, userInfo, theme, true);
     if(!result) {
       console.error('ItemsList: could not retrieve removed items' );
     }
@@ -132,17 +107,12 @@ class Dashboard extends React.Component {
     return removedItems;
   }
 
-  componentDidMount() {
-    this.getItems();
-  }
 
-
-  updateFilterArrayAndCategory = async (category) => {
-    const { arrayItems, arrayRemovedItems } = this.state;
-    let filteredArrayItems = [];
-    switch(category) {
+  const updateFilterArrayAndCategory = async (_category) => {
+    let _filteredArrayItems = [];
+    switch(_category) {
       case 'all': {
-        filteredArrayItems = arrayItems;
+        _filteredArrayItems = arrayItems;
         break;
       }
       case 'latest': {
@@ -150,32 +120,35 @@ class Dashboard extends React.Component {
         const oneWeekInMs = 1 * 7 * 24 * 60 * 60 * 1000;
         // const oneMonthInMs = 1 * 30 * 24 * 60 * 60 * 1000;
         const filter1 = arrayItems.filter(item => item.updatedAt > nowInMs - oneWeekInMs);
-        filteredArrayItems = filter1.sort((a, b) => (a.updatedAt < b.updatedAt) ? 1 : -1)
+        _filteredArrayItems = filter1.sort((a, b) => (a.updatedAt < b.updatedAt) ? 1 : -1)
         break;
       }
       case 'removed': {
-        filteredArrayItems = await this.getRemoved();
+        _filteredArrayItems = await getRemoved();
         break;
       }
       default: {
-        filteredArrayItems = arrayItems.filter(item => item.category === category);
+        _filteredArrayItems = arrayItems.filter(item => item.category === _category);
         break;
       }                  
     }
-    this.setState({
-      category: category, 
-      filteredArrayItems: filteredArrayItems
-    });
+    setCategory(_category);
+    setFilteredArrayItems(_filteredArrayItems);
   }
 
 
-  onCategoryChange = (category) => {
-    this.updateFilterArrayAndCategory(category);
+  const onCategoryChange = (category) => {
+    updateFilterArrayAndCategory(category);
   }
 
   
-  updateStateArray = (arrayName, item, remove = false) => {
-    const arrayToUpdate = this.state[arrayName];
+  const updateStateArray = (arrayName, item, remove = false) => {
+    let arrayToUpdate = null;
+    switch(arrayName) {
+      case 'filteredArrayItems': arrayToUpdate = filteredArrayItems; break;
+      default: arrayToUpdate = arrayItems; break;
+    }
+    console.log('arrayToUpdate:', arrayToUpdate);
 
     // Find the updated item in array:
     let indexItem = arrayToUpdate.findIndex(({id}) => id === item.id);
@@ -193,29 +166,33 @@ class Dashboard extends React.Component {
       ];
     }
 
-    this.setState({[arrayName]: newArray});
+    switch(arrayName) {
+      case 'filteredArrayItems': setFilteredArrayItems(newArray); break;
+      default: setArrayItems(newArray); break;
+    }
   }
 
 
-  onItemChange = (item) => {
+  const onItemChange = (item) => {
     console.log("Dashboard.onItemChange: ", item.id);
 
+    // Update the __xxx variables:
+    items.addUtilityFieldsToItem(item, itemCharacteristics, userInfo, theme);
+
     // Update both the current (filtered list) and the entire list
-    this.updateStateArray('filteredArrayItems', item);
-    this.updateStateArray('arrayItems', item);
+    updateStateArray('filteredArrayItems', item);
+    updateStateArray('arrayItems', item);
   }
 
 
 
-    // Set the received value in the state 
+  // Set the received value in the state 
   // (replacing any existing one)
-  onSavePicture = async (item, pictureData, thumbnailData) => {
-    const {items, userInfo, enqueueSnackbar, closeSnackbar, intl} = this.props;
-
+  const onSavePicture = async (item, pictureData, thumbnailData) => {
     try {
       const { updatePictureItemToServer } = items;
       const itemUpdated = await updatePictureItemToServer(item.id , pictureData, thumbnailData, userInfo);
-      this.onItemChange(itemUpdated);
+      onItemChange(itemUpdated);
       const key = enqueueSnackbar(
         intl.formatMessage(messages.cameraSuccess), 
         {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {closeSnackbar(key);}}
@@ -231,17 +208,14 @@ class Dashboard extends React.Component {
 
 
 
-  onRemoveItem = async () => {
-    const {items, userInfo, enqueueSnackbar, closeSnackbar, intl} = this.props;
-
-    const item = this.state.itemToRemove;
-    this.setState({itemToRemove: null, removeModalOpened: false})
-
+  const handleRemoveItem = async () => {
     try {
       const { removeItemOnServer } = items;
-      await removeItemOnServer(item.id , userInfo);
-      this.onItemRemoved(item);
-      const key = enqueueSnackbar(
+      await removeItemOnServer(itemToRemove.id , userInfo);
+      onItemRemoved(itemToRemove);
+      setItemToRemove(null);
+      setRemoveModalOpened(false);
+        const key = enqueueSnackbar(
         intl.formatMessage(messages.removeSuccess), 
         {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {closeSnackbar(key);}}
       ); 
@@ -255,14 +229,12 @@ class Dashboard extends React.Component {
   }
 
 
-  onChangeSize = async (item, size) => {
-    const {items, userInfo, enqueueSnackbar, closeSnackbar, intl} = this.props;
-
+  const onChangeSize = async (item, size) => {
     try {
       const { removeItemOnServer } = items;
       const itemUpdated = await removeItemOnServer(item.id , userInfo, size);
-      this.onItemChange(itemUpdated);
-      // this.onItemRemoved(item);
+      onItemChange(itemUpdated);
+      // onItemRemoved(item);
       const key = enqueueSnackbar(
         intl.formatMessage(messages.sizeChangeSuccess), 
         {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {closeSnackbar(key);}}
@@ -279,84 +251,113 @@ class Dashboard extends React.Component {
 
 
 
-  onItemRemoved = (item) => {
+  const onItemRemoved = (item) => {
+
+    // Update the __xxx variables:
+    items.addUtilityFieldsToItem(item, itemCharacteristics, userInfo, theme);
 
     // Update both the current (filtered list) and the entire list
-    this.updateStateArray('filteredArrayItems', item, true);
-    this.updateStateArray('arrayItems', item, true);    
+    updateStateArray('filteredArrayItems', item, true);
+    updateStateArray('arrayItems', item, true);    
 
     // Back side: remove from server
     // This is done directly in the caller (ItemCard.handleClickRemove)
   }
 
 
-  onConfirmRemoveItem = (item, size) => {
-    if(size === '0')
-      this.setState({itemToRemove: item, removeModalOpened: true})
-    else
-      this.onChangeSize(item, size)
-    
+  const onConfirmRemoveItem = (item, size) => {
+    if(size === '0') {
+      setItemToRemove(item);
+      setRemoveModalOpened(true);
+    } else {
+      onChangeSize(item, size);
+    }
   }
 
-  handleCloseRemoveModal = () => {
-    this.setState({itemToRemove: null, removeModalOpened: false})
+  const handleCloseRemoveModal = () => {
+    setItemToRemove(null);
+    setRemoveModalOpened(false);
   }
 
 
 
 
-  render() {
-    console.debug('[--- R ---] Render: Dashboard' );
 
-    const { classes, userInfo } = this.props;
-    const { category, filteredArrayItems, arrayItems, removeModalOpened } = this.state;
-
-    if(!arrayItems || arrayItems.length === 0) return (
-      <Box mt={4} display="flex" flexDirection="column" >
-        <Typography component="h1" variant="h4" color="primary" align="center" gutterBottom>
-          <FormattedMessage id="dashboard.empty.title" defaultMessage="You'll found here the content of your freezer." />
-        </Typography>
-        <Typography variant="h6" align="center" gutterBottom >
-          <FormattedMessage id="dashboard.empty.subtitle" defaultMessage="Use the Add button below to start..." />
-        </Typography>
-      </Box>      
-    );
-
-    return (
-      <React.Fragment>
-
-        <Dialog
-          open={removeModalOpened}
-          onClose={this.handleCloseRemoveModal}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title"><FormattedMessage id="item.remove.confirmation.title" defaultMessage="Remove this item?" /></DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              <FormattedMessage id="item.remove.confirmation.text" defaultMessage="This item will not be shown anymore. Use this when you remove an item from your freezer." />
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleCloseRemoveModal} color="primary">
-              <FormattedMessage id="item.remove.confirmation.cancel" defaultMessage="Cancel" />
-            </Button>
-            <Button onClick={this.onRemoveItem} color="primary" autoFocus>
-              <FormattedMessage id="item.remove.confirmation.remove" defaultMessage="Remove" />
-            </Button>
-          </DialogActions>
-        </Dialog>
-
-        <div className={classes.layout}>
-          <Filters language={userInfo.language} category={category} onCategoryChange={this.onCategoryChange} />
-          <Container maxWidth="md" className={classes.container}>
-            <ItemsList arrayItems={filteredArrayItems} onSavePicture={this.onSavePicture} onRemoveItem={this.onConfirmRemoveItem} />
-          </Container>
-        </div>          
-
-      </React.Fragment>
-    );
+  const handleShowDetails = (item) => {
+    setItemShownInDetails(item);
+    setDetailsModalOpened(true);
   }
+
+  const handleCloseDetailsModal = () => {
+    setItemShownInDetails(null);
+    setDetailsModalOpened(false);
+  }
+
+  const handleEditItem = (item, page) => {
+    if(page === 'name') {
+      setUpdateWizardOpened(true);
+    } 
+  }
+
+
+
+  if(!arrayItems || arrayItems.length === 0) return (
+    <Box mt={4} display="flex" flexDirection="column" >
+      <Typography component="h1" variant="h4" color="primary" align="center" gutterBottom>
+        <FormattedMessage id="dashboard.empty.title" defaultMessage="You'll found here the content of your freezer." />
+      </Typography>
+      <Typography variant="h6" align="center" gutterBottom >
+        <FormattedMessage id="dashboard.empty.subtitle" defaultMessage="Use the Add button below to start..." />
+      </Typography>
+    </Box>      
+  );
+
+  return (
+    <React.Fragment>
+      { detailsModalOpened && 
+          <Details 
+            opened={detailsModalOpened}
+            item={itemShownInDetails}
+            onClose={handleCloseDetailsModal}
+            onSavePicture={onSavePicture}
+            onRemoveItem={onConfirmRemoveItem}
+            onEditItem={handleEditItem}
+          />
+      }
+      { removeModalOpened && 
+          <RemoveConfirmationDialog 
+            opened={removeModalOpened}
+            onClose={handleCloseRemoveModal}
+            onRemoveItem={handleRemoveItem}
+          />
+      }
+      { updateWizardOpened && 
+        <AddWizard
+
+        />
+      }   
+      <div className={classes.layout}>
+        <Filters language={userInfo.language} category={category} onCategoryChange={onCategoryChange} />
+        <Container maxWidth="md" className={classes.container}>
+          <ItemsList arrayItems={filteredArrayItems} onShowDetails={handleShowDetails} />
+        </Container>
+      </div>          
+
+    </React.Fragment>
+  );
 }
 
-export default injectIntl(withSnackbar(withItems(withUserInfo(withStyles(styles)(Dashboard)))));
+Dashboard.propTypes = {
+  // Props from caller
+  items: PropTypes.object.isRequired,
+  // Props from other HOC
+  userInfo: PropTypes.object.isRequired,
+  intl: PropTypes.object.isRequired,
+  enqueueSnackbar: PropTypes.func.isRequired,
+  closeSnackbar: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
+  itemCharacteristics: PropTypes.object.isRequired,
+}
+
+
+export default withItemCharacteristics(injectIntl(withSnackbar(withItems(withUserInfo(withStyles(styles)(Dashboard))))));

@@ -4,15 +4,52 @@
 import React from "react";
 import * as log from 'loglevel';
 // import stringifyOnce from '../utils/stringifyOnce.js'
+import { defineMessages } from "react-intl";
+
 import qs from 'qs';
 import axios from 'axios';
 import config from './config'
-
+import {Months} from '../i18n/i18nDates';
+import { ExpirationLevel } from "./ItemCharacteristicsStore";
+import PanToolIcon from '@material-ui/icons/PanTool';
+import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
+import TimerIcon from '@material-ui/icons/Timer';
+import DoneIcon from '@material-ui/icons/Done';
 
 const logItems = log.getLogger('logItems');
 // loglevelServerSend(logItems); // a setLevel() MUST be run AFTER this!
 logItems.setLevel('debug');
 logItems.debug('--> entering Items.jsx');
+
+
+
+
+
+
+
+const messages = defineMessages({ 
+  expirationMessagePassed: {
+    id: 'expiration.message.passed',
+    defaultMessage: 'Expired!',
+  },
+  expirationMessageNext_30_days: {
+    id: 'expiration.message.next_30_days',
+    defaultMessage: 'Expires in a few days!',
+  },
+  expirationMessageWithin_3_months: {
+    id: 'expiration.message.within_3_months',
+    defaultMessage: 'Expires withing 3 months',
+  },
+  expirationMessageLater: {
+    id: 'expiration.message.later',
+    defaultMessage: 'Expires in more than 3 months',
+  },
+});
+
+
+
+
+
 
 
 export const ItemsContext = React.createContext();
@@ -25,36 +62,51 @@ export class Items extends React.Component {
     updateItemToServer: (idItem, updates, user) => this.updateItemToServer(idItem, updates, user),
     updatePictureItemToServer: (idItem, picture, thumbnail, user) => this.updatePictureItemToServer(idItem, picture, thumbnail, user),
     removeItemOnServer: (item, user, size) => this.removeItemOnServer(item, user, size),
-    get: (token, user, removed = false) => this.get(token, user, removed),
+    get: (token, user, itemCharacteristics, userInfo, theme, removed = false) => this.get(token, user, itemCharacteristics, userInfo, theme, removed),
+    addUtilityFieldsToItem: (item, itemCharacteristics, userInfo, theme) => this.addUtilityFieldsToItem(item, itemCharacteristics, userInfo, theme),
   };
 
 
 
-/*
-  Ex of item received:
-    category: "V"
-    code: "V0121"
-    color: ""
-    container: "B"
-    createdAt: "2019-06-27T11:52:28.031Z"
-    details: "DHOM,DRAW"
-    expirationDate: "2019-12-27T12:52:27.850Z"
-    freezer: "O"
-    id: "5d14adfc1546b6356c48a24c"
-    location: "M"
-    name: ""
-    size: 4
-    tableData: {id: 0}
-    updatedAt: "2019-06-27T11:52:28.031Z"
-    user: "5d07775232fd681dfa7a9b25"
+  /*
+    Ex of item received:
+      category: "V"
+      code: "V0121"
+      color: ""
+      container: "B"
+      createdAt: "2019-06-27T11:52:28.031Z"
+      details: "DHOM,DRAW"
+      expirationDate: "2019-12-27T12:52:27.850Z"
+      freezer: "O"
+      id: "5d14adfc1546b6356c48a24c"
+      location: "M"
+      name: ""
+      size: 4
+      tableData: {id: 0}
+      updatedAt: "2019-06-27T11:52:28.031Z"
+      user: "5d07775232fd681dfa7a9b25"
 
-    Notes:
-    - transformed here: 
-      - detailsArray: (2) ["DHOM", "DRAW"]
+    Added here:
+        __detailsArray
+        __expirationLevel
+        __avatarBackgroundColor
+        __cardBackgroundColor
+        __iconExpiration
+        __expirationText
+        __categoryText
+        __nameOrCategory
+        __sizeInText
+        __detailsNames
+        __imageExists
+        __yearExpiration
+        __monthExpirationAsText
+  
+    Note on itemCharacteristics, userInfo, theme: 
+      needed for adding the __xxx variables
+      
+  */
 
-*/
-
-  async get(token, user, removed = false) {
+  async get(token, user, itemCharacteristics, userInfo, theme, removed = false) {
     console.info('|--- SERVER CALL ---|--- GET ---| Items.get loads items from server');
     const params = { 'access_token': token, 'user': user };
     const removedOption = removed ? "/removed" : "";
@@ -68,7 +120,7 @@ export class Items extends React.Component {
     try {
       const response = await axios(options);
       response.data.forEach(item => {
-        item.detailsArray = item.details ? item.details.split(",") : [];
+        this.addUtilityFieldsToItem(item, itemCharacteristics, userInfo, theme);
       });
       // console.log('Items.get response: ' , response.data);
       return response;
@@ -79,8 +131,77 @@ export class Items extends React.Component {
     }
   }
 
-        
-        
+  /*
+      Adds:
+      __detailsArray
+      __expirationLevel
+      __avatarBackgroundColor
+      __cardBackgroundColor
+      __iconExpiration
+      __expirationText
+      __categoryText
+      __containerText
+      __colorText
+      __freezerText
+      __locationText
+      __nameOrCategory
+      __sizeInText
+      __detailsNames
+      __imageExists
+      __yearExpiration
+      __monthExpirationAsText
+  */
+
+  addUtilityFieldsToItem(item, itemCharacteristics, userInfo, theme) {
+    item.__detailsArray = item.details ? item.details.split(",") : [];
+    item.__expirationLevel = itemCharacteristics.computeExpirationLevel(item.expirationDate);
+    switch (item.__expirationLevel) {
+      case ExpirationLevel.EXPIRATION_PASSED:
+        item.__avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.expired;
+        item.__cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.expired;
+        item.__iconExpiration = <PanToolIcon />;
+        item.__expirationText = messages.expirationMessagePassed;
+        break;
+      case ExpirationLevel.EXPIRATION_NEXT_30_DAYS:
+        item.__avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.next_30_days;
+        item.__cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.next_30_days;
+        item.__iconExpiration = <PriorityHighIcon />;
+        item.__expirationText = messages.expirationMessageNext_30_days;
+        break;
+      case ExpirationLevel.EXPIRATION_WITHIN_3_MONTHS:
+        item.__avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.within_3_months;
+        item.__cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.within_3_months;
+        item.__iconExpiration = <TimerIcon />;
+        item.__expirationText = messages.expirationMessageWithin_3_months;
+        break;
+      default:
+        item.__avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.later;
+        item.__cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.later;
+        item.__iconExpiration = <DoneIcon />;
+        item.__expirationText = messages.expirationMessageLater;
+        break;
+    } 
+
+    
+    item.__categoryText = itemCharacteristics.getCategoryName(item.category, userInfo.language);
+    item.__containerText = itemCharacteristics.getContainerName(item.container, userInfo.language);
+    item.__colorText = itemCharacteristics.getColorName(item.color, userInfo.language);
+    item.__freezerText = itemCharacteristics.getFreezerName(item.freezer, userInfo.language);
+    item.__locationText = itemCharacteristics.getLocationName(item.location, userInfo.language);
+    item.__nameOrCategory = item.name && item.name.length > 0 ? item.name : item.__categoryText;
+    item.__sizeInText = itemCharacteristics.getSizeLabel(item.size, userInfo.language);
+    const detailsNamesArray = itemCharacteristics.getDetailsNamesArray(item.__detailsArray, userInfo.language);
+    item.__detailsNames = detailsNamesArray ? detailsNamesArray.join( ', ') : null;
+    item.__imageExists = item.pictureName || item.thumbnailName;
+
+    const expirationAsDate = new Date(item.expirationDate);
+    item.__yearExpiration = expirationAsDate.getFullYear();
+    const monthExpiration = expirationAsDate.getMonth();
+    item.__monthExpirationAsText = Months[userInfo.language][monthExpiration];
+  }
+
+
+          
   
   async saveItemToServer(item, user) {
     console.info('|--- SERVER CALL ---|--- POST ---| Items.saveItemToServer: ', item);

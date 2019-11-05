@@ -97,6 +97,10 @@ export class ItemCharacteristicsStore extends React.Component {
         itemCharacteristics: null,
         load: () => this.load(),
         getCategoryName: (category, language) => this.getCategoryName(category, language),
+        getContainerName: (container, language) => this.getContainerName(container, language),
+        getColorName: (color, language) => this.getColorName(color, language),
+        getFreezerName: (freezer, language) => this.getFreezerName(freezer, language),
+        getLocationName: (location, language) => this.getLocationName(location, language),
         getSizeLabel: (size, language) => this.getSizeLabel(size, language),
         getDetailsNamesArray: (detailsArray, language) => this.getDetailsNamesArray(detailsArray, language),
         getDefaultExpirationInMonths: (category, details) => this.getDefaultExpirationInMonths(category, details),
@@ -168,6 +172,57 @@ export class ItemCharacteristicsStore extends React.Component {
         else
             return null;
     }
+
+    getContainerName (container, language)  {
+        if(!container) return null;
+
+        // Get the containers. They contain the name information
+        const { containers } = this.state;
+        const foundContainer = containers.find(aContainer => aContainer.id2 === container);
+        if(foundContainer)
+            return foundContainer.name[language];
+        else
+            return null;
+    }
+
+    getColorName (color, language)  {
+        if(!color) return null;
+
+        // Get the colors. They contain the name information
+        const { colors } = this.state;
+        const foundColor = colors.find(aColor => aColor.id2 === color);
+        if(foundColor)
+            return foundColor.name[language];
+        else
+            return null;
+    }
+
+    getFreezerName (freezer, language)  {
+        if(!freezer) return null;
+
+        // Get the freezers. They contain the name information
+        const { freezers } = this.state;
+        const foundFreezer = freezers.find(aFreezer => aFreezer.id2 === freezer);
+        if(foundFreezer)
+            return foundFreezer.name[language];
+        else
+            return null;
+    }
+
+    getLocationName (location, language)  {
+        if(!location) return null;
+
+        // Get the locations. They contain the name information
+        const { locations } = this.state;
+        const foundLocation = locations.find(aLocation => aLocation.id2 === location);
+        if(foundLocation)
+            return foundLocation.name[language];
+        else
+            return null;
+    }
+
+
+
 
     getSizeLabel(size, language) {
         if(!size) return null;
