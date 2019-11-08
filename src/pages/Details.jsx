@@ -84,7 +84,7 @@ const styles = theme => ({
 
 // const Details = ({opened, item, onClose, onSavePicture, onRemoveItem, onEditItem, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
 
-const Details = ({match, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
+const Details = ({item, match, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
 
   const id = match.params.id;
 
@@ -98,20 +98,20 @@ const Details = ({match, classes, intl, userInfo, enqueueSnackbar, closeSnackbar
   
   const handleClickRemove = ({ size }) => {
     console.log("ItemCard.handleClickRemove: ", item.id);
-    onRemoveItem(item, size);
+    // onRemoveItem(item, size);
     return null;
   };
 
   const handleSavePicture = (pictureData, thumbnailData) => {
     console.log("ItemCard.handeSavePicture: ", item.id);
-    onSavePicture(item, pictureData, thumbnailData);
+    // onSavePicture(item, pictureData, thumbnailData);
   };
 
   
   const handleEditCode = (e) => {
     e.stopPropagation();
     console.log("ItemCard.handleEditCode: ", item.id);
-    onEditItem(item, 'name');
+    // onEditItem(item, 'name');
     return null;
   };
 
@@ -119,7 +119,7 @@ const Details = ({match, classes, intl, userInfo, enqueueSnackbar, closeSnackbar
   const handleEditDetails = (e) => {
     e.stopPropagation();
     console.log("ItemCard.handleEditDetails: ", item.id);
-    onEditItem(item, 'details');
+    // onEditItem(item, 'details');
     return null;
   };
 
@@ -127,7 +127,7 @@ const Details = ({match, classes, intl, userInfo, enqueueSnackbar, closeSnackbar
   const handleEditExpiration = (e) => {
     e.stopPropagation();
     console.log("ItemCard.handleEditExpiration: ", item.id);
-    onEditItem(item, 'expirationDate');
+    // onEditItem(item, 'expirationDate');
     return null;
   };
 
@@ -146,8 +146,8 @@ const Details = ({match, classes, intl, userInfo, enqueueSnackbar, closeSnackbar
   return (
     <Dialog
       fullScreen={fullScreen}
-      open={opened}
-      onClose={onClose}
+      // open={opened}
+      // onClose={onClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
@@ -198,7 +198,8 @@ const Details = ({match, classes, intl, userInfo, enqueueSnackbar, closeSnackbar
               label={intl.formatMessage(item.__imageExists ? messages.cameraReplace : messages.cameraAdd)}
         />
 
-        <Button onClick={onClose} color="primary">
+        {/* <Button onClick={onClose} color="primary"> */}
+        <Button color="primary">
           <FormattedMessage id="button.close" defaultMessage="Close" />
         </Button>
       </DialogActions>
@@ -219,6 +220,9 @@ Details.propTypes = {
   // onRemoveItem: PropTypes.func.isRequired,
   // onEditItem: PropTypes.func.isRequired,
 
+
+  // Props from redux
+  item: PropTypes.object.isRequired,
 
   // Props from other HOC
   classes: PropTypes.object.isRequired,

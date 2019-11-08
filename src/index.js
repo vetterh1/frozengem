@@ -3,9 +3,39 @@ import 'react-app-polyfill/stable';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware, compose } from 'redux';
+import { createLogger } from 'redux-logger';
+import thunk from 'redux-thunk';
+import combinedReducer from './reducers/combinedReducer';
+import { fetchItems } from './actions/itemsActions';
+
 import './index.css';
 import App from './pages/App';
 import * as serviceWorker from './serviceWorker';
+
+
+
+//
+// --------------- Init Redux actions & reducers ---------------
+//
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const reduxMiddleware = applyMiddleware(thunk, createLogger());
+
+const store = createStore(
+  combinedReducer,
+  composeEnhancers(reduxMiddleware));
+
+
+//
+// --------------- Init Redux store with Server data ---------------
+//
+
+store.dispatch(fetchItems());
+// store.dispatch(fetchItemCharacteristics());
+
 
 
 // ------------------  i18n  ---------------------
@@ -23,9 +53,18 @@ function ensureIntlSupport() {
   }
   
 
+
+//
+// --------------- MAIN RENDER ---------------
+//
+
 ensureIntlSupport().then(
-    ReactDOM.render(<App />, document.getElementById('root'))
-);
+  ReactDOM.render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    document.getElementById('root')));
+
 
 
 //

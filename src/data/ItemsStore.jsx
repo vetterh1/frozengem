@@ -62,7 +62,7 @@ export class Items extends React.Component {
     updateItemToServer: (idItem, updates, user) => this.updateItemToServer(idItem, updates, user),
     updatePictureItemToServer: (idItem, picture, thumbnail, user) => this.updatePictureItemToServer(idItem, picture, thumbnail, user),
     removeItemOnServer: (item, user, size) => this.removeItemOnServer(item, user, size),
-    get: (token, user, itemCharacteristics, userInfo, theme, removed = false) => this.get(token, user, itemCharacteristics, userInfo, theme, removed),
+    getFromServer: (token, user, itemCharacteristics, userInfo, theme, removed = false) => this.getFromServer(token, user, itemCharacteristics, userInfo, theme, removed),
     addUtilityFieldsToItem: (item, itemCharacteristics, userInfo, theme) => this.addUtilityFieldsToItem(item, itemCharacteristics, userInfo, theme),
   };
 
@@ -106,7 +106,7 @@ export class Items extends React.Component {
       
   */
 
-  async get(token, user, itemCharacteristics, userInfo, theme, removed = false) {
+  async getFromServer(token, user, itemCharacteristics, userInfo, theme, removed = false) {
     console.info('|--- SERVER CALL ---|--- GET ---| Items.get loads items from server');
     const params = { 'access_token': token, 'user': user };
     const removedOption = removed ? "/removed" : "";
