@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux';
-import { createLogger } from 'redux-logger';
+// import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 import combinedReducer from './reducers/combinedReducer';
 import { fetchItems } from './actions/itemsActions';
@@ -22,7 +22,8 @@ import * as serviceWorker from './serviceWorker';
 //
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const reduxMiddleware = applyMiddleware(thunk, createLogger());
+// const reduxMiddleware = applyMiddleware(thunk, createLogger());
+const reduxMiddleware = applyMiddleware(thunk);
 
 const store = createStore(
   combinedReducer,
@@ -33,7 +34,7 @@ const store = createStore(
 // --------------- Init Redux store with Server data ---------------
 //
 
-store.dispatch(fetchItems());
+// store.dispatch(fetchItems());   ==> not here, only possible when user is signed in!
 // store.dispatch(fetchItemCharacteristics());
 
 

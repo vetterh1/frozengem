@@ -68,18 +68,18 @@ const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackb
   const [arrayItems, setArrayItems] = React.useState(null);
 
   // First render: get the items from the server
-  useEffect(() => {
+  // useEffect(() => {
 
-    const getItems = async () => {
-      const result = await items.get(userInfo.accessToken, userInfo.id, itemCharacteristics, userInfo, theme);
-      if(!result) {
-        console.error('ItemsList: could not retrieve items' );
-      }
-      const sortedItems = result.data.sort((a, b) => (a.expirationDate > b.expirationDate) ? 1 : -1)
-      setArrayItems(sortedItems);
-    };
-    getItems();
-  }, []);
+  //   const getItems = async () => {
+  //     const result = await items.get(userInfo.accessToken, userInfo.id, itemCharacteristics, userInfo, theme);
+  //     if(!result) {
+  //       console.error('ItemsList: could not retrieve items' );
+  //     }
+  //     const sortedItems = result.data.sort((a, b) => (a.expirationDate > b.expirationDate) ? 1 : -1)
+  //     setArrayItems(sortedItems);
+  //   };
+  //   getItems();
+  // }, []);
 
 
 
