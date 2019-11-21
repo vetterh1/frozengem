@@ -210,7 +210,7 @@ export class ItemCharacteristicsStore extends React.Component {
     }
 
     getLocationName (location, language)  {
-        if(!location) return null;
+        if(!location || 0 === location.length) return "?";
 
         // Get the locations. They contain the name information
         const { locations } = this.state;
