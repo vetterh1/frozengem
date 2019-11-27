@@ -8,7 +8,7 @@ import { ExpirationLevel } from "../data/ItemCharacteristicsStore";
 
 
 
-import { REQUEST_ITEMS, RECEIVE_ITEMS, ERROR_REQUESTING_ITEMS } from "../constants/action-types";
+import { REQUEST_ITEMS, RECEIVE_ITEMS, ERROR_REQUESTING_ITEMS } from "../_constants/action-types";
 
 
 

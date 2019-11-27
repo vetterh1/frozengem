@@ -11,6 +11,9 @@ import StepWizard from 'react-step-wizard';
 import EmailForm from './EmailForm';
 import PasswordForm from './PasswordForm';
 
+import { connect } from 'react-redux';
+import { userActions } from '../../_actions/userActions';
+
 
 // import stringifyOnce from '../../utils/stringifyOnce.js'
 
@@ -98,7 +101,7 @@ class LoginWizard extends React.Component {
 */
 
   async login() {
-    const { login } = this.props.userInfo;
+    const { login } = this.props;
 
     const {email, password} = this.state;
     try {
@@ -140,7 +143,20 @@ class LoginWizard extends React.Component {
   }
 }
 
-export default injectIntl(withUserInfo(withRouter(withSnackbar(withStyles(styles, { withTheme: true })(LoginWizard)))));
+
+function mapState(state) {
+  const { loggingIn } = state.authentication;
+  return { loggingIn };
+}
+
+const actionCreators = {
+  login: userActions.login,
+  logout: userActions.logout
+};
+
+const connectedLoginWizard = connect(mapState, actionCreators)(LoginWizard);
+
+export default injectIntl(withUserInfo(withRouter(withSnackbar(withStyles(styles, { withTheme: true })(connectedLoginWizard)))));
 
 
 

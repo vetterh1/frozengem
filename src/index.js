@@ -8,8 +8,8 @@ import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux';
 // import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
-import combinedReducer from './reducers/combinedReducer';
-import { fetchItems } from './actions/itemsActions';
+import combinedReducer from './_reducers/combinedReducer';
+// import { fetchItems } from './_actions/itemsActions';
 
 import './index.css';
 import App from './pages/App';

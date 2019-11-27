@@ -1,6 +1,7 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { connect } from 'react-redux';
 import { IntlProvider, addLocaleData } from "react-intl";
 import { SnackbarProvider } from 'notistack';
 import translations from '../i18n/locales';
@@ -83,7 +84,7 @@ const intApp = (props) => {
         <UserInfoStore>
           <Items>
             <UserInfoConsumer>
-              {({ language, isAuthenticated, getHome, name, navigationStyle }) => {
+              {({ language, getHome, name, navigationStyle }) => {
                   if(!language) return null;
                   return (
                     <IntlProvider
@@ -129,7 +130,7 @@ const intApp = (props) => {
                                 <Route
                                   exact path="/"
                                   component={props => { 
-                                    if(isAuthenticated()) {
+                                    if(props.loggedIn) {
 
                                       // Token exists, but no name --> in userinfo loading process:
                                       if(!name) return <LoadingUserInfo /> ;
@@ -156,10 +157,10 @@ const intApp = (props) => {
                               </Switch>          
                             {/* </Container> */}
 
-                            { !isAuthenticated() && <Footer location={props.location} />}
-                            { isAuthenticated() && navigationStyle === NavigationStyle.NAVIGATION_BOTTOMNAV && 
+                            { !props.loggedIn && <Footer location={props.location} />}
+                            { props.loggedIn && navigationStyle === NavigationStyle.NAVIGATION_BOTTOMNAV && 
                               <BottomNav style={stickToBottom} /> }
-                            { isAuthenticated() && navigationStyle === NavigationStyle.NAVIGATION_FLOATING && 
+                            { props.loggedIn && navigationStyle === NavigationStyle.NAVIGATION_FLOATING && 
                               <FloatingNav /> }                              
 
                           </div>
@@ -176,4 +177,12 @@ const intApp = (props) => {
   );
 }
 
-export default withMyTheme(intApp);
+function mapStateToProps(state) {
+  const { authentication: { loggedIn } } = state;
+  return { loggedIn };
+}
+
+
+const connectedApp = connect(mapStateToProps, null)(intApp);
+
+export default withMyTheme(connectedApp);
