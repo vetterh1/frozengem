@@ -5,7 +5,7 @@ import axios from 'axios';
 import config from '../data/config'
 
 
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE  } from "../_constants/action-types";
+import { SET_LANGUAGE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE  } from "../_constants/action-types";
 import { userService } from '../_services/userServices';
 // import { alertActions } from './';
 // import { history } from '../_helpers';
@@ -14,7 +14,13 @@ export const userActions = {
     login,
     logout,
     register,
+    setLanguage,
 };
+
+
+function setLanguage(language) {
+  return { type: SET_LANGUAGE, language };
+}
 
 function login(email, password) {
     console.log('userActions.login ==> email: ' , email);
@@ -27,6 +33,7 @@ function login(email, password) {
                 user => { 
                     dispatch(success(user));
                     // history.push('/');
+                    return user.name;
                 },
                 error => {
                     dispatch(failure(error.toString()));
@@ -35,7 +42,7 @@ function login(email, password) {
             );
     };
 
-    function request(email) { return { type: LOGIN_REQUEST, email } }
+    function request(email) { return { type: LOGIN_REQUEST } }
     function success(user) { return { type: LOGIN_SUCCESS, user } }
     function failure(error) { return { type: LOGIN_FAILURE, error } }
 }
@@ -47,7 +54,7 @@ function logout() {
 
 function register(user) {
     return dispatch => {
-        dispatch(request(user));
+        dispatch(request());
 
         userService.register(user)
             .then(
@@ -63,7 +70,7 @@ function register(user) {
             );
     };
 
-    function request(user) { return { type: REGISTER_REQUEST, user } }
+    function request(user) { return { type: REGISTER_REQUEST } }
     function success(user) { return { type: REGISTER_SUCCESS, user } }
     function failure(error) { return { type: REGISTER_FAILURE, error } }
 }

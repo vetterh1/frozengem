@@ -7,6 +7,7 @@ import { SnackbarProvider } from 'notistack';
 import Notifier from './utils/Notifier';
 import translations from '../i18n/locales';
 import frLocaleData from "react-intl/locale-data/fr";
+import enLocaleData from "react-intl/locale-data/en";
 import withMyTheme from '../withMyTheme';
 import { indigo } from '@material-ui/core/colors';
 import Container from '@material-ui/core/Container';
@@ -43,6 +44,7 @@ import { Items } from "../data/ItemsStore";
 //
 
 addLocaleData(frLocaleData);
+addLocaleData(enLocaleData);
 
 
 
@@ -90,10 +92,10 @@ const intApp = (props) => {
                   if(!language) return null;
                   return (
                     <IntlProvider
-                      locale={language}
+                      locale={props.language}
                       defaultLocale="en"
-                      key={language}
-                      messages={translations[language]}
+                      key={props.language}
+                      messages={translations[props.language]}
                     >      
                       <ItemCharacteristicsStore>
                         <Router basename={process.env.PUBLIC_URL}>
@@ -180,8 +182,11 @@ const intApp = (props) => {
 }
 
 function mapStateToProps(state) {
-  const { authentication: { loggedIn } } = state;
-  return { loggedIn };
+  const { user: { loggedIn, language } } = state;
+  return {
+    loggedIn,
+    language
+  };
 }
 
 

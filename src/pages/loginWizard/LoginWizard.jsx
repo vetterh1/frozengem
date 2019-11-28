@@ -152,7 +152,7 @@ class LoginWizard extends React.Component {
 
 
 function mapState(state) {
-  const { loggingIn } = state.authentication;
+  const { loggingIn } = state.user;
   return { loggingIn };
 }
 
