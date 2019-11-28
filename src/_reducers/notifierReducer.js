@@ -1,10 +1,10 @@
-import { ENQUEUE_SNACKBAR, CLOSE_SNACKBAR, REMOVE_SNACKBAR } from "../_constants/action-types";
+import { ADD_NOTIFIER, CLOSE_NOTIFIER, REMOVE_NOTIFIER } from "../_constants/action-types";
 
 const initialState = { notifications: [] };
 
 export function notifier(state = initialState, action) {
   switch (action.type) {
-    case ENQUEUE_SNACKBAR:
+    case ADD_NOTIFIER:
         return {
             notifications: [
                 ...state.notifications,
@@ -15,7 +15,7 @@ export function notifier(state = initialState, action) {
             ],
         };
 
-    case CLOSE_SNACKBAR:
+    case CLOSE_NOTIFIER:
         return {
             notifications: state.notifications.map(notification => (
                 (action.dismissAll || notification.key === action.key)
@@ -24,7 +24,7 @@ export function notifier(state = initialState, action) {
             )),
         }
 
-    case REMOVE_SNACKBAR:
+    case REMOVE_NOTIFIER:
         return {
             notifications: state.notifications.filter(
                 notification => notification.key !== action.key,

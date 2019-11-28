@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withSnackbar } from 'notistack';
-import { removeSnackbar } from '../../_actions/notifierActions';
+import { notifierActions } from '../../_actions/notifierActions';
 
 class Notifier extends Component {
     displayed = [];
@@ -37,7 +37,7 @@ class Notifier extends Component {
                     }
                 },
                 onExited: (event, key) => {
-                    this.props.removeSnackbar(key);
+                    this.props.removeNotifier(key);
                     this.removeDisplayed(key)
                 }
             });
@@ -56,7 +56,7 @@ const mapStateToProps = state => ({
 });
 
 
-const mapDispatchToProps = dispatch => bindActionCreators({ removeSnackbar }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ removeNotifier: notifierActions.removeNotifier }, dispatch);
 
 export default withSnackbar(connect(
     mapStateToProps,

@@ -1,11 +1,16 @@
-import { ENQUEUE_SNACKBAR, CLOSE_SNACKBAR, REMOVE_SNACKBAR } from "../_constants/action-types";
+import { ADD_NOTIFIER, CLOSE_NOTIFIER, REMOVE_NOTIFIER } from "../_constants/action-types";
 
+export const notifierActions = {
+    addNotifier,
+    closeNotifier,
+    removeNotifier,
+};
 
-export const enqueueSnackbar = notification => {
+function addNotifier(notification) {
     const key = notification.options && notification.options.key;
 
     return {
-        type: ENQUEUE_SNACKBAR,
+        type: ADD_NOTIFIER,
         notification: {
             ...notification,
             key: key || new Date().getTime() + Math.random(),
@@ -13,13 +18,17 @@ export const enqueueSnackbar = notification => {
     };
 };
 
-export const closeSnackbar = key => ({
-    type: CLOSE_SNACKBAR,
-    dismissAll: !key, // dismiss all if no key has been defined
-    key,
-});
+function closeNotifier(key) {
+    return {
+        type: CLOSE_NOTIFIER,
+        dismissAll: !key, // dismiss all if no key has been defined
+        key,
+    };
+}
 
-export const removeSnackbar = key => ({
-    type: REMOVE_SNACKBAR,
-    key,
-});
+function removeNotifier(key) {
+    return {
+        type: REMOVE_NOTIFIER,
+        key,
+    };
+}

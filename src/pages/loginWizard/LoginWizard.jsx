@@ -13,6 +13,7 @@ import PasswordForm from './PasswordForm';
 
 import { connect } from 'react-redux';
 import { userActions } from '../../_actions/userActions';
+import { notifierActions } from '../../_actions/notifierActions';
 
 
 // import stringifyOnce from '../../utils/stringifyOnce.js'
@@ -101,18 +102,24 @@ class LoginWizard extends React.Component {
 */
 
   async login() {
-    const { login } = this.props;
+    const { login, addNotifier } = this.props;
 
     const {email, password} = this.state;
     try {
       const userName = await login(email, password );
-      console.log('userName: ' , userName);
+      console.log('userName: ' , userName, ", addNotifier: ", addNotifier, ', login: ', login);
 
       // Success message
       const key = this.props.enqueueSnackbar(
         this.props.intl.formatMessage(messages.success), 
         {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
       );
+      // Success message
+      addNotifier({
+        message: this.props.intl.formatMessage(messages.success), 
+        options: {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
+      });
+            
 
       // navigate to the home route
       this.props.history.push('/');
@@ -151,7 +158,8 @@ function mapState(state) {
 
 const actionCreators = {
   login: userActions.login,
-  logout: userActions.logout
+  logout: userActions.logout,
+  addNotifier: notifierActions.addNotifier,
 };
 
 const connectedLoginWizard = connect(mapState, actionCreators)(LoginWizard);
