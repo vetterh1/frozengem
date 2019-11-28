@@ -160,6 +160,7 @@ async function login(email, password) {
     const {user, token} = response.data;
     console.log('login OK: ' , response, user, token);
     localStorage.setItem('accessToken', token);
+    localStorage.setItem('user', JSON.stringify(user));
     return user;
 
   } catch (error) {
@@ -197,6 +198,7 @@ async function registerToServer(email, password, name) {
     const {user, token} = response.data;
     console.log('register OK: ' , response, user, token);
     localStorage.setItem('accessToken', token);
+    localStorage.setItem('user', JSON.stringify(user));
     return user;
 
   } catch (error) {

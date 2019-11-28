@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
 import { IntlProvider, addLocaleData } from "react-intl";
 import { SnackbarProvider } from 'notistack';
+import Notifier from './utils/Notifier';
 import translations from '../i18n/locales';
 import frLocaleData from "react-intl/locale-data/fr";
 import withMyTheme from '../withMyTheme';
@@ -80,6 +81,7 @@ const intApp = (props) => {
       maxSnack={3}
       hideIconVariant
     >
+      <Notifier />
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <UserInfoStore>
           <Items>

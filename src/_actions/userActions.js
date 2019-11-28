@@ -19,7 +19,7 @@ export const userActions = {
 function login(email, password) {
     console.log('userActions.login ==> email: ' , email);
 
-    return dispatch => {
+    return async dispatch => {
         dispatch(request({ email }));
 
         userService.login(email, password)
