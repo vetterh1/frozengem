@@ -1,20 +1,12 @@
 import * as log from 'loglevel';
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-
 import { connect } from 'react-redux';
 import { userActions } from '../../_actions/userActions';
 import { notifierActions } from '../../_actions/notifierActions';
-
 import { withStyles } from '@material-ui/core/styles';
 import StepWizard from 'react-step-wizard';
 import EmailForm from './EmailForm';
 import PasswordForm from './PasswordForm';
-
-
-
-// import stringifyOnce from '../../utils/stringifyOnce.js'
 
 const styles = theme => ({
   button: {
@@ -36,12 +28,6 @@ const styles = theme => ({
     flexGrow: 0,
   },  
 });
-
-const logLoginWizard = log.getLogger('logLoginWizard');
-// loglevelServerSend(logLoginWizard); // a setLevel() MUST be run AFTER this!
-logLoginWizard.setLevel('debug');
-logLoginWizard.debug('--> entering LoginWizard.jsx');
-
 
 class LoginWizard extends React.Component {
 
@@ -77,25 +63,8 @@ class LoginWizard extends React.Component {
 */
 
   async login() {
-    // const { login, addIntlNotifier, history } = this.props;
-
     const {email, password} = this.state;
-    try {
-      await this.props.login(email, password );
-
-      // // Success message
-      // addIntlNotifier('login.success', 'success');
-
-      // navigate to the home route
-      // history.push('/');
-      
-    } catch (error) {
-
-      // // Error message
-      // const unauthorized = error.response && error.response.status  === 401; 
-      // const message = unauthorized ? 'login.unauthorized' : 'login.error';
-      // addIntlNotifier(message, 'error');
-    }
+    await this.props.login(email, password );
   }
 
 
@@ -119,7 +88,7 @@ const actionCreators = {
 
 const connectedLoginWizard = connect(null, actionCreators)(LoginWizard);
 
-export default withRouter(withStyles(styles, { withTheme: true })(connectedLoginWizard));
+export default withStyles(styles, { withTheme: true })(connectedLoginWizard);
 
 
 
