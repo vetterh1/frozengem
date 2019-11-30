@@ -1,15 +1,11 @@
 import React from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { injectIntl, defineMessages } from "react-intl";
+import { injectIntl } from "react-intl";
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import ViewList from '@material-ui/icons/ViewList';
 import SaveAlt from '@material-ui/icons/SaveAlt';
-import { NavigationMessages } from "./configNavigation";
-
-
-const messages = defineMessages(NavigationMessages);
 
 
 /* eslint-disable no-dupe-keys */
@@ -41,8 +37,8 @@ const BottomNav = ({location, intl}) => {
 
   return (
     <BottomNavigation value={value} onChange={handleChange} className={classes.root} showLabels>
-      <BottomNavigationAction label={intl.formatMessage(messages.list)} value="/" icon={<ViewList />} component={Link} to="/" />
-      <BottomNavigationAction label={intl.formatMessage(messages.add)} value="/add" icon={<SaveAlt />} component={Link} to="/add" />
+      <BottomNavigationAction label={intl.formatMessage({id: "action.list"})} value="/" icon={<ViewList />} component={Link} to="/" />
+      <BottomNavigationAction label={intl.formatMessage({id: "action.add"})} value="/add" icon={<SaveAlt />} component={Link} to="/add" />
     </BottomNavigation>
   );
 }

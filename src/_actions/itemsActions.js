@@ -1,5 +1,3 @@
-import { defineMessages } from "react-intl";
-
 import qs from 'qs';
 import axios from 'axios';
 import config from '../data/config'
@@ -9,36 +7,6 @@ import { ExpirationLevel } from "../data/ItemCharacteristicsStore";
 
 
 import { REQUEST_ITEMS, RECEIVE_ITEMS, ERROR_REQUESTING_ITEMS } from "../_constants/action-types";
-
-
-
-
-
-
-
-const messages = defineMessages({ 
-  expirationMessagePassed: {
-    id: 'expiration.message.passed',
-    defaultMessage: 'Expired!',
-  },
-  expirationMessageNext_30_days: {
-    id: 'expiration.message.next_30_days',
-    defaultMessage: 'Expires in a few days!',
-  },
-  expirationMessageWithin_3_months: {
-    id: 'expiration.message.within_3_months',
-    defaultMessage: 'Expires withing 3 months',
-  },
-  expirationMessageLater: {
-    id: 'expiration.message.later',
-    defaultMessage: 'Expires in more than 3 months',
-  },
-});
-
-
-
-
-
 
 
   /*
@@ -70,25 +38,25 @@ const messages = defineMessages({
         item.__avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.expired;
         item.__cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.expired;
         // item.__iconExpiration = <PanToolIcon />;
-        item.__expirationText = messages.expirationMessagePassed;
+        item.__expirationText = {id: 'expiration.message.passed'};
         break;
       case ExpirationLevel.EXPIRATION_NEXT_30_DAYS:
         item.__avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.next_30_days;
         item.__cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.next_30_days;
         // item.__iconExpiration = <PriorityHighIcon />;
-        item.__expirationText = messages.expirationMessageNext_30_days;
+        item.__expirationText = {id: 'expiration.message.next_30_days'};
         break;
       case ExpirationLevel.EXPIRATION_WITHIN_3_MONTHS:
         item.__avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.within_3_months;
         item.__cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.within_3_months;
         // item.__iconExpiration = <TimerIcon />;
-        item.__expirationText = messages.expirationMessageWithin_3_months;
+        item.__expirationText = {id: 'expiration.message.within_3_months'};
         break;
       default:
         item.__avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.later;
         item.__cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.later;
         // item.__iconExpiration = <DoneIcon />;
-        item.__expirationText = messages.expirationMessageLater;
+        item.__expirationText = {id: 'expiration.message.later'};
         break;
     } 
 

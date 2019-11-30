@@ -1,10 +1,11 @@
 /* eslint-disable react/prefer-stateless-function */
 
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { userActions } from '../_actions/userActions';
+
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from "react-intl";
-import { withUserInfo } from '../with/withUserInfo';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -34,14 +35,9 @@ const styles = theme => ({
 
 
 class Header extends React.Component {
-  static propTypes = {
-    userInfo: PropTypes.object.isRequired,
-    classes: PropTypes.object.isRequired,
-  }
 
   render() {
-    const { classes } = this.props;
-    const { isAuthenticated, language, setLanguage, navigationStyle } = this.props.userInfo;
+    const { classes, loggedIn, language, navigationStyle, setLanguage } = this.props;
     if(!language) return null;
 
     return (
@@ -49,10 +45,10 @@ class Header extends React.Component {
         <Toolbar className={classes.toolbar} disableGutters>
           <Button color="inherit" component={Link} to="/" className={classes.toolbarTitle}>
             <Typography variant="body1" color="inherit" noWrap>
-              <FormattedMessage id="header.title" defaultMessage="FrozenGem" />
+              <FormattedMessage id="header.title" />
             </Typography>
           </Button>
-          {!isAuthenticated() &&
+          {!loggedIn &&
             <nav>
               {language === "fr" && 
                 <Button color="secondary" onClick={e => setLanguage("en")}>
@@ -67,7 +63,7 @@ class Header extends React.Component {
             </nav>
           }
 
-          {isAuthenticated() && navigationStyle === NavigationStyle.NAVIGATION_TOOLBAR && 
+          {loggedIn && navigationStyle === NavigationStyle.NAVIGATION_TOOLBAR && 
             <MenuNav />
           }
 
@@ -78,4 +74,22 @@ class Header extends React.Component {
   }
 }
 
-export default withUserInfo(withStyles(styles)(Header));
+
+
+function mapStateToProps(state) {
+  const { user: { loggedIn, language, navigationStyle } } = state;
+  return {
+    loggedIn,
+    language,
+    navigationStyle
+  };
+}
+
+const actionCreators = {
+  setLanguage: userActions.setLanguage,
+
+};
+
+const connectedHeader = connect(mapStateToProps, actionCreators)(Header);
+
+export default withStyles(styles)(connectedHeader);

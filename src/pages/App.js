@@ -83,7 +83,6 @@ const intApp = (props) => {
       maxSnack={3}
       hideIconVariant
     >
-      <Notifier />
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <UserInfoStore>
           <Items>
@@ -96,7 +95,9 @@ const intApp = (props) => {
                       defaultLocale="en"
                       key={props.language}
                       messages={translations[props.language]}
-                    >      
+                    >     
+                      <> 
+                      <Notifier />
                       <ItemCharacteristicsStore>
                         <Router basename={process.env.PUBLIC_URL}>
 
@@ -170,6 +171,7 @@ const intApp = (props) => {
                           </div>
                         </Router>
                       </ItemCharacteristicsStore>
+                      </>
                     </IntlProvider>
                   );
                 }}                

@@ -1,9 +1,13 @@
 
 import React from 'react';
+
+import { connect } from 'react-redux';
+import { userActions } from '../_actions/userActions';
+import { notifierActions } from '../_actions/notifierActions';
+
 import { Link } from 'react-router-dom';
-import { injectIntl, defineMessages, FormattedMessage } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
 import {CopyToClipboard} from 'react-copy-to-clipboard';
-import { useSnackbar } from 'notistack';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
@@ -24,34 +28,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const messages = defineMessages({ 
-  clipboard: {
-    id: 'menu_profile.home_clipboard',
-    defaultMessage: '{code} copied to clipboard',
-    description: 'clip',
-  },
-  leaveBtn: {
-    id: 'menu_profile.leavehome',
-    defaultMessage: 'Leave current home',
-  },
-  leaveMessage: {
-    id: 'menu_profile.leaveMessage',
-    defaultMessage: 'Do you really want to Leave the current home',
-  },
-  leaveOkLabel: {
-    id: 'menu_profile.leaveOkLabel',
-    defaultMessage: 'Leave',
-  },
-  buttonCancel: {
-    id: 'button.cancel',
-    defaultMessage: 'cancel',
-  },
-});
 
-
-const intMenuProfile = ({homeCode, language, setLanguage, navigationStyle, setNavigationStyle, leaveHome, intl}) => {
+const intMenuProfile = ({homeCode, language, navigationStyle, setLanguage, setNavigationStyle, leaveHome, addIntlNotifier, intl}) => {
   const classes = useStyles();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -66,10 +45,7 @@ const intMenuProfile = ({homeCode, language, setLanguage, navigationStyle, setNa
 
   
   function onCopy(code) {
-    const key = enqueueSnackbar(
-      intl.formatMessage(messages.clipboard, {code: code}), 
-      {variant: 'info', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {closeSnackbar(key);}}
-    );
+    addIntlNotifier('menu_profile.home_clipboard', 'info', {code: code});
   }
 
 
@@ -101,7 +77,7 @@ const intMenuProfile = ({homeCode, language, setLanguage, navigationStyle, setNa
         onClose={handleClose}
       >
         {homeCode && <MenuItem onClick={handleClose}>
-          <FormattedMessage id="menu_profile.your_code" defaultMessage="Your home code:" />
+          <FormattedMessage id="menu_profile.your_code" />
           <CopyToClipboard
             text={homeCode}
             onCopy={() => onCopy(homeCode)}
@@ -128,19 +104,43 @@ const intMenuProfile = ({homeCode, language, setLanguage, navigationStyle, setNa
 
         {homeCode && <MenuItem>
           <ButtonWithValidation 
-            btnLabel={intl.formatMessage(messages.leaveBtn)}
-            modalTitle={intl.formatMessage(messages.leaveBtn)}
-            modalText={intl.formatMessage(messages.leaveMessage)}
-            okLabel={intl.formatMessage(messages.leaveOkLabel)}
-            cancelLabel={intl.formatMessage(messages.buttonCancel)}
+            btnLabel={intl.formatMessage({id: 'menu_profile.leavehome'})}
+            modalTitle={intl.formatMessage({id: 'menu_profile.leavehome'})}
+            modalText={intl.formatMessage({id: 'menu_profile.leaveMessage'})}
+            okLabel={intl.formatMessage({id: 'menu_profile.leaveOkLabel'})}
+            cancelLabel={intl.formatMessage({id: 'button.cancel'})}
             onOk={leaveHome}
           />
         </MenuItem>}
 
-        <MenuItem component={Link} to="/logout"><FormattedMessage id="menu_profile.logout" defaultMessage="Logout" /></MenuItem>
+        <MenuItem component={Link} to="/logout"><FormattedMessage id="menu_profile.logout" /></MenuItem>
       </Menu>
     </div>
   );
 }
 
-export const MenuProfile = injectIntl(intMenuProfile);
+
+
+
+
+function mapStateToProps(state) {
+  const { user: { home, language, navigationStyle } } = state;
+  return {
+    homeCode: home,
+    language,
+    navigationStyle
+  };
+}
+
+
+const actionCreators = {
+  setLanguage: userActions.setLanguage,
+  setNavigationStyle: userActions.setNavigationStyle,
+  leaveHome: userActions.leaveHome,
+  login: userActions.login,
+  addIntlNotifier: notifierActions.addIntlNotifier,
+};
+
+
+const connectedMenuProfile = connect(mapStateToProps, actionCreators)(intMenuProfile);
+export const MenuProfile = injectIntl(connectedMenuProfile);

@@ -108,13 +108,13 @@ async function _updateServer (key, value) {
     console.info('|--- SERVER CALL ---|--- POST ---| userServices._updateServer: ', key, value);
 
     // don't save if not authenticated
-    if(!this.isAuthenticated()) return null;
+    if(!isAuthenticated()) return null;
 
     // Update user on server:
-    const data = { 'access_token': this.state.accessToken, [key]: value };
+    const data = { 'access_token': localStorage.getItem('accessToken'), [key]: value };
     const options = {
       method: 'PUT',
-      url: `${config.boUrl}/users/${this.state.id}`,
+      url: `${config.boUrl}/users/${localStorage.getItem('id')}`,
       crossdomain : true,
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       data: qs.stringify(data),
@@ -129,101 +129,130 @@ async function _updateServer (key, value) {
 }
 
 
+
+
+
 async function setLanguage (language) {
-    await this._updateServer("language", language);
+  await _updateServer("language", language);
 }
 
+
 async function setNavigationStyle (navigationStyle) {
-  await this._updateServer("navigationStyle", navigationStyle);
+  await _updateServer("navigationStyle", navigationStyle);
 }
 
 
 
 async function login(email, password) {
-  console.info('|--- SERVER CALL ---|--- POST ---| userServices.login: ', email);
-  const masterKey = config.masterKey;
-  const data = { 'access_token': masterKey };
-  const options = {
-    method: 'POST',
-    url: `${config.boUrl}/auth`,
-    auth: {
-      username: email,
-      password: password
-    },      
-    crossdomain : true,
-    headers: { 'content-type': 'application/x-www-form-urlencoded' },
-    data: qs.stringify(data),
-  };
+console.info('|--- SERVER CALL ---|--- POST ---| userServices.login: ', email);
+const masterKey = config.masterKey;
+const data = { 'access_token': masterKey };
+const options = {
+  method: 'POST',
+  url: `${config.boUrl}/auth`,
+  auth: {
+    username: email,
+    password: password
+  },      
+  crossdomain : true,
+  headers: { 'content-type': 'application/x-www-form-urlencoded' },
+  data: qs.stringify(data),
+};
 
-  try {
-    const response = await axios(options);
-    const {user, token} = response.data;
-    console.log('login OK: ' , response, user, token);
-    localStorage.setItem('accessToken', token);
-    localStorage.setItem('user', JSON.stringify(user));
-    return user;
+try {
+  const response = await axios(options);
+  const {user, token} = response.data;
+  console.log('login OK: ' , response, user, token);
+  localStorage.setItem('accessToken', token);
+  localStorage.setItem('id', user.id);
+  localStorage.setItem('user', JSON.stringify(user));
+  return user;
 
-  } catch (error) {
-    console.error('login error: ' , error);
-    throw error;
-  }
+} catch (error) {
+  console.error('login error: ' , error);
+  throw error;
+}
 }
 
 
 
 function logout() {
 
-  // Clear everything on local storage
-  localStorage.clear();
+// Clear everything on local storage
+localStorage.clear();
 
-  // navigate to the home route done in <Logout> component
+// navigate to the home route done in <Logout> component
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 async function registerToServer(email, password, name) {
-  console.info('|--- SERVER CALL ---|--- POST ---| userServices.registerToServer: ', email);
-  const masterKey = config.masterKey;
-  const data = { 'access_token': masterKey, email, password, name };
-  const options = {
-    method: 'POST',
-    url: `${config.boUrl}/users`,
-    crossdomain : true,
-    headers: { 'content-type': 'application/x-www-form-urlencoded' },
-    data: qs.stringify(data),
-  };
+console.info('|--- SERVER CALL ---|--- POST ---| userServices.registerToServer: ', email);
+const masterKey = config.masterKey;
+const data = { 'access_token': masterKey, email, password, name };
+const options = {
+  method: 'POST',
+  url: `${config.boUrl}/users`,
+  crossdomain : true,
+  headers: { 'content-type': 'application/x-www-form-urlencoded' },
+  data: qs.stringify(data),
+};
 
-  try {
-    const response = await axios(options);
-    const {user, token} = response.data;
-    console.log('register OK: ' , response, user, token);
-    localStorage.setItem('accessToken', token);
-    localStorage.setItem('user', JSON.stringify(user));
-    return user;
+try {
+  const response = await axios(options);
+  const {user, token} = response.data;
+  console.log('register OK: ' , response, user, token);
+  localStorage.setItem('accessToken', token);
+  localStorage.setItem('id', user.id);
+  localStorage.setItem('user', JSON.stringify(user));
+  return user;
 
-  } catch (error) {
-    console.error('register error: ' , error);
+} catch (error) {
+  console.error('register error: ' , error);
 
-    if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
-      console.error('data: ', error.response.data);
-      console.error('status: ', error.response.status);
-      console.error('headers: ', error.response.headers);
+  if (error.response) {
+    // The request was made and the server responded with a status code
+    // that falls out of the range of 2xx
+    console.error('data: ', error.response.data);
+    console.error('status: ', error.response.status);
+    console.error('headers: ', error.response.headers);
 
-    } else if (error.request) {
-        // The request was made but no response was received
-        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-        // http.ClientRequest in node.js
-        console.error('request: ', error.request);
-    } else {
-        // Something happened in setting up the request that triggered an Error
-        console.error('unknown: ', error.message);
-    }
-  
-    throw error;
+  } else if (error.request) {
+      // The request was made but no response was received
+      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+      // http.ClientRequest in node.js
+      console.error('request: ', error.request);
+  } else {
+      // Something happened in setting up the request that triggered an Error
+      console.error('unknown: ', error.message);
   }
+
+  throw error;
 }
+}
+
+
+
 
 
 

@@ -11,11 +11,11 @@ function WhyFrozenGem() {
   return (
     <React.Fragment>
       <Typography component="h4" gutterBottom>
-        <FormattedMessage id="footer.why" defaultMessage="Why" />
+        <FormattedMessage id="footer.why" />
         
       </Typography>
       <Typography gutterBottom >
-        <FormattedMessage id="footer.whyanswer" defaultMessage="This project was started out of despair. Despair everytime we discard food because we don't remember what it is, when it was added. Despair every other night when we don't know what to cook... even though we know we have put so many good homemade leftovers in the freezer... but not / badly labelled!" />
+        <FormattedMessage id="footer.whyanswer" />
       </Typography>
     </React.Fragment>
   );
@@ -24,7 +24,7 @@ function WhyFrozenGem() {
 function MadeWithLove() {
   return (
     <Typography variant="body2" color="textSecondary">
-      <FormattedMessage id="footer.builtby" defaultMessage="Built with love by " />
+      <FormattedMessage id="footer.builtby" />
       <Link color="inherit" href="https://www.linkedin.com/in/lvetter">
         Laurent Vetterhoeffer
       </Link>

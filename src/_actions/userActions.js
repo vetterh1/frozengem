@@ -1,48 +1,64 @@
-import { defineMessages } from "react-intl";
-
-import qs from 'qs';
-import axios from 'axios';
-import config from '../data/config'
-
-
-import { SET_LANGUAGE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE  } from "../_constants/action-types";
+import { SET_LANGUAGE, SET_NAVIGATION_STYLE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, 
+  LOGOUT, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE  } from "../_constants/action-types";
 import { userService } from '../_services/userServices';
-// import { alertActions } from './';
-// import { history } from '../_helpers';
+import { notifierActions } from './notifierActions';
+import { history } from '../misc/history';
 
 export const userActions = {
     login,
     logout,
     register,
     setLanguage,
+    setNavigationStyle
 };
 
 
 function setLanguage(language) {
-  return { type: SET_LANGUAGE, language };
+  return async dispatch => {
+
+    userService.setLanguage(language);
+    dispatch({ type: SET_LANGUAGE, language });
+  };
 }
 
-function login(email, password) {
-    console.log('userActions.login ==> email: ' , email);
+function setNavigationStyle(navigationStyle) {
+  return async dispatch => {
 
+    userService.setNavigationStyle(navigationStyle);
+    dispatch({ type: SET_NAVIGATION_STYLE, navigationStyle });
+  };
+}
+
+
+function login(email, password) {
     return async dispatch => {
-        dispatch(request({ email }));
+        dispatch(requestSent());
 
         userService.login(email, password)
             .then(
                 user => { 
                     dispatch(success(user));
-                    // history.push('/');
+
+                    // Success message
+                    dispatch(notifierActions.addIntlNotifier('login.success', 'success'));
+
+                    // navigate to the home route
+                    history.push('/');
+
                     return user.name;
                 },
                 error => {
                     dispatch(failure(error.toString()));
-                    // dispatch(alertActions.error(error.toString()));
+
+                    // Error message
+                    const unauthorized = error.response && error.response.status  === 401; 
+                    const message = unauthorized ? 'login.unauthorized' : 'login.error';
+                    dispatch(notifierActions.addIntlNotifier(message, 'error'));
                 }
             );
     };
 
-    function request(email) { return { type: LOGIN_REQUEST } }
+    function requestSent() { return { type: LOGIN_REQUEST } }
     function success(user) { return { type: LOGIN_SUCCESS, user } }
     function failure(error) { return { type: LOGIN_FAILURE, error } }
 }

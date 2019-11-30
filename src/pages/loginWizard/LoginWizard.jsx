@@ -2,18 +2,16 @@ import * as log from 'loglevel';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { injectIntl, defineMessages } from "react-intl";
-// import { defineMessages } from 'react-intl.macro';
-import { withStyles } from '@material-ui/core/styles';
-import { withSnackbar } from 'notistack';
-import { withUserInfo } from '../../with/withUserInfo';
-import StepWizard from 'react-step-wizard';
-import EmailForm from './EmailForm';
-import PasswordForm from './PasswordForm';
 
 import { connect } from 'react-redux';
 import { userActions } from '../../_actions/userActions';
 import { notifierActions } from '../../_actions/notifierActions';
+
+import { withStyles } from '@material-ui/core/styles';
+import StepWizard from 'react-step-wizard';
+import EmailForm from './EmailForm';
+import PasswordForm from './PasswordForm';
+
 
 
 // import stringifyOnce from '../../utils/stringifyOnce.js'
@@ -45,30 +43,7 @@ logLoginWizard.setLevel('debug');
 logLoginWizard.debug('--> entering LoginWizard.jsx');
 
 
-const messages = defineMessages({ 
-  success: {
-    id: 'login.success',
-    defaultMessage: 'Congratulations, you are now logged-in!',
-    description: 'Congratulations, you are now logged-in!',
-  },     
-  unauthorized: {
-    id: 'login.unauthorized',
-    defaultMessage: 'Invalid login / password, please try again!',
-    description: 'Invalid login / password',
-  },
-  error: {
-    id: 'login.error',
-    defaultMessage: 'Sorry, an error occured. Please try again!',
-    description: 'Sorry, an error occured',
-  },
-});
-
-
-
 class LoginWizard extends React.Component {
-  static propTypes = {
-    userInfo: PropTypes.object.isRequired,
-  }
 
   defaultState = {
     email: "",
@@ -102,37 +77,24 @@ class LoginWizard extends React.Component {
 */
 
   async login() {
-    const { login, addNotifier } = this.props;
+    // const { login, addIntlNotifier, history } = this.props;
 
     const {email, password} = this.state;
     try {
-      const userName = await login(email, password );
-      console.log('userName: ' , userName, ", addNotifier: ", addNotifier, ', login: ', login);
+      await this.props.login(email, password );
 
-      // Success message
-      const key = this.props.enqueueSnackbar(
-        this.props.intl.formatMessage(messages.success), 
-        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
-      );
-      // Success message
-      addNotifier({
-        message: this.props.intl.formatMessage(messages.success), 
-        options: {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
-      });
-            
+      // // Success message
+      // addIntlNotifier('login.success', 'success');
 
       // navigate to the home route
-      this.props.history.push('/');
+      // history.push('/');
+      
     } catch (error) {
 
-      const unauthorized = error.response && error.response.status  === 401; 
-      const message = unauthorized ? messages.unauthorized : messages.error;
-
-      // Error message
-      const key = this.props.enqueueSnackbar(
-        this.props.intl.formatMessage(message), 
-        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
-      );
+      // // Error message
+      // const unauthorized = error.response && error.response.status  === 401; 
+      // const message = unauthorized ? 'login.unauthorized' : 'login.error';
+      // addIntlNotifier(message, 'error');
     }
   }
 
@@ -150,21 +112,14 @@ class LoginWizard extends React.Component {
   }
 }
 
-
-function mapState(state) {
-  const { loggingIn } = state.user;
-  return { loggingIn };
-}
-
 const actionCreators = {
   login: userActions.login,
-  logout: userActions.logout,
-  addNotifier: notifierActions.addNotifier,
+  addIntlNotifier: notifierActions.addIntlNotifier,
 };
 
-const connectedLoginWizard = connect(mapState, actionCreators)(LoginWizard);
+const connectedLoginWizard = connect(null, actionCreators)(LoginWizard);
 
-export default injectIntl(withUserInfo(withRouter(withSnackbar(withStyles(styles, { withTheme: true })(connectedLoginWizard)))));
+export default withRouter(withStyles(styles, { withTheme: true })(connectedLoginWizard));
 
 
 
