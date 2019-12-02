@@ -4,14 +4,14 @@ import axios from 'axios';
 import config from '../data/config'
 
 
-export const userService = {
+export const userServices = {
     isAuthenticated,
     setLanguage,
     setNavigationStyle,
     login,
+    autologin, 
     logout,
     registerToServer,
-    loadFromServer, 
     joinHome,
     joinNewHome,
     leaveHome
@@ -64,35 +64,67 @@ async function setNavigationStyle (navigationStyle) {
 
 
 async function login(email, password) {
-console.info('|--- SERVER CALL ---|--- POST ---| userServices.login: ', email);
-const masterKey = config.masterKey;
-const data = { 'access_token': masterKey };
-const options = {
-  method: 'POST',
-  url: `${config.boUrl}/auth`,
-  auth: {
-    username: email,
-    password: password
-  },      
-  crossdomain : true,
-  headers: { 'content-type': 'application/x-www-form-urlencoded' },
-  data: qs.stringify(data),
-};
+  console.info('|--- SERVER CALL ---|--- POST ---| userServices.login: ', email);
+  const masterKey = config.masterKey;
+  const data = { 'access_token': masterKey };
+  const options = {
+    method: 'POST',
+    url: `${config.boUrl}/auth`,
+    auth: {
+      username: email,
+      password: password
+    },      
+    crossdomain : true,
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify(data),
+  };
 
-try {
-  const response = await axios(options);
-  const {user, token} = response.data;
-  console.log('login OK: ' , response, user, token);
-  localStorage.setItem('accessToken', token);
-  localStorage.setItem('id', user.id);
-  localStorage.setItem('user', JSON.stringify(user));
-  return user;
+  try {
+    const response = await axios(options);
+    const {user, token} = response.data;
+    console.log('login OK: ' , response, user, token);
+    localStorage.setItem('accessToken', token);
+    localStorage.setItem('id', user.id);
+    localStorage.setItem('user', JSON.stringify(user));
+    return user;
 
-} catch (error) {
-  console.error('login error: ' , error);
-  throw error;
+  } catch (error) {
+    console.error('login error: ' , error);
+    throw error;
+  }
 }
+
+
+// const autologin = () => async (dispatch) => {
+async function autologin() {
+
+  console.info('|--- SERVER CALL ---|--- GET ---| userServices.autologin');
+
+  // No token, no autologin!
+  const token = localStorage.getItem('accessToken');
+  if(!token) throw { error: "no token!" };
+
+  const params = { 'access_token': token };
+  const options = {
+    method: 'GET',
+    url: `${config.boUrl}/users/me?${qs.stringify(params)}`,
+    crossdomain : true,
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+  };
+
+  try {
+    const response = await axios(options);
+    const {user} = response.data;
+    console.log('autologin response: ' , response);
+    localStorage.setItem('id', user.id);
+    localStorage.setItem('user', JSON.stringify(user));
+    return user;    // this.setState({...response.data, accessToken:token});
+  } catch (error) {
+    console.error('autologin error: ' , error);
+    throw error;
+  }
 }
+
 
 
 
@@ -127,77 +159,51 @@ localStorage.clear();
 
 
 async function registerToServer(email, password, name) {
-console.info('|--- SERVER CALL ---|--- POST ---| userServices.registerToServer: ', email);
-const masterKey = config.masterKey;
-const data = { 'access_token': masterKey, email, password, name };
-const options = {
-  method: 'POST',
-  url: `${config.boUrl}/users`,
-  crossdomain : true,
-  headers: { 'content-type': 'application/x-www-form-urlencoded' },
-  data: qs.stringify(data),
-};
-
-try {
-  const response = await axios(options);
-  const {user, token} = response.data;
-  console.log('register OK: ' , response, user, token);
-  localStorage.setItem('accessToken', token);
-  localStorage.setItem('id', user.id);
-  localStorage.setItem('user', JSON.stringify(user));
-  return user;
-
-} catch (error) {
-  console.error('register error: ' , error);
-
-  if (error.response) {
-    // The request was made and the server responded with a status code
-    // that falls out of the range of 2xx
-    console.error('data: ', error.response.data);
-    console.error('status: ', error.response.status);
-    console.error('headers: ', error.response.headers);
-
-  } else if (error.request) {
-      // The request was made but no response was received
-      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-      // http.ClientRequest in node.js
-      console.error('request: ', error.request);
-  } else {
-      // Something happened in setting up the request that triggered an Error
-      console.error('unknown: ', error.message);
-  }
-
-  throw error;
-}
-}
-
-
-
-
-
-
-async function loadFromServer(token) {
-  console.info('|--- SERVER CALL ---|--- GET ---| userServices.loadFromServer');
-  const params = { 'access_token': token };
+  console.info('|--- SERVER CALL ---|--- POST ---| userServices.registerToServer: ', email);
+  const masterKey = config.masterKey;
+  const data = { 'access_token': masterKey, email, password, name };
   const options = {
-    method: 'GET',
-    url: `${config.boUrl}/users/me?${qs.stringify(params)}`,
+    method: 'POST',
+    url: `${config.boUrl}/users`,
     crossdomain : true,
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify(data),
   };
 
   try {
     const response = await axios(options);
-    console.log('loadFromServer response: ' , response);
-    // this.setState({...response.data, accessToken:token});
-    
-    return null;
+    const {user, token} = response.data;
+    console.log('register OK: ' , response, user, token);
+    localStorage.setItem('accessToken', token);
+    localStorage.setItem('id', user.id);
+    localStorage.setItem('user', JSON.stringify(user));
+    return user;
 
   } catch (error) {
-    console.error('loadFromServer error: ' , error);
+    console.error('register error: ' , error);
+
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      console.error('data: ', error.response.data);
+      console.error('status: ', error.response.status);
+      console.error('headers: ', error.response.headers);
+
+    } else if (error.request) {
+        // The request was made but no response was received
+        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+        // http.ClientRequest in node.js
+        console.error('request: ', error.request);
+    } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error('unknown: ', error.message);
+    }
+
     throw error;
   }
 }
+
+
 
 
 
@@ -216,12 +222,13 @@ async function joinHome(home) {
 
   try {
     const response = await axios(options);
+    const {user} = response.data;
     console.log('Join home response: ' , response);
 
-    const {home, homeOrder} = response.data.user;
+    // const {home, homeOrder} = user;
     // this.setState({home: home, homeOrder: homeOrder});
     
-    return null;
+    return user;
 
   } catch (error) {
     console.error('register error: ' , error);
@@ -247,7 +254,7 @@ async function leaveHome() {
     const response = await axios(options);
     console.log('leave home response: ' , response);
 
-    const {home, homeOrder} = response.data.user;
+    // const {home, homeOrder} = response.data.user;
     // this.setState({home: home, homeOrder: homeOrder});
     
     return null;
@@ -277,12 +284,13 @@ async function joinNewHome(name, label) {
 
   try {
     const response = await axios(options);
+    const {user} = response.data;
     console.log('Join new home response: ' , response);
 
-    const {home, homeOrder} = response.data.user;
+    // const {home, homeOrder} = user;
     // this.setState({home: home, homeOrder: homeOrder});
     
-    return null;
+    return user;
 
   } catch (error) {
     console.error('register error: ' , error);

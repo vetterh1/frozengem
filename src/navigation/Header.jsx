@@ -85,11 +85,11 @@ function mapStateToProps(state) {
   };
 }
 
-const actionCreators = {
+const mapDispatchToProps = {
   setLanguage: userActions.setLanguage,
 
 };
 
-const connectedHeader = connect(mapStateToProps, actionCreators)(Header);
+const connectedHeader = connect(mapStateToProps, mapDispatchToProps)(Header);
 
 export default withStyles(styles)(connectedHeader);

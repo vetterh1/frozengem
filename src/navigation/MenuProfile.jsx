@@ -133,7 +133,7 @@ function mapStateToProps(state) {
 }
 
 
-const actionCreators = {
+const mapDispatchToProps = {
   setLanguage: userActions.setLanguage,
   setNavigationStyle: userActions.setNavigationStyle,
   leaveHome: userActions.leaveHome,
@@ -142,5 +142,5 @@ const actionCreators = {
 };
 
 
-const connectedMenuProfile = connect(mapStateToProps, actionCreators)(intMenuProfile);
+const connectedMenuProfile = connect(mapStateToProps, mapDispatchToProps)(intMenuProfile);
 export const MenuProfile = injectIntl(connectedMenuProfile);

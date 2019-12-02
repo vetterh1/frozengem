@@ -1,8 +1,6 @@
-import * as log from 'loglevel';
 import React from 'react';
 import { connect } from 'react-redux';
 import { userActions } from '../../_actions/userActions';
-import { notifierActions } from '../../_actions/notifierActions';
 import { withStyles } from '@material-ui/core/styles';
 import StepWizard from 'react-step-wizard';
 import EmailForm from './EmailForm';
@@ -81,12 +79,11 @@ class LoginWizard extends React.Component {
   }
 }
 
-const actionCreators = {
+const mapDispatchToProps = {
   login: userActions.login,
-  addIntlNotifier: notifierActions.addIntlNotifier,
 };
 
-const connectedLoginWizard = connect(null, actionCreators)(LoginWizard);
+const connectedLoginWizard = connect(null, mapDispatchToProps)(LoginWizard);
 
 export default withStyles(styles, { withTheme: true })(connectedLoginWizard);
 

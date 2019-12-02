@@ -19,11 +19,11 @@ class Logout extends Component {
   }
 }
 
-const actionCreators = {
+const mapDispatchToProps = {
   logout: userActions.logout,
   addIntlNotifier: notifierActions.addIntlNotifier,
 };
 
-export default connect(null, actionCreators)(Logout);
+export default connect(null, mapDispatchToProps)(Logout);
 
 

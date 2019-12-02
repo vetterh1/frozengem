@@ -25,6 +25,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 // const reduxMiddleware = applyMiddleware(thunk, createLogger());
 const reduxMiddleware = applyMiddleware(thunk);
 
+console.log("index init store");
+
 const store = createStore(
   combinedReducer,
   composeEnhancers(reduxMiddleware));
@@ -62,7 +64,7 @@ function ensureIntlSupport() {
 ensureIntlSupport().then(
   ReactDOM.render(
     <Provider store={store}>
-      <App />
+      <App store={store} />
     </Provider>,
     document.getElementById('root')));
 

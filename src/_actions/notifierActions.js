@@ -8,13 +8,6 @@ export const notifierActions = {
 };
 
 
-/*
-   addIntlNotifier({
-        message: this.props.intl.formatMessage(messages.success), 
-        options: {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}}
-      });
-*/
-
 function addIntlNotifier(intlMessage, variant, variables) {
     return {
         type: ADD_INTL_NOTIFIER,

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
+import { userActions } from '../_actions/userActions';
 import { IntlProvider, addLocaleData } from "react-intl";
 import { SnackbarProvider } from 'notistack';
 import Notifier from './utils/Notifier';
@@ -56,8 +57,6 @@ const NotFound = () => <h2>404 error - This page has not been found!</h2>;
 
 
 
-
-
 const intApp = (props) => {
 
   const divStyle = {
@@ -76,6 +75,15 @@ const intApp = (props) => {
   const stickToBottom = {
   };
 
+  //
+  // -------------------- Init -------------------- 
+  //
+
+  // Run only once
+  // Try to auto-login
+  useEffect(() => props.autologin(), []);
+
+  
 
 
   return (
@@ -191,7 +199,12 @@ function mapStateToProps(state) {
   };
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    autologin: () => dispatch(userActions.autologin())
+  }
+}
 
-const connectedApp = connect(mapStateToProps, null)(intApp);
+const connectedApp = connect(mapStateToProps, mapDispatchToProps)(intApp);
 
 export default withMyTheme(connectedApp);

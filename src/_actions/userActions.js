@@ -1,22 +1,23 @@
 import { SET_LANGUAGE, SET_NAVIGATION_STYLE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, 
   LOGOUT, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE  } from "../_constants/action-types";
-import { userService } from '../_services/userServices';
+import { userServices } from '../_services/userServices';
 import { notifierActions } from './notifierActions';
 import { history } from '../misc/history';
 
 export const userActions = {
     login,
+    autologin,
     logout,
     register,
     setLanguage,
-    setNavigationStyle
+    setNavigationStyle,
 };
 
 
 function setLanguage(language) {
   return async dispatch => {
 
-    userService.setLanguage(language);
+    userServices.setLanguage(language);
     dispatch({ type: SET_LANGUAGE, language });
   };
 }
@@ -24,7 +25,7 @@ function setLanguage(language) {
 function setNavigationStyle(navigationStyle) {
   return async dispatch => {
 
-    userService.setNavigationStyle(navigationStyle);
+    userServices.setNavigationStyle(navigationStyle);
     dispatch({ type: SET_NAVIGATION_STYLE, navigationStyle });
   };
 }
@@ -32,12 +33,12 @@ function setNavigationStyle(navigationStyle) {
 
 function login(email, password) {
     return async dispatch => {
-        dispatch(requestSent());
+        dispatch({ type: LOGIN_REQUEST });
 
-        userService.login(email, password)
+        userServices.login(email, password)
             .then(
                 user => { 
-                    dispatch(success(user));
+                    dispatch({ type: LOGIN_SUCCESS, user });
 
                     // Success message
                     dispatch(notifierActions.addIntlNotifier('login.success', 'success'));
@@ -48,7 +49,7 @@ function login(email, password) {
                     return user.name;
                 },
                 error => {
-                    dispatch(failure(error.toString()));
+                    dispatch({ type: LOGIN_FAILURE, error: error.toString() });
 
                     // Error message
                     const unauthorized = error.response && error.response.status  === 401; 
@@ -57,36 +58,50 @@ function login(email, password) {
                 }
             );
     };
+}
 
-    function requestSent() { return { type: LOGIN_REQUEST } }
-    function success(user) { return { type: LOGIN_SUCCESS, user } }
-    function failure(error) { return { type: LOGIN_FAILURE, error } }
+
+function autologin() {
+    return dispatch => {
+        userServices.autologin()
+            .then(
+                user => { 
+                    dispatch({ type: LOGIN_SUCCESS, user });
+
+                    // Success message
+                    dispatch(notifierActions.addIntlNotifier('login.success', 'success'));
+
+                    // navigate to the home route
+                    history.push('/');
+
+                    return user.name;
+                },
+                error => {
+                    // No error message ==> autologin is silent!
+                }
+            );
+    };
 }
 
 function logout() {
-    userService.logout();
+    userServices.logout();
     return { type: LOGOUT };
 }
 
 function register(user) {
     return dispatch => {
-        dispatch(request());
+        dispatch({ type: REGISTER_REQUEST });
 
-        userService.register(user)
+        userServices.register(user)
             .then(
                 user => { 
-                    dispatch(success());
+                    dispatch({ type: REGISTER_SUCCESS, user });
                     // history.push('/login');
                     // dispatch(alertActions.success('Registration successful'));
                 },
                 error => {
-                    dispatch(failure(error.toString()));
-                    // dispatch(alertActions.error(error.toString()));
+                    dispatch({ type: REGISTER_FAILURE, error: error.toString() });
                 }
             );
     };
-
-    function request(user) { return { type: REGISTER_REQUEST } }
-    function success(user) { return { type: REGISTER_SUCCESS, user } }
-    function failure(error) { return { type: REGISTER_FAILURE, error } }
 }
