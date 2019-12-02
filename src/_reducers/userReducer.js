@@ -1,8 +1,6 @@
 import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, SET_LANGUAGE, SET_NAVIGATION_STYLE } from "../_constants/action-types";
 
-const userStoredLocally = JSON.parse(localStorage.getItem('user'));
-const language = "en";
-const initialState = userStoredLocally ? { loggedIn: true, user: userStoredLocally, language: userStoredLocally.language } : { language };
+const initialState = { loggingIn: false, loggedIn: false, language: "en"};
 
 export function user(state = initialState, action) {
   switch (action.type) {

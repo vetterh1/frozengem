@@ -36,8 +36,6 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 // Stores
 import { ItemCharacteristicsStore } from "../data/ItemCharacteristicsStore";
-import { UserInfoStore, UserInfoConsumer  } from "../data/UserInfoStore";
-import { Items } from "../data/ItemsStore";
 
 
 //
@@ -84,7 +82,9 @@ const intApp = (props) => {
   useEffect(() => props.autologin(), []);
 
   
+  if(!props.language) return null;
 
+  console.log("/ 0 - props:", props, ", loggedIn:", props.loggedIn, ", home: ", props.home, ", language: ", props.language);
 
   return (
     <SnackbarProvider 
@@ -92,110 +92,109 @@ const intApp = (props) => {
       hideIconVariant
     >
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <UserInfoStore>
-          <Items>
-            <UserInfoConsumer>
-              {({ language, getHome, name, navigationStyle }) => {
-                  if(!language) return null;
-                  return (
-                    <IntlProvider
-                      locale={props.language}
-                      defaultLocale="en"
-                      key={props.language}
-                      messages={translations[props.language]}
-                    >     
-                      <> 
-                      <Notifier />
-                      <ItemCharacteristicsStore>
-                        <Router basename={process.env.PUBLIC_URL}>
+          <IntlProvider
+            locale={props.language}
+            defaultLocale="en"
+            key={props.language}
+            messages={translations[props.language]}
+          >     
+            <> 
+            <Notifier />
+            <ItemCharacteristicsStore>
+              <Router basename={process.env.PUBLIC_URL}>
 
-                          <div style={divStyle}>
+                <div style={divStyle}>
 
-                            <Header />
+                  <Header />
 
-                            {/* <Container maxWidth="md"  style={containerStyle}> */}
+                  {/* <Container maxWidth="md"  style={containerStyle}> */}
 
-                              <Switch>
-                                <Route
-                                  exact path="/details/:id"
-                                  component={props => <Container><Details {...props} /></Container>}
-                                />
-                                <Route
-                                  exact path="/add"
-                                  component={props => <Container><AddWizard {...props} /></Container>}
-                                />
-                                <Route
-                                  exact path="/register"
-                                  component={props => <Container><RegisterWizard {...props} /></Container>}
-                                />
-                                <Route
-                                  exact path="/login"
-                                  component={props => <Container><LoginWizard {...props} /></Container>}
-                                />
-                                <Route
-                                  exact path="/logout"
-                                  component={props => <Logout {...props} />}
-                                />
-                                <Route
-                                  exact path="/about"
-                                  component={() => <Container><About /></Container>}
-                                />
-                                <Route
-                                  exact path="/"
-                                  component={props => { 
-                                    if(props.loggedIn) {
+                    <Switch>
+                      <Route
+                        exact path="/details/:id"
+                        component={props => <Container><Details /></Container>}
+                      />
+                      <Route
+                        exact path="/add"
+                        component={props => <Container><AddWizard /></Container>}
+                      />
+                      <Route
+                        exact path="/register"
+                        component={props => <Container><RegisterWizard /></Container>}
+                      />
+                      <Route
+                        exact path="/login"
+                        component={props => <Container><LoginWizard /></Container>}
+                      />
+                      <Route
+                        exact path="/logout"
+                        component={props => <Logout />}
+                      />
+                      <Route
+                        exact path="/about"
+                        component={() => <Container><About /></Container>}
+                      />
+                      <Route
+                        exact path="/"
+                        render={() => { 
+                          // console.log("/ 1 - props:", props, ", loggedIn:", props.loggedIn, ", home: ", props.home, ", language: ", props.language);
+                          if(props.loggedIn) {
 
-                                      // Token exists, but no name --> in userinfo loading process:
-                                      if(!name) return <LoadingUserInfo /> ;
+                            // Token exists, but no name --> in userinfo loading process:
+                            if(!props.name) return <LoadingUserInfo /> ;
 
-                                      // User exists but has not chosen his home yet: ask him to choose!
-                                      const home = getHome();
-                                      console.log("home: ", home)
-                                      if(!home) return <Container><ChooseHome {...props} /></Container>;
-                                      
-                                      // Authenticated users see their dashboard:
-                                      return <Dashboard {...props} />;
+                            // User exists but has not chosen his home yet: ask him to choose!
+                            if(!props.home) return <Container><ChooseHome /></Container>;
+                            
+                            // Authenticated users see their dashboard:
+                            return <Dashboard />;
 
-                                    } else {
-                                      // Non logged users see generic page:
-                                      return <Container><MainPageContent {...props} /></Container>;
-                                    }
-                                  }}
-                                />
-                                <Route
-                                  exact path="*"
-                                  component={NotFound}
-                                
-                                />
-                              </Switch>          
-                            {/* </Container> */}
+                          } else {
+                            // Non logged users see generic page:
+                            return <Container><MainPageContent /></Container>;
+                          }
+                        }}
+                      />
+                      <Route
+                        exact path="*"
+                        component={NotFound}
+                      
+                      />
+                    </Switch>          
+                  {/* </Container> */}
 
-                            { !props.loggedIn && <Footer location={props.location} />}
-                            { props.loggedIn && navigationStyle === NavigationStyle.NAVIGATION_BOTTOMNAV && 
-                              <BottomNav style={stickToBottom} /> }
-                            { props.loggedIn && navigationStyle === NavigationStyle.NAVIGATION_FLOATING && 
-                              <FloatingNav /> }                              
+                  { !props.loggedIn && <Footer location={props.location} />}
+                  { props.loggedIn && props.navigationStyle === NavigationStyle.NAVIGATION_BOTTOMNAV && 
+                    <BottomNav style={stickToBottom} /> }
+                  { props.loggedIn && props.navigationStyle === NavigationStyle.NAVIGATION_FLOATING && 
+                    <FloatingNav /> }                              
 
-                          </div>
-                        </Router>
-                      </ItemCharacteristicsStore>
-                      </>
-                    </IntlProvider>
-                  );
-                }}                
-              </UserInfoConsumer>  
-            </Items>      
-          </UserInfoStore>
+                </div>
+              </Router>
+            </ItemCharacteristicsStore>
+            </>
+          </IntlProvider>              
         </MuiPickersUtilsProvider>
       </SnackbarProvider>
   );
 }
 
 function mapStateToProps(state) {
-  const { user: { loggedIn, language } } = state;
+  console.log("mapStateToProps: ", state);
+  if(!state.user)
+    return {
+      loggedIn: false,
+      language: "en",
+      name: null,
+      home: null,
+      navigationStyle: null,
+    };
   return {
-    loggedIn,
-    language
+    loggedIn: state.user.loggedIn,
+    language: state.user.language,
+    name: state.user.name,
+    home: state.user.home,
+    navigationStyle: state.user.navigationStyle,
   };
 }
 
