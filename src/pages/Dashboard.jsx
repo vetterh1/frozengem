@@ -300,16 +300,7 @@ const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackb
 
   return (
     <React.Fragment>
-      {/* { detailsModalOpened && 
-          <Details 
-            opened={detailsModalOpened}
-            item={itemShownInDetails}
-            onClose={handleCloseDetailsModal}
-            onSavePicture={onSavePicture}
-            onRemoveItem={onConfirmRemoveItem}
-            onEditItem={handleEditItem}
-          />
-      } */}
+
       { removeModalOpened && 
           <RemoveConfirmationDialog 
             opened={removeModalOpened}

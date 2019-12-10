@@ -1,4 +1,4 @@
-import { REQUEST_ITEMS, RECEIVE_ITEMS, ERROR_REQUESTING_ITEMS } from "../_constants/action-types";
+import * as ACTIONS from "../_constants/action-types";
 
 
 const initialState = { // define initial state - an empty items list
@@ -19,10 +19,31 @@ const itemsReducer = (state = initialState, action) => {
   // Fetch items from Server to Redux store (in Action)
   //
 
-  case REQUEST_ITEMS: return Object.assign({}, state, { shouldUpdate: false, isFetching: true, isValid: false, error: null });
-  case RECEIVE_ITEMS: return Object.assign({}, state, { shouldUpdate: false, isFetching: false, isValid: true, error: null, items: action.items });
-  case ERROR_REQUESTING_ITEMS: return Object.assign({}, state, { shouldUpdate: false, isFetching: false, isValid: false, error: action.error, items: [] });
+  case ACTIONS.FETCH_ITEMS_REQUEST:
+    return {
+      shouldUpdate: false,
+      isFetching: true, 
+      isValid: false,
+      error: null
+    };
 
+  case ACTIONS.FETCH_ITEMS_SUCCESS:
+      return {
+        shouldUpdate: false,
+        isFetching: false,
+        isValid: true,
+        error: null,
+        items: action.items ? action.items : []
+      };
+      
+  case ACTIONS.FETCH_ITEMS_FAILURE:
+    return {
+      shouldUpdate: false,
+      isFetching: false,
+      isValid: false,
+      error: action.error,
+      items: []
+    };
 
   // //
   // // Save item to Server (in Action) and update Redux store with new item (in Reducer)

@@ -18,6 +18,16 @@ export const userServices = {
 };
 
 
+//
+//
+//
+//
+//   -------------------- DONE & WORKING -------------------- 
+//
+//
+//
+//
+
 function isAuthenticated() {
   // Super simple & not secure (on client side) method:
   // console.log('isAuthenticated: accessToken = ', localStorage.getItem('accessToken'));
@@ -81,12 +91,12 @@ async function login(email, password) {
 
   try {
     const response = await axios(options);
-    const {user, token} = response.data;
-    console.log('login OK: ' , response, user, token);
+    const {user, items, token} = response.data;
+    console.log('login OK: ' , response, user, items, token);
     localStorage.setItem('accessToken', token);
     localStorage.setItem('id', user.id);
     localStorage.setItem('user', JSON.stringify(user));
-    return user;
+    return {user, items};
 
   } catch (error) {
     console.error('login error: ' , error);
@@ -114,11 +124,11 @@ async function autologin() {
 
   try {
     const response = await axios(options);
-    const {user} = response.data;
+    const {user, items} = response.data;
     console.log('autologin response: ' , response);
     localStorage.setItem('id', user.id);
     localStorage.setItem('user', JSON.stringify(user));
-    return user;    // this.setState({...response.data, accessToken:token});
+    return {user, items};
   } catch (error) {
     console.error('autologin error: ' , error);
     throw error;
@@ -155,8 +165,21 @@ localStorage.clear();
 
 
 
+//
+//
+//
+//
+//   -------------------- NOT YET CONVERTED TO REDUX -------------------- 
+//
+// TODO Convert the methodes below to Redux
+//
+//
 
 
+
+//
+// TODO Implement reducer + userServices.register() (below) + check aserActions.register()
+//
 
 async function registerToServer(email, password, name) {
   console.info('|--- SERVER CALL ---|--- POST ---| userServices.registerToServer: ', email);

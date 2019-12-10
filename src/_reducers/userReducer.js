@@ -5,6 +5,11 @@ const initialState = { loggingIn: false, loggedIn: false, language: "en"};
 export function user(state = initialState, action) {
   switch (action.type) {
 
+
+    //
+    // Login
+    //
+
     case LOGIN_REQUEST:
       return {
         loggingIn: true,
@@ -26,6 +31,20 @@ export function user(state = initialState, action) {
       return {
         language: state.language,
       };
+
+
+    //
+    // Register
+    //
+
+    //
+    // TODO Implement reducer (below) + userServices.register() + check aserActions.register()
+    //
+
+
+    //
+    // Misc user actions
+    //
 
     case SET_LANGUAGE:
         return {
