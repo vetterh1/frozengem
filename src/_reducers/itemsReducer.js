@@ -12,7 +12,7 @@ const initialState = { // define initial state - an empty items list
   error: null,
 };
 
-const itemsReducer = (state = initialState, action) => {
+export function items (state = initialState, action) {
   switch (action.type) {
 
   //
@@ -54,7 +54,7 @@ const itemsReducer = (state = initialState, action) => {
   //   // Add the new item to the redux store so we don't need to reload from server to access it
   //   const newItems = [action.item, ...state.items];
   //   const newState = { ...state, isSaving: false, error: null, items: newItems, defaultItem: action.item.id };
-  //   console.log('itemsReducer (SAVE_ITEM_OK) - newState=', newState);
+  //   console.log('items (SAVE_ITEM_OK) - newState=', newState);
   //   return newState;
   // }
   // case SAVE_ITEM_KO: return Object.assign({}, state, { isSaving: false, error: action.error });
@@ -69,7 +69,7 @@ const itemsReducer = (state = initialState, action) => {
   //   // Update the item in the redux store so we don't need to reload from server to have its update state
   //   const newItems = state.items.map((item) => { return (item.id === action.item.id) ? action.item : item; });
   //   const newState = { ...state, isUpdating: false, error: null, items: newItems };
-  //   console.log('itemsReducer (UPDATE_ITEM_OK) - newState=', newState);
+  //   console.log('items (UPDATE_ITEM_OK) - newState=', newState);
   //   return newState;
   // }
   // case UPDATE_ITEM_KO: return Object.assign({}, state, { isUpdating: false, error: action.error });
@@ -86,7 +86,7 @@ const itemsReducer = (state = initialState, action) => {
   //   // Deletes the item in the redux store so we don't need to reload from server to have a list without it
   //   const newItems = state.items.filter((item) => { /* console.log('map:', item.id, action.id); */ return item.id !== action.id; });
   //   const newState = { ...state, isDeleting: false, error: null, items: newItems };
-  //   console.log('itemsReducer (DELETE_ITEM_OK) - id, newState=', action.id, newState);
+  //   console.log('items (DELETE_ITEM_OK) - id, newState=', action.id, newState);
   //   return newState;
   // }
   // case DELETE_ITEM_KO: return Object.assign({}, state, { isDeleting: false, error: action.error });
@@ -96,5 +96,3 @@ const itemsReducer = (state = initialState, action) => {
   default: return state;
   }
 };
-
-export default itemsReducer;

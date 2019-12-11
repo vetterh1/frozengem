@@ -1,5 +1,6 @@
 import * as ACTIONS from "../_constants/action-types";
 import { userServices } from '../_services/userServices';
+import { characteristicsActions } from './characteristicsActions';
 import { itemsActions } from './itemsActions';
 import { notifierActions } from './notifierActions';
 import { history } from '../misc/history';
@@ -41,9 +42,12 @@ function login(email, password) {
                     // Add user info & items to redux store
                     dispatch({ type: ACTIONS.LOGIN_SUCCESS, user });
 
+                    // Start fetching the characteristics from the server
+                    dispatch(characteristicsActions.fetchCharacteristics())
+
                     // Start fetching the items from the server
                     dispatch(itemsActions.fetchItems())
-                                        
+                                                                   
                     // Success message
                     dispatch(notifierActions.addIntlNotifier('login.success', 'success'));
 
@@ -72,6 +76,9 @@ function autologin() {
                 user => {
                     // Add user info & items to redux store
                     dispatch({ type: ACTIONS.LOGIN_SUCCESS, user });
+
+                    // Start fetching the characteristics from the server
+                    dispatch(characteristicsActions.fetchCharacteristics())
 
                     // Start fetching the items from the server
                     dispatch(itemsActions.fetchItems())

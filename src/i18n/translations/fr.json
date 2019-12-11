@@ -85,7 +85,8 @@
   "item.remove.success": "Retrait effectué !",
   "item.sizeChange.error": "Désolé, une erreur est survenue lors du changement de quantité. Veuillez ré-essayer...",
   "item.sizeChange.success": "Changement de quantité effectué",
-  "login.error": "Désolé, une erreur est survenue. Veuillez ré-essayer...",
+  "items.error": "Désolé, une erreur est survenue lors du chargement de vos données. Veuillez vous déconnecter & reconnecter.",
+  "login.error": "Désolé, une erreur est survenue lors de la connexion. Veuillez ré-essayer...",
   "login.success": "Félicitations, vous êtes connecté",
   "login.unauthorized": "Identifiant / mot de passe incorrect, veuillez ré-essayer...",
   "logout.ok": "Vous êtes déconnecté...",
@@ -113,5 +114,6 @@
   "register.registered.newHome": "Nouvelle maison",
   "register.registered.title": "Finaliser votre enregistrement...",
   "register.retype.help": "Veuillez re-saisir votre mot de passe",
-  "register.success": "Félicitations, vous êtes enregistré !"
+  "register.success": "Félicitations, vous êtes enregistré !",
+  "unauthorized": "Désolé, vous n'avez pas le droit d'effectuer cette opération"
 }
