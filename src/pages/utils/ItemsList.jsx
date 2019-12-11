@@ -1,5 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getVisibleItems } from '../../_selectors/itemsSelector';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { FormattedMessage } from "react-intl";
@@ -20,39 +21,36 @@ const styles = theme => ({
 
 
 
-const intItemsList = ({arrayItems, onShowDetails, classes}) => {
-  console.debug('[--- FC Render ---] ItemsList -  arrayItems: ', arrayItems);
+const intItemsList = ({list, classes}) => {
+  console.debug('[--- FC Render ---] ItemsList -  list: ', list);
 
-  const nbItems = arrayItems.length;
+  if(!list || list.length <= 0)
+    return (
+      <div className="huge-margin-top">
+        <Typography color="primary" align="center">
+          <FormattedMessage id="dashboard.empty.category.title" />
+        </Typography>
+      </div>      
+    );
 
   return (
-    <>
       <div className={classes.layout}>
-        {arrayItems.map(item => 
+        {list.map(item => 
           <ItemCard  
             key={item.id} item={item} 
-            onShowDetails={onShowDetails} 
           />
         )}
-        {nbItems <= 0 &&
-            <div className="huge-margin-top">
-              <Typography color="primary" align="center">
-                <FormattedMessage id="dashboard.empty.category.title" defaultMessage="You don't have any product from this category in your freezer yet." />
-              </Typography>
-            </div>
-        }
       </div>
-    </>
   );
 }
 
 
-intItemsList.propTypes = {
-  // Props from caller
-  arrayItems: PropTypes.array.isRequired,
-  onShowDetails: PropTypes.func.isRequired,
-  // Props from other HOC
-  classes: PropTypes.object.isRequired,
+function mapStateToProps(state) {
+  return {
+    list: getVisibleItems(state),
+  };
 }
 
-export default withStyles(styles)(intItemsList);
+const connectedItemsLists = connect(mapStateToProps, null)(intItemsList);
+
+export default withStyles(styles)(connectedItemsLists);

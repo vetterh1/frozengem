@@ -1,6 +1,7 @@
 import * as ACTIONS from "../_constants/action-types";
 
 const initialState = { // define initial state - an empty items list
+  list: [],
   shouldUpdate: true,
   isFetching: false,
   isSaving: false,
@@ -19,6 +20,7 @@ export function items (state = initialState, action) {
 
   case ACTIONS.FETCH_ITEMS_REQUEST:
     return {
+      list:[],
       shouldUpdate: false,
       isFetching: true, 
       isValid: false,
@@ -27,15 +29,16 @@ export function items (state = initialState, action) {
 
   case ACTIONS.FETCH_ITEMS_SUCCESS:
       return {
+        list: action.items,
         shouldUpdate: false,
         isFetching: false,
         isValid: true,
         error: null,
-        ...action.items,
       };
       
   case ACTIONS.FETCH_ITEMS_FAILURE:
     return {
+      list: [],
       shouldUpdate: false,
       isFetching: false,
       isValid: false,

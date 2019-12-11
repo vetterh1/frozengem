@@ -45,7 +45,7 @@
   "dashboard.category": "Catégorie",
   "dashboard.code": "Code",
   "dashboard.empty.title": "Vous trouverez ici le contenu de votre congélateur",
-  "dashboard.empty.category.title": "Vous n'avez encore aucun produit de cette catégorie dans votre congélateur.",
+  "dashboard.empty.category.title": "You don't have any product from this category in your freezer yet.",
   "dashboard.empty.subtitle": "Clickez sur le bouton Ajouter en bas pour commencer...",
   "dashboard.expiration": "Expire",
   "dashboard.name": "Nom",
