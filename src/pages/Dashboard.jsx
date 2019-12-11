@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+// import { itemsFilterActions } from '../_actions/itemsFilterActions';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { injectIntl, FormattedMessage, defineMessages } from "react-intl";
@@ -61,7 +63,7 @@ const styles = theme => ({
 });
 
 
-const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
+const intDashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
 
   console.debug('[--- FC ---] Functional component: Dashboard');
 
@@ -287,16 +289,16 @@ const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackb
 
 
 
-  if(!arrayItems || arrayItems.length === 0) return (
-    <Box mt={4} display="flex" flexDirection="column" >
-      <Typography component="h1" variant="h4" color="primary" align="center" gutterBottom>
-        <FormattedMessage id="dashboard.empty.title" defaultMessage="You'll found here the content of your freezer." />
-      </Typography>
-      <Typography variant="h6" align="center" gutterBottom >
-        <FormattedMessage id="dashboard.empty.subtitle" defaultMessage="Use the Add button below to start..." />
-      </Typography>
-    </Box>      
-  );
+  // if(!arrayItems || arrayItems.length === 0) return (
+  //   <Box mt={4} display="flex" flexDirection="column" >
+  //     <Typography component="h1" variant="h4" color="primary" align="center" gutterBottom>
+  //       <FormattedMessage id="dashboard.empty.title" defaultMessage="You'll found here the content of your freezer." />
+  //     </Typography>
+  //     <Typography variant="h6" align="center" gutterBottom >
+  //       <FormattedMessage id="dashboard.empty.subtitle" defaultMessage="Use the Add button below to start..." />
+  //     </Typography>
+  //   </Box>      
+  // );
 
   return (
     <React.Fragment>
@@ -314,7 +316,7 @@ const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackb
         />
       }   
       <div className={classes.layout}>
-        <Filters language={userInfo.language} category={category} onCategoryChange={onCategoryChange} />
+        <Filters />
         <Container maxWidth="md" className={classes.container}>
           <ItemsList arrayItems={filteredArrayItems} />
         </Container>
@@ -324,7 +326,7 @@ const Dashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSnackb
   );
 }
 
-Dashboard.propTypes = {
+intDashboard.propTypes = {
   // Props from caller
   items: PropTypes.object.isRequired,
   // Props from other HOC
@@ -337,4 +339,14 @@ Dashboard.propTypes = {
 }
 
 
-export default withItemCharacteristics(injectIntl(withSnackbar(withItems(withUserInfo(withStyles(styles)(Dashboard))))));
+
+function mapDispatchToProps(dispatch) {
+  return {
+    // filterItems: (filter) => dispatch(itemsFilterActions.filterItems(filter))
+  }
+}
+
+const connectedDashboard = connect(null, mapDispatchToProps)(intDashboard);
+
+
+export default withItemCharacteristics(injectIntl(withSnackbar(withItems(withUserInfo(withStyles(styles)(connectedDashboard))))));

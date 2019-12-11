@@ -124,11 +124,11 @@ async function autologin() {
 
   try {
     const response = await axios(options);
-    const {user, items} = response.data;
+    const {user} = response.data;
     console.log('autologin response: ' , response);
     localStorage.setItem('id', user.id);
     localStorage.setItem('user', JSON.stringify(user));
-    return {user, items};
+    return user;
   } catch (error) {
     console.error('autologin error: ' , error);
     throw error;

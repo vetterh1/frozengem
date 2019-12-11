@@ -137,7 +137,7 @@ const intApp = (props) => {
                       <Route
                         exact path="/"
                         render={() => { 
-                          // console.log("/ 1 - props:", props, ", loggedIn:", props.loggedIn, ", home: ", props.home, ", language: ", props.language);
+                          console.log("/ 1 - props:", props, ", loggedIn:", props.loggedIn, ", home: ", props.home, ", language: ", props.language);
                           if(props.loggedIn) {
 
                             // Token exists, but no name --> in userinfo loading process:

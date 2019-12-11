@@ -127,11 +127,11 @@ function _computeExpirationLevel(dateInMs) {
       response.data.forEach(item => {
           addUtilityFieldsToItem(item, language);
         });
-      console.log('fetchItems response: ' , response.data);
+      // console.log('fetchItems response: ' , response.data);
       return response.data;
     }
     catch(error) {
-      console.error('fetchItems error: ' , error);
+      // console.error('fetchItems error: ' , error);
       throw error;
     }
   }

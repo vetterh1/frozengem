@@ -1,35 +1,18 @@
 
 import React, { useState, useEffect } from "react";
-import { withItemCharacteristics } from '../with/withItemCharacteristics';
-import { injectIntl, defineMessages } from "react-intl";
+import { connect } from 'react-redux';
+import { itemsFilterActions } from '../_actions/itemsFilterActions';
+import { injectIntl } from "react-intl";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { getIcon } from "../data/Icons";
 
 
-
-
-const messages = defineMessages({
-  all: {
-    id: 'filter.all',
-    defaultMessage: 'All',
-  },
-  latest: {
-    id: 'filter.latest',
-    defaultMessage: 'Latest',
-  },
-  removed: {
-    id: 'filter.removed',
-    defaultMessage: 'Removed',
-  },
-})
-
-const intFilters = ({language, category, onCategoryChange, size, onSizeChange, itemCharacteristics, intl}) => {
-  if(!itemCharacteristics.categories) return null;
-  if(!itemCharacteristics.sizes) return null;
+const intFilters = ({language, filter, categories, filterItems, intl}) => {
+  if(!categories) return null;
 
   const [sortedCategories] = useState(
-    itemCharacteristics.categories.sort((a, b) => (a.name[language] > b.name[language]) ? 1 : -1)
+    categories.sort((a, b) => (a.name[language] > b.name[language]) ? 1 : -1)
   );
 
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -43,7 +26,7 @@ const intFilters = ({language, category, onCategoryChange, size, onSizeChange, i
       if(sel === 'removed')
         sel = 'all';
       setSelectedCategory( sel );
-      onCategoryChange(sel);
+      filterItems(sel);
     }
   }, []);
 
@@ -52,7 +35,7 @@ const intFilters = ({language, category, onCategoryChange, size, onSizeChange, i
   function handleChange(event, newValue) {
     localStorage.setItem('selectedCategory', newValue);
     setSelectedCategory( newValue );
-    onCategoryChange(newValue);
+    filterItems(newValue);
   }
 
 
@@ -71,13 +54,13 @@ const intFilters = ({language, category, onCategoryChange, size, onSizeChange, i
       >
         <Tab
           key={'all'}
-          label={intl.formatMessage(messages.all)}
+          label={intl.formatMessage({id: "filter.all"})}
           value={'all'}
           icon={getIcon("all")} 
         />
         <Tab
           key={'latest'}
-          label={intl.formatMessage(messages.latest)}
+          label={intl.formatMessage({id: "filter.latest"})}
           value={'latest'}
           icon={getIcon("latest")} 
         />
@@ -89,7 +72,7 @@ const intFilters = ({language, category, onCategoryChange, size, onSizeChange, i
         />)}
         <Tab
           key={'removed'}
-          label={intl.formatMessage(messages.removed)}
+          label={intl.formatMessage({id: "filter.removed"})}
           value={'removed'}
           icon={getIcon("removed")} 
         />
@@ -99,4 +82,23 @@ const intFilters = ({language, category, onCategoryChange, size, onSizeChange, i
   );
 }
 
-export default injectIntl(withItemCharacteristics(intFilters));
+
+
+function mapStateToProps(state) {
+  const { user: { language }, itemsFilter: { filter }, characteristics:{ categories } } = state;
+  return {
+    language,
+    filter,
+    categories
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    filterItems: (filter) => dispatch(itemsFilterActions.filterItems(filter))
+  }
+}
+
+const connectedFilters = connect(mapStateToProps, mapDispatchToProps)(intFilters);
+
+export default injectIntl(connectedFilters);

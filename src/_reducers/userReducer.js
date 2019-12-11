@@ -1,4 +1,4 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, SET_LANGUAGE, SET_NAVIGATION_STYLE } from "../_constants/action-types";
+import * as ACTIONS from "../_constants/action-types";
 
 const initialState = { loggingIn: false, loggedIn: false, language: "en"};
 
@@ -10,24 +10,24 @@ export function user(state = initialState, action) {
     // Login
     //
 
-    case LOGIN_REQUEST:
+    case ACTIONS.LOGIN_REQUEST:
       return {
         loggingIn: true,
         language: state.language,
       };
 
-    case LOGIN_SUCCESS:
+    case ACTIONS.LOGIN_SUCCESS:
       return {
         loggedIn: true,
         ...action.user
       };
 
-    case LOGIN_FAILURE:
+    case ACTIONS.LOGIN_FAILURE:
       return {
         language: state.language,
       };
 
-    case LOGOUT:
+    case ACTIONS.LOGOUT:
       return {
         language: state.language,
       };
@@ -46,13 +46,13 @@ export function user(state = initialState, action) {
     // Misc user actions
     //
 
-    case SET_LANGUAGE:
+    case ACTIONS.SET_LANGUAGE:
         return {
           ...state,
           language: action.language,
         };
 
-    case SET_NAVIGATION_STYLE:
+    case ACTIONS.SET_NAVIGATION_STYLE:
       return {
         ...state,
         navigationStyle: action.navigationStyle,

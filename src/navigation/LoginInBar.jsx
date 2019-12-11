@@ -12,7 +12,7 @@ class LoginInBar extends React.Component {
     const { isAuthenticated } = this.props;
     return ( 
       <div>
-        { !isAuthenticated && (<Button color="inherit"  component={Link} to="/login"><FormattedMessage id="menu_profile.login" defaultMessage="Login" /></Button>) }
+        { !isAuthenticated && (<Button color="inherit"  component={Link} to="/login"><FormattedMessage id="menu_profile.login" /></Button>) }
         { isAuthenticated && <MenuProfile />
         }
       </div>

@@ -107,7 +107,7 @@ export function characteristics(state = initialState, action) {
         isFetching: false,
         isValid: true,
         error: null,
-        characteristics: action.characteristics
+        ...action.characteristics
       };
 
   // Cancel if characteristics version on server / local storage <= default characteristics
@@ -120,14 +120,12 @@ export function characteristics(state = initialState, action) {
         error: null,
       };
       
-  // In case of failure, use default values
   case ACTIONS.FETCH_CHARACTERISTICS_FAILURE:
     return {
       shouldUpdate: false,
       isFetching: false,
       isValid: false,
       error: action.error,
-      characteristics: initialState
     };
 
   default: return state;

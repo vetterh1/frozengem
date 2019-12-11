@@ -1,8 +1,6 @@
 import * as ACTIONS from "../_constants/action-types";
 
-
 const initialState = { // define initial state - an empty items list
-  items: [],
   shouldUpdate: true,
   isFetching: false,
   isSaving: false,
@@ -33,7 +31,7 @@ export function items (state = initialState, action) {
         isFetching: false,
         isValid: true,
         error: null,
-        items: action.items ? action.items : []
+        ...action.items,
       };
       
   case ACTIONS.FETCH_ITEMS_FAILURE:
@@ -42,8 +40,9 @@ export function items (state = initialState, action) {
       isFetching: false,
       isValid: false,
       error: action.error,
-      items: []
     };
+
+  
 
   // //
   // // Save item to Server (in Action) and update Redux store with new item (in Reducer)
@@ -93,6 +92,6 @@ export function items (state = initialState, action) {
 
 
 
-  default: return state;
+    default: return state;
   }
 };

@@ -16,9 +16,9 @@ function fetchItems() {
   return async (dispatch, getState) => {
       dispatch({ type: ACTIONS.FETCH_ITEMS_REQUEST });
 
-      const {user} = getState().user;
+      const {language} = getState().user;
 
-      itemsServices.fetchItems(user.language)
+      itemsServices.fetchItems(language)
           .then(
               items => {
                   // Add items to redux store
@@ -40,4 +40,3 @@ function fetchItems() {
           );
   };
 }
-
