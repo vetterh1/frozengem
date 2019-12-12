@@ -2,6 +2,7 @@ import * as ACTIONS from "../_constants/action-types";
 
 const initialState = { // define initial state - an empty items list
   list: [],
+  removed:[],
   shouldUpdate: true,
   isFetching: false,
   isSaving: false,
@@ -21,6 +22,7 @@ export function items (state = initialState, action) {
   case ACTIONS.FETCH_ITEMS_REQUEST:
     return {
       list:[],
+      removed:[],
       shouldUpdate: false,
       isFetching: true, 
       isValid: false,
@@ -28,8 +30,11 @@ export function items (state = initialState, action) {
     };
 
   case ACTIONS.FETCH_ITEMS_SUCCESS:
+      const list = action.items.filter(item => !item.removed);
+      const removed = action.items.filter(item => item.removed);
       return {
-        list: action.items,
+        list,
+        removed,
         shouldUpdate: false,
         isFetching: false,
         isValid: true,
@@ -39,6 +44,7 @@ export function items (state = initialState, action) {
   case ACTIONS.FETCH_ITEMS_FAILURE:
     return {
       list: [],
+      removed:[],
       shouldUpdate: false,
       isFetching: false,
       isValid: false,

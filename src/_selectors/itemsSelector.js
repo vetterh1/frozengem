@@ -1,11 +1,12 @@
 import { createSelector } from 'reselect'
 
 const getItemsFilter = state => state.itemsFilter.filter;
-const getItems = (state, props) => state.items.list;
+const getItems = (state) => state.items.list;
+const getRemovedItems = (state) => state.items.removed;
 
 export const getVisibleItems = createSelector(
-  [getItemsFilter, getItems],
-  (filter, list) => {
+  [getItemsFilter, getItems, getRemovedItems],
+  (filter, list, removed) => {
     switch (filter) {
         case 'latest': {
             const nowInMs = Date.now();
@@ -20,8 +21,7 @@ export const getVisibleItems = createSelector(
         }
 
         case 'removed': {
-            // TODO removed items should be retreived in the same list as items and deleted on the server when > 6 months
-            return null;
+            return removed;
         }        
 
         default:
