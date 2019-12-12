@@ -8,6 +8,8 @@ export const itemsActions = {
 
          
 
+
+
 //
 // Fetch items from Server to Redux store (in Action)
 //
@@ -17,8 +19,9 @@ function fetchItems() {
       dispatch({ type: ACTIONS.FETCH_ITEMS_REQUEST });
 
       const {language} = getState().user;
+      const characteristics = getState().characteristics;
 
-      itemsServices.fetchItems(language)
+      itemsServices.fetchItems(language, characteristics)
           .then(
               items => {
                   // Add items to redux store
