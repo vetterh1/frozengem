@@ -7,8 +7,6 @@ import { IntlProvider, addLocaleData } from "react-intl";
 import { SnackbarProvider } from 'notistack';
 import Notifier from './utils/Notifier';
 import translations from '../i18n/locales';
-import frLocaleData from "react-intl/locale-data/fr";
-import enLocaleData from "react-intl/locale-data/en";
 import withMyTheme from '../withMyTheme';
 import { indigo } from '@material-ui/core/colors';
 import Container from '@material-ui/core/Container';
@@ -36,14 +34,6 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 // Stores
 import { ItemCharacteristicsStore } from "../data/ItemCharacteristicsStore";
-
-
-//
-// ------------------------  i18n  -------------------------
-//
-
-addLocaleData(frLocaleData);
-addLocaleData(enLocaleData);
 
 
 
