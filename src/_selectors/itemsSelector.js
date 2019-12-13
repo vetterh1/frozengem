@@ -10,22 +10,26 @@ export const getVisibleItems = createSelector(
     switch (filter) {
         case 'latest': {
             const nowInMs = Date.now();
-            const oneWeekInMs = 1 * 7 * 24 * 60 * 60 * 1000;
+            const tenDaysInMs = 10 * 24 * 60 * 60 * 1000;
             // const oneMonthInMs = 1 * 30 * 24 * 60 * 60 * 1000;
-            const filter1 = list.filter(item => item.updatedAt > nowInMs - oneWeekInMs);
-            return filter1.sort((a, b) => (a.updatedAt < b.updatedAt) ? 1 : -1)
+            return list.filter(item => item.updatedAt > nowInMs - tenDaysInMs)
+                      .sort((a, b) => (a.updatedAt < b.updatedAt) ? 1 : -1);
         }
 
         case 'all': {
             return list
+              .sort((a, b) => (a.expirationDate > b.expirationDate) ? 1 : -1);
         }
 
         case 'removed': {
-            return removed;
+            return removed
+              .sort((a, b) => (a.updatedAt < b.updatedAt) ? 1 : -1);
         }        
 
         default:
-            return list.filter(item => item.category === filter);
+            return list
+              .filter(item => item.category === filter)
+              .sort((a, b) => (a.expirationDate > b.expirationDate) ? 1 : -1);
     }
   }
 )
