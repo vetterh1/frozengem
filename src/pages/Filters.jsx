@@ -1,14 +1,14 @@
-
+/* eslint-disable react-hooks/rules-of-hooks */ 
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
 import { itemsFilterActions } from '../_actions/itemsFilterActions';
 import { injectIntl } from "react-intl";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import { getIcon } from "../data/Icons";
+import { getIcon } from "../data/Icons"; 
 
 
-const intFilters = ({language, filter, categories, filterItems, intl}) => {
+function intFilters ({language, filter, categories, filterItems, intl}) {
   if(!categories) return null;
 
   const [sortedCategories] = useState(
