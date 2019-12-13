@@ -6,7 +6,8 @@ import { characteristicsServices } from "./characteristicsServices";
 // import { ExpirationLevel } from "../data/ItemCharacteristicsStore";
 
 export const itemsServices = {
-  addUtilityFieldsToItem,
+  computeItemUtilityFields,
+  computeAllItemsUtilityFields,
   fetchItems,
   ExpirationLevel
 };
@@ -45,73 +46,82 @@ function _computeExpirationLevel(dateInMs) {
       __monthExpirationAsText
   */
 
-//  function addUtilityFieldsToItem(item, language, theme) {
+//  function computeItemUtilityFields(item, language, theme) {
 
 
- function addUtilityFieldsToItem(items, language, characteristics) {
+function computeItemUtilityFields(item, language, characteristics) {
 
-     items.forEach( item => {
-     
-      item.__detailsArray = item.details ? item.details.split(",") : [];
-      item.__expirationLevel = _computeExpirationLevel(item.expirationDate);
-      switch (item.__expirationLevel) {
-        case ExpirationLevel.EXPIRATION_PASSED:
-          // item.__avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.expired;
-          // item.__cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.expired;
-          // item.__iconExpiration = <PanToolIcon />;
-          item.__expirationText = {id: 'expiration.message.passed'};
-          break;
-        case ExpirationLevel.EXPIRATION_NEXT_30_DAYS:
-          // item.__avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.next_30_days;
-          // item.__cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.next_30_days;
-          // item.__iconExpiration = <PriorityHighIcon />;
-          item.__expirationText = {id: 'expiration.message.next_30_days'};
-          break;
-        case ExpirationLevel.EXPIRATION_WITHIN_3_MONTHS:
-          // item.__avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.within_3_months;
-          // item.__cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.within_3_months;
-          // item.__iconExpiration = <TimerIcon />;
-          item.__expirationText = {id: 'expiration.message.within_3_months'};
-          break;
-        default:
-          // item.__avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.later;
-          // item.__cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.later;
-          // item.__iconExpiration = <DoneIcon />;
-          item.__expirationText = {id: 'expiration.message.later'};
-          break;
-      } 
+  // NOT PURE !!!  
+  // Changes item
 
-      const rawFields = {
-        category: item.category,
-        container: item.container,
-        color: item.color,
-        freezer: item.freezer,
-        location: item.location,
-        category: item.size,
-        detailsArray: item.__detailsArray,     
-      }
+  item.__detailsArray = item.details ? item.details.split(",") : [];
+  item.__expirationLevel = _computeExpirationLevel(item.expirationDate);
+  switch (item.__expirationLevel) {
+    case ExpirationLevel.EXPIRATION_PASSED:
+      // item.__avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.expired;
+      // item.__cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.expired;
+      // item.__iconExpiration = <PanToolIcon />;
+      item.__expirationText = {id: 'expiration.message.passed'};
+      break;
+    case ExpirationLevel.EXPIRATION_NEXT_30_DAYS:
+      // item.__avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.next_30_days;
+      // item.__cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.next_30_days;
+      // item.__iconExpiration = <PriorityHighIcon />;
+      item.__expirationText = {id: 'expiration.message.next_30_days'};
+      break;
+    case ExpirationLevel.EXPIRATION_WITHIN_3_MONTHS:
+      // item.__avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.within_3_months;
+      // item.__cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.within_3_months;
+      // item.__iconExpiration = <TimerIcon />;
+      item.__expirationText = {id: 'expiration.message.within_3_months'};
+      break;
+    default:
+      // item.__avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.later;
+      // item.__cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.later;
+      // item.__iconExpiration = <DoneIcon />;
+      item.__expirationText = {id: 'expiration.message.later'};
+      break;
+  } 
 
-      const characteristicsUtilityFields = characteristicsServices.getCharacteristicsUtilityFields(rawFields, language, characteristics);
-
-      item.__categoryText = characteristicsUtilityFields.category;
-      item.__containerText = characteristicsUtilityFields.container;
-      item.__colorText = characteristicsUtilityFields.color;
-      item.__freezerText = characteristicsUtilityFields.freezer;
-      item.__locationText = characteristicsUtilityFields.location;
-      item.__nameOrCategory = item.name && item.name.length > 0 ? item.name : item.__categoryText;
-      item.__sizeInText = characteristicsUtilityFields.size;
-      const detailsNamesArray = characteristicsUtilityFields.detailsArray;
-      item.__detailsNames = detailsNamesArray ? detailsNamesArray.join( ', ') : null;
-      item.__imageExists = item.pictureName || item.thumbnailName;
-
-      const expirationAsDate = new Date(item.expirationDate);
-      item.__yearExpiration = expirationAsDate.getFullYear();
-      const monthExpiration = expirationAsDate.getMonth();
-      item.__monthExpirationAsText = Months[language][monthExpiration];
-    });
-
-    return items;
+  const rawFields = {
+    category: item.category,
+    container: item.container,
+    color: item.color,
+    freezer: item.freezer,
+    location: item.location,
+    size: item.size,
+    detailsArray: item.__detailsArray,     
   }
+
+  const characteristicsUtilityFields = characteristicsServices.getCharacteristicsUtilityFields(rawFields, language, characteristics);
+
+  item.__categoryText = characteristicsUtilityFields.category;
+  item.__containerText = characteristicsUtilityFields.container;
+  item.__colorText = characteristicsUtilityFields.color;
+  item.__freezerText = characteristicsUtilityFields.freezer;
+  item.__locationText = characteristicsUtilityFields.location;
+  item.__nameOrCategory = item.name && item.name.length > 0 ? item.name : item.__categoryText;
+  item.__sizeInText = characteristicsUtilityFields.size;
+  const detailsNamesArray = characteristicsUtilityFields.detailsArray;
+  item.__detailsNames = detailsNamesArray ? detailsNamesArray.join( ', ') : null;
+  item.__imageExists = item.pictureName || item.thumbnailName;
+
+  const expirationAsDate = new Date(item.expirationDate);
+  item.__yearExpiration = expirationAsDate.getFullYear();
+  const monthExpiration = expirationAsDate.getMonth();
+  item.__monthExpirationAsText = Months[language][monthExpiration];
+}
+  
+
+
+function computeAllItemsUtilityFields(items, language, characteristics) {
+
+  // NOT PURE !!!  
+  // Changes items
+
+  items.forEach( item => computeItemUtilityFields(item, language, characteristics) );
+  return items;
+}
 
 
           
@@ -141,7 +151,7 @@ function _computeExpirationLevel(dateInMs) {
   
     try {
       const response = await axios(options);
-      return addUtilityFieldsToItem(response.data, language, characteristics);
+      return computeAllItemsUtilityFields(response.data, language, characteristics);
     }
     catch(error) {
       // console.error('fetchItems error: ' , error);

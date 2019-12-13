@@ -20,6 +20,10 @@ function setLanguage(language) {
 
         userServices.setLanguage(language);
         dispatch({ type: ACTIONS.SET_LANGUAGE, language });
+
+        // Change items language
+        dispatch(itemsActions.updateAllItemsUtilityFields());
+
     };
 }
 

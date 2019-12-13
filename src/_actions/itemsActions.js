@@ -4,6 +4,8 @@ import { notifierActions } from './notifierActions';
 
 export const itemsActions = {
   fetchItems,
+  updateAllItemsUtilityFields,
+  // updateItemUtilityFields,
 };
 
          
@@ -43,3 +45,43 @@ function fetchItems() {
           );
   };
 }
+
+
+function updateAllItemsUtilityFields() {
+  return (dispatch, getState) => {
+    const {language} = getState().user;
+    const characteristics = getState().characteristics;
+    const list = getState().items.list;
+    const removed = getState().items.removed;
+    const items = [...list, ...removed];
+
+    const updatedItems = itemsServices.computeAllItemsUtilityFields(items, language, characteristics)
+
+    // Replace existing items by these ones in the redux store
+    dispatch({ type: ACTIONS.FETCH_ITEMS_SUCCESS, items: updatedItems });
+  };
+}
+
+/*
+TODO add update functions & reducer
+
+function updateItemUtilityFields(item) {
+  return async (dispatch, getState) => {
+    const {language} = getState().user;
+    const characteristics = getState().characteristics;
+
+    itemsServices.computeAllItemsUtilityFields(item, language, characteristics)
+        .then(
+            item => {
+                // Update item in redux store
+                dispatch({ type: ACTIONS.UPDATE_ITEM_SUCCESS, item });
+
+                // navigate to the home route
+                // history.push('/');
+
+                return item;
+            }
+        );
+  };
+}
+*/
