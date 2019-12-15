@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { withRouter } from "react-router";
+
 import { injectIntl, FormattedMessage, defineMessages } from "react-intl";
 import { withStyles } from '@material-ui/core/styles';
-import { withSnackbar } from 'notistack';
-import { withUserInfo } from '../with/withUserInfo';
-import { withItemCharacteristics } from '../with/withItemCharacteristics';
 
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
@@ -26,38 +26,6 @@ import CharacteristicsSelection from './utils/CharacteristicsSelection';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-
-
-const messages = defineMessages({ 
-  cameraReplace: {
-    id: 'camera.replace',
-    defaultMessage: 'Retake picture',
-  },  
-  cameraAdd: {
-    id: 'camera.add',
-    defaultMessage: 'Add picture',
-  },
-  remove: {
-    id: 'action.remove',
-    defaultMessage: 'Remove',
-  },
-  removeNothing: {
-    id: 'item.remove.nothing',
-    defaultMessage: 'Nothing',
-  },
-  removeFromFreezer: {
-    id: 'item.remove.from_freezer',
-    defaultMessage: 'Remove this item from your freezer',
-  },
-  cancel: {
-    id: 'button.cancel',
-    defaultMessage: 'Cancel',
-  },
-  titleRemove: {
-    id: 'item.remove.modal.title',
-    defaultMessage: 'How much quantity is left?',
-  },  
-});
 
 
 
@@ -83,10 +51,11 @@ const styles = theme => ({
 
 
 // const Details = ({opened, item, onClose, onSavePicture, onRemoveItem, onEditItem, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
+    // const Details = ({item, match, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
 
-const Details = ({item, match, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
+const Details = ({item, sizes, classes, intl}) => {
 
-  const id = match.params.id;
+  const id = item.id;
 
   console.debug('[--- FC ---] Functional component: Details id!', id);
 
@@ -136,10 +105,10 @@ const Details = ({item, match, classes, intl, userInfo, enqueueSnackbar, closeSn
 
   const zero = {
     id2: "0", 
-    label: {en: intl.formatMessage(messages.removeFromFreezer), fr: intl.formatMessage(messages.removeFromFreezer)}, 
-    name: {en: intl.formatMessage(messages.removeNothing), fr: intl.formatMessage(messages.removeNothing)},
+    label: {en: intl.formatMessage({id: 'item.remove.from_freezer'}), fr: intl.formatMessage({id: 'item.remove.from_freezer'})}, 
+    name: {en: intl.formatMessage({id: 'item.remove.nothing'}), fr: intl.formatMessage({id: 'item.remove.nothing'})},
   };
-  const sizes = [zero, ...itemCharacteristics.sizes];
+  const sizesWith0 = [zero, ...sizes];
 
 
 
@@ -177,16 +146,16 @@ const Details = ({item, match, classes, intl, userInfo, enqueueSnackbar, closeSn
 
         <ButtonToModal 
           iconOnlyButton
-          btnLabel={intl.formatMessage(messages.remove)}
+          btnLabel={intl.formatMessage({id: 'action.remove'})}
           btnIcon={getIcon("remove")} 
-          cancelLabel={intl.formatMessage(messages.cancel)}
+          cancelLabel={intl.formatMessage({id: 'button.cancel'})}
           onOk={null}
         >
           <CharacteristicsSelection
             name='size'
-            title={intl.formatMessage(messages.titleRemove)}
+            title={intl.formatMessage({id: 'item.remove.modal.title'})}
             handleChange={handleClickRemove}
-            items={sizes}
+            items={sizesWith0}
             preselectedItems={item.size}
           />
         </ButtonToModal>
@@ -195,12 +164,12 @@ const Details = ({item, match, classes, intl, userInfo, enqueueSnackbar, closeSn
               itemId={item.id}
               iconOnlyButton
               onPicture={handleSavePicture}
-              label={intl.formatMessage(item.__imageExists ? messages.cameraReplace : messages.cameraAdd)}
+              label={intl.formatMessage(item.__imageExists ? 'camera.replace' : 'camera.add')}
         />
 
         {/* <Button onClick={onClose} color="primary"> */}
         <Button color="primary">
-          <FormattedMessage id="button.close" defaultMessage="Close" />
+          <FormattedMessage id="button.close" />
         </Button>
       </DialogActions>
     </Dialog>
@@ -210,16 +179,7 @@ const Details = ({item, match, classes, intl, userInfo, enqueueSnackbar, closeSn
 
 Details.propTypes = {
   // Props from caller
-  match: PropTypes.object.isRequired,
-
-
-  // opened: PropTypes.bool.isRequired,
-  // item: PropTypes.object.isRequired,
-  // onClose: PropTypes.func.isRequired,
-  // onSavePicture: PropTypes.func.isRequired,
-  // onRemoveItem: PropTypes.func.isRequired,
-  // onEditItem: PropTypes.func.isRequired,
-
+  sizes: PropTypes.object.isRequired,
 
   // Props from redux
   item: PropTypes.object.isRequired,
@@ -227,11 +187,23 @@ Details.propTypes = {
   // Props from other HOC
   classes: PropTypes.object.isRequired,
   intl: PropTypes.object.isRequired,
-  userInfo: PropTypes.object.isRequired,
-  enqueueSnackbar: PropTypes.func.isRequired,
-  closeSnackbar: PropTypes.func.isRequired,
-  itemCharacteristics: PropTypes.object.isRequired,
 }
 
 
-export default injectIntl(withSnackbar(withUserInfo(withItemCharacteristics(withStyles(styles, { withTheme: true })(Details)))));
+
+function mapStateToProps(state, ownProps) {
+  console.log('ownProps=',ownProps);
+  const id = ownProps.match.params.id;
+  console.log('id=', id);
+  
+  if(!id) throw new Error({ error: "no id!" });
+
+  return {
+    item: state.items.list.find(item => item.id = id),
+    sizes: state.characteristics.sizes,
+  };
+}
+
+const connectedDetails = connect(mapStateToProps, null)(withRouter(Details));
+
+export default injectIntl(withStyles(styles, { withTheme: true })(connectedDetails));
