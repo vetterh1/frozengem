@@ -19,6 +19,8 @@ function intFilters ({language, filter, categories, filterItems, intl}) {
 
   // Restore tab used in previous session:
   useEffect(() => {
+    console.log('Filters.useEffect() - should run only once!');
+    
     if(!selectedCategory) {
       let sel = localStorage.getItem('selectedCategory');
       if(!sel) 
@@ -28,7 +30,7 @@ function intFilters ({language, filter, categories, filterItems, intl}) {
       setSelectedCategory( sel );
       filterItems(sel);
     }
-  }, []);
+  },[selectedCategory, sortedCategories, filterItems]);
 
 
 

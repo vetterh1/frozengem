@@ -3,11 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router'
 import { withStyles } from '@material-ui/core/styles';
-import { withSnackbar } from 'notistack';
-import { withUserInfo } from '../../with/withUserInfo';
-import { withItemCharacteristics } from '../../with/withItemCharacteristics';
-// import { injectIntl, defineMessages } from "react-intl";
-import { injectIntl } from "react-intl";
 
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
@@ -163,8 +158,7 @@ const styles = theme => ({
 
 
 
-const intItemCard = ({item, classes}) => {
-  // const intItemCard = ({item, classes, intl, userInfo, itemCharacteristics, theme}) => {
+const intItemCard = ({item, classes, theme}) => {
 
   console.debug('[--- FC ---] Functional component: ItemCard -  item: ', item.id);
 
@@ -209,7 +203,8 @@ const intItemCard = ({item, classes}) => {
               </CardContent>
 
             </div>
-            <div className={classes.cardRight} style={{backgroundColor: item.__cardBackgroundColor}}>
+
+            <div className={classes.cardRight} style={{backgroundColor: theme.palette.itemCard.cardBackgroundColor[item.__cardBackgroundColor]}}>
                 <Typography variant="body1" component="div">
                   {item.__yearExpiration}
                 </Typography>
@@ -242,8 +237,9 @@ intItemCard.propTypes = {
   
   // Props from other HOC
   classes: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
 }
 
 
 
-export default injectIntl(withSnackbar(withUserInfo(withItemCharacteristics(withStyles(styles, { withTheme: true })(intItemCard)))));
+export default withStyles(styles, { withTheme: true })(intItemCard);

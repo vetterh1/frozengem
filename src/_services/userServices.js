@@ -112,7 +112,7 @@ async function autologin() {
 
   // No token, no autologin!
   const token = localStorage.getItem('accessToken');
-  if(!token) throw { error: "no token!" };
+  if(!token) throw new Error({ error: "no token!" });
 
   const params = { 'access_token': token };
   const options = {

@@ -20,7 +20,7 @@ async function fetchCharacteristics() {
 
   // No token, no fetchCharacteristics!
   const token = localStorage.getItem('accessToken');
-  if(!token) throw { error: "no token!" };
+  if(!token) throw new Error({ error: "no token!" });
 
   const params = { 'access_token': token };
   const options = {
@@ -45,7 +45,7 @@ async function fetchCharacteristics() {
 
 function getCharacteristicsUtilityFields(rawFields, language, characteristics) {
   const computatedFields = {};
-  const { categories, details, containers, colors, freezers, locations, sizes, detailsArray } = characteristics;
+  const { categories, details, containers, colors, freezers, locations, sizes } = characteristics;
 
   if(rawFields.category) {
     const foundCategory = categories.find(aCategory => aCategory.id2 === rawFields.category);
@@ -85,28 +85,28 @@ function getCharacteristicsUtilityFields(rawFields, language, characteristics) {
     })
   }
 
-  // if(rawFields.category && rawFields.details) {
-  //   // Find the expiration & expiration exceptions for this category
-  //   const aCategory = categories.find(aCategory => aCategory.id2 === rawFields.category);
-  //   const {expiration, expirationMinusPlus} = aCategory;
-  //   // console.log('getDefaultExpirationInMonths: expiration=', expiration, " - expirationMinusPlus=", expirationMinusPlus);
+  if(rawFields.category && rawFields.details) {
+    // Find the expiration & expiration exceptions for this category
+    const aCategory = categories.find(aCategory => aCategory.id2 === rawFields.category);
+    const {expiration, expirationMinusPlus} = aCategory;
+    // console.log('getDefaultExpirationInMonths: expiration=', expiration, " - expirationMinusPlus=", expirationMinusPlus);
 
-  //   // Find the expiration by taking the category expiration value
-  //   // then + or - the exceptions
-  //   let expirationInMonth = parseInt(expiration);
-  //   rawFields.details.forEach(detail => {
-  //     const variation = expirationMinusPlus[detail];
-  //     // console.log('getDefaultExpirationInMonths: variation=', variation);
+    // Find the expiration by taking the category expiration value
+    // then + or - the exceptions
+    let expirationInMonth = parseInt(expiration);
+    rawFields.details.forEach(detail => {
+      const variation = expirationMinusPlus[detail];
+      // console.log('getDefaultExpirationInMonths: variation=', variation);
 
-  //     if(variation) {
-  //         const intVariation = parseInt(variation);
-  //         expirationInMonth += intVariation
-  //         // console.log('getDefaultExpirationInMonths: intVariation=', intVariation, " - expirationInMonth=", expirationInMonth);
-  //     }
-  //   });
-  //   console.log("getDefaultExpirationInMonths=" + expirationInMonth);
-  //   computatedFields.expirationInMonth = expirationInMonth;
-  // }
+      if(variation) {
+          const intVariation = parseInt(variation);
+          expirationInMonth += intVariation
+          // console.log('getDefaultExpirationInMonths: intVariation=', intVariation, " - expirationInMonth=", expirationInMonth);
+      }
+    });
+    console.log("getDefaultExpirationInMonths=" + expirationInMonth);
+    computatedFields.expirationInMonth = expirationInMonth;
+  }
 
   return computatedFields;
 }

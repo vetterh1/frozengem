@@ -5,6 +5,16 @@ import {Months} from '../i18n/i18nDates';
 import { characteristicsServices } from "./characteristicsServices";
 // import { ExpirationLevel } from "../data/ItemCharacteristicsStore";
 
+  
+const ExpirationLevel = {
+  EXPIRATION_PASSED: 0,
+  EXPIRATION_NEXT_30_DAYS: 1,
+  EXPIRATION_WITHIN_3_MONTHS: 2,
+  EXPIRATION_LATER: 3,
+};
+
+
+
 export const itemsServices = {
   computeItemUtilityFields,
   computeAllItemsUtilityFields,
@@ -58,26 +68,26 @@ function computeItemUtilityFields(item, language, characteristics) {
   item.__expirationLevel = _computeExpirationLevel(item.expirationDate);
   switch (item.__expirationLevel) {
     case ExpirationLevel.EXPIRATION_PASSED:
-      // item.__avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.expired;
-      // item.__cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.expired;
+      item.__avatarBackgroundColor = 'expired';
+      item.__cardBackgroundColor = 'expired';
       // item.__iconExpiration = <PanToolIcon />;
       item.__expirationText = {id: 'expiration.message.passed'};
       break;
     case ExpirationLevel.EXPIRATION_NEXT_30_DAYS:
-      // item.__avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.next_30_days;
-      // item.__cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.next_30_days;
+      item.__avatarBackgroundColor = 'next_30_days';
+      item.__cardBackgroundColor = 'next_30_days';
       // item.__iconExpiration = <PriorityHighIcon />;
       item.__expirationText = {id: 'expiration.message.next_30_days'};
       break;
     case ExpirationLevel.EXPIRATION_WITHIN_3_MONTHS:
-      // item.__avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.within_3_months;
-      // item.__cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.within_3_months;
+      item.__avatarBackgroundColor = 'within_3_months';
+      item.__cardBackgroundColor = 'within_3_months';
       // item.__iconExpiration = <TimerIcon />;
       item.__expirationText = {id: 'expiration.message.within_3_months'};
       break;
     default:
-      // item.__avatarBackgroundColor = theme.palette.itemCard.avatarBackgroundColor.later;
-      // item.__cardBackgroundColor = theme.palette.itemCard.cardBackgroundColor.later;
+      item.__avatarBackgroundColor = 'later';
+      item.__cardBackgroundColor = 'later';
       // item.__iconExpiration = <DoneIcon />;
       item.__expirationText = {id: 'expiration.message.later'};
       break;
@@ -136,9 +146,9 @@ function computeAllItemsUtilityFields(items, language, characteristics) {
  
     // No token, no fetchItems!
     const token = localStorage.getItem('accessToken');
-    if(!token) throw { error: "no token!" };
+    if(!token) throw new Error({ error: "no token!" });
     const user = JSON.parse(localStorage.getItem('user'));
-    if(!user) throw { error: "no user!" };
+    if(!user) throw new Error({ error: "no user!" });
   
     const params = { 'access_token': token, 'user': user };
     const removedOption = removed ? "/removed" : "";
@@ -159,10 +169,3 @@ function computeAllItemsUtilityFields(items, language, characteristics) {
     }
   }
   
-  
-const ExpirationLevel = {
-  EXPIRATION_PASSED: 0,
-  EXPIRATION_NEXT_30_DAYS: 1,
-  EXPIRATION_WITHIN_3_MONTHS: 2,
-  EXPIRATION_LATER: 3,
-};

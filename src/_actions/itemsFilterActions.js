@@ -1,6 +1,5 @@
 import * as ACTIONS from "../_constants/action-types";
-import { itemsServices } from '../_services/itemsServices';
-import { notifierActions } from './notifierActions';
+
 
 export const itemsFilterActions = {
   filterItems,

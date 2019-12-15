@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
 import { userActions } from '../_actions/userActions';
-import { IntlProvider, addLocaleData } from "react-intl";
+import { IntlProvider } from "react-intl";
 import { SnackbarProvider } from 'notistack';
 import Notifier from './utils/Notifier';
 import translations from '../i18n/locales';
@@ -70,7 +70,7 @@ const intApp = (props) => {
 
   // Run only once
   // Try to auto-login
-  useEffect(() => props.autologin(), []);
+  useEffect(() => props.autologin());
 
   
   if(!props.language) return null;
