@@ -4,31 +4,26 @@ import { connect } from 'react-redux';
 import { withRouter } from "react-router";
 import { itemsActions } from '../_actions/itemsActions';
 
-import { injectIntl, FormattedMessage, defineMessages } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
 import { withStyles } from '@material-ui/core/styles';
 
 // import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { useTheme } from '@material-ui/core/styles';
+// import { useTheme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
+// import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
+// import DialogContent from '@material-ui/core/DialogContent';
+// import DialogContentText from '@material-ui/core/DialogContentText';
 // import DialogTitle from '@material-ui/core/DialogTitle';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
+// import IconButton from '@material-ui/core/IconButton';
+// import Typography from '@material-ui/core/Typography';
 
 import { getIcon } from "../data/Icons";
-import CloseIcon from '@material-ui/icons/Close';
+// import CloseIcon from '@material-ui/icons/Close';
 
 import PictureSelection from './utils/PictureSelection';
 import ButtonToModal from './utils/ButtonToModal'
 import CharacteristicsSelection from './utils/CharacteristicsSelection';
-
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-
-
 
 
 
@@ -56,7 +51,7 @@ const styles = theme => ({
 
 const Details = ({item, sizes, removeItem, savePicture, classes, intl, history}) => {
 
-  const theme = useTheme();
+  // const theme = useTheme();
   // const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   if(!item || !sizes) return null;

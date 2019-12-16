@@ -115,7 +115,7 @@ function computeItemUtilityFields(item, language, characteristics) {
   item.__freezerText = characteristicsUtilityFields.freezer;
   item.__locationText = characteristicsUtilityFields.location;
   item.__nameOrCategory = item.name && item.name.length > 0 ? item.name : item.__categoryText;
-  item.__sizeInText = characteristicsUtilityFields.size;
+  item.__sizeInText = item.removed ? '-' : characteristicsUtilityFields.size;
   const detailsNamesArray = characteristicsUtilityFields.detailsArray;
   item.__detailsNames = detailsNamesArray ? detailsNamesArray.join( ', ') : null;
   item.__imageExists = item.pictureName || item.thumbnailName;
@@ -264,7 +264,7 @@ function computeAllItemsUtilityFields(items, language, characteristics) {
   async function removeItemOnServer(id, user, size) {
     console.info('|--- SERVER CALL ---|--- POST ---| Items.removeItemOnServer: ', id, size);
     const data = { 'access_token': user.accessToken };
-    if(size) data['size'] = size;
+    if(size && size !== '0') data['size'] = size;
     const options = {
       method: 'POST',
       url: `${config.boUrl}/items/remove/${id}`,
