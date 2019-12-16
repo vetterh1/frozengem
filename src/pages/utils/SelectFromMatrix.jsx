@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles'
-import { withUserInfo } from '../../with/withUserInfo';
+import { connect } from 'react-redux';
 import MatrixCard from './MatrixCard'
 import { getIcon } from "../../data/Icons";
 
@@ -28,11 +28,11 @@ const styles = theme => ({
 // It's the responsibility of the parent to aggregate the multiple selected 
 // and return them as an array in preselectedItems (with multiselection = true)
 
-const intSelectFromMatrix = ({ name = "", defaultIconName = "", items, preselectedItems, multiselection, handleClick, classes, userInfo }) => (
+const intSelectFromMatrix = ({ name = "", defaultIconName = "", items, preselectedItems, multiselection, handleClick, classes, language }) => (
   <div className={classes.layout}>
     {items && items.map((item) => {
-      const nameItem = item.name[userInfo.language]
-      const labelItem = item.label[userInfo.language]
+      const nameItem = item.name[language]
+      const labelItem = item.label[language]
       let iconItem = getIcon(name + item.id2)
       if(!iconItem)  iconItem = getIcon(defaultIconName);
       let selected = false;
@@ -65,8 +65,22 @@ intSelectFromMatrix.propTypes = {
   multiselection: PropTypes.bool,
   handleClick: PropTypes.func,
   classes: PropTypes.object,
-  userInfo: PropTypes.object,
 }
 
 
-export default withStyles(styles)(withUserInfo(intSelectFromMatrix));
+
+
+function mapStateToProps(state) {
+  const { user: { language } } = state;
+  return {
+    language,
+  };
+}
+
+const mapDispatchToProps = {
+};
+
+const connectedSelectFromMatrix = connect(mapStateToProps, mapDispatchToProps)(intSelectFromMatrix);
+
+
+export default withStyles(styles)(connectedSelectFromMatrix);

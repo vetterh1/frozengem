@@ -4,6 +4,10 @@ import { notifierActions } from './notifierActions';
 
 export const itemsActions = {
   fetchItems,
+  addItem,
+  updateItem,
+  savePicture,
+  removeItem,
   updateAllItemsUtilityFields,
   // updateItemUtilityFields,
 };
@@ -20,10 +24,10 @@ function fetchItems() {
   return async (dispatch, getState) => {
       dispatch({ type: ACTIONS.FETCH_ITEMS_REQUEST });
 
-      const {language} = getState().user;
+      const user = getState().user;
       const characteristics = getState().characteristics;
 
-      itemsServices.fetchItems(language, characteristics)
+      itemsServices.fetchItemsFromServer(user, characteristics)
           .then(
               items => {
                   // Add items to redux store
@@ -47,13 +51,152 @@ function fetchItems() {
 }
 
 
+
+
+
+//
+// Save item on Server & store
+//
+
+function addItem(item) {
+  return async (dispatch, getState) => {
+      dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_REQUEST });
+
+      const user = getState().user;
+      const characteristics = getState().characteristics;
+
+      itemsServices.addItemToServer(item, user)
+          .then(
+              item => {
+                  // Update fields
+                  itemsServices.computeItemUtilityFields(item, user.language, characteristics);
+
+                  // Add items to redux store
+                  dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_SUCCESS, item });
+                  return item;
+              },
+              error => {
+                  dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_FAILURE, error: error.toString() });
+
+                  // Error message
+                  const unauthorized = error.response && error.response.status === 401;
+                  const message = unauthorized ? 'unauthorized' : 'items.error';
+                  dispatch(notifierActions.addIntlNotifier(message, 'error'));                  
+              }
+          );
+  };
+}
+
+
+
+//
+// Update item on Server & store
+//
+
+function updateItem(id, updates) {
+  return async (dispatch, getState) => {
+      dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_REQUEST });
+
+      const user = getState().user;
+      const characteristics = getState().characteristics;
+
+      itemsServices.updateItemToServer(id, updates, user)
+          .then(
+              item => {
+                  // Update fields
+                  itemsServices.computeItemUtilityFields(item, user.language, characteristics);
+
+                  // Add items to redux store
+                  dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_SUCCESS, item });
+                  return item;
+              },
+              error => {
+                  dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_FAILURE, error: error.toString() });
+
+                  // Error message
+                  const unauthorized = error.response && error.response.status === 401;
+                  const message = unauthorized ? 'unauthorized' : 'items.error';
+                  dispatch(notifierActions.addIntlNotifier(message, 'error'));                  
+              }
+          );
+  };
+}
+
+
+
+
+//
+// Remove item on Server & store
+//
+
+function removeItem(id, size) {
+  return async (dispatch, getState) => {
+      dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_REQUEST });
+
+      const user = getState().user;
+      const characteristics = getState().characteristics;
+
+      itemsServices.removeItemOnServer(id, user, size)
+          .then(
+              item => {
+                  // Update fields
+                  itemsServices.computeItemUtilityFields(item, user.language, characteristics);
+
+                  // Add items to redux store
+                  dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_SUCCESS, item });
+                  return item;
+              },
+              error => {
+                  dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_FAILURE, error: error.toString() });
+
+                  // Error message
+                  const unauthorized = error.response && error.response.status === 401;
+                  const message = unauthorized ? 'unauthorized' : 'items.error';
+                  dispatch(notifierActions.addIntlNotifier(message, 'error'));                  
+              }
+          );
+  };
+}
+
+
+
+function savePicture (id, pictureData, thumbnailData) {
+  return async (dispatch, getState) => {
+    dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_REQUEST });
+
+    const user = getState().user;
+    const characteristics = getState().characteristics;
+
+    itemsServices.updatePictureItemToServer(id, pictureData, thumbnailData, user)
+        .then(
+            item => {
+                // Update fields
+                itemsServices.computeItemUtilityFields(item, user.language, characteristics);
+
+                // Add items to redux store
+                dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_SUCCESS, item });
+                return item;
+            },
+            error => {
+                dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_FAILURE, error: error.toString() });
+
+                // Error message
+                const unauthorized = error.response && error.response.status === 401;
+                const message = unauthorized ? 'unauthorized' : 'items.error';
+                dispatch(notifierActions.addIntlNotifier(message, 'error'));                  
+            }
+        );
+  };
+}
+
+
+
+
 function updateAllItemsUtilityFields() {
   return (dispatch, getState) => {
     const {language} = getState().user;
     const characteristics = getState().characteristics;
-    const list = getState().items.list;
-    const removed = getState().items.removed;
-    const items = [...list, ...removed];
+    const items = getState().items.list;
 
     const updatedItems = itemsServices.computeAllItemsUtilityFields(items, language, characteristics)
 
@@ -61,27 +204,3 @@ function updateAllItemsUtilityFields() {
     dispatch({ type: ACTIONS.FETCH_ITEMS_SUCCESS, items: updatedItems });
   };
 }
-
-/*
-TODO add update functions & reducer
-
-function updateItemUtilityFields(item) {
-  return async (dispatch, getState) => {
-    const {language} = getState().user;
-    const characteristics = getState().characteristics;
-
-    itemsServices.computeAllItemsUtilityFields(item, language, characteristics)
-        .then(
-            item => {
-                // Update item in redux store
-                dispatch({ type: ACTIONS.UPDATE_ITEM_SUCCESS, item });
-
-                // navigate to the home route
-                // history.push('/');
-
-                return item;
-            }
-        );
-  };
-}
-*/

@@ -171,7 +171,7 @@ const intApp = (props) => {
 }
 
 function mapStateToProps(state) {
-  console.log("mapStateToProps: ", state);
+  // console.log("mapStateToProps: ", state);
   if(!state.user)
     return {
       loggedIn: false,

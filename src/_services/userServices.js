@@ -96,6 +96,8 @@ async function login(email, password) {
     localStorage.setItem('accessToken', token);
     localStorage.setItem('id', user.id);
     localStorage.setItem('user', JSON.stringify(user));
+    // Add token to user
+    user.accessToken = token;
     return {user, items};
 
   } catch (error) {
@@ -128,6 +130,8 @@ async function autologin() {
     console.log('autologin response: ' , response);
     localStorage.setItem('id', user.id);
     localStorage.setItem('user', JSON.stringify(user));
+    // Add token to user
+    user.accessToken = token;
     return user;
   } catch (error) {
     console.error('autologin error: ' , error);

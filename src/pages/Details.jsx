@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from "react-router";
+import { itemsActions } from '../_actions/itemsActions';
 
 import { injectIntl, FormattedMessage, defineMessages } from "react-intl";
 import { withStyles } from '@material-ui/core/styles';
 
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+// import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -53,37 +54,26 @@ const styles = theme => ({
 // const Details = ({opened, item, onClose, onSavePicture, onRemoveItem, onEditItem, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
     // const Details = ({item, match, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
 
-const Details = ({item, sizes, classes, intl, history}) => {
+const Details = ({item, sizes, removeItem, savePicture, classes, intl, history}) => {
 
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  // const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   if(!item || !sizes) return null;
-
-  const id = item.id;
-
-  console.debug('[--- FC ---] Functional component: Details id!', id);
-
-
-
+  console.debug('[--- FC ---] Functional component: Details id!', item.id);
 
   
   const handleClose = () => {
-    console.log("ItemCard.handleClose: ", item.id);
     history.push('/');
-    return null;
   };
 
   
-  const handleClickRemove = ({ size }) => {
-    console.log("ItemCard.handleClickRemove: ", item.id);
-    // onRemoveItem(item, size);
-    return null;
+  const handleClickRemove = async ({ size }) => {
+    removeItem(item.id, size);
   };
 
   const handleSavePicture = (pictureData, thumbnailData) => {
-    console.log("ItemCard.handeSavePicture: ", item.id);
-    // onSavePicture(item, pictureData, thumbnailData);
+    savePicture(item.id, pictureData, thumbnailData);
   };
 
   
@@ -196,11 +186,9 @@ Details.propTypes = {
 
 
 function mapStateToProps(state, ownProps) {
-  console.log('ownProps=',ownProps);
   const id = ownProps.match.params.id;
-  console.log('id=', id);
-  
   if(!id) throw new Error({ error: "no id!" });
+  // console.log('Details.mapStateToProps - ',ownProps, state.items.list.find(item => item.id === id) );
 
   return {
     item: state.items.list.find(item => item.id === id),
@@ -208,6 +196,11 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-const connectedDetails = withRouter(connect(mapStateToProps, null)(Details));
+const mapDispatchToProps = {
+  removeItem: itemsActions.removeItem,
+  savePicture: itemsActions.savePicture,
+};
+
+const connectedDetails = withRouter(connect(mapStateToProps, mapDispatchToProps)(Details));
 
 export default injectIntl(withStyles(styles, { withTheme: true })(connectedDetails));

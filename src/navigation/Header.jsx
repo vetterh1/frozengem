@@ -87,7 +87,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   setLanguage: userActions.setLanguage,
-
 };
 
 const connectedHeader = connect(mapStateToProps, mapDispatchToProps)(Header);

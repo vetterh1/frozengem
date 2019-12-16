@@ -18,7 +18,11 @@ const ExpirationLevel = {
 export const itemsServices = {
   computeItemUtilityFields,
   computeAllItemsUtilityFields,
-  fetchItems,
+  fetchItemsFromServer,
+  addItemToServer,
+  updateItemToServer,
+  updatePictureItemToServer,
+  removeItemOnServer,
   ExpirationLevel
 };
 
@@ -141,13 +145,12 @@ function computeAllItemsUtilityFields(items, language, characteristics) {
 //
 
 
-  async function fetchItems(language, characteristics, removed = false) {
-    console.info('|--- SERVER CALL ---|--- GET ---| itemsServices.fetchItems');
+  async function fetchItemsFromServer(user, characteristics, removed = false) {
+    console.info('|--- SERVER CALL ---|--- GET ---| itemsServices.fetchItemsFromServer');
  
-    // No token, no fetchItems!
+    // No token, no fetchItemsFromServer!
     const token = localStorage.getItem('accessToken');
     if(!token) throw new Error({ error: "no token!" });
-    const user = JSON.parse(localStorage.getItem('user'));
     if(!user) throw new Error({ error: "no user!" });
   
     const params = { 'access_token': token, 'user': user };
@@ -161,11 +164,122 @@ function computeAllItemsUtilityFields(items, language, characteristics) {
   
     try {
       const response = await axios(options);
-      return computeAllItemsUtilityFields(response.data, language, characteristics);
+      return computeAllItemsUtilityFields(response.data, user.language, characteristics);
     }
     catch(error) {
-      // console.error('fetchItems error: ' , error);
+      // console.error('fetchItemsFromServer error: ' , error);
       throw error;
     }
   }
+  
+
+          
+  
+  async function addItemToServer(item, user) {
+    console.info('|--- SERVER CALL ---|--- POST ---| Items.addItemToServer: ', item);
+    const data = { 'access_token': user.accessToken, ...item };
+    data.details = item.details.join();
+    const options = {
+      method: 'POST',
+      url: `${config.boUrl}/items`,
+      crossdomain : true,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      data: qs.stringify(data),
+    };
+
+    try {
+      // console.log('addItemToServer options: ' , options);
+      const response = await axios(options);
+      // console.log('addItemToServer OK: ' , response.data);
+      return response.data;
+    } catch (error) {
+      console.error('register error: ' , error);
+      throw error;
+    }
+  }
+  
+  
+        
+  
+    
+  async function updateItemToServer(id, updates, user) {
+    console.info('|--- SERVER CALL ---|--- PUT ---| Items.updateItemToServer: ', id, updates);
+    const data = { 'access_token': user.accessToken, ...updates };
+    const options = {
+      method: 'PUT',
+      url: `${config.boUrl}/items/${id}`,
+      crossdomain : true,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      data: qs.stringify(data),
+    };
+
+    try {
+      const response = await axios(options);
+      return response.data;
+    } catch (error) {
+      console.error('register error: ' , error);
+      throw error;
+    }
+  }
+  
+  
+        
+  
+    
+  async function updatePictureItemToServer(id, picture, thumbnail, user) {
+    console.info('|--- SERVER CALL ---|--- PUT ---| Items.updatePictureItemToServer: ', id);
+
+    //
+    // Prepare the multipart parameters for the form-data
+    // with the id, the token and the 2 images (picture and thumbnail)
+    //
+    // (!) the name of the images MUST be setup here and will be used as filename
+    // on the server side
+    //
+    let formData = new FormData() // instantiate it
+    formData.set("id", id);
+    formData.set("access_token", user.accessToken);
+    formData.append("picture", picture, `${id}-picture-${Date.now()}.jpg`);
+    formData.append("picture", thumbnail, `${id}-thumbnail-${Date.now()}.jpg`);
+
+    const options = {
+      method: 'POST',
+      url: `${config.boUrl}/items/picture`,
+      crossdomain : true,
+      headers: { 'content-type': 'multipart/form-data' },
+      data: formData,
+    };
+
+    try {
+      const response = await axios(options);
+      return response.data;
+    } catch (error) {
+      console.error('updatePictureItemToServer error: ' , error);
+      throw error;
+    }
+  }
+  
+  
+
+  async function removeItemOnServer(id, user, size) {
+    console.info('|--- SERVER CALL ---|--- POST ---| Items.removeItemOnServer: ', id, size);
+    const data = { 'access_token': user.accessToken };
+    if(size) data['size'] = size;
+    const options = {
+      method: 'POST',
+      url: `${config.boUrl}/items/remove/${id}`,
+      crossdomain : true,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      data: qs.stringify(data),
+    };
+
+    try {
+      const response = await axios(options);
+      return response.data;
+    } catch (error) {
+      console.error('removeItemOnServer error: ' , error);
+      throw error;
+    }
+  }
+  
   
