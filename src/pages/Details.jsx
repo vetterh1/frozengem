@@ -53,7 +53,7 @@ const styles = theme => ({
 // const Details = ({opened, item, onClose, onSavePicture, onRemoveItem, onEditItem, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
     // const Details = ({item, match, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
 
-const Details = ({item, sizes, classes, intl}) => {
+const Details = ({item, sizes, classes, intl, history}) => {
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -66,6 +66,13 @@ const Details = ({item, sizes, classes, intl}) => {
 
 
 
+
+  
+  const handleClose = () => {
+    console.log("ItemCard.handleClose: ", item.id);
+    history.push('/');
+    return null;
+  };
 
   
   const handleClickRemove = ({ size }) => {
@@ -165,7 +172,7 @@ const Details = ({item, sizes, classes, intl}) => {
         />
 
         {/* <Button onClick={onClose} color="primary"> */}
-        <Button color="primary">
+        <Button onClick={handleClose} color="primary">
           <FormattedMessage id="button.close" />
         </Button>
       </DialogActions>
