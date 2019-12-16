@@ -55,12 +55,15 @@ const styles = theme => ({
 
 const Details = ({item, sizes, classes, intl}) => {
 
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+  if(!item || !sizes) return null;
+
   const id = item.id;
 
   console.debug('[--- FC ---] Functional component: Details id!', id);
 
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
 
 
@@ -113,13 +116,7 @@ const Details = ({item, sizes, classes, intl}) => {
 
 
   return (
-    <Dialog
-      fullScreen={fullScreen}
-      // open={opened}
-      // onClose={onClose}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-    >
+    <>
 
       <div>Name: {item.name}</div>
       <div>Category: {item.__categoryText}</div>
@@ -164,7 +161,7 @@ const Details = ({item, sizes, classes, intl}) => {
               itemId={item.id}
               iconOnlyButton
               onPicture={handleSavePicture}
-              label={intl.formatMessage(item.__imageExists ? 'camera.replace' : 'camera.add')}
+              label={intl.formatMessage({id: item.__imageExists ? 'camera.replace' : 'camera.add'})}
         />
 
         {/* <Button onClick={onClose} color="primary"> */}
@@ -172,17 +169,17 @@ const Details = ({item, sizes, classes, intl}) => {
           <FormattedMessage id="button.close" />
         </Button>
       </DialogActions>
-    </Dialog>
+    </>
   );
 }
 
 
 Details.propTypes = {
   // Props from caller
-  sizes: PropTypes.object.isRequired,
+  sizes: PropTypes.array,
 
   // Props from redux
-  item: PropTypes.object.isRequired,
+  item: PropTypes.object,
 
   // Props from other HOC
   classes: PropTypes.object.isRequired,
@@ -199,11 +196,11 @@ function mapStateToProps(state, ownProps) {
   if(!id) throw new Error({ error: "no id!" });
 
   return {
-    item: state.items.list.find(item => item.id = id),
+    item: state.items.list.find(item => item.id === id),
     sizes: state.characteristics.sizes,
   };
 }
 
-const connectedDetails = connect(mapStateToProps, null)(withRouter(Details));
+const connectedDetails = withRouter(connect(mapStateToProps, null)(Details));
 
 export default injectIntl(withStyles(styles, { withTheme: true })(connectedDetails));
