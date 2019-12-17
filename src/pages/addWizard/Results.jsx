@@ -1,14 +1,10 @@
-// TODO Refactor this file for Redux
-// TODO Refactor this file for intl simplification
-
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import { injectIntl, defineMessages, FormattedMessage } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
 import PictureSelection from '../utils/PictureSelection';
 import ItemImage from '../utils/ItemImage';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
@@ -17,23 +13,6 @@ import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 function isEmpty(str) {
   return (!str || 0 === str.length);
 }
-
-
-const messages = defineMessages({
-  cameraReplace: {
-    id: 'camera.replace',
-    defaultMessage: 'Retake picture',
-  },  
-  cameraAdd: {
-    id: 'camera.add',
-    defaultMessage: 'Add picture',
-  },
-  addSuccess: {
-    id: 'item.add.success',
-    defaultMessage: 'Your product has been added!',
-  },  
-});
-
 
 
 const styles = theme => ({
@@ -81,18 +60,18 @@ const Results = ({item, onResetState, handleAddPicture, isActive, firstStep, int
           <div className={classes.centerFlex}>
             <CheckCircleOutlineIcon  className={classes.leftIcon} style={{ fontSize: 96 }} />
             <Typography variant="h5" className={"small-margin-down"}>
-              <FormattedMessage id="item.add.success" defaultMessage="Successfully added {name}" values={{name: isEmpty(item.name) ? item.categoryName : item.name}} />
+              <FormattedMessage id="item.add.success" values={{name: isEmpty(item.name) ? item.categoryName : item.name}} />
             </Typography>
           </div>
           <Typography variant="h4" className={"small-margin-down"}>
-            <FormattedMessage id="add.results.code" defaultMessage="Code" />: {item.code}
+            <FormattedMessage id="add.results.code" />: {item.code}
           </Typography>
           <Typography variant="subtitle1" className={"small-margin-down"}>
             <ul>
-              <li><FormattedMessage id="add.results.explanation1" defaultMessage="Write down this code on a sticker" /></li>
-              <li><FormattedMessage id="add.results.explanation2" defaultMessage="Stick it to your container" /></li>
+              <li><FormattedMessage id="add.results.explanation1" /></li>
+              <li><FormattedMessage id="add.results.explanation2" /></li>
             </ul>
-            <FormattedMessage id="add.results.explanation3" defaultMessage="We'll send you a reminder in {expirationInMonth} months" values={{expirationInMonth: item.expirationInMonth}} />
+            <FormattedMessage id="add.results.explanation3" values={{expirationInMonth: item.expirationInMonth}} />
           </Typography>
         </div>
         <div className={classes.centerColumnFlex}>
@@ -100,17 +79,17 @@ const Results = ({item, onResetState, handleAddPicture, isActive, firstStep, int
           <PictureSelection 
             onPicture={handleAddPicture}
             hugeIcon={!imageExists}
-            label={intl.formatMessage(imageExists ? messages.cameraReplace : messages.cameraAdd)}
+            label={intl.formatMessage({id: imageExists ? 'camera.replace' : 'camera.add'})}
           />
         </div>
       </div>
 
       <div className={"flex-normal-height flex-direction-row flex-justifiy-between margin-down"}>
         <Button variant="contained" color="secondary" onClick={_handleAddNew} className={classes.button}>
-          <FormattedMessage id="button.addnew" defaultMessage="Add a new item" />
+          <FormattedMessage id="button.addnew" />
         </Button> 
         <Button variant="contained" color="primary" component={Link} to="/" className={classes.button}>
-          <FormattedMessage id="button.backhome" defaultMessage="Back Home" />
+          <FormattedMessage id="button.backhome" />
         </Button>   
       </div>
 

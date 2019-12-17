@@ -21,33 +21,32 @@ export const itemsActions = {
 //
 
 function fetchItems() {
-  return async (dispatch, getState) => {
-      dispatch({ type: ACTIONS.FETCH_ITEMS_REQUEST });
+    return async (dispatch, getState) => {
+        try {
+            dispatch({ type: ACTIONS.FETCH_ITEMS_REQUEST });
 
-      const user = getState().user;
-      const characteristics = getState().characteristics;
+            const user = getState().user;
+            const characteristics = getState().characteristics;
 
-      itemsServices.fetchItemsFromServer(user, characteristics)
-          .then(
-              items => {
-                  // Add items to redux store
-                  dispatch({ type: ACTIONS.FETCH_ITEMS_SUCCESS, items });
+            const items = await itemsServices.fetchItemsFromServer(user, characteristics);
 
-                  // navigate to the home route
-                  // history.push('/');
+            // Add items to redux store
+            dispatch({ type: ACTIONS.FETCH_ITEMS_SUCCESS, items });
 
-                  return items;
-              },
-              error => {
-                  dispatch({ type: ACTIONS.FETCH_ITEMS_FAILURE, error: error.toString() });
+            // navigate to the home route
+            // history.push('/');
 
-                  // Error message
-                  const unauthorized = error.response && error.response.status === 401;
-                  const message = unauthorized ? 'unauthorized' : 'items.error';
-                  dispatch(notifierActions.addIntlNotifier(message, 'error'));                  
-              }
-          );
-  };
+            return items;
+        } catch (error) {
+
+            dispatch({ type: ACTIONS.FETCH_ITEMS_FAILURE, error: error.toString() });
+
+            // Error message
+            const unauthorized = error.response && error.response.status === 401;
+            const message = unauthorized ? 'unauthorized' : 'items.error';
+            dispatch(notifierActions.addIntlNotifier(message, 'error'));                  
+        };
+    }
 }
 
 
@@ -59,32 +58,36 @@ function fetchItems() {
 //
 
 function addItem(item) {
-  return async (dispatch, getState) => {
-      dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_REQUEST });
+    return async (dispatch, getState) => {
 
-      const user = getState().user;
-      const characteristics = getState().characteristics;
+        console.log('addItem - 1 ', item);
+        
+        try {
+            dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_REQUEST });
 
-      itemsServices.addItemToServer(item, user)
-          .then(
-              item => {
-                  // Update fields
-                  itemsServices.computeItemUtilityFields(item, user.language, characteristics);
+            const user = getState().user;
+            const characteristics = getState().characteristics;
+            
+            const savedItem = await itemsServices.addItemToServer(item, user);
+            console.log('addItem - 2 ', savedItem);
 
-                  // Add items to redux store
-                  dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_SUCCESS, item });
-                  return item;
-              },
-              error => {
-                  dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_FAILURE, error: error.toString() });
+            // Update fields
+            itemsServices.computeItemUtilityFields(savedItem, user.language, characteristics);
 
-                  // Error message
-                  const unauthorized = error.response && error.response.status === 401;
-                  const message = unauthorized ? 'unauthorized' : 'items.error';
-                  dispatch(notifierActions.addIntlNotifier(message, 'error'));                  
-              }
-          );
-  };
+            // Add items to redux store
+            dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_SUCCESS, item: savedItem });
+            return savedItem;
+
+        } catch (error) {
+            dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_FAILURE, error: error.toString() });
+
+            // Error message
+            const unauthorized = error.response && error.response.status === 401;
+            const message = unauthorized ? 'unauthorized' : 'items.error';
+            dispatch(notifierActions.addIntlNotifier(message, 'error'));  
+            return null;     
+        }
+    };
 }
 
 
@@ -94,32 +97,32 @@ function addItem(item) {
 //
 
 function updateItem(id, updates) {
-  return async (dispatch, getState) => {
-      dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_REQUEST });
+    return async (dispatch, getState) => {
+        try {
+            dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_REQUEST });
 
-      const user = getState().user;
-      const characteristics = getState().characteristics;
+            const user = getState().user;
+            const characteristics = getState().characteristics;
 
-      itemsServices.updateItemToServer(id, updates, user)
-          .then(
-              item => {
-                  // Update fields
-                  itemsServices.computeItemUtilityFields(item, user.language, characteristics);
+            let item = await itemsServices.updateItemToServer(id, updates, user);
 
-                  // Add items to redux store
-                  dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_SUCCESS, item });
-                  return item;
-              },
-              error => {
-                  dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_FAILURE, error: error.toString() });
+            // Update fields
+            itemsServices.computeItemUtilityFields(item, user.language, characteristics);
 
-                  // Error message
-                  const unauthorized = error.response && error.response.status === 401;
-                  const message = unauthorized ? 'unauthorized' : 'items.error';
-                  dispatch(notifierActions.addIntlNotifier(message, 'error'));                  
-              }
-          );
-  };
+            // Add items to redux store
+            dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_SUCCESS, item });
+            return item;
+
+        } catch (error) {
+
+            dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_FAILURE, error: error.toString() });
+
+            // Error message
+            const unauthorized = error.response && error.response.status === 401;
+            const message = unauthorized ? 'unauthorized' : 'items.error';
+            dispatch(notifierActions.addIntlNotifier(message, 'error'));                  
+        }
+    }
 }
 
 
@@ -130,63 +133,61 @@ function updateItem(id, updates) {
 //
 
 function removeItem(id, size) {
-  return async (dispatch, getState) => {
-      dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_REQUEST });
+    return async (dispatch, getState) => {
+        try {
+            dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_REQUEST });
 
-      const user = getState().user;
-      const characteristics = getState().characteristics;
+            const user = getState().user;
+            const characteristics = getState().characteristics;
 
-      itemsServices.removeItemOnServer(id, user, size)
-          .then(
-              item => {
-                  // Update fields
-                  itemsServices.computeItemUtilityFields(item, user.language, characteristics);
+            let item = itemsServices.removeItemOnServer(id, user, size);
 
-                  // Add items to redux store
-                  dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_SUCCESS, item });
-                  return item;
-              },
-              error => {
-                  dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_FAILURE, error: error.toString() });
+            // Update fields
+            itemsServices.computeItemUtilityFields(item, user.language, characteristics);
 
-                  // Error message
-                  const unauthorized = error.response && error.response.status === 401;
-                  const message = unauthorized ? 'unauthorized' : 'items.error';
-                  dispatch(notifierActions.addIntlNotifier(message, 'error'));                  
-              }
-          );
-  };
+            // Add items to redux store
+            dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_SUCCESS, item });
+            return item;
+        } catch (error) {
+            dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_FAILURE, error: error.toString() });
+
+            // Error message
+            const unauthorized = error.response && error.response.status === 401;
+            const message = unauthorized ? 'unauthorized' : 'items.error';
+            dispatch(notifierActions.addIntlNotifier(message, 'error'));                  
+        }
+    };
 }
 
 
 
 function savePicture (id, pictureData, thumbnailData) {
-  return async (dispatch, getState) => {
-    dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_REQUEST });
+    return async (dispatch, getState) => {
+        try {
+            dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_REQUEST });
 
-    const user = getState().user;
-    const characteristics = getState().characteristics;
+            const user = getState().user;
+            const characteristics = getState().characteristics;
 
-    itemsServices.updatePictureItemToServer(id, pictureData, thumbnailData, user)
-        .then(
-            item => {
-                // Update fields
-                itemsServices.computeItemUtilityFields(item, user.language, characteristics);
+            let item = await itemsServices.updatePictureItemToServer(id, pictureData, thumbnailData, user);
 
-                // Add items to redux store
-                dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_SUCCESS, item });
-                return item;
-            },
-            error => {
-                dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_FAILURE, error: error.toString() });
+            // Update fields
+            itemsServices.computeItemUtilityFields(item, user.language, characteristics);
 
-                // Error message
-                const unauthorized = error.response && error.response.status === 401;
-                const message = unauthorized ? 'unauthorized' : 'items.error';
-                dispatch(notifierActions.addIntlNotifier(message, 'error'));                  
-            }
-        );
-  };
+            // Add items to redux store
+            dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_SUCCESS, item });
+            return item;
+
+        } catch (error) {
+
+            dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_FAILURE, error: error.toString() });
+
+            // Error message
+            const unauthorized = error.response && error.response.status === 401;
+            const message = unauthorized ? 'unauthorized' : 'items.error';
+            dispatch(notifierActions.addIntlNotifier(message, 'error'));                  
+        }
+    };
 }
 
 

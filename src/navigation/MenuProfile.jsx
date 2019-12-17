@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/rules-of-hooks */ 
-/* eslint-disable react-hooks/rules-of-hooks */ 
 import React from 'react';
 
 import { connect } from 'react-redux';

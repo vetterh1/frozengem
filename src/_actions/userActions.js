@@ -135,3 +135,139 @@ function register(user) {
             );
     };
 }
+
+
+
+/*
+
+Async versions , bugs, don't understand why!
+
+function setLanguage(language) {
+    return async dispatch => {
+        try {
+            await userServices.setLanguage(language);
+            dispatch({ type: ACTIONS.SET_LANGUAGE, language });
+    
+            // Change items language
+            dispatch(itemsActions.updateAllItemsUtilityFields());       
+
+        } catch (error) {
+            console.error("setLanguage failed", language);
+        }
+    };
+}
+
+function setNavigationStyle(navigationStyle) {
+    return async dispatch => {
+        try {
+            await userServices.setNavigationStyle(navigationStyle);
+            dispatch({ type: ACTIONS.SET_NAVIGATION_STYLE, navigationStyle });   
+
+        } catch (error) {
+            console.error("setNavigationStyle failed", navigationStyle);
+        }
+        
+    };
+}
+
+
+function login(email, password) {
+    return async dispatch => {
+        try {
+            dispatch({ type: ACTIONS.LOGIN_REQUEST });
+
+            let user = await userServices.login(email, password);
+
+            // Add user info & items to redux store
+            dispatch({ type: ACTIONS.LOGIN_SUCCESS, user });
+
+            // Start fetching the characteristics from the server
+            dispatch(characteristicsActions.fetchCharacteristics())
+
+            // Start fetching the items from the server
+            dispatch(itemsActions.fetchItems())
+                                                            
+            // Success message
+            dispatch(notifierActions.addIntlNotifier('login.success', 'success'));
+
+            // navigate to the home route
+            history.push('/');
+
+            return user.name;
+        } catch (error) {
+            dispatch({ type: ACTIONS.LOGIN_FAILURE, error: error.toString() });
+
+            // Error message
+            const unauthorized = error.response && error.response.status === 401;
+            const message = unauthorized ? 'login.unauthorized' : 'login.error';
+            dispatch(notifierActions.addIntlNotifier(message, 'error'));
+        }
+    };
+}
+
+
+function autologin() {
+    return dispatch => {
+        userServices.autologin()
+            .then(
+                user => {
+                    // Add user info & items to redux store
+                    dispatch({ type: ACTIONS.LOGIN_SUCCESS, user });
+
+                    // Start fetching the characteristics from the server
+                    dispatch(characteristicsActions.fetchCharacteristics())
+
+                    // Start fetching the items from the server
+                    dispatch(itemsActions.fetchItems())
+
+                    // Success message
+                    dispatch(notifierActions.addIntlNotifier('login.success', 'success'));
+
+                    // navigate to the home route
+                    history.push('/');
+
+                    return user.name;
+                },
+                error => {
+                    // No error message ==> autologin is silent!
+                }
+            );
+    };
+}
+
+function logout() {
+    userServices.logout();
+    return { type: ACTIONS.LOGOUT };
+}
+
+
+
+
+
+//
+// TODO Implement reducer + userServices.register() + check aserActions.register() (below)
+//
+
+function register(user) {
+    return dispatch => {
+        dispatch({ type: ACTIONS.REGISTER_REQUEST });
+
+        userServices.register(user)
+            .then(
+                ({ user, items }) => {
+                    // Add user info & items to redux store
+                    dispatch({ type: ACTIONS.REGISTER_SUCCESS, user });
+                    dispatch({ type: ACTIONS.FETCH_ITEMS_SUCCESS, items });
+
+                    // history.push('/login');
+                    // dispatch(alertActions.success('Registration successful'));
+                },
+                error => {
+                    dispatch({ type: ACTIONS.REGISTER_FAILURE, error: error.toString() });
+                }
+            );
+    };
+}
+
+
+*/
