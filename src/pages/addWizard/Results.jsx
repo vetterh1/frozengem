@@ -1,3 +1,7 @@
+// TODO Refactor this file for Redux
+// TODO Refactor this file for intl simplification
+
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';

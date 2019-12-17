@@ -1,3 +1,6 @@
+// TODO Refactor this file for Redux
+// TODO Refactor this file for intl simplification
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !

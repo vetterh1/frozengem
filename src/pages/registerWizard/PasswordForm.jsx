@@ -1,3 +1,6 @@
+// TODO Refactor this file for Redux
+// TODO Refactor this file for intl simplification
+
 import React from 'react';
 import { Redirect } from 'react-router'
 import { withStyles } from '@material-ui/core/styles';

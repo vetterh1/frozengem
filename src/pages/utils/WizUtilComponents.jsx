@@ -1,3 +1,6 @@
+// TODO Refactor this file for Redux
+// TODO Refactor this file for intl simplification
+
 import React from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';

@@ -1,3 +1,6 @@
+// TODO Refactor this file for Redux
+// TODO Refactor this file for intl simplification
+
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';

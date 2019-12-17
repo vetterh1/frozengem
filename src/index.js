@@ -9,7 +9,6 @@ import { createStore, applyMiddleware, compose } from 'redux';
 // import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 import combinedReducer from './_reducers/combinedReducer';
-// import { fetchItems } from './_actions/itemsActions';
 
 import './index.css';
 import App from './pages/App';
@@ -31,13 +30,7 @@ const store = createStore(
   combinedReducer,
   composeEnhancers(reduxMiddleware));
 
-
-//
-// --------------- Init Redux store with Server data ---------------
-//
-
-// store.dispatch(fetchItems());   ==> not here, only possible when user is signed in!
-// store.dispatch(fetchItemCharacteristics());
+// Note: Init Redux store with Server data not here, only possible when user is signed in!
 
 
 

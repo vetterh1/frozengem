@@ -1,3 +1,5 @@
+// TODO Delete this file ItemCharacteristicsStore.jsx once no other file is using it
+
 import React from "react";
 import axios from "axios";
 import * as log from 'loglevel';

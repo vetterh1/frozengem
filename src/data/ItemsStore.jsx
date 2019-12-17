@@ -1,3 +1,5 @@
+// TODO Delete this file ItemsStore.jsx once no other file is using it
+
 /* eslint-disable array-callback-return */
 
 

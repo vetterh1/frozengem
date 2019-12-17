@@ -1,3 +1,5 @@
+// TODO Delete this file withUserInfo.jsx once no other file is using it
+
 import React from 'react';
 import { UserInfoConsumer } from "../data/UserInfoStore";
 export function withUserInfo(Component) {

@@ -1,3 +1,6 @@
+// TODO Refactor this file for Redux
+// TODO Refactor this file for intl simplification
+
 import * as log from 'loglevel';
 import React from 'react';
 import { Redirect } from 'react-router'
