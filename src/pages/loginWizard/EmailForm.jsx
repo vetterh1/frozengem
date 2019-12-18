@@ -1,50 +1,12 @@
-// TODO Refactor this file for Redux
-// TODO Refactor this file for intl simplification
-
 import React from 'react';
 import { Redirect } from 'react-router'
-import { withStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
-import { injectIntl, defineMessages } from "react-intl";
-// import { defineMessages } from 'react-intl.macro';
+import { injectIntl } from "react-intl";
 import { WizNavBar, WizPageTitle} from "../utils/WizUtilComponents";
 import validateEmail from "../../utils/validateEmail";
 
 
-
-const messages = defineMessages({
-  title: {
-    id: 'register.email.title',
-    defaultMessage: 'Please enter your email',
-    description: 'Please enter your email',
-  },
-  emailLabel: {
-    id: 'register.email.label',
-    defaultMessage: 'Your email',
-    description: 'Your email',
-  },
-  email: {
-    id: 'register.email.help',
-    defaultMessage: 'This will be your login',
-    description: 'This will be your login',
-  },
-  emailError: {
-    id: 'register.email.error',
-    defaultMessage: 'Please enter a valid email',
-    description: 'Please enter a valid email',
-  },
-});
-
-
-
-const styles = theme => ({
-});
-
-
 class EmailForm extends React.Component {
-  static propTypes = {
-  }
-
 
   constructor(props) {
     super(props);
@@ -90,7 +52,7 @@ class EmailForm extends React.Component {
 
       <div className={"flex-normal-height flex-direction-column"}>
 
-        <WizPageTitle message={this.props.intl.formatMessage(messages.title)} />
+<WizPageTitle message={this.props.intl.formatMessage({id: 'register.email.title'})} />
 
         <form onSubmit={this.handleNext} className={"flex-normal-height flex-direction-column"} noValidate>
 
@@ -103,8 +65,8 @@ class EmailForm extends React.Component {
                 value={email}
                 type="email"
                 onChange={this.handleTextChange}
-                label={this.props.intl.formatMessage(messages.emailLabel)}
-                helperText={this.props.intl.formatMessage(validData ? messages.email : messages.emailError)}
+                label={this.props.intl.formatMessage({id: 'register.email.label'})}
+                helperText={this.props.intl.formatMessage({ id: validData ? 'register.email.help' : 'register.email.error'})}
                 error={email !== "" && !validData}
                 fullWidth
               />
@@ -122,4 +84,4 @@ class EmailForm extends React.Component {
 }
 
 
-export default injectIntl(withStyles(styles)(EmailForm));
+export default injectIntl(EmailForm);

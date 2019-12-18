@@ -1,43 +1,10 @@
-// TODO Refactor this file for Redux
-// TODO Refactor this file for intl simplification
-
 import React from 'react';
 import { Redirect } from 'react-router'
 import { withStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
-import { injectIntl, defineMessages } from "react-intl";
+import { injectIntl } from "react-intl";
 // import { defineMessages } from 'react-intl.macro';
 import { WizNavBar, WizPageTitle} from "../utils/WizUtilComponents";
-
-
-
-const messages = defineMessages({
-  title: {
-    id: 'register.password.title',
-    defaultMessage: 'Please enter your password',
-    description: 'Please enter your password',
-  },
-  passwordLabel: {
-    id: 'register.password.label',
-    defaultMessage: 'Your password',
-    description: 'Your password',
-  },
-  password: {
-    id: 'register.password.help',
-    defaultMessage: 'Minimum {min} characters',
-    description: 'Minimum 6 characters',
-  },
-  retype: {
-    id: 'register.retype.help',
-    defaultMessage: 'Please re-enter your password',
-    description: 'Please re-enter your password',
-  },  
-  passwordIdentical: {
-    id: 'register.password.notIdentical',
-    defaultMessage: 'The two passwords should match',
-    description: 'The two passwords should match',
-  },
-});
 
 
 
@@ -125,7 +92,7 @@ class PasswordForm extends React.Component {
 
       <div className={"flex-normal-height flex-direction-column"}>
 
-        <WizPageTitle message={this.props.intl.formatMessage(messages.title)} />
+        <WizPageTitle message={this.props.intl.formatMessage({id: 'register.password.title'})} />
 
         <form onSubmit={this.handleNext} className={"flex-normal-height flex-direction-column"} noValidate>
 
@@ -140,8 +107,8 @@ class PasswordForm extends React.Component {
               value={password}
               onChange={this.handleTextChange}
               type="password"
-              label={this.props.intl.formatMessage(messages.passwordLabel)}
-              helperText={this.props.intl.formatMessage(messages.password, {min: this.minLength})}
+              label={this.props.intl.formatMessage({id: 'register.password.label'})}
+              helperText={this.props.intl.formatMessage({id: 'register.password.help'}, {min: this.minLength})}
               error={password !== "" && !longEnough}
               fullWidth
             />
@@ -151,8 +118,8 @@ class PasswordForm extends React.Component {
               value={password2}
               onChange={this.checkRetype}
               type="password"
-              label={this.props.intl.formatMessage(messages.retype)}
-              helperText={this.props.intl.formatMessage(messages.passwordIdentical)}
+              label={this.props.intl.formatMessage({id: 'register.retype.help'})}
+              helperText={this.props.intl.formatMessage({id: 'register.password.notIdentical'})}
               error={password2 !== "" && !identicalPasswords}
               fullWidth
               className={classes.marginTop}

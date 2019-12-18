@@ -1,37 +1,8 @@
-// TODO Refactor this file for Redux
-// TODO Refactor this file for intl simplification
-
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
-import { injectIntl, defineMessages } from "react-intl";
+import { injectIntl } from "react-intl";
 // import { defineMessages } from 'react-intl.macro';
 import { WizNavBar, WizPageTitle} from "../utils/WizUtilComponents";
-
-
-
-const messages = defineMessages({
-  title: {
-    id: 'register.name.title',
-    defaultMessage: 'Please enter your name',
-    description: 'Please enter your name',
-  },
-  nameLabel: {
-    id: 'register.name.label',
-    defaultMessage: 'Your name',
-    description: 'Your name',
-  },
-  name: {
-    id: 'register.name.help',
-    defaultMessage: 'Minimum {min} characters',
-    description: 'Minimum 4 characters',
-  },
-});
-
-
-
-const styles = theme => ({
-});
 
 
 class NameForm extends React.Component {
@@ -79,7 +50,7 @@ class NameForm extends React.Component {
 
       <div className={"flex-normal-height flex-direction-column"}>
 
-        <WizPageTitle message={this.props.intl.formatMessage(messages.title)} />
+        <WizPageTitle message={this.props.intl.formatMessage({id: 'register.name.title'})} />
 
         <form onSubmit={this.handleNext} className={"flex-normal-height flex-direction-column"} noValidate>
 
@@ -91,8 +62,8 @@ class NameForm extends React.Component {
               autoFocus
               value={name}
               onChange={this.handleTextChange}
-              label={this.props.intl.formatMessage(messages.nameLabel)}
-              helperText={this.props.intl.formatMessage(messages.name, {min: this.minLength})}
+              label={this.props.intl.formatMessage({id: 'register.name.label'})}
+              helperText={this.props.intl.formatMessage({id: 'register.name.help'}, {min: this.minLength})}
               error={name !== "" && !longEnough}
               fullWidth
               className={classes.inputs}
@@ -110,4 +81,4 @@ class NameForm extends React.Component {
 }
 
 
-export default injectIntl(withStyles(styles)(NameForm));
+export default injectIntl(NameForm);

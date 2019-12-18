@@ -1,30 +1,10 @@
-// TODO Refactor this file for Redux
-// TODO Refactor this file for intl simplification
-
 import React from 'react';
 import { Redirect } from 'react-router'
 import { withStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { injectIntl, defineMessages } from "react-intl";
-// import { defineMessages } from 'react-intl.macro';
+import { injectIntl } from "react-intl";
 import { WizNavBar, WizPageTitle} from "../utils/WizUtilComponents";
-
-
-
-const messages = defineMessages({
-  title: {
-    id: 'register.password.title',
-    defaultMessage: 'Please enter your password',
-    description: 'Please enter your password',
-  },
-  passwordLabel: {
-    id: 'register.password.label',
-    defaultMessage: 'Your password',
-    description: 'Your password',
-  },
-});
-
 
 
 const styles = theme => ({
@@ -83,7 +63,7 @@ class PasswordForm extends React.Component {
 
       <div className={"flex-normal-height flex-direction-column"}>
 
-        <WizPageTitle message={this.props.intl.formatMessage(messages.title)} />
+        <WizPageTitle message={this.props.intl.formatMessage({id: 'register.password.title'})} />
 
         <form onSubmit={this.handleNext} className={"flex-normal-height flex-direction-column"} noValidate>
 
@@ -98,7 +78,7 @@ class PasswordForm extends React.Component {
               value={password}
               onChange={this.handleTextChange}
               type="password"
-              label={this.props.intl.formatMessage(messages.passwordLabel)}
+              label={this.props.intl.formatMessage({id: 'register.password.label'})}
               fullWidth
               disabled={registrationInProgress || registrationFinished}
             />
