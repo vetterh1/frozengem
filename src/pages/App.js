@@ -70,10 +70,12 @@ const intApp = (props) => {
 
   // Run only once
   // Try to auto-login
-  useEffect(() => props.autologin());
-
+  useEffect(
+    () => props.autologin(), 
+    [] // ==> generates a warning on the console, but only way found to have it executed only once!
+  );
   
-  if(!props.language) return null;
+  if(!props.language){ console.log('app.js - no language');  return null; }
 
   console.log("/ 0 - props:", props, ", loggedIn:", props.loggedIn, ", home: ", props.home, ", language: ", props.language);
 

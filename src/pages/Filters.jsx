@@ -30,7 +30,8 @@ function intFilters ({language, filter, categories, filterItems, intl}) {
       setSelectedCategory( sel );
       filterItems(sel);
     }
-  },[selectedCategory, sortedCategories, filterItems]);
+  },[]);  // ==> generates a warning on the console, but only way found to have it executed only once!
+  // },[selectedCategory, sortedCategories, filterItems]);
 
 
 

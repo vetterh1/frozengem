@@ -1,6 +1,3 @@
-// TODO Refactor this file for Redux
-// TODO Refactor this file for intl simplification
-
 /* eslint-disable react-hooks/rules-of-hooks */ 
 import * as log from 'loglevel';
 import React from 'react';
