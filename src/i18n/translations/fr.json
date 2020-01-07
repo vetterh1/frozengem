@@ -97,6 +97,7 @@
   "menu_profile.leaveOkLabel": "Quitter",
   "menu_profile.logout": "Déconnexion",
   "menu_profile.your_code": "Votre 'code maison':",
+  "register.alreadyexist": "Désolé, cet utilisateur existe déjà. Veuillez choisir un autre nom & email...",
   "register.email.error": "Veuillez saisir une adresse valide",
   "register.email.help": "Ce sera votre identifiant",
   "register.email.label": "Votre adresse mail",

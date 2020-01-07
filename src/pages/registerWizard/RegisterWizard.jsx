@@ -3,13 +3,11 @@
 
 import * as log from 'loglevel';
 import React from 'react';
+import { connect } from 'react-redux';
+import { userActions } from '../../_actions/userActions';
 import { Redirect } from 'react-router'
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { withUserInfo } from '../../with/withUserInfo';
-import { withSnackbar } from 'notistack';
-import { injectIntl, defineMessages } from "react-intl";
-// import { defineMessages } from 'react-intl.macro';
+import { injectIntl } from "react-intl";
 import NameForm from './NameForm';
 import StepWizard from 'react-step-wizard';
 import EmailForm from './EmailForm';
@@ -45,31 +43,9 @@ logRegisterWizard.setLevel('debug');
 logRegisterWizard.debug('--> entering RegisterWizard.jsx');
 
 
-const messages = defineMessages({ 
-  success: {
-    id: 'register.success',
-    defaultMessage: 'Congratulations, you are now registered!',
-    description: 'Congratulations, you are now registered!',
-  },    
-  error: {
-    id: 'register.error',
-    defaultMessage: 'Sorry, the registration failed, please try again...',
-    description: 'Sorry, the registration failed',
-  },
-  alreadyexist: {
-    id: 'register.alreadyexist',
-    defaultMessage: 'Sorry, this user already exists, please enter a different name & email...',
-    description: 'Sorry, this user already exists',
-  },
 
-  
-});
+class intRegisterWizard extends React.Component {
 
-
-class RegisterWizard extends React.Component {
-  static propTypes = {
-    userInfo: PropTypes.object.isRequired,
-  }
 
   defaultState = {
     location: null,
@@ -90,7 +66,7 @@ class RegisterWizard extends React.Component {
     this.state = {...this.defaultState};
 
     this.handleChange = this.handleChange.bind(this)
-    this.onClickRegister = this.onClickRegister.bind(this)
+    this.register = this.register.bind(this)
   }
 
   // Set the received value in the state 
@@ -101,46 +77,35 @@ class RegisterWizard extends React.Component {
     this.setState({[name]: value});
   }
 
-  onLogin() {
-    this.props.userInfo.login();
-  }
 
 
-
-  async registerToServer() {
+  async register() {
     this.setState({registrationInProgress: true, registrationFinished: false, registrationSuccess: false });
-
-    const { registerToServer } = this.props.userInfo;
 
     const {email, password, name} = this.state;
     try {
-      const userName = await registerToServer(email, password, name );
+      const userName = await this.props.register(email, password, name);
       console.log('userName: ' , userName);
 
       // Success message
       this.setState({registrationInProgress: false, registrationFinished: true, registrationSuccess: true });
       const key = this.props.enqueueSnackbar(
-        this.props.intl.formatMessage(messages.success), 
+        this.props.intl.formatMessage({id: 'register.success'}), 
         {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
       );      
     } catch (error) {
       console.error('registration error: ' , error);
       this.setState({registrationInProgress: false, registrationFinished: true, registrationSuccess: false });
 
-      let errorKey = messages.error;
+      let errorKey = 'register.error';
       if (error.request && error.response.status === 409)
-        errorKey = messages.alreadyexist;
+        errorKey = 'register.alreadyexist';
 
         const key = this.props.enqueueSnackbar(
-        this.props.intl.formatMessage(errorKey), 
+        this.props.intl.formatMessage({id: errorKey}), 
         {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
       ); 
     }
-  }
-
-
-  onClickRegister() { 
-    this.registerToServer();
   }
 
 
@@ -155,14 +120,21 @@ class RegisterWizard extends React.Component {
               <NameForm hashKey={'name'} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
               <EmailForm hashKey={'email'} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
               <PasswordForm hashKey={'password'} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
-              <Registered hashKey={'registered'} onClickRegister={this.onClickRegister} state={this.state} />
+              <Registered hashKey={'registered'} onClickRegister={this.register()} state={this.state} />
             </StepWizard>
           </div>
       );
   }
 }
 
-export default injectIntl(withUserInfo(withSnackbar(withStyles(styles, { withTheme: true })(RegisterWizard))));
+
+const mapDispatchToProps = {
+  register: userActions.register,
+};
+
+const connectedRegisterWizard = connect(null, mapDispatchToProps)(intRegisterWizard);
+
+export default injectIntl(withStyles(styles, { withTheme: true })(connectedRegisterWizard));
 
 
 

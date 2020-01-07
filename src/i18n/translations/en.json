@@ -98,11 +98,12 @@
   "menu_profile.leaveOkLabel": "Leave",
   "menu_profile.logout": "Logout",
   "menu_profile.your_code": "Your home code:",
+  "register.alreadyexist": "Sorry, this user already exists, please enter a different name & email...",
   "register.email.error": "Please enter a valid email",
   "register.email.help": "This will be your login",
   "register.email.label": "Your email",
   "register.email.title": "Please enter your email",
-  "register.error": "Désolé, l'enregistrement a échoué, veuillez ré-essayer...",
+  "register.error": "Sorry, the registration failed, please try again...",
   "register.name.help": "Minimum {min} characters",
   "register.name.label": "Your name",
   "register.name.title": "Please enter your name",
@@ -115,6 +116,6 @@
   "register.registered.newHome": "New home",
   "register.registered.title": "Finalize your registration...",
   "register.retype.help": "Please re-enter your password",
-  "register.success": "Félicitations, vous êtes enregistré !",
+  "register.success": "Congratulations, you are now registered!",
   "unauthorized": "Sorry you don't have the right to perform this action"
 }

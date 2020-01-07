@@ -80,6 +80,27 @@ function login(email, password) {
 }
  
 
+function afterLoginOrRegister(user, dispatch) {
+    
+    // Add user info & items to redux store
+    dispatch({ type: ACTIONS.LOGIN_SUCCESS, user });
+
+    // Start fetching the characteristics from the server
+    dispatch(characteristicsActions.fetchCharacteristics())
+
+    // Start fetching the items from the server
+    dispatch(itemsActions.fetchItems())
+
+    // Success message
+    dispatch(notifierActions.addIntlNotifier('login.success', 'success'));
+
+    // navigate to the home route
+    history.push('/');
+
+    return user.name;
+}
+
+
 function autologin() {
     return dispatch => {
         console.log('autologin() - should run only once!');
@@ -87,22 +108,7 @@ function autologin() {
         userServices.autologin()
             .then(
                 user => {
-                    // Add user info & items to redux store
-                    dispatch({ type: ACTIONS.LOGIN_SUCCESS, user });
-
-                    // Start fetching the characteristics from the server
-                    dispatch(characteristicsActions.fetchCharacteristics())
-
-                    // Start fetching the items from the server
-                    dispatch(itemsActions.fetchItems())
-
-                    // Success message
-                    dispatch(notifierActions.addIntlNotifier('login.success', 'success'));
-
-                    // navigate to the home route
-                    history.push('/');
-
-                    return user.name;
+                    return afterLoginOrRegister(user, dispatch);
                 },
                 error => {
                     // No error message ==> autologin is silent!
@@ -119,26 +125,8 @@ function autologin() {
 function autologin() {
     return async dispatch => {
         try {
-
             let user = await userServices.autologin();
-
-            // Add user info & items to redux store
-            dispatch({ type: ACTIONS.LOGIN_SUCCESS, user });
-
-            // Start fetching the characteristics from the server
-            dispatch(characteristicsActions.fetchCharacteristics())
-
-            // Start fetching the items from the server
-            dispatch(itemsActions.fetchItems())
-
-            // Success message
-            dispatch(notifierActions.addIntlNotifier('login.success', 'success'));
-
-            // navigate to the home route
-            history.push('/');
-
-            return user.name;
-
+            return afterLoginOrRegister(user, dispatch);
         } catch (error) {
             // No error message ==> autologin is silent!
         }
@@ -159,14 +147,21 @@ function logout() {
 // TODO Implement reducer + userServices.register() + check aserActions.register() (below)
 //
 
-function register(user) {
+function register(email, password, name) {
+    return async dispatch => {
+        try {
+            let user = await userServices.autologin();
+            return afterLoginOrRegister(user, dispatch);
+        } catch (error) {
+            // No error message ==> autologin is silent!
+        }
+    };
+}    
     return dispatch => {
-        dispatch({ type: ACTIONS.REGISTER_REQUEST });
+        try {
+            dispatch({ type: ACTIONS.REGISTER_REQUEST });
 
-        userServices.register(user)
-            .then(
-                ({ user, items }) => {
-                    // Add user info & items to redux store
+            const user = userServices.register(email, password, name);
                     dispatch({ type: ACTIONS.REGISTER_SUCCESS, user });
                     dispatch({ type: ACTIONS.FETCH_ITEMS_SUCCESS, items });
 
