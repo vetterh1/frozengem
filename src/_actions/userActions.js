@@ -45,40 +45,6 @@ function setNavigationStyle(navigationStyle) {
 }
 
 
-function login(email, password) {
-    return async dispatch => {
-        try {
-            dispatch({ type: ACTIONS.LOGIN_REQUEST });
-
-            let user = await userServices.login(email, password);
-
-            // Add user info & items to redux store
-            dispatch({ type: ACTIONS.LOGIN_SUCCESS, user });
-
-            // Start fetching the characteristics from the server
-            dispatch(characteristicsActions.fetchCharacteristics())
-
-            // Start fetching the items from the server
-            dispatch(itemsActions.fetchItems())
-                                                            
-            // Success message
-            dispatch(notifierActions.addIntlNotifier('login.success', 'success'));
-
-            // navigate to the home route
-            history.push('/');
-
-            return user.name;
-        } catch (error) {
-            dispatch({ type: ACTIONS.LOGIN_FAILURE, error: error.toString() });
-
-            // Error message
-            const unauthorized = error.response && error.response.status === 401;
-            const message = unauthorized ? 'login.unauthorized' : 'login.error';
-            dispatch(notifierActions.addIntlNotifier(message, 'error'));
-        }
-    };
-}
- 
 
 function afterLoginOrRegister(user, dispatch) {
     
@@ -101,6 +67,24 @@ function afterLoginOrRegister(user, dispatch) {
 }
 
 
+function login(email, password) {
+    return async dispatch => {
+        try {
+            let user = await userServices.login(email, password);
+            return afterLoginOrRegister(user, dispatch);
+        } catch (error) {
+            console.log("userActions.login error - email: ", email);
+            
+            dispatch({ type: ACTIONS.LOGIN_FAILURE, error: error.toString() });
+
+            // Error message
+            const unauthorized = error.response && error.response.status === 401;
+            const message = unauthorized ? 'login.unauthorized' : 'login.error';
+            dispatch(notifierActions.addIntlNotifier(message, 'error'));
+        }
+    };
+}
+ 
 function autologin() {
     return dispatch => {
         console.log('autologin() - should run only once!');
@@ -150,31 +134,13 @@ function logout() {
 function register(email, password, name) {
     return async dispatch => {
         try {
-            let user = await userServices.autologin();
+            let user = await userServices.register(email, password, name);
             return afterLoginOrRegister(user, dispatch);
         } catch (error) {
             // No error message ==> autologin is silent!
         }
     };
 }    
-    return dispatch => {
-        try {
-            dispatch({ type: ACTIONS.REGISTER_REQUEST });
-
-            const user = userServices.register(email, password, name);
-                    dispatch({ type: ACTIONS.REGISTER_SUCCESS, user });
-                    dispatch({ type: ACTIONS.FETCH_ITEMS_SUCCESS, items });
-
-                    // history.push('/login');
-                    // dispatch(alertActions.success('Registration successful'));
-                },
-                error => {
-                    dispatch({ type: ACTIONS.REGISTER_FAILURE, error: error.toString() });
-                }
-            );
-    };
-}
-
 
 
 

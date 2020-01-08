@@ -13,22 +13,31 @@ export function user(state = initialState, action) {
     case ACTIONS.LOGIN_REQUEST:
       return {
         loggingIn: true,
+        loggedIn: false,
         language: state.language,
       };
 
     case ACTIONS.LOGIN_SUCCESS:
+      console.log("ACTIONS.LOGIN_SUCCESS - action:", action);
+      
       return {
+        loggingIn: false,
         loggedIn: true,
-        ...action.user
+        ...action.user,
+        language: action.user.language,
       };
 
     case ACTIONS.LOGIN_FAILURE:
       return {
+        loggingIn: true,
+        loggedIn: false,
         language: state.language,
       };
 
     case ACTIONS.LOGOUT:
       return {
+        loggingIn: false,
+        loggedIn: false,
         language: state.language,
       };
 

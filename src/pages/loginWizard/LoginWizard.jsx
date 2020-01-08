@@ -38,10 +38,12 @@ class LoginWizard extends React.Component {
   };
 
   resetState = () => {
+    console.log("LoginWizard.resetState");
     this.setState({...this.defaultState});
   }
 
   constructor(props) {
+    console.log("LoginWizard.constructor");
     super(props);
     this.state = {...this.defaultState};
 
@@ -63,6 +65,7 @@ class LoginWizard extends React.Component {
   async login() {
     const {email, password} = this.state;
     await this.props.login(email, password );
+    console.log("LoginWizard.login - after dispatch - email:", email);  
   }
 
 

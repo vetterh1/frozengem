@@ -67,7 +67,7 @@ class Header extends React.Component {
             <MenuNav />
           }
 
-          <LoginInBar userInfo={this.props.userInfo} />
+          <LoginInBar />
         </Toolbar>
       </AppBar>
     );

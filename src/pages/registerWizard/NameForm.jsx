@@ -42,7 +42,7 @@ class NameForm extends React.Component {
 
   render() {
     // State is NOT stored in this wizard tab, but in the parent (wizard component)
-    const { state, classes } = this.props;
+    const { state } = this.props;
     const { name } = state;
     const { longEnough } = this.state;
     
@@ -66,7 +66,6 @@ class NameForm extends React.Component {
               helperText={this.props.intl.formatMessage({id: 'register.name.help'}, {min: this.minLength})}
               error={name !== "" && !longEnough}
               fullWidth
-              className={classes.inputs}
             />
      
           </div>

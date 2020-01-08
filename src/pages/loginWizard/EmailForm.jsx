@@ -40,7 +40,7 @@ class EmailForm extends React.Component {
   render() {
     const {name} = this.props.state;
     if(this.props.isActive && name === "") {
-      console.log(`EmailForm.render: name=${name} isActive=${this.props.isActive}`);
+      console.log("Redirect to home as name empty");
       return <Redirect to='/' />
     }
 
@@ -52,7 +52,7 @@ class EmailForm extends React.Component {
 
       <div className={"flex-normal-height flex-direction-column"}>
 
-<WizPageTitle message={this.props.intl.formatMessage({id: 'register.email.title'})} />
+        <WizPageTitle message={this.props.intl.formatMessage({id: 'register.email.title'})} />
 
         <form onSubmit={this.handleNext} className={"flex-normal-height flex-direction-column"} noValidate>
 

@@ -85,6 +85,7 @@ class PasswordForm extends React.Component {
     // Return to the 1st page if all the previous infos are not filled in
     // (ex: return on this exact page)
     if(isActive && ( name === "" || email === "")) {
+      console.log("Redirect to home as name or email empty");
       return <Redirect to='/' />
     }    
 

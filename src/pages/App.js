@@ -77,7 +77,7 @@ const intApp = (props) => {
   
   if(!props.language){ console.log('app.js - no language');  return null; }
 
-  console.log("/ 0 - props:", props, ", loggedIn:", props.loggedIn, ", home: ", props.home, ", language: ", props.language);
+  console.log("App 0 - props:", props, ", loggedIn:", props.loggedIn, ", home: ", props.home, ", language: ", props.language);
 
   return (
     <SnackbarProvider 
@@ -105,23 +105,23 @@ const intApp = (props) => {
                     <Switch>
                       <Route
                         exact path="/details/:id"
-                        component={props => <Container><Details /></Container>}
+                        component={() => <Container><Details /></Container>}
                       />
                       <Route
                         exact path="/add"
-                        component={props => <Container><AddWizard /></Container>}
+                        component={() => <Container><AddWizard /></Container>}
                       />
                       <Route
                         exact path="/register"
-                        component={props => <Container><RegisterWizard /></Container>}
+                        component={() => <Container><RegisterWizard /></Container>}
                       />
                       <Route
                         exact path="/login"
-                        component={props => <Container><LoginWizard /></Container>}
+                        component={() => <Container><LoginWizard /></Container>}
                       />
                       <Route
                         exact path="/logout"
-                        component={props => <Logout />}
+                        component={() => <Logout />}
                       />
                       <Route
                         exact path="/about"
@@ -130,7 +130,7 @@ const intApp = (props) => {
                       <Route
                         exact path="/"
                         render={() => { 
-                          console.log("/ 1 - props:", props, ", loggedIn:", props.loggedIn, ", home: ", props.home, ", language: ", props.language);
+                          console.log("App route / - props:", props, ", loggedIn:", props.loggedIn, ", home: ", props.home, ", language: ", props.language);
                           if(props.loggedIn) {
 
                             // Token exists, but no name --> in userinfo loading process:

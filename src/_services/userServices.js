@@ -11,7 +11,7 @@ export const userServices = {
     login,
     autologin, 
     logout,
-    registerToServer,
+    register,
     joinHome,
     joinNewHome,
     leaveHome
@@ -91,14 +91,14 @@ async function login(email, password) {
 
   try {
     const response = await axios(options);
-    const {user, items, token} = response.data;
-    console.log('login OK: ' , response, user, items, token);
+    const {user, token} = response.data;
+    console.log('login OK: ' , response, user, token);
     localStorage.setItem('accessToken', token);
     localStorage.setItem('id', user.id);
     localStorage.setItem('user', JSON.stringify(user));
     // Add token to user
     user.accessToken = token;
-    return {user, items};
+    return user;
 
   } catch (error) {
     console.error('login error: ' , error);
@@ -185,8 +185,8 @@ localStorage.clear();
 // TODO Implement reducer + userServices.register() (below) + check aserActions.register()
 //
 
-async function registerToServer(email, password, name) {
-  console.info('|--- SERVER CALL ---|--- POST ---| userServices.registerToServer: ', email);
+async function register(email, password, name) {
+  console.info('|--- SERVER CALL ---|--- POST ---| userServices.register: ', email);
   const masterKey = config.masterKey;
   const data = { 'access_token': masterKey, email, password, name };
   const options = {
@@ -204,6 +204,8 @@ async function registerToServer(email, password, name) {
     localStorage.setItem('accessToken', token);
     localStorage.setItem('id', user.id);
     localStorage.setItem('user', JSON.stringify(user));
+    // Add token to user
+    user.accessToken = token;
     return user;
 
   } catch (error) {
@@ -229,6 +231,12 @@ async function registerToServer(email, password, name) {
     throw error;
   }
 }
+
+
+
+
+
+
 
 
 

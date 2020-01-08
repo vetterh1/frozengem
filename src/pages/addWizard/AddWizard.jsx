@@ -303,7 +303,10 @@ const intAddWizard = ({addItem, savePicture, addIntlNotifier, loggedIn, language
 
 
 
-  if (!loggedIn) return <Redirect to='/' />;
+if (!loggedIn) { 
+  console.log("Redirect to home as not logged in");
+  return <Redirect to='/' />
+};
 
   console.log("----------> item : ", item);
 

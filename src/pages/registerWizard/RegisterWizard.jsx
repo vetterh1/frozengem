@@ -1,5 +1,4 @@
 // TODO Refactor this file for Redux
-// TODO Refactor this file for intl simplification
 
 import * as log from 'loglevel';
 import React from 'react';
@@ -111,8 +110,12 @@ class intRegisterWizard extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { isAuthenticated } = this.props.userInfo;
-    if (isAuthenticated()) return <Redirect to='/' />;
+    const { isAuthenticated } = this.props;
+    
+    if (isAuthenticated) { 
+      console.log("Redirect to home as already logged in");
+      return <Redirect to='/' />
+    };
 
     return (
           <div className={classes.divWizardPage}>
@@ -120,19 +123,21 @@ class intRegisterWizard extends React.Component {
               <NameForm hashKey={'name'} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
               <EmailForm hashKey={'email'} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
               <PasswordForm hashKey={'password'} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
-              <Registered hashKey={'registered'} onClickRegister={this.register()} state={this.state} />
+              <Registered hashKey={'registered'} onClickRegister={this.register} state={this.state} />
             </StepWizard>
           </div>
       );
   }
 }
 
+const mapStateToProps = state => ({isAuthenticated: state.user.loggedIn});
+
 
 const mapDispatchToProps = {
   register: userActions.register,
 };
 
-const connectedRegisterWizard = connect(null, mapDispatchToProps)(intRegisterWizard);
+const connectedRegisterWizard = connect(mapStateToProps, mapDispatchToProps)(intRegisterWizard);
 
 export default injectIntl(withStyles(styles, { withTheme: true })(connectedRegisterWizard));
 
