@@ -184,7 +184,7 @@ function mapStateToProps(state) {
     };
   return {
     loggedIn: state.user.loggedIn,
-    language: state.user.language,
+    language: state.user.language || "en",
     name: state.user.name,
     home: state.user.home,
     navigationStyle: state.user.navigationStyle,

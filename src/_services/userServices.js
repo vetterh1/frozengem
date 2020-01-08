@@ -18,15 +18,6 @@ export const userServices = {
 };
 
 
-//
-//
-//
-//
-//   -------------------- DONE & WORKING -------------------- 
-//
-//
-//
-//
 
 function isAuthenticated() {
   // Super simple & not secure (on client side) method:
@@ -62,16 +53,27 @@ async function _updateServer (key, value) {
 
 
 
+// Save the language passed in parameter in the user record on the server
+// Returns: null
+
 async function setLanguage (language) {
   await _updateServer("language", language);
 }
 
+
+// Save the navigation style passed in parameter in the user record on the server
+// Returns: null
 
 async function setNavigationStyle (navigationStyle) {
   await _updateServer("navigationStyle", navigationStyle);
 }
 
 
+
+// Retreive the user record from the server
+// (and store some essential user info in localStorage for convenience & futur autologin)
+// Input: user login information (email, password)
+// Returns: user info
 
 async function login(email, password) {
   console.info('|--- SERVER CALL ---|--- POST ---| userServices.login: ', email);
@@ -107,7 +109,12 @@ async function login(email, password) {
 }
 
 
-// const autologin = () => async (dispatch) => {
+
+// Autologin by retreiving the user record from the server
+// (and store some essential user info in localStorage for convenience & futur autologin)
+// Input: nothing (uses the access_token from localStorage)
+// Returns: user info
+
 async function autologin() {
 
   console.info('|--- SERVER CALL ---|--- GET ---| userServices.autologin');
@@ -141,6 +148,9 @@ async function autologin() {
 
 
 
+// Logout the user by removing all the local storage info (his access_token, his user name,...)
+// Input: nothing
+// Returns: nothing
 
 function logout() {
 
@@ -155,35 +165,10 @@ localStorage.clear();
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-//
-//
-//
-//   -------------------- NOT YET CONVERTED TO REDUX -------------------- 
-//
-// TODO Convert the methodes below to Redux
-//
-//
-
-
-
-//
-// TODO Implement reducer + userServices.register() (below) + check aserActions.register()
-//
+// Create a new user record on the server
+// (and store some essential user info in localStorage for convenience & futur autologin)
+// Input: user information (email, password, name)
+// Returns: user info
 
 async function register(email, password, name) {
   console.info('|--- SERVER CALL ---|--- POST ---| userServices.register: ', email);
@@ -238,18 +223,16 @@ async function register(email, password, name) {
 
 
 
-
-
-
-
-
+// Update the user record on the server by adding it the home information
+// Input: home
+// Returns: updated user info with home info
 
 async function joinHome(home) {
   console.info('|--- SERVER CALL ---|--- PUT ---| userServices.joinHome: ', home);
-  const data = { 'access_token': this.state.accessToken, home };
+  const data = { 'access_token': localStorage.getItem('accessToken'), home };
   const options = {
     method: 'PUT',
-    url: `${config.boUrl}/users/${this.state.id}/home/join`,
+    url: `${config.boUrl}/users/${localStorage.getItem('id')}/home/join`,
     crossdomain : true,
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify(data),
@@ -259,10 +242,6 @@ async function joinHome(home) {
     const response = await axios(options);
     const {user} = response.data;
     console.log('Join home response: ' , response);
-
-    // const {home, homeOrder} = user;
-    // this.setState({home: home, homeOrder: homeOrder});
-    
     return user;
 
   } catch (error) {
@@ -274,12 +253,16 @@ async function joinHome(home) {
 
 
 
+// Remove the home info from the user record on the server
+// Input: nothing
+// Returns: updated user info with home info removed
+
 async function leaveHome() {
   console.info('|--- SERVER CALL ---|--- PUT ---| userServices.leaveHome');
-  const data = { 'access_token': this.state.accessToken };
+  const data = { 'access_token': localStorage.getItem('accessToken') };
   const options = {
     method: 'PUT',
-    url: `${config.boUrl}/users/${this.state.id}/home/leave`,
+    url: `${config.boUrl}/users/${localStorage.getItem('id')}/home/leave`,
     crossdomain : true,
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify(data),
@@ -288,10 +271,6 @@ async function leaveHome() {
   try {
     const response = await axios(options);
     console.log('leave home response: ' , response);
-
-    // const {home, homeOrder} = response.data.user;
-    // this.setState({home: home, homeOrder: homeOrder});
-    
     return null;
 
   } catch (error) {
@@ -306,12 +285,16 @@ async function leaveHome() {
 
 
 
+// Update the user record on the server by updating a new home information
+// Input: home
+// Returns: updated user info with new home info
+
 async function joinNewHome(name, label) {
   console.info('|--- SERVER CALL ---|--- PUT ---| userServices.joinNewHome: ', name);
-  const data = { 'access_token': this.state.accessToken, name, label };
+  const data = { 'access_token': localStorage.getItem('accessToken'), name, label };
   const options = {
     method: 'PUT',
-    url: `${config.boUrl}/users/${this.state.id}/home/new`,
+    url: `${config.boUrl}/users/${localStorage.getItem('id')}/home/new`,
     crossdomain : true,
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify(data),
