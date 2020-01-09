@@ -1,4 +1,4 @@
-// TODO Refactor this file for Redux
+// TODO Test this file after redux changes
 
 import * as log from 'loglevel';
 import React from 'react';
@@ -76,43 +76,17 @@ class intRegisterWizard extends React.Component {
     this.setState({[name]: value});
   }
 
-
-
   async register() {
-    this.setState({registrationInProgress: true, registrationFinished: false, registrationSuccess: false });
-
     const {email, password, name} = this.state;
-    try {
-      const userName = await this.props.register(email, password, name);
-      console.log('userName: ' , userName);
-
-      // Success message
-      this.setState({registrationInProgress: false, registrationFinished: true, registrationSuccess: true });
-      const key = this.props.enqueueSnackbar(
-        this.props.intl.formatMessage({id: 'register.success'}), 
-        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
-      );      
-    } catch (error) {
-      console.error('registration error: ' , error);
-      this.setState({registrationInProgress: false, registrationFinished: true, registrationSuccess: false });
-
-      let errorKey = 'register.error';
-      if (error.request && error.response.status === 409)
-        errorKey = 'register.alreadyexist';
-
-        const key = this.props.enqueueSnackbar(
-        this.props.intl.formatMessage({id: errorKey}), 
-        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
-      ); 
-    }
+    const userName = await this.props.register(email, password, name);
+    console.log("RegisterWizard - after register - userName:", userName);  
   }
 
 
   render() {
     const { classes } = this.props;
-    const { isAuthenticated } = this.props;
-    
-    if (isAuthenticated) { 
+
+    if (this.props.isAuthenticated) { 
       console.log("Redirect to home as already logged in");
       return <Redirect to='/' />
     };

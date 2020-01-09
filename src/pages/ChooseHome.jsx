@@ -1,16 +1,16 @@
 // TODO Refactor this file for Redux
-// TODO Refactor this file for intl simplification
+// TODO Test this file after redux changes
 
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router'
+import { userActions } from '../_actions/userActions';
 import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { Create, Add } from '@material-ui/icons'
-import { withSnackbar } from 'notistack';
-import { injectIntl, defineMessages, FormattedMessage } from "react-intl";
+import { defineMessages, FormattedMessage } from "react-intl";
 import { withStyles } from '@material-ui/core/styles';
-import { withUserInfo } from '../with/withUserInfo';
 import ButtonWithOneInputModal from './utils/ButtonWithOneInputModal';
 
 const styles = theme => ({
@@ -36,21 +36,8 @@ const styles = theme => ({
 
 
 const messages = defineMessages({
-  joinTitle: {
-    id: 'home.join.title',
-    defaultMessage: 'Join an existing home',
-    description: 'Join an existing home',
-  },
-  joinShort: {
-    id: 'home.join.short',
-    defaultMessage: 'Join',
-    description: 'Join',
-  },
-  joinMessage: {
-    id: 'home.join.message',
-    defaultMessage: 'You need to ask an existing user for his home code',
-    description: 'You need to ask an existing user for his home code',
-  },
+
+
   joinCode: {
     id: 'home.join.code',
     defaultMessage: 'Home Code',
@@ -72,7 +59,7 @@ const messages = defineMessages({
     description: 'Please give a name to your home :)',
   },  
   newLabel: {
-    id: 'home.new.label',
+    id: 'home.new.message',
     defaultMessage: 'Home name',
     description: 'Home name',
   },
@@ -94,72 +81,69 @@ const messages = defineMessages({
 
 });
 
+// TODO move enqueueSnackbar calls & intl to userActions home methods
 
 
 class ChooseHome extends React.Component {
-  static propTypes = {
-    userInfo: PropTypes.object.isRequired,
-  }
 
   constructor(props) {
     super(props);
-    this.state = {...this.defaultState};
 
     this.onJoinHome = this.onJoinHome.bind(this)
     this.onNewHome = this.onNewHome.bind(this)
   }
 
   onJoinHome = async (idHome) => {
-    console.log("onJoinHome ", idHome);
-    const { joinHome } = this.props.userInfo;
-    try {
-      await joinHome(idHome);    
-      
-      const key = this.props.enqueueSnackbar(
-        this.props.intl.formatMessage(messages.success), 
-        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
-      );  
-
-    } catch (error) {
-      console.error("onJoinHome error: ", JSON.stringify(error));
-      const key = this.props.enqueueSnackbar(
-        this.props.intl.formatMessage( error.response.status === 404 ? messages.error_not_found : messages.error), 
-        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
-      ); 
-    }
+    await this.props.joinHome(idHome);    
+    console.log("ChooseHome.onJoinHome - after dispatch - idHome:", idHome);  
   }
+      
+    //   const key = this.props.enqueueSnackbar(
+    //     this.props.intl.formatMessage(messages.success), 
+    //     {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
+    //   );  
+
+    // } catch (error) {
+    //   console.error("onJoinHome error: ", JSON.stringify(error));
+    //   const key = this.props.enqueueSnackbar(
+    //     this.props.intl.formatMessage( error.response.status === 404 ? messages.error_not_found : messages.error), 
+    //     {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
+    //   ); 
+    // }
 
   onNewHome = async (labelHome) => {
-    console.log("onNewHome ", labelHome);
-    const { joinNewHome } = this.props.userInfo;
-    try {
-      await joinNewHome(labelHome, "");    
-      
-      const key = this.props.enqueueSnackbar(
-        this.props.intl.formatMessage(messages.success), 
-        {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
-      );  
-
-    } catch (error) {
-      console.error("onJoinNewHome error: ", JSON.stringify(error));
-      const key = this.props.enqueueSnackbar(
-        this.props.intl.formatMessage( messages.error), 
-        {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
-      ); 
-    }
+    await this.props.joinNewHome(labelHome, "");    
+    console.log("ChooseHome.onNewHome - after dispatch - labelHome:", labelHome);  
   }
+    //   const key = this.props.enqueueSnackbar(
+    //     this.props.intl.formatMessage(messages.success), 
+    //     {variant: 'success', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
+    //   );  
+
+    // } catch (error) {
+    //   console.error("onJoinNewHome error: ", JSON.stringify(error));
+    //   const key = this.props.enqueueSnackbar(
+    //     this.props.intl.formatMessage( messages.error), 
+    //     {variant: 'error', anchorOrigin: {vertical: 'bottom',horizontal: 'center'}, onClick: () => {this.props.closeSnackbar(key);}}
+    //   ); 
+    // }
+
 
   render() {
     const { classes } = this.props;
-    // const { isAuthenticated } = this.props.userInfo;
-    // const greyWhenNoUserInfo = isAuthenticated() ? '' : 'auth-required';
+    
+    const { isAuthenticated } = this.props;
+    if (isAuthenticated) { 
+      console.log("Redirect to home as already logged in");
+      return <Redirect to='/' />
+    };
 
     return (
       <React.Fragment>
 
         <Box mt={5} display="flex" flexDirection="column" >
           <Typography variant="h5" align="center" gutterBottom >
-            <FormattedMessage id="app.almost_there" defaultMessage="You are almost there!" />
+            <FormattedMessage id="app.almost_there" />
           </Typography>
         </Box>
 
@@ -170,18 +154,18 @@ class ChooseHome extends React.Component {
                 <Grid className={classes.subtitle} item>
                   <Grid className={classes.subtitle} item >
                     <ButtonWithOneInputModal 
-                      btnLabel={this.props.intl.formatMessage(messages.joinTitle)}
+                      btnLabel={this.props.intl.formatMessage({id: 'home.join.title'})}
                       btnIcon="btnHome"
-                      modalTitle={this.props.intl.formatMessage(messages.joinShort)}
-                      modalText={this.props.intl.formatMessage(messages.joinMessage)}
-                      inputLabel={this.props.intl.formatMessage(messages.joinCode)}
+                      modalTitle={this.props.intl.formatMessage({id: 'home.join.short'})}
+                      modalText={this.props.intl.formatMessage({id: 'home.join.message'})}
+                      inputLabel={this.props.intl.formatMessage({id: 'home.join.code'})}
                       onOk={this.onJoinHome}
                     >
                       <Add className={classes.leftIcon} />
                     </ButtonWithOneInputModal>                  
                   </Grid>
                   <Typography variant="body1" component="h2" color="primary">
-                    <FormattedMessage id="app.home.join" defaultMessage="...if someone in your home is already using FrozenGem" />
+                    <FormattedMessage id="app.home.join" />
                   </Typography>
                 </Grid>
                 <Grid className={classes.subtitle} item >
@@ -193,18 +177,18 @@ class ChooseHome extends React.Component {
                 <Grid className={classes.subtitle} item>
                   <Grid className={classes.subtitle} item >
                     <ButtonWithOneInputModal 
-                      btnLabel={this.props.intl.formatMessage(messages.newTitle)}
+                      btnLabel={this.props.intl.formatMessage({id: 'home.new.title'})}
                       btnIcon="btnHome"
-                      modalTitle={this.props.intl.formatMessage(messages.newShort)}
-                      modalText={this.props.intl.formatMessage(messages.newMessage)}
-                      inputLabel={this.props.intl.formatMessage(messages.newLabel)}
+                      modalTitle={this.props.intl.formatMessage({id: 'home.new.short'})}
+                      modalText={this.props.intl.formatMessage({id: 'home.new.message'})}
+                      inputLabel={this.props.intl.formatMessage({id: 'home.new.message'})}
                       onOk={this.onNewHome}
                     >
                       <Create className={classes.leftIcon} />
                     </ButtonWithOneInputModal>   
                   </Grid>
                   <Typography variant="body1" component="h2" color="primary">
-                    <FormattedMessage id="app.home.new" defaultMessage="...if you are the first user in your home" />
+                    <FormattedMessage id="app.home.new" />
                   </Typography>
                 </Grid>
               </Grid>
@@ -218,4 +202,12 @@ class ChooseHome extends React.Component {
   }
 }
 
-export default injectIntl(withUserInfo(withSnackbar(withStyles(styles)(ChooseHome))));
+const mapDispatchToProps = {
+  joinHome: userActions.joinHome,
+  joinNewHome: userActions.joinNewHome,
+};
+const mapStateToProps = state => ({isAuthenticated: state.user.loggedIn});
+
+const connectedChooseHome = connect(mapStateToProps, mapDispatchToProps)(ChooseHome);
+
+export default withStyles(styles)(connectedChooseHome);

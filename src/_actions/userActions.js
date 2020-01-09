@@ -46,7 +46,7 @@ function setNavigationStyle(navigationStyle) {
 
 
 
-function afterLoginOrRegister(user, dispatch) {
+function afterLoginOrRegister(isRegister, user, dispatch) {
     
     // Add user info & items to redux store
     dispatch({ type: ACTIONS.LOGIN_SUCCESS, user });
@@ -58,7 +58,7 @@ function afterLoginOrRegister(user, dispatch) {
     dispatch(itemsActions.fetchItems())
 
     // Success message
-    dispatch(notifierActions.addIntlNotifier('login.success', 'success'));
+    dispatch(notifierActions.addIntlNotifier(isRegister ? 'register.success' : 'login.success', 'success'));
 
     // navigate to the home route
     history.push('/');
@@ -71,7 +71,7 @@ function login(email, password) {
     return async dispatch => {
         try {
             let user = await userServices.login(email, password);
-            return afterLoginOrRegister(user, dispatch);
+            return afterLoginOrRegister(false, user, dispatch);
         } catch (error) {
             console.log("userActions.login error - email: ", email);
             
@@ -92,7 +92,7 @@ function autologin() {
         userServices.autologin()
             .then(
                 user => {
-                    return afterLoginOrRegister(user, dispatch);
+                    return afterLoginOrRegister(false, user, dispatch);
                 },
                 error => {
                     // No error message ==> autologin is silent!
@@ -110,7 +110,7 @@ function autologin() {
     return async dispatch => {
         try {
             let user = await userServices.autologin();
-            return afterLoginOrRegister(user, dispatch);
+            return afterLoginOrRegister(false, user, dispatch);
         } catch (error) {
             // No error message ==> autologin is silent!
         }
@@ -135,10 +135,13 @@ function register(email, password, name) {
     return async dispatch => {
         try {
             let user = await userServices.register(email, password, name);
-            return afterLoginOrRegister(user, dispatch);
+            return afterLoginOrRegister(true, user, dispatch);
         } catch (error) {
-            // No error message ==> autologin is silent!
-        }
+            // Error message
+            let errorKey = 'register.error';
+            if (error.request && error.response.status === 409)
+              errorKey = 'register.alreadyexist';            
+            dispatch(notifierActions.addIntlNotifier(errorKey, 'error'));        }
     };
 }    
 
