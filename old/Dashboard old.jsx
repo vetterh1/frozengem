@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 // import { itemsFilterActions } from '../_actions/itemsFilterActions';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import { injectIntl, FormattedMessage, defineMessages } from "react-intl";
+import { injectIntl, defineMessages } from "react-intl";
 import { withSnackbar } from 'notistack';
 import { withStyles } from '@material-ui/core/styles';
 import { useTheme } from '@material-ui/core/styles';

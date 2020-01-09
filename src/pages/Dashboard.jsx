@@ -19,7 +19,7 @@ const styles = theme => ({
 });
 
 
-const intDashboard = ({ classes }) => {
+const Dashboard = ({ classes }) => {
 
   console.debug('[--- FC ---] Functional component: Dashboard');
 
@@ -33,4 +33,4 @@ const intDashboard = ({ classes }) => {
   );
 }
 
-export default withStyles(styles)(intDashboard);
+export default withStyles(styles)(Dashboard);

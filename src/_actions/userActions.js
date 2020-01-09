@@ -10,6 +10,8 @@ export const userActions = {
     autologin,
     logout,
     register,
+    joinHome,
+    joinNewHome,
     setLanguage,
     setNavigationStyle,
 };
@@ -58,7 +60,7 @@ function afterLoginOrRegister(isRegister, user, dispatch) {
     dispatch(itemsActions.fetchItems())
 
     // Success message
-    dispatch(notifierActions.addIntlNotifier(isRegister ? 'register.success' : 'login.success', 'success'));
+    dispatch(notifierActions.addIntlNotifier(isRegister ? 'home.join.success': 'login.success', 'success'));
 
     // navigate to the home route
     history.push('/');
@@ -128,53 +130,53 @@ function logout() {
 
 
 //
-// TODO Implement reducer + userServices.register() + check aserActions.register() (below)
+// TODO to test
 //
 
 function register(email, password, name) {
     return async dispatch => {
         try {
             let user = await userServices.register(email, password, name);
-            return afterLoginOrRegister(true, user, dispatch);
+
+            // Success message
+            dispatch(notifierActions.addIntlNotifier('register.success', 'success'));
+
+            return user;
         } catch (error) {
             // Error message
             let errorKey = 'register.error';
             if (error.request && error.response.status === 409)
               errorKey = 'register.alreadyexist';            
-            dispatch(notifierActions.addIntlNotifier(errorKey, 'error'));        }
+            dispatch(notifierActions.addIntlNotifier(errorKey, 'error'));
+        }
     };
 }    
 
 
-
-/*
-
-OLD NON ASYNC AWAIT VERSIONS
-
-
-
-//
-// TODO Implement reducer + userServices.register() + check aserActions.register() (below)
-//
-
-function register(user) {
-    return dispatch => {
-        dispatch({ type: ACTIONS.REGISTER_REQUEST });
-
-        userServices.register(user)
-            .then(
-                ({ user, items }) => {
-                    // Add user info & items to redux store
-                    dispatch({ type: ACTIONS.REGISTER_SUCCESS, user });
-                    dispatch({ type: ACTIONS.FETCH_ITEMS_SUCCESS, items });
-
-                    // history.push('/login');
-                    // dispatch(alertActions.success('Registration successful'));
-                },
-                error => {
-                    dispatch({ type: ACTIONS.REGISTER_FAILURE, error: error.toString() });
-                }
-            );
+function joinHome(idHome) {
+    return async dispatch => {
+        try {
+            let user = await userServices.joinHome(idHome);
+            return afterLoginOrRegister(true, user, dispatch);
+        } catch (error) {
+           
+            dispatch(notifierActions.addIntlNotifier(
+                error.response.status === 404 ? 'home.join.error_not_found' : 'home.join.error', 
+                'error'));
+        }
     };
-}
-*/
+}    
+
+
+function joinNewHome(name, label) {
+    return async dispatch => {
+        try {
+            let user = await userServices.joinNewHome(name, label);
+            return afterLoginOrRegister(true, user, dispatch);
+        } catch (error) {
+           
+            dispatch(notifierActions.addIntlNotifier('home.join.error', 'error'));
+        }
+    };
+}    
+

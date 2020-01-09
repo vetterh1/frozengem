@@ -78,8 +78,8 @@ class intRegisterWizard extends React.Component {
 
   async register() {
     const {email, password, name} = this.state;
-    const userName = await this.props.register(email, password, name);
-    console.log("RegisterWizard - after register - userName:", userName);  
+    const user = await this.props.register(email, password, name);
+    console.log("RegisterWizard - after register - userName:", user);  
   }
 
 
