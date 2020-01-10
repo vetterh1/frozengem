@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router'
 import { connect } from 'react-redux';
 import { userActions } from '../../_actions/userActions';
 import { withStyles } from '@material-ui/core/styles';
@@ -70,6 +71,13 @@ class LoginWizard extends React.Component {
 
 
   render() {
+
+    // Once we are logged-in, let's redirect to main page!
+    if (this.props.isAuthenticated) { 
+      console.log('[>>> LoginWizard ------>>>----- / >>>] Reason: authenticated');
+      return <Redirect to='/' />
+    };
+
     const { classes } = this.props;
     return (
           <div className={classes.divWizardPage}>
@@ -85,8 +93,8 @@ class LoginWizard extends React.Component {
 const mapDispatchToProps = {
   login: userActions.login,
 };
-
-const connectedLoginWizard = connect(null, mapDispatchToProps)(LoginWizard);
+const mapStateToProps = state => ({isAuthenticated: state.user.loggedIn});
+const connectedLoginWizard = connect(mapStateToProps, mapDispatchToProps)(LoginWizard);
 
 export default withStyles(styles, { withTheme: true })(connectedLoginWizard);
 

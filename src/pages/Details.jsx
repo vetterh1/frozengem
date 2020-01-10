@@ -59,7 +59,9 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history})
 
   
   const handleClose = () => {
+    console.log('[>>> Details ------>>>----- / >>>] Reason: close details');
     history.push('/');
+    // TODO replace history.push by a <redirect tag in render if push does not work
   };
 
   

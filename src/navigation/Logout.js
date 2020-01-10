@@ -13,9 +13,8 @@ class Logout extends Component {
   }
 
   render() {
-    return (
-      <Redirect to='/' />
-    );
+    console.log('[>>> Logout ------>>>----- / >>>] Reason: logout');
+    return (<Redirect to='/' />);
   }
 }
 

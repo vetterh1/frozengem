@@ -167,13 +167,13 @@ localStorage.clear();
 
 // Create a new user record on the server
 // (and store some essential user info in localStorage for convenience & futur autologin)
-// Input: user information (email, password, name)
+// Input: user information (email, password, name, language)
 // Returns: user info
 
-async function register(email, password, name) {
+async function register(email, password, name, language) {
   console.info('|--- SERVER CALL ---|--- POST ---| userServices.register: ', email);
   const masterKey = config.masterKey;
-  const data = { 'access_token': masterKey, email, password, name };
+  const data = { 'access_token': masterKey, email, password, name, language };
   const options = {
     method: 'POST',
     url: `${config.boUrl}/users`,

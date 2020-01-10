@@ -43,7 +43,7 @@ logRegisterWizard.debug('--> entering RegisterWizard.jsx');
 
 
 
-class intRegisterWizard extends React.Component {
+class RegisterWizard extends React.Component {
 
 
   defaultState = {
@@ -87,8 +87,15 @@ class intRegisterWizard extends React.Component {
     const { classes } = this.props;
 
     if (this.props.isAuthenticated) { 
-      console.log("Redirect to home as already logged in");
-      return <Redirect to='/' />
+
+      if(!this.props.home) {
+        // navigate to the choose home page
+        console.log('[>>> RegisterWizard ------>>>----- /choosehome >>>] Reason: choose home');
+        return <Redirect to='/choosehome' /> 
+      } else {
+        console.log('[>>> RegisterWizard ------>>>----- / >>>] Reason: already logged in');
+        return <Redirect to='/' /> 
+      }
     };
 
     return (
@@ -96,22 +103,24 @@ class intRegisterWizard extends React.Component {
             <StepWizard isHashEnabled transitions={{}} className={"flex-normal-height flex-direction-column"} classNameWrapper={'flex-normal-height flex-direction-column'}>
               <NameForm hashKey={'name'} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
               <EmailForm hashKey={'email'} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
-              <PasswordForm hashKey={'password'} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
-              <Registered hashKey={'registered'} onClickRegister={this.register} state={this.state} />
+              <PasswordForm hashKey={'password'}  onSubmit={this.register} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
+              {/* <Registered hashKey={'registered'} onClickRegister={this.register} state={this.state} /> */}
             </StepWizard>
           </div>
       );
   }
 }
 
-const mapStateToProps = state => ({isAuthenticated: state.user.loggedIn});
-
+const mapStateToProps = state => ({
+  isAuthenticated: state.user.loggedIn,
+  home: state.user.home
+});
 
 const mapDispatchToProps = {
   register: userActions.register,
 };
 
-const connectedRegisterWizard = connect(mapStateToProps, mapDispatchToProps)(intRegisterWizard);
+const connectedRegisterWizard = connect(mapStateToProps, mapDispatchToProps)(RegisterWizard);
 
 export default injectIntl(withStyles(styles, { withTheme: true })(connectedRegisterWizard));
 

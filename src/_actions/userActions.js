@@ -63,7 +63,8 @@ function afterLoginOrRegister(isRegister, user, dispatch) {
     dispatch(notifierActions.addIntlNotifier(isRegister ? 'home.join.success': 'login.success', 'success'));
 
     // navigate to the home route
-    history.push('/');
+    //   history.push('/'); --> does not work, so has to be done in the caller components
+    //   ex: <Redirect to='/' /> in loginWizard
 
     return user.name;
 }
@@ -134,12 +135,19 @@ function logout() {
 //
 
 function register(email, password, name) {
-    return async dispatch => {
+    return async (dispatch, getState) => {
         try {
-            let user = await userServices.register(email, password, name);
+
+            // Get current selected language
+            const {language} = getState().user;
+
+            let user = await userServices.register(email, password, name, language);
 
             // Success message
             dispatch(notifierActions.addIntlNotifier('register.success', 'success'));
+
+            // navigate to the choose home page
+            // done in the caller RegisterWizard
 
             return user;
         } catch (error) {

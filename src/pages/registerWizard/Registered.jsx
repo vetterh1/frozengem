@@ -88,7 +88,7 @@ class NameForm extends React.Component {
     // Return to the 1st page if all the previous infos are not filled in
     // (ex: return on this exact page)
     if(this.props.isActive && ( name === "" || email === "" || password === "")) {
-      console.log("Redirect to home as name or email or password empty");
+      console.log('[>>> Register:NameForm ------>>>----- / >>>] Reason: name or email or password is empty');
       return <Redirect to='/' />
     }    
 

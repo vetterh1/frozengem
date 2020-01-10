@@ -73,7 +73,7 @@ class PasswordForm extends React.Component {
     //e.preventDefault should always be the first thing in the function
     e.preventDefault();
 
-    this.props.nextStep(); 
+    this.props.onSubmit();
   };
 
   render() {
@@ -85,7 +85,7 @@ class PasswordForm extends React.Component {
     // Return to the 1st page if all the previous infos are not filled in
     // (ex: return on this exact page)
     if(isActive && ( name === "" || email === "")) {
-      console.log("Redirect to home as name or email empty");
+      console.log('[>>> Register:PasswordForm ------>>>----- / >>>] Reason: name or email is empty');
       return <Redirect to='/' />
     }    
 

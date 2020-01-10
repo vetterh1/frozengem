@@ -2,6 +2,8 @@
 import React, { useEffect } from 'react';
 // import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { history } from '../misc/history';
+import { Redirect } from 'react-router'
 import { connect } from 'react-redux';
 import { userActions } from '../_actions/userActions';
 import { IntlProvider } from "react-intl";
@@ -46,7 +48,7 @@ const NotFound = () => <h2>404 error - This page has not been found!</h2>;
 
 
 
-const intApp = (props) => {
+const App = (props) => {
 
   const divStyle = {
     display: "flex",
@@ -94,7 +96,7 @@ const intApp = (props) => {
             <> 
             <Notifier />
             <ItemCharacteristicsStore>
-              <Router basename={process.env.PUBLIC_URL}>
+              <Router basename={process.env.PUBLIC_URL} history={history}>
 
                 <div style={divStyle}>
 
@@ -115,6 +117,10 @@ const intApp = (props) => {
                         exact path="/register"
                         component={() => <Container><RegisterWizard /></Container>}
                       />
+                      <Route
+                        exact path="/choosehome"
+                        component={() => <Container><ChooseHome /></Container>}
+                      />                      
                       <Route
                         exact path="/login"
                         component={() => <Container><LoginWizard /></Container>}
@@ -137,7 +143,11 @@ const intApp = (props) => {
                             if(!props.name) return <LoadingUserInfo /> ;
 
                             // User exists but has not chosen his home yet: ask him to choose!
-                            if(!props.home) return <Container><ChooseHome /></Container>;
+                            // if(!props.home) return <Container><ChooseHome /></Container>;
+                            if(!props.home){
+                              console.log('[>>> App ------>>>----- choosehome >>>] Reason: no home defined');
+                              return <Redirect to='/choosehome'/>
+                            }
                             
                             // Authenticated users see their dashboard:
                             return <Dashboard />;
@@ -184,7 +194,7 @@ function mapStateToProps(state) {
     };
   return {
     loggedIn: state.user.loggedIn,
-    language: state.user.language || "en",
+    language: state.user.language,
     name: state.user.name,
     home: state.user.home,
     navigationStyle: state.user.navigationStyle,
@@ -197,6 +207,6 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-const connectedApp = connect(mapStateToProps, mapDispatchToProps)(intApp);
+const connectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
 
 export default withMyTheme(connectedApp);

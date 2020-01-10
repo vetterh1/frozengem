@@ -44,7 +44,7 @@ logAddWizard.debug('--> entering AddWizard.jsx');
 
 
 
-const intAddWizard = ({addItem, savePicture, addIntlNotifier, loggedIn, language, characteristics, intl, classes}) => {
+const AddWizard = ({addItem, savePicture, addIntlNotifier, loggedIn, language, characteristics, intl, classes}) => {
 
   const emptyEmpty = {
     id: null,
@@ -304,7 +304,7 @@ const intAddWizard = ({addItem, savePicture, addIntlNotifier, loggedIn, language
 
 
 if (!loggedIn) { 
-  console.log("Redirect to home as not logged in");
+  console.log('[>>> AddWizard ------>>>----- / >>>] Reason: not logged in');
   return <Redirect to='/' />
 };
 
@@ -446,7 +446,7 @@ const mapDispatchToProps = {
 };
 
 
-const connectedAddWizard = connect(mapStateToProps, mapDispatchToProps)(intAddWizard);
+const connectedAddWizard = connect(mapStateToProps, mapDispatchToProps)(AddWizard);
 
 export default injectIntl(withStyles(styles, { withTheme: true })(connectedAddWizard));
 

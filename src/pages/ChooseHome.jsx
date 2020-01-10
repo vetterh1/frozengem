@@ -62,9 +62,17 @@ class ChooseHome extends React.Component {
     const { classes } = this.props;
     
     if (!this.props.isAuthenticated) { 
-      console.log("Redirect to home as not logged in");
+      console.log('[>>> ChooseHome ------>>>----- / >>>] Reason: not logged in');
       return <Redirect to='/' />
     };
+
+    if (this.props.isAuthenticated && this.props.home) {
+        console.log('[>>> ChooseHome ------>>>----- / >>>] Reason: house was chosen');
+        return <Redirect to='/' /> 
+    }    
+
+    console.debug('[--- C ---] Component: ChooseHome');
+
 
     return (
       <React.Fragment>
@@ -134,8 +142,11 @@ const mapDispatchToProps = {
   joinHome: userActions.joinHome,
   joinNewHome: userActions.joinNewHome,
 };
-const mapStateToProps = state => ({isAuthenticated: state.user.loggedIn});
 
+const mapStateToProps = state => ({
+  isAuthenticated: state.user.loggedIn,
+  home: state.user.home
+});
 const connectedChooseHome = connect(mapStateToProps, mapDispatchToProps)(ChooseHome);
 
 export default injectIntl(withStyles(styles)(connectedChooseHome));

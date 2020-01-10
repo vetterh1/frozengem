@@ -33,9 +33,6 @@ function fetchItems() {
             // Add items to redux store
             dispatch({ type: ACTIONS.FETCH_ITEMS_SUCCESS, items });
 
-            // navigate to the home route
-            // history.push('/');
-
             return items;
         } catch (error) {
 
