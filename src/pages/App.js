@@ -2,7 +2,6 @@
 import React, { useEffect } from 'react';
 // import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { history } from '../misc/history';
 import { Redirect } from 'react-router'
 import { connect } from 'react-redux';
 import { userActions } from '../_actions/userActions';
@@ -35,8 +34,6 @@ import { NavigationStyle } from '../navigation/configNavigation'
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
-// Stores
-import { ItemCharacteristicsStore } from "../data/ItemCharacteristicsStore";
 
 
 
@@ -95,8 +92,7 @@ const App = (props) => {
           >     
             <> 
             <Notifier />
-            <ItemCharacteristicsStore>
-              <Router basename={process.env.PUBLIC_URL} history={history}>
+              <Router basename={process.env.PUBLIC_URL}>
 
                 <div style={divStyle}>
 
@@ -174,7 +170,6 @@ const App = (props) => {
 
                 </div>
               </Router>
-            </ItemCharacteristicsStore>
             </>
           </IntlProvider>              
         </MuiPickersUtilsProvider>

@@ -1,7 +1,5 @@
-// TODO Refactor this file for Redux
-// TODO Refactor this file for intl simplification
-
 import React from 'react';
+import { connect } from 'react-redux';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -10,14 +8,13 @@ import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { FormattedMessage } from "react-intl";
-import { withUserInfo } from '../../with/withUserInfo';
 
 
-const intSelectFromList = ({ items, itemInState, multiselection, handleClick, userInfo }) => (
+const intSelectFromList = ({ items, itemInState, multiselection, handleClick, language }) => (
   <List className={"flex-normal-height flex-direction-column big-margin-down"}>
   {items && items.map((item, index, theArray) => {
-    const name = item.name[userInfo.language]
-    const label = item.label[userInfo.language]
+    const name = item.name[language]
+    const label = item.label[language]
     return <React.Fragment key={`frag-${item.id2}`}>
       <ListItem 
         button 
@@ -34,7 +31,11 @@ const intSelectFromList = ({ items, itemInState, multiselection, handleClick, us
   })}
   </List>
 );
-export const SelectFromList = withUserInfo(intSelectFromList);
+const mapStateToProps = (state) => {return { language: state.user.language }};
+export const SelectFromList = connect(mapStateToProps, null)(intSelectFromList);
+
+
+
 
 
 
@@ -50,19 +51,19 @@ export const WizPageTitle = ({message}) => (
 
 export const CancelButton = () => (
   <Button color="primary" component={Link} to="/">
-    <FormattedMessage id="button.cancel" defaultMessage="Cancel" />
+    <FormattedMessage id="button.cancel" />
   </Button>
 );
 
 export const PreviousButton = ({onClick}) => (
   <Button color="primary" onClick={onClick}>
-    <FormattedMessage id="button.back" defaultMessage="Back" />
+    <FormattedMessage id="button.back" />
   </Button>
 );
 
 export const NextButton = ({onClick, isDisabled}) => (
   <Button variant="contained" color="primary" onClick={onClick} disabled={isDisabled} type="submit">
-    <FormattedMessage id="button.continue" defaultMessage="Continue" />
+    <FormattedMessage id="button.continue" />
   </Button>
 );
 

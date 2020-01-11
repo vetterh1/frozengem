@@ -1,5 +1,3 @@
-// TODO Test this file after redux changes
-
 import * as log from 'loglevel';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -11,8 +9,6 @@ import NameForm from './NameForm';
 import StepWizard from 'react-step-wizard';
 import EmailForm from './EmailForm';
 import PasswordForm from './PasswordForm';
-import Registered from './Registered';
-
 // import stringifyOnce from '../../utils/stringifyOnce.js'
 
 const styles = theme => ({
@@ -104,7 +100,6 @@ class RegisterWizard extends React.Component {
               <NameForm hashKey={'name'} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
               <EmailForm hashKey={'email'} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
               <PasswordForm hashKey={'password'}  onSubmit={this.register} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
-              {/* <Registered hashKey={'registered'} onClickRegister={this.register} state={this.state} /> */}
             </StepWizard>
           </div>
       );

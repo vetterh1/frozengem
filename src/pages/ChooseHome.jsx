@@ -1,6 +1,3 @@
-// TODO Refactor this file for Redux
-// TODO Test this file after redux changes
-
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router'

@@ -3,7 +3,6 @@ import { userServices } from '../_services/userServices';
 import { characteristicsActions } from './characteristicsActions';
 import { itemsActions } from './itemsActions';
 import { notifierActions } from './notifierActions';
-import { history } from '../misc/history';
 
 export const userActions = {
     login,
@@ -23,9 +22,9 @@ function setLanguage(language) {
         try {
             await userServices.setLanguage(language);
             dispatch({ type: ACTIONS.SET_LANGUAGE, language });
-    
+
             // Change items language
-            dispatch(itemsActions.updateAllItemsUtilityFields());       
+            dispatch(itemsActions.updateAllItemsUtilityFields());
 
         } catch (error) {
             console.error("setLanguage failed", language);
@@ -37,30 +36,30 @@ function setNavigationStyle(navigationStyle) {
     return async dispatch => {
         try {
             await userServices.setNavigationStyle(navigationStyle);
-            dispatch({ type: ACTIONS.SET_NAVIGATION_STYLE, navigationStyle });   
+            dispatch({ type: ACTIONS.SET_NAVIGATION_STYLE, navigationStyle });
 
         } catch (error) {
             console.error("setNavigationStyle failed", navigationStyle);
         }
-        
+
     };
 }
 
 
 
 function afterLoginOrRegister(isRegister, user, dispatch) {
-    
-    // Add user info & items to redux store
+
+    // Add user info to redux store
     dispatch({ type: ACTIONS.LOGIN_SUCCESS, user });
 
     // Start fetching the characteristics from the server
     dispatch(characteristicsActions.fetchCharacteristics())
 
-    // Start fetching the items from the server
+    // Fetch the items from the server and store them in redux store
     dispatch(itemsActions.fetchItems())
 
     // Success message
-    dispatch(notifierActions.addIntlNotifier(isRegister ? 'home.join.success': 'login.success', 'success'));
+    dispatch(notifierActions.addIntlNotifier(isRegister ? 'home.join.success' : 'login.success', 'success'));
 
     // navigate to the home route
     //   history.push('/'); --> does not work, so has to be done in the caller components
@@ -77,7 +76,7 @@ function login(email, password) {
             return afterLoginOrRegister(false, user, dispatch);
         } catch (error) {
             console.log("userActions.login error - email: ", email);
-            
+
             dispatch({ type: ACTIONS.LOGIN_FAILURE, error: error.toString() });
 
             // Error message
@@ -87,11 +86,11 @@ function login(email, password) {
         }
     };
 }
- 
+
 function autologin() {
     return dispatch => {
-        console.log('autologin() - should run only once!');
-        
+        console.log('***************** autologin() - should run only once! ***************** ');
+
         userServices.autologin()
             .then(
                 user => {
@@ -129,19 +128,17 @@ function logout() {
 
 
 
-
-//
-// TODO to test
-//
-
 function register(email, password, name) {
     return async (dispatch, getState) => {
         try {
 
             // Get current selected language
-            const {language} = getState().user;
+            const { language } = getState().user;
 
             let user = await userServices.register(email, password, name, language);
+
+            // Add user info to redux store
+            dispatch({ type: ACTIONS.LOGIN_SUCCESS, user });
 
             // Success message
             dispatch(notifierActions.addIntlNotifier('register.success', 'success'));
@@ -154,11 +151,11 @@ function register(email, password, name) {
             // Error message
             let errorKey = 'register.error';
             if (error.request && error.response.status === 409)
-              errorKey = 'register.alreadyexist';            
+                errorKey = 'register.alreadyexist';
             dispatch(notifierActions.addIntlNotifier(errorKey, 'error'));
         }
     };
-}    
+}
 
 
 function joinHome(idHome) {
@@ -167,13 +164,13 @@ function joinHome(idHome) {
             let user = await userServices.joinHome(idHome);
             return afterLoginOrRegister(true, user, dispatch);
         } catch (error) {
-           
+
             dispatch(notifierActions.addIntlNotifier(
-                error.response.status === 404 ? 'home.join.error_not_found' : 'home.join.error', 
+                error.response.status === 404 ? 'home.join.error_not_found' : 'home.join.error',
                 'error'));
         }
     };
-}    
+}
 
 
 function joinNewHome(name, label) {
@@ -182,9 +179,9 @@ function joinNewHome(name, label) {
             let user = await userServices.joinNewHome(name, label);
             return afterLoginOrRegister(true, user, dispatch);
         } catch (error) {
-           
+
             dispatch(notifierActions.addIntlNotifier('home.join.error', 'error'));
         }
     };
-}    
+}
 

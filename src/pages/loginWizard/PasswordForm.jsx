@@ -56,9 +56,8 @@ class PasswordForm extends React.Component {
     // Return to the 1st page if all the previous infos are not filled in
     // (ex: return on this exact page)
     if(isActive && ( email === "")) {
-      // TODO uncomment the redirect once the issue with routing is solved
-      // console.log('[>>> Login:PasswordForm ------>>>----- / >>>] Reason: email is empty');
-      // return <Redirect to='/' />
+      console.log('[>>> Login:PasswordForm ------>>>----- / >>>] Reason: email is empty');
+      return <Redirect to='/' />
     }    
 
     return (

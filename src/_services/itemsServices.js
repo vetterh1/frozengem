@@ -3,7 +3,6 @@ import axios from 'axios';
 import config from '../data/config'
 import {Months} from '../i18n/i18nDates';
 import { characteristicsServices } from "./characteristicsServices";
-// import { ExpirationLevel } from "../data/ItemCharacteristicsStore";
 
   
 const ExpirationLevel = {
