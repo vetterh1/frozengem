@@ -32,8 +32,6 @@ const styles = theme => ({
 });
 
 
-// TODO test ChooseHome
-
 class ChooseHome extends React.Component {
 
   constructor(props) {
@@ -45,13 +43,13 @@ class ChooseHome extends React.Component {
 
   onJoinHome = async (idHome) => {
     await this.props.joinHome(idHome);    
-    console.log("ChooseHome.onJoinHome - after dispatch - idHome:", idHome);  
+    console.info("ChooseHome.onJoinHome - after dispatch - idHome:", idHome);  
   }
   
 
   onNewHome = async (labelHome) => {
     await this.props.joinNewHome(labelHome, "");    
-    console.log("ChooseHome.onNewHome - after dispatch - labelHome:", labelHome);  
+    console.info("ChooseHome.onNewHome - after dispatch - labelHome:", labelHome);  
   }
 
 

@@ -61,7 +61,8 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history})
   const handleClose = () => {
     console.log('[>>> Details ------>>>----- / >>>] Reason: close details');
     history.push('/');
-    // TODO replace history.push by a <redirect tag in render if push does not work
+    // Strangely, history.push works here... 
+    // if not, should be replaced by a <redirect> tag in render
   };
 
   
@@ -76,7 +77,7 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history})
   
   const handleEditCode = (e) => {
     e.stopPropagation();
-    console.log("ItemCard.handleEditCode: ", item.id);
+    console.info("ItemCard.handleEditCode: ", item.id);
     // onEditItem(item, 'name');
     return null;
   };
@@ -84,7 +85,7 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history})
 
   const handleEditDetails = (e) => {
     e.stopPropagation();
-    console.log("ItemCard.handleEditDetails: ", item.id);
+    console.info("ItemCard.handleEditDetails: ", item.id);
     // onEditItem(item, 'details');
     return null;
   };
@@ -92,7 +93,7 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history})
 
   const handleEditExpiration = (e) => {
     e.stopPropagation();
-    console.log("ItemCard.handleEditExpiration: ", item.id);
+    console.info("ItemCard.handleEditExpiration: ", item.id);
     // onEditItem(item, 'expirationDate');
     return null;
   };
@@ -185,7 +186,7 @@ Details.propTypes = {
 function mapStateToProps(state, ownProps) {
   const id = ownProps.match.params.id;
   if(!id) throw new Error({ error: "no id!" });
-  // console.log('Details.mapStateToProps - ',ownProps, state.items.list.find(item => item.id === id) );
+  // console.info('Details.mapStateToProps - ',ownProps, state.items.list.find(item => item.id === id) );
 
   return {
     item: state.items.list.find(item => item.id === id),

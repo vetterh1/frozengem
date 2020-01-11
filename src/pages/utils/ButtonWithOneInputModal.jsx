@@ -1,5 +1,3 @@
-// TODO Refactor this file for intl simplification
-
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -59,10 +57,10 @@ export default function ButtonWithOneInputModal({btnLabel, modalTitle, modalText
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            <FormattedMessage id="button.cancel" defaultMessage="Cancel" />
+            <FormattedMessage id="button.cancel" />
           </Button>
           <Button onClick={handleOk} color="primary">
-            <FormattedMessage id="button.ok" defaultMessage="OK" />
+            <FormattedMessage id="button.ok" />
           </Button>
         </DialogActions>
       </Dialog>
