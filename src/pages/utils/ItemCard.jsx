@@ -173,7 +173,7 @@ const intItemCard = ({item, classes, theme}) => {
   const handleClickForDetails = (e) => { setToDetails(true); e.stopPropagation(); }
 
   if (toDetails === true) {
-    return <Redirect to={`/details/${item.id}`} />
+    return <Redirect push to={`/details/${item.id}`} />
   }
 
   return (

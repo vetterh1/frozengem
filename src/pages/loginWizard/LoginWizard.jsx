@@ -75,7 +75,7 @@ class LoginWizard extends React.Component {
     // Once we are logged-in, let's redirect to main page!
     if (this.props.isAuthenticated) { 
       console.log('[>>> LoginWizard ------>>>----- / >>>] Reason: authenticated');
-      return <Redirect to='/' />
+      return <Redirect push to='/' />
     };
 
     const { classes } = this.props;

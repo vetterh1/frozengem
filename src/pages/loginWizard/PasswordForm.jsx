@@ -57,7 +57,7 @@ class PasswordForm extends React.Component {
     // (ex: return on this exact page)
     if(isActive && ( email === "")) {
       console.log('[>>> Login:PasswordForm ------>>>----- / >>>] Reason: email is empty');
-      return <Redirect to='/' />
+      return <Redirect push to='/' />
     }    
 
     return (

@@ -59,10 +59,13 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history})
 
   
   const handleClose = () => {
-    console.log('[>>> Details ------>>>----- / >>>] Reason: close details');
-    history.push('/');
-    // Strangely, history.push works here... 
-    // if not, should be replaced by a <redirect> tag in render
+    console.log('[<<< Details ------<<<----- / <<<] Reason: close details');
+    history.goBack();
+
+    // Strangely, history.push/goBack works here... 
+    // if not, should be replaced by a <redirect push> tag in render
+    // but it would redisplay / and dispay from the top of the page
+    // (better use back that goes back at the right place)
   };
 
   

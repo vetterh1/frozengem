@@ -142,7 +142,7 @@ const App = (props) => {
                             // if(!props.home) return <Container><ChooseHome /></Container>;
                             if(!props.home){
                               console.log('[>>> App ------>>>----- choosehome >>>] Reason: no home defined');
-                              return <Redirect to='/choosehome'/>
+                              return <Redirect push to='/choosehome'/>
                             }
                             
                             // Authenticated users see their dashboard:
