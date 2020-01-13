@@ -103,7 +103,7 @@ const App = (props) => {
                     <Switch>
                       <Route
                         exact path="/details/:id"
-                        component={() => <Container><Details /></Container>}
+                        component={() => <Container disableGutters><Details /></Container>}
                       />
                       <Route
                         exact path="/add"

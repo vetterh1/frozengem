@@ -3,24 +3,27 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from "react-router";
 import { itemsActions } from '../_actions/itemsActions';
+import clsx from 'clsx';
 
 import { injectIntl, FormattedMessage } from "react-intl";
 import { withStyles } from '@material-ui/core/styles';
 
+import config from '../data/config'
+
+
 // import useMediaQuery from '@material-ui/core/useMediaQuery';
 // import { useTheme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-// import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
-// import DialogContent from '@material-ui/core/DialogContent';
-// import DialogContentText from '@material-ui/core/DialogContentText';
-// import DialogTitle from '@material-ui/core/DialogTitle';
-// import IconButton from '@material-ui/core/IconButton';
+
 // import Typography from '@material-ui/core/Typography';
 
 import { getIcon } from "../data/Icons";
 // import EditIcon from '@material-ui/icons/Edit';
 // import CloseIcon from '@material-ui/icons/Close';
+
+import ItemImage from './utils/ItemImage';
+
 
 import PictureSelection from './utils/PictureSelection';
 import ButtonToModal from './utils/ButtonToModal'
@@ -28,7 +31,67 @@ import CharacteristicsSelection from './utils/CharacteristicsSelection';
 
 
 
+
+
+
+
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Collapse from '@material-ui/core/Collapse';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import { red } from '@material-ui/core/colors';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import ShareIcon from '@material-ui/icons/Share';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+
+
+
+
 const styles = theme => ({
+  details_main: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'top'
+  },  
+  details_image_section: {
+    display: 'flex',
+    position: 'relative',
+    flexDirection: 'column',
+  },
+  details_image_media: {
+    height: '25vh',
+  },
+  details_image_code: {
+    position: 'absolute',
+    left: '10px',
+    top: '10px',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    padding: '10px',
+    color: 'white'
+  },
+  
+  centerAligned : {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+
+  details_code: {
+    display: 'flex',
+  },
+  details_image: {
+    display: 'flex',
+  },
+  details_name_section: {
+    display: 'flex',
+  },
   actions: {
     display: 'flex',
     flexDirection: 'row',
@@ -54,6 +117,8 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history})
 
   // const theme = useTheme();
   // const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const [timestampClickAway, setSimestampClickAway] = React.useState(0);
+
 
   if(!item || !sizes) return null;
   console.debug('[--- FC ---] Functional component: Details id!', item.id);
@@ -115,29 +180,43 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history})
 
 
   return (
-    <>
+    <div className={classes.card}>
 
-      <div>Name: {item.name}</div>
-      <div>Category: {item.__categoryText}</div>
-      <div onClick={handleEditCode}>Code: {item.code}</div>
-      <div onClick={handleEditDetails}>Details: {item.__detailsNames}</div>
-      <div onClick={handleEditExpiration}>Expiration level: {item.__expirationLevel}</div>
-      <div>Container: {item.__containerText}</div>
-      <div>Color: {item.__colorText}</div>
-      <div>Freezer: {item.__freezerText}</div>
-      <div>Location: {item.__locationText}</div>
-      <div>Size: {item.__sizeInText}</div>
-      
-      
-      {/* {item.__iconExpiration}
-      {item.__expirationText}
-      {item.__sizeInText}
-      {item.__monthExpirationAsText}
-      {item.__yearExpiration}
-      {item.freezer}
-      {item.location}
-      {item.container}
-      {item.color} */}
+      <section className={classes.details_image_section}>
+        <CardMedia
+          image={`${config.staticUrl}/static/pictures/items/${item.thumbnailName}`}
+          title={item.name}
+          className={classes.details_image_media}
+        />
+        <Typography className={classes.details_image_code} variant="h4" color="textSecondary" component="p">
+        {item.code}
+        </Typography>        
+      </section>
+
+
+      <CardHeader
+        avatar={
+          getIcon("category"+item.category)
+        }
+        title={item.name}
+        subheader={intl.formatMessage(item.__expirationText)}
+      />
+
+      <CardContent>
+        <Typography variant="body2" color="textSecondary" component="p">
+        Container: {item.__containerText}
+        </Typography>
+        <div>Name: {item.name}</div>
+        <div>Category: {item.__categoryText}</div>
+        <div onClick={handleEditDetails}>Details: {item.__detailsNames}</div>
+        <div onClick={handleEditExpiration}>Expiration level: {item.__expirationLevel}</div>
+        <div>Container: {item.__containerText}</div>
+        <div>Color: {item.__colorText}</div>
+        <div>Freezer: {item.__freezerText}</div>
+        <div>Location: {item.__locationText}</div>
+        <div>Size: {item.__sizeInText}</div>            
+      </CardContent>
+
       <DialogActions size="small" className={classes.actions}>
 
         <ButtonToModal 
@@ -168,8 +247,34 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history})
           <FormattedMessage id="button.close" />
         </Button>
       </DialogActions>
-    </>
+
+    </div>
+
   );
+ 
+      
+      {/*
+      
+        <div>Name: {item.name}</div>
+        <div>Category: {item.__categoryText}</div>
+        <div onClick={handleEditDetails}>Details: {item.__detailsNames}</div>
+        <div onClick={handleEditExpiration}>Expiration level: {item.__expirationLevel}</div>
+        <div>Container: {item.__containerText}</div>
+        <div>Color: {item.__colorText}</div>
+        <div>Freezer: {item.__freezerText}</div>
+        <div>Location: {item.__locationText}</div>
+        <div>Size: {item.__sizeInText}</div>      
+
+      {item.__iconExpiration}
+      {item.__expirationText}
+      {item.__sizeInText}
+      {item.__monthExpirationAsText}
+      {item.__yearExpiration}
+      {item.freezer}
+      {item.location}
+      {item.container}
+      {item.color} */}
+      
 }
 
 
