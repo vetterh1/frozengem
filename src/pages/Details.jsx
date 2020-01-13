@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from "react-router";
 import { itemsActions } from '../_actions/itemsActions';
+import { Redirect } from 'react-router'
 
 import { injectIntl, FormattedMessage } from "react-intl";
 import { withStyles } from '@material-ui/core/styles';
@@ -109,7 +110,14 @@ const styles = theme => ({
 // const Details = ({opened, item, onClose, onSavePicture, onRemoveItem, onEditItem, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
     // const Details = ({item, match, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
 
-const Details = ({item, sizes, removeItem, savePicture, classes, intl, history}) => {
+const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, loggedIn}) => {
+
+    
+  if (!loggedIn) { 
+    console.log('[>>> Details ------>>>----- / >>>] Reason: not logged in');
+    return <Redirect to='/' />
+  };
+
 
   // const theme = useTheme();
   // const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -171,8 +179,6 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history})
   };
   const sizesWith0 = [zero, ...sizes];
 
-
-
   return (
     <div className={classes.card}>
 
@@ -186,7 +192,7 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history})
         {item.code}
         </Typography>        
       </section>
-{/* 
+
 
       <CardHeader
         avatar={
@@ -239,7 +245,7 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history})
         <Button onClick={handleClose} color="primary">
           <FormattedMessage id="button.close" />
         </Button>
-      </DialogActions> */}
+      </DialogActions>
 
     </div>
 
@@ -271,17 +277,17 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history})
 }
 
 
-Details.propTypes = {
-  // Props from caller
-  sizes: PropTypes.array,
+// Details.propTypes = {
+//   // Props from caller
+//   sizes: PropTypes.array,
 
-  // Props from redux
-  item: PropTypes.object,
+//   // Props from redux
+//   item: PropTypes.object,
 
-  // Props from other HOC
-  classes: PropTypes.object.isRequired,
-  intl: PropTypes.object.isRequired,
-}
+//   // Props from other HOC
+//   classes: PropTypes.object.isRequired,
+//   intl: PropTypes.object.isRequired,
+// }
 
 
 
@@ -293,6 +299,7 @@ function mapStateToProps(state, ownProps) {
   return {
     item: state.items.list.find(item => item.id === id),
     sizes: state.characteristics.sizes,
+    loggedIn: state.user.loggedIn,
   };
 }
 
