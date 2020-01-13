@@ -19,6 +19,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 // import Typography from '@material-ui/core/Typography';
 
 import { getIcon } from "../data/Icons";
+// import EditIcon from '@material-ui/icons/Edit';
 // import CloseIcon from '@material-ui/icons/Close';
 
 import PictureSelection from './utils/PictureSelection';
