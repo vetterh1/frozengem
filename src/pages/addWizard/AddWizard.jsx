@@ -305,7 +305,7 @@ const AddWizard = ({addItem, savePicture, addIntlNotifier, loggedIn, language, c
 
 if (!loggedIn) { 
   console.log('[>>> AddWizard ------>>>----- / >>>] Reason: not logged in');
-  return <Redirect push to='/' />
+  return <Redirect to='/' />
 };
 
   console.log("----------> item : ", item);

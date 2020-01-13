@@ -173,6 +173,7 @@ const intItemCard = ({item, classes, theme}) => {
   const handleClickForDetails = (e) => { setToDetails(true); e.stopPropagation(); }
 
   if (toDetails === true) {
+    // use Redirect push to keep the history (without the push, it replaces the url and does not keep the previous page)
     return <Redirect push to={`/details/${item.id}`} />
   }
 

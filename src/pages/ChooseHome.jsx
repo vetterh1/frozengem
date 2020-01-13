@@ -58,12 +58,12 @@ class ChooseHome extends React.Component {
     
     if (!this.props.isAuthenticated) { 
       console.log('[>>> ChooseHome ------>>>----- / >>>] Reason: not logged in');
-      return <Redirect push to='/' />
+      return <Redirect to='/' />
     };
 
     if (this.props.isAuthenticated && this.props.home) {
         console.log('[>>> ChooseHome ------>>>----- / >>>] Reason: house was chosen');
-        return <Redirect push to='/' /> 
+        return <Redirect to='/' /> 
     }    
 
     console.debug('[--- C ---] Component: ChooseHome');

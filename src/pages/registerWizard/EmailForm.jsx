@@ -44,7 +44,7 @@ class EmailForm extends React.Component {
     const {name} = this.props.state;
     if(this.props.isActive && name === "") {
       console.log('[>>> Register:EmailForm ------>>>----- / >>>] Reason: name is empty');
-      return <Redirect push to='/' />
+      return <Redirect to='/' />
     }
 
     // State is NOT stored in this wizard tab, but in the parent (wizard component)

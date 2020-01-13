@@ -36,7 +36,7 @@
     "test": "cross-env CI=true react-scripts test",
     "test:coverage": "npm test -- --coverage",
     "analyze": "source-map-explorer 'build/static/js/*.js' --html result.html",
-    "postbuild": "find ./build -type f -name '*.js' -exec gzip -k '{}' \\;",
+    "postbuild": "find ./build -type f -name '*.js' -exec gzip --keep --force '{}' \\;",
     "eject-be-careful-cannot-be-reverted": "react-scripts eject"
   },
   "eslintConfig": {

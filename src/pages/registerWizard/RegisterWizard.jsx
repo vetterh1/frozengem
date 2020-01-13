@@ -87,10 +87,10 @@ class RegisterWizard extends React.Component {
       if(!this.props.home) {
         // navigate to the choose home page
         console.log('[>>> RegisterWizard ------>>>----- /choosehome >>>] Reason: choose home');
-        return <Redirect push to='/choosehome' /> 
+        return <Redirect to='/choosehome' /> 
       } else {
         console.log('[>>> RegisterWizard ------>>>----- / >>>] Reason: already logged in');
-        return <Redirect push to='/' /> 
+        return <Redirect to='/' /> 
       }
     };
 

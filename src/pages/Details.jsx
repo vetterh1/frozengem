@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from "react-router";
 import { itemsActions } from '../_actions/itemsActions';
-import clsx from 'clsx';
 
 import { injectIntl, FormattedMessage } from "react-intl";
 import { withStyles } from '@material-ui/core/styles';
@@ -22,9 +21,6 @@ import { getIcon } from "../data/Icons";
 // import EditIcon from '@material-ui/icons/Edit';
 // import CloseIcon from '@material-ui/icons/Close';
 
-import ItemImage from './utils/ItemImage';
-
-
 import PictureSelection from './utils/PictureSelection';
 import ButtonToModal from './utils/ButtonToModal'
 import CharacteristicsSelection from './utils/CharacteristicsSelection';
@@ -35,20 +31,20 @@ import CharacteristicsSelection from './utils/CharacteristicsSelection';
 
 
 
-import Card from '@material-ui/core/Card';
+// import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
+// import CardActions from '@material-ui/core/CardActions';
+// import Collapse from '@material-ui/core/Collapse';
+// import Avatar from '@material-ui/core/Avatar';
+// import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+// import { red } from '@material-ui/core/colors';
+// import FavoriteIcon from '@material-ui/icons/Favorite';
+// import ShareIcon from '@material-ui/icons/Share';
+// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+// import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 
 
@@ -117,8 +113,6 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history})
 
   // const theme = useTheme();
   // const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  const [timestampClickAway, setSimestampClickAway] = React.useState(0);
-
 
   if(!item || !sizes) return null;
   console.debug('[--- FC ---] Functional component: Details id!', item.id);
@@ -192,7 +186,7 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history})
         {item.code}
         </Typography>        
       </section>
-
+{/* 
 
       <CardHeader
         avatar={
@@ -242,11 +236,10 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history})
               label={intl.formatMessage({id: item.__imageExists ? 'camera.replace' : 'camera.add'})}
         />
 
-        {/* <Button onClick={onClose} color="primary"> */}
         <Button onClick={handleClose} color="primary">
           <FormattedMessage id="button.close" />
         </Button>
-      </DialogActions>
+      </DialogActions> */}
 
     </div>
 
