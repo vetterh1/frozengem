@@ -3,21 +3,8 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { indigo, amber, orange, red, green } from '@material-ui/core/colors';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-const defaultTheme = createMuiTheme();
 
 const theme = createMuiTheme({
-
-  overrides: {
-    MuiContainer: {
-      gutters: {
-        [defaultTheme.breakpoints.up('sm')]: {
-          paddingLeft: '4px',
-          paddingRight: '4px',
-        },
-      },
-    },
-  },
-
   palette: {
     // type: 'dark',
     primary: {
