@@ -24,7 +24,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 // const reduxMiddleware = applyMiddleware(thunk, createLogger());
 const reduxMiddleware = applyMiddleware(thunk);
 
-console.log("index init store");
+console.debug("index init store");
 
 const store = createStore(
   combinedReducer,

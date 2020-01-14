@@ -109,7 +109,7 @@ export class Items extends React.Component {
   */
 
   async getFromServer(token, user, itemCharacteristics, userInfo, theme, removed = false) {
-    console.info('|--- SERVER CALL ---|--- GET ---| Items.get loads items from server');
+    console.debug('|--- SERVER CALL ---|--- GET ---| Items.get loads items from server');
     const params = { 'access_token': token, 'user': user };
     const removedOption = removed ? "/removed" : "";
     const options = {
@@ -206,7 +206,7 @@ export class Items extends React.Component {
           
   
   async saveItemToServer(item, user) {
-    console.info('|--- SERVER CALL ---|--- POST ---| Items.saveItemToServer: ', item);
+    console.debug('|--- SERVER CALL ---|--- POST ---| Items.saveItemToServer: ', item);
     const data = { 'access_token': user.accessToken, ...item };
     data.details = item.details.join();
     const options = {
@@ -233,7 +233,7 @@ export class Items extends React.Component {
   
     
   async updateItemToServer(idItem, updates, user) {
-    console.info('|--- SERVER CALL ---|--- PUT ---| Items.updateItemToServer: ', idItem, updates);
+    console.debug('|--- SERVER CALL ---|--- PUT ---| Items.updateItemToServer: ', idItem, updates);
     const data = { 'access_token': user.accessToken, ...updates };
     const options = {
       method: 'PUT',
@@ -257,7 +257,7 @@ export class Items extends React.Component {
   
     
   async updatePictureItemToServer(idItem, picture, thumbnail, user) {
-    console.info('|--- SERVER CALL ---|--- PUT ---| Items.updatePictureItemToServer: ', idItem);
+    console.debug('|--- SERVER CALL ---|--- PUT ---| Items.updatePictureItemToServer: ', idItem);
 
     //
     // Prepare the multipart parameters for the form-data
@@ -292,7 +292,7 @@ export class Items extends React.Component {
   
 
   async removeItemOnServer(idItem, user, size) {
-    console.info('|--- SERVER CALL ---|--- POST ---| Items.removeItemOnServer: ', idItem, size);
+    console.debug('|--- SERVER CALL ---|--- POST ---| Items.removeItemOnServer: ', idItem, size);
     const data = { 'access_token': user.accessToken };
     if(size) data['size'] = size;
     const options = {

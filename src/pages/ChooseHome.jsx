@@ -43,13 +43,13 @@ class ChooseHome extends React.Component {
 
   onJoinHome = async (idHome) => {
     await this.props.joinHome(idHome);    
-    console.info("ChooseHome.onJoinHome - after dispatch - idHome:", idHome);  
+    console.debug("ChooseHome.onJoinHome - after dispatch - idHome:", idHome);  
   }
   
 
   onNewHome = async (labelHome) => {
     await this.props.joinNewHome(labelHome, "");    
-    console.info("ChooseHome.onNewHome - after dispatch - labelHome:", labelHome);  
+    console.debug("ChooseHome.onNewHome - after dispatch - labelHome:", labelHome);  
   }
 
 
@@ -57,12 +57,12 @@ class ChooseHome extends React.Component {
     const { classes } = this.props;
     
     if (!this.props.isAuthenticated) { 
-      console.log('[>>> ChooseHome ------>>>----- / >>>] Reason: not logged in');
+      console.debug('[>>> ChooseHome ------>>>----- / >>>] Reason: not logged in');
       return <Redirect to='/' />
     };
 
     if (this.props.isAuthenticated && this.props.home) {
-        console.log('[>>> ChooseHome ------>>>----- / >>>] Reason: house was chosen');
+        console.debug('[>>> ChooseHome ------>>>----- / >>>] Reason: house was chosen');
         return <Redirect to='/' /> 
     }    
 

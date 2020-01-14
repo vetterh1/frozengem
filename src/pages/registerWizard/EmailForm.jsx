@@ -43,7 +43,7 @@ class EmailForm extends React.Component {
   render() {
     const {name} = this.props.state;
     if(this.props.isActive && name === "") {
-      console.log('[>>> Register:EmailForm ------>>>----- / >>>] Reason: name is empty');
+      console.debug('[>>> Register:EmailForm ------>>>----- / >>>] Reason: name is empty');
       return <Redirect to='/' />
     }
 

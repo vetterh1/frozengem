@@ -19,5 +19,5 @@ const config = {
 }
 
 const merged = merge(config.all, config[config.all.env])
-console.log("merged:", merged);
+console.debug("merged:", merged);
 export default merged;

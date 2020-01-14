@@ -17,7 +17,7 @@ export function user(state = initialState, action) {
       };
 
     case ACTIONS.LOGIN_SUCCESS:
-      console.log("ACTIONS.LOGIN_SUCCESS - action:", action);
+      console.debug("ACTIONS.LOGIN_SUCCESS - action:", action);
       
       return {
         loggedIn: true,

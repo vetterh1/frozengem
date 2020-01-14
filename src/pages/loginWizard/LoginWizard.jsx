@@ -39,12 +39,12 @@ class LoginWizard extends React.Component {
   };
 
   resetState = () => {
-    console.log("LoginWizard.resetState");
+    console.debug("LoginWizard.resetState");
     this.setState({...this.defaultState});
   }
 
   constructor(props) {
-    console.log("LoginWizard.constructor");
+    console.debug("LoginWizard.constructor");
     super(props);
     this.state = {...this.defaultState};
 
@@ -66,7 +66,7 @@ class LoginWizard extends React.Component {
   async login() {
     const {email, password} = this.state;
     await this.props.login(email, password );
-    console.log("LoginWizard.login - after dispatch - email:", email);  
+    console.debug("LoginWizard.login - after dispatch - email:", email);  
   }
 
 
@@ -74,7 +74,7 @@ class LoginWizard extends React.Component {
 
     // Once we are logged-in, let's redirect to main page!
     if (this.props.isAuthenticated) { 
-      console.log('[>>> LoginWizard ------>>>----- / >>>] Reason: authenticated');
+      console.debug('[>>> LoginWizard ------>>>----- / >>>] Reason: authenticated');
       return <Redirect to='/' />
     };
 

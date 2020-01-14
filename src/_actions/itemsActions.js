@@ -57,7 +57,7 @@ function fetchItems() {
 function addItem(item) {
     return async (dispatch, getState) => {
 
-        console.info('addItem - 1 ', item);
+        console.debug('addItem - 1 ', item);
         
         try {
             dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_REQUEST });
@@ -66,7 +66,7 @@ function addItem(item) {
             const characteristics = getState().characteristics;
             
             const savedItem = await itemsServices.addItemToServer(item, user);
-            console.info('addItem - 2 ', savedItem);
+            console.debug('addItem - 2 ', savedItem);
 
             // Update fields
             itemsServices.computeItemUtilityFields(savedItem, user.language, characteristics);
@@ -138,11 +138,11 @@ function removeItem(id, size) {
             const characteristics = getState().characteristics;
 
             let item = await itemsServices.removeItemOnServer(id, user, size);
-            console.info('removeItem 1: ', item);
+            console.debug('removeItem 1: ', item);
 
             // Update fields
             itemsServices.computeItemUtilityFields(item, user.language, characteristics);
-            console.info('removeItem 2: ', item);
+            console.debug('removeItem 2: ', item);
 
             // Add items to redux store
             dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_SUCCESS, item });

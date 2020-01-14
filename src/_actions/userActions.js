@@ -75,7 +75,7 @@ function login(email, password) {
             let user = await userServices.login(email, password);
             return afterLoginOrRegister(false, user, dispatch);
         } catch (error) {
-            console.log("userActions.login error - email: ", email);
+            console.debug("userActions.login error - email: ", email);
 
             dispatch({ type: ACTIONS.LOGIN_FAILURE, error: error.toString() });
 
@@ -89,7 +89,7 @@ function login(email, password) {
 
 function autologin() {
     return dispatch => {
-        console.log('***************** autologin() - should run only once! ***************** ');
+        console.debug('***************** autologin() - should run only once! ***************** ');
 
         userServices.autologin()
             .then(

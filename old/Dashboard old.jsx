@@ -146,7 +146,7 @@ const intDashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSna
       case 'filteredArrayItems': arrayToUpdate = filteredArrayItems; break;
       default: arrayToUpdate = arrayItems; break;
     }
-    console.log('arrayToUpdate:', arrayToUpdate);
+    console.debug('arrayToUpdate:', arrayToUpdate);
 
     // Find the updated item in array:
     let indexItem = arrayToUpdate.findIndex(({id}) => id === item.id);
@@ -172,7 +172,7 @@ const intDashboard = ({items, classes, intl, userInfo, enqueueSnackbar, closeSna
 
 
   const onItemChange = (item) => {
-    console.log("Dashboard.onItemChange: ", item.id);
+    console.debug("Dashboard.onItemChange: ", item.id);
 
     // Update the __xxx variables:
     items.addUtilityFieldsToItem(item, itemCharacteristics, userInfo, theme);

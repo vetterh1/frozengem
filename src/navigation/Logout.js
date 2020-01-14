@@ -13,7 +13,7 @@ class Logout extends Component {
   }
 
   render() {
-    console.log('[>>> Logout ------>>>----- / >>>] Reason: logout');
+    console.debug('[>>> Logout ------>>>----- / >>>] Reason: logout');
     return (<Redirect to='/' />);
   }
 }

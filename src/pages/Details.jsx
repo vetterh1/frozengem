@@ -109,12 +109,12 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
 
     
   if (!loggedIn) { 
-    console.log('[>>> Details ------>>>----- / >>>] Reason: not logged in');
+    console.debug('[>>> Details ------>>>----- / >>>] Reason: not logged in');
     return <Redirect to='/' />
   };
 
   if (!item) { 
-    console.log('[>>> Details ------>>>----- / >>>] Reason: item not found');
+    console.debug('[>>> Details ------>>>----- / >>>] Reason: item not found');
     return <Redirect push to='/' />
   };
 
@@ -127,7 +127,7 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
 
   
   const handleClose = () => {
-    console.log('[<<< Details ------<<<----- / <<<] Reason: close details');
+    console.debug('[<<< Details ------<<<----- / <<<] Reason: close details');
     history.goBack();
 
     // Strangely, history.push/goBack works here... 
@@ -148,7 +148,7 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
   
   const handleEditCode = (e) => {
     e.stopPropagation();
-    console.info("ItemCard.handleEditCode: ", item.id);
+    console.debug("ItemCard.handleEditCode: ", item.id);
     // onEditItem(item, 'name');
     return null;
   };
@@ -156,7 +156,7 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
 
   const handleEditDetails = (e) => {
     e.stopPropagation();
-    console.info("ItemCard.handleEditDetails: ", item.id);
+    console.debug("ItemCard.handleEditDetails: ", item.id);
     // onEditItem(item, 'details');
     return null;
   };
@@ -164,7 +164,7 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
 
   const handleEditExpiration = (e) => {
     e.stopPropagation();
-    console.info("ItemCard.handleEditExpiration: ", item.id);
+    console.debug("ItemCard.handleEditExpiration: ", item.id);
     // onEditItem(item, 'expirationDate');
     return null;
   };

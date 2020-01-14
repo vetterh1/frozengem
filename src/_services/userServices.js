@@ -21,13 +21,13 @@ export const userServices = {
 
 function isAuthenticated() {
   // Super simple & not secure (on client side) method:
-  // console.log('isAuthenticated: accessToken = ', localStorage.getItem('accessToken'));
+  // console.debug('isAuthenticated: accessToken = ', localStorage.getItem('accessToken'));
   return localStorage.getItem('accessToken');
 }
 
 
 async function _updateServer (key, value) {
-    console.info('|--- SERVER CALL ---|--- POST ---| userServices._updateServer: ', key, value);
+    console.debug('|--- SERVER CALL ---|--- POST ---| userServices._updateServer: ', key, value);
 
     // don't save if not authenticated
     if(!isAuthenticated()) return null;
@@ -76,7 +76,7 @@ async function setNavigationStyle (navigationStyle) {
 // Returns: user info
 
 async function login(email, password) {
-  console.info('|--- SERVER CALL ---|--- POST ---| userServices.login: ', email);
+  console.debug('|--- SERVER CALL ---|--- POST ---| userServices.login: ', email);
   const masterKey = config.masterKey;
   const data = { 'access_token': masterKey };
   const options = {
@@ -94,7 +94,7 @@ async function login(email, password) {
   try {
     const response = await axios(options);
     const {user, token} = response.data;
-    console.log('login OK: ' , response, user, token);
+    console.debug('login OK: ' , response, user, token);
     localStorage.setItem('accessToken', token);
     localStorage.setItem('id', user.id);
     localStorage.setItem('user', JSON.stringify(user));
@@ -117,7 +117,7 @@ async function login(email, password) {
 
 async function autologin() {
 
-  console.info('|--- SERVER CALL ---|--- GET ---| userServices.autologin');
+  console.debug('|--- SERVER CALL ---|--- GET ---| userServices.autologin');
 
   // No token, no autologin!
   const token = localStorage.getItem('accessToken');
@@ -134,7 +134,7 @@ async function autologin() {
   try {
     const response = await axios(options);
     const {user} = response.data;
-    console.log('autologin response: ' , response);
+    console.debug('autologin response: ' , response);
     localStorage.setItem('id', user.id);
     localStorage.setItem('user', JSON.stringify(user));
     // Add token to user
@@ -171,7 +171,7 @@ localStorage.clear();
 // Returns: user info
 
 async function register(email, password, name, language) {
-  console.info('|--- SERVER CALL ---|--- POST ---| userServices.register: ', email);
+  console.debug('|--- SERVER CALL ---|--- POST ---| userServices.register: ', email);
   const masterKey = config.masterKey;
   const data = { 'access_token': masterKey, email, password, name, language };
   const options = {
@@ -185,7 +185,7 @@ async function register(email, password, name, language) {
   try {
     const response = await axios(options);
     const {user, token} = response.data;
-    console.log('register OK: ' , response, user, token);
+    console.debug('register OK: ' , response, user, token);
     localStorage.setItem('accessToken', token);
     localStorage.setItem('id', user.id);
     localStorage.setItem('user', JSON.stringify(user));
@@ -228,7 +228,7 @@ async function register(email, password, name, language) {
 // Returns: updated user info with home info
 
 async function joinHome(home) {
-  console.info('|--- SERVER CALL ---|--- PUT ---| userServices.joinHome: ', home);
+  console.debug('|--- SERVER CALL ---|--- PUT ---| userServices.joinHome: ', home);
   const data = { 'access_token': localStorage.getItem('accessToken'), home };
   const options = {
     method: 'PUT',
@@ -241,7 +241,7 @@ async function joinHome(home) {
   try {
     const response = await axios(options);
     const {user} = response.data;
-    console.log('Join home response: ' , response);
+    console.debug('Join home response: ' , response);
     return user;
 
   } catch (error) {
@@ -258,7 +258,7 @@ async function joinHome(home) {
 // Returns: updated user info with home info removed
 
 async function leaveHome() {
-  console.info('|--- SERVER CALL ---|--- PUT ---| userServices.leaveHome');
+  console.debug('|--- SERVER CALL ---|--- PUT ---| userServices.leaveHome');
   const data = { 'access_token': localStorage.getItem('accessToken') };
   const options = {
     method: 'PUT',
@@ -270,7 +270,7 @@ async function leaveHome() {
 
   try {
     const response = await axios(options);
-    console.log('leave home response: ' , response);
+    console.debug('leave home response: ' , response);
     return null;
 
   } catch (error) {
@@ -290,7 +290,7 @@ async function leaveHome() {
 // Returns: updated user info with new home info
 
 async function joinNewHome(name, label) {
-  console.info('|--- SERVER CALL ---|--- PUT ---| userServices.joinNewHome: ', name);
+  console.debug('|--- SERVER CALL ---|--- PUT ---| userServices.joinNewHome: ', name);
   const data = { 'access_token': localStorage.getItem('accessToken'), name, label };
   const options = {
     method: 'PUT',
@@ -303,7 +303,7 @@ async function joinNewHome(name, label) {
   try {
     const response = await axios(options);
     const {user} = response.data;
-    console.log('Join new home response: ' , response);
+    console.debug('Join new home response: ' , response);
 
     // const {home, homeOrder} = user;
     // this.setState({home: home, homeOrder: homeOrder});

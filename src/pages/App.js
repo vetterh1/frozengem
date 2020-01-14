@@ -77,7 +77,7 @@ const App = (props) => {
   
   if(!props.language){ console.log('app.js - no language');  return null; }
 
-  console.log("App 0 - props:", props, ", loggedIn:", props.loggedIn, ", home: ", props.home, ", language: ", props.language);
+  console.debug("App 0 - props:", props, ", loggedIn:", props.loggedIn, ", home: ", props.home, ", language: ", props.language);
 
   return (
     <SnackbarProvider 
@@ -137,7 +137,7 @@ const App = (props) => {
                       <Route
                         exact path="/"
                         render={() => { 
-                          console.log("App route / - props:", props, ", loggedIn:", props.loggedIn, ", home: ", props.home, ", language: ", props.language);
+                          console.debug("App route / - props:", props, ", loggedIn:", props.loggedIn, ", home: ", props.home, ", language: ", props.language);
                           if(props.loggedIn) {
 
                             // Token exists, but no name --> in userinfo loading process:
@@ -146,7 +146,7 @@ const App = (props) => {
                             // User exists but has not chosen his home yet: ask him to choose!
                             // if(!props.home) return <Container><ChooseHome /></Container>;
                             if(!props.home){
-                              console.log('[>>> App ------>>>----- choosehome >>>] Reason: no home defined');
+                              console.debug('[>>> App ------>>>----- choosehome >>>] Reason: no home defined');
                               return <Redirect to='/choosehome'/>
                             }
                             
@@ -183,7 +183,7 @@ const App = (props) => {
 }
 
 function mapStateToProps(state) {
-  // console.log("mapStateToProps: ", state);
+  // console.debug("mapStateToProps: ", state);
   if(!state.user)
     return {
       loggedIn: false,

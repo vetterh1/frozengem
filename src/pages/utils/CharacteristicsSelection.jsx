@@ -37,9 +37,9 @@ const CharacteristicsSelection = ({name, title, handleChange, secondaryHandleCha
   // Only for multiselection 
   const _handleNext = async () => {
     if(handleNext){
-      console.log("handleNext", handleNext)
+      console.debug("handleNext", handleNext)
       const nbStepsForward = await handleNext(); 
-      console.log("nbStepsForward", nbStepsForward)
+      console.debug("nbStepsForward", nbStepsForward)
       goToStep(currentStep + nbStepsForward);
     }
   };

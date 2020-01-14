@@ -97,7 +97,7 @@ export class UserInfoStore extends React.Component {
 
   
   async setStateAndServer (key, value) {
-      console.info('|--- SERVER CALL ---|--- POST ---| UserInfoStore.setStateAndServer: ', key, value);
+      console.debug('|--- SERVER CALL ---|--- POST ---| UserInfoStore.setStateAndServer: ', key, value);
 
       // Update state:
       this.setState({[key]: value});
@@ -135,7 +135,7 @@ export class UserInfoStore extends React.Component {
 
 
   async login(email, password) {
-    console.info('|--- SERVER CALL ---|--- POST ---| UserInfoStore.login: ', email);
+    console.debug('|--- SERVER CALL ---|--- POST ---| UserInfoStore.login: ', email);
     const masterKey = config.masterKey;
     const data = { 'access_token': masterKey };
     const options = {
@@ -181,7 +181,7 @@ logout() {
 
 
   async registerToServer(email, password, name) {
-    console.info('|--- SERVER CALL ---|--- POST ---| UserInfoStore.registerToServer: ', email);
+    console.debug('|--- SERVER CALL ---|--- POST ---| UserInfoStore.registerToServer: ', email);
     const masterKey = config.masterKey;
     const data = { 'access_token': masterKey, email, password, name };
     const options = {
@@ -229,7 +229,7 @@ logout() {
 
 
   async loadFromServer(token) {
-    console.info('|--- SERVER CALL ---|--- GET ---| UserInfoStore.loadFromServer');
+    console.debug('|--- SERVER CALL ---|--- GET ---| UserInfoStore.loadFromServer');
     const params = { 'access_token': token };
     const options = {
       method: 'GET',
@@ -256,7 +256,7 @@ logout() {
 
 
   async joinHome(home) {
-    console.info('|--- SERVER CALL ---|--- PUT ---| UserInfoStore.joinHome: ', home);
+    console.debug('|--- SERVER CALL ---|--- PUT ---| UserInfoStore.joinHome: ', home);
     const data = { 'access_token': this.state.accessToken, home };
     const options = {
       method: 'PUT',
@@ -285,7 +285,7 @@ logout() {
 
 
   async leaveHome() {
-    console.info('|--- SERVER CALL ---|--- PUT ---| UserInfoStore.leaveHome');
+    console.debug('|--- SERVER CALL ---|--- PUT ---| UserInfoStore.leaveHome');
     const data = { 'access_token': this.state.accessToken };
     const options = {
       method: 'PUT',
@@ -317,7 +317,7 @@ logout() {
   
   
   async joinNewHome(name, label) {
-    console.info('|--- SERVER CALL ---|--- PUT ---| UserInfoStore.joinNewHome: ', name);
+    console.debug('|--- SERVER CALL ---|--- PUT ---| UserInfoStore.joinNewHome: ', name);
     const data = { 'access_token': this.state.accessToken, name, label };
     const options = {
       method: 'PUT',

@@ -145,7 +145,7 @@ function computeAllItemsUtilityFields(items, language, characteristics) {
 
 
   async function fetchItemsFromServer(user, characteristics, removed = false) {
-    console.info('|--- SERVER CALL ---|--- GET ---| itemsServices.fetchItemsFromServer');
+    console.debug('|--- SERVER CALL ---|--- GET ---| itemsServices.fetchItemsFromServer');
  
     // No token, no fetchItemsFromServer!
     const token = localStorage.getItem('accessToken');
@@ -175,7 +175,7 @@ function computeAllItemsUtilityFields(items, language, characteristics) {
           
   
   async function addItemToServer(item, user) {
-    console.info('|--- SERVER CALL ---|--- POST ---| Items.addItemToServer: ', item);
+    console.debug('|--- SERVER CALL ---|--- POST ---| Items.addItemToServer: ', item);
     const data = { 'access_token': user.accessToken, ...item };
     data.details = item.details.join();
     const options = {
@@ -187,9 +187,9 @@ function computeAllItemsUtilityFields(items, language, characteristics) {
     };
 
     try {
-      // console.log('addItemToServer options: ' , options);
+      // console.debug('addItemToServer options: ' , options);
       const response = await axios(options);
-      // console.log('addItemToServer OK: ' , response.data);
+      // console.debug('addItemToServer OK: ' , response.data);
       return response.data;
     } catch (error) {
       console.error('register error: ' , error);
@@ -202,7 +202,7 @@ function computeAllItemsUtilityFields(items, language, characteristics) {
   
     
   async function updateItemToServer(id, updates, user) {
-    console.info('|--- SERVER CALL ---|--- PUT ---| Items.updateItemToServer: ', id, updates);
+    console.debug('|--- SERVER CALL ---|--- PUT ---| Items.updateItemToServer: ', id, updates);
     const data = { 'access_token': user.accessToken, ...updates };
     const options = {
       method: 'PUT',
@@ -226,7 +226,7 @@ function computeAllItemsUtilityFields(items, language, characteristics) {
   
     
   async function updatePictureItemToServer(id, picture, thumbnail, user) {
-    console.info('|--- SERVER CALL ---|--- PUT ---| Items.updatePictureItemToServer: ', id);
+    console.debug('|--- SERVER CALL ---|--- PUT ---| Items.updatePictureItemToServer: ', id);
 
     //
     // Prepare the multipart parameters for the form-data
@@ -261,7 +261,7 @@ function computeAllItemsUtilityFields(items, language, characteristics) {
   
 
   async function removeItemOnServer(id, user, size) {
-    console.info('|--- SERVER CALL ---|--- POST ---| Items.removeItemOnServer: ', id, size);
+    console.debug('|--- SERVER CALL ---|--- POST ---| Items.removeItemOnServer: ', id, size);
     const data = { 'access_token': user.accessToken };
     if(size && size !== '0') data['size'] = size;
     const options = {

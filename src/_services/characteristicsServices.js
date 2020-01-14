@@ -16,7 +16,7 @@ export const characteristicsServices = {
 
 
 async function fetchCharacteristics() {
-  console.info('|--- SERVER CALL ---|--- GET ---| characteristicsServices.fetchCharacteristics');
+  console.debug('|--- SERVER CALL ---|--- GET ---| characteristicsServices.fetchCharacteristics');
 
   // No token, no fetchCharacteristics!
   const token = localStorage.getItem('accessToken');
@@ -32,7 +32,7 @@ async function fetchCharacteristics() {
 
   try {
     const response = await axios(options);
-    console.log('fetchCharacteristics response: ' , response.data);
+    console.debug('fetchCharacteristics response: ' , response.data);
     return response.data;
   }
   catch(error) {
@@ -89,22 +89,22 @@ function getCharacteristicsUtilityFields(rawFields, language, characteristics) {
     // Find the expiration & expiration exceptions for this category
     const aCategory = categories.find(aCategory => aCategory.id2 === rawFields.category);
     const {expiration, expirationMinusPlus} = aCategory;
-    // console.log('getDefaultExpirationInMonths: expiration=', expiration, " - expirationMinusPlus=", expirationMinusPlus);
+    // console.debug('getDefaultExpirationInMonths: expiration=', expiration, " - expirationMinusPlus=", expirationMinusPlus);
 
     // Find the expiration by taking the category expiration value
     // then + or - the exceptions
     let expirationInMonth = parseInt(expiration);
     rawFields.details.forEach(detail => {
       const variation = expirationMinusPlus[detail];
-      // console.log('getDefaultExpirationInMonths: variation=', variation);
+      // console.debug('getDefaultExpirationInMonths: variation=', variation);
 
       if(variation) {
           const intVariation = parseInt(variation);
           expirationInMonth += intVariation
-          // console.log('getDefaultExpirationInMonths: intVariation=', intVariation, " - expirationInMonth=", expirationInMonth);
+          // console.debug('getDefaultExpirationInMonths: intVariation=', intVariation, " - expirationInMonth=", expirationInMonth);
       }
     });
-    console.log("getDefaultExpirationInMonths=" + expirationInMonth);
+    console.debug("getDefaultExpirationInMonths=" + expirationInMonth);
     computatedFields.expirationInMonth = expirationInMonth;
   }
 
@@ -113,8 +113,8 @@ function getCharacteristicsUtilityFields(rawFields, language, characteristics) {
 
 
 function getDefaultExpirationInMonths(category, details, characteristics) {
-  console.log('getDefaultExpirationInMonths: category=', category, " - details=", details);
-  console.log('getDefaultExpirationInMonths: this.state=', this.state);
+  console.debug('getDefaultExpirationInMonths: category=', category, " - details=", details);
+  console.debug('getDefaultExpirationInMonths: this.state=', this.state);
   if(!category || !details) return null;
 
   // const { categories, details } = characteristics;
@@ -123,22 +123,22 @@ function getDefaultExpirationInMonths(category, details, characteristics) {
   // Find the expiration & expiration exceptions for this category
   const aCategory = categories.find(aCategory => aCategory.id2 === category);
   const {expiration, expirationMinusPlus} = aCategory;
-  // console.log('getDefaultExpirationInMonths: expiration=', expiration, " - expirationMinusPlus=", expirationMinusPlus);
+  // console.debug('getDefaultExpirationInMonths: expiration=', expiration, " - expirationMinusPlus=", expirationMinusPlus);
 
   // Find the expiration by taking the category expiration value
   // then + or - the exceptions
   let expirationInMonth = parseInt(expiration);
   details.forEach(detail => {
     const variation = expirationMinusPlus[detail];
-    // console.log('getDefaultExpirationInMonths: variation=', variation);
+    // console.debug('getDefaultExpirationInMonths: variation=', variation);
 
     if(variation) {
         const intVariation = parseInt(variation);
         expirationInMonth += intVariation
-        // console.log('getDefaultExpirationInMonths: intVariation=', intVariation, " - expirationInMonth=", expirationInMonth);
+        // console.debug('getDefaultExpirationInMonths: intVariation=', intVariation, " - expirationInMonth=", expirationInMonth);
     }
   });
 
-  console.log("getDefaultExpirationInMonths=" + expirationInMonth);
+  console.debug("getDefaultExpirationInMonths=" + expirationInMonth);
   return expirationInMonth;
 }

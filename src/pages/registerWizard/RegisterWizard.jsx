@@ -1,4 +1,3 @@
-import * as log from 'loglevel';
 import React from 'react';
 import { connect } from 'react-redux';
 import { userActions } from '../../_actions/userActions';
@@ -32,12 +31,6 @@ const styles = theme => ({
   },  
 });
 
-const logRegisterWizard = log.getLogger('logRegisterWizard');
-// loglevelServerSend(logRegisterWizard); // a setLevel() MUST be run AFTER this!
-logRegisterWizard.setLevel('debug');
-logRegisterWizard.debug('--> entering RegisterWizard.jsx');
-
-
 
 class RegisterWizard extends React.Component {
 
@@ -68,14 +61,14 @@ class RegisterWizard extends React.Component {
   // (replacing any existing one)
   handleChange = (change) => {
     const {name, value} = change;
-    console.log(`name:${name}, value:${value}`);
+    console.debug(`name:${name}, value:${value}`);
     this.setState({[name]: value});
   }
 
   async register() {
     const {email, password, name} = this.state;
     const user = await this.props.register(email, password, name);
-    console.log("RegisterWizard - after register - userName:", user);  
+    console.debug("RegisterWizard - after register - userName:", user);  
   }
 
 
@@ -86,10 +79,10 @@ class RegisterWizard extends React.Component {
 
       if(!this.props.home) {
         // navigate to the choose home page
-        console.log('[>>> RegisterWizard ------>>>----- /choosehome >>>] Reason: choose home');
+        console.debug('[>>> RegisterWizard ------>>>----- /choosehome >>>] Reason: choose home');
         return <Redirect to='/choosehome' /> 
       } else {
-        console.log('[>>> RegisterWizard ------>>>----- / >>>] Reason: already logged in');
+        console.debug('[>>> RegisterWizard ------>>>----- / >>>] Reason: already logged in');
         return <Redirect to='/' /> 
       }
     };
