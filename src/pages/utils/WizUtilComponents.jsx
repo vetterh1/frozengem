@@ -40,8 +40,8 @@ export const SelectFromList = connect(mapStateToProps, null)(intSelectFromList);
 
 
 export const WizPageTitle = ({message}) => (
-  <div className={"flex-normal-height flex-direction-column margin-down"}>
-    <Typography variant="h6">
+  <div className={"flex-normal-height flex-direction-column"}>
+    <Typography variant="h4">
       {message}
     </Typography>
   </div>

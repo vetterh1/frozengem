@@ -9,7 +9,7 @@ import { IntlProvider } from "react-intl";
 import { SnackbarProvider } from 'notistack';
 import Notifier from './utils/Notifier';
 import translations from '../i18n/locales';
-import withMyTheme from '../withMyTheme';
+import withMyTheme from '../theme/withMyTheme';
 import { indigo } from '@material-ui/core/colors';
 import Container from '@material-ui/core/Container';
 import Logout from '../navigation/Logout';

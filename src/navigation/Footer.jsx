@@ -10,7 +10,7 @@ import config from '../data/config'
 function WhyFrozenGem() {
   return (
     <React.Fragment>
-      <Typography component="h4" gutterBottom>
+      <Typography component="h3" gutterBottom>
         <FormattedMessage id="footer.why" />
         
       </Typography>

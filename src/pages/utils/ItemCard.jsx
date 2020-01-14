@@ -121,7 +121,7 @@ const styles = theme => ({
 
     padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
 
-    justifyContent: 'top',
+    justifyContent: 'center',
     textAlign: 'center',
 
     borderRadius: '3px',
@@ -189,10 +189,10 @@ const intItemCard = ({item, classes, theme}) => {
             <div className={classes.cardCenter} onClick={handleClickForDetails}>
               <CardContent className={classes.cardContent} >
                 <div className={classes.cardMain} >
-                  <Typography variant="body2" component="h2">
+                  <Typography variant="h6">
                     {item.__nameOrCategory}
                   </Typography>
-                  <Typography variant="body2" color="textSecondary" component="p">
+                  <Typography variant="body1" color="textSecondary">
                     Size: {item.__sizeInText}
                   </Typography>
                   {/* <div  className={classes.cardActionLine}>
@@ -206,10 +206,10 @@ const intItemCard = ({item, classes, theme}) => {
             </div>
 
             <div className={classes.cardRight} style={{backgroundColor: theme.palette.itemCard.cardBackgroundColor[item.__cardBackgroundColor]}}>
-                <Typography variant="body1" component="div">
+                <Typography variant="h6" component="div" gutterBottom>
                   {item.__yearExpiration}
                 </Typography>
-                <Typography variant="h5" component="div">
+                <Typography variant="h4" component="div">
                   {item.__monthExpirationAsText}
                 </Typography>              
             </div>

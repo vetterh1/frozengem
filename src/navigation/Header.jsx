@@ -44,7 +44,7 @@ class Header extends React.Component {
       <AppBar position="static" color="primary" elevation={0} className={classes.appBar}>
         <Toolbar className={classes.toolbar} disableGutters>
           <Button color="inherit" component={Link} to="/" className={classes.toolbarTitle}>
-            <Typography variant="body1" color="inherit" noWrap>
+            <Typography variant="h5" color="inherit" noWrap>
               <FormattedMessage id="header.title" />
             </Typography>
           </Button>
