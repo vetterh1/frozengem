@@ -118,6 +118,11 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
     return <Redirect to='/' />
   };
 
+  if (!item) { 
+    console.log('[>>> Details ------>>>----- / >>>] Reason: item not found');
+    return <Redirect push to='/' />
+  };
+
 
   // const theme = useTheme();
   // const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -293,8 +298,7 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
 
 function mapStateToProps(state, ownProps) {
   const id = ownProps.match.params.id;
-  if(!id) throw new Error({ error: "no id!" });
-  // console.info('Details.mapStateToProps - ',ownProps, state.items.list.find(item => item.id === id) );
+  if(!id) return {item: null}
 
   return {
     item: state.items.list.find(item => item.id === id),
