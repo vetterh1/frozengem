@@ -27,6 +27,7 @@ import AddWizard from './addWizard/AddWizard';
 import RegisterWizard from './registerWizard/RegisterWizard';
 import LoginWizard from './loginWizard/LoginWizard';
 import { NavigationStyle } from '../navigation/configNavigation'
+import Typography from './utils/Typography';
 
 
 
@@ -109,6 +110,10 @@ const App = (props) => {
                         exact path="/add"
                         component={() => <Container><AddWizard /></Container>}
                       />
+                      <Route
+                        exact path="/typography"
+                        component={() => <Typography />}
+                      />                      
                       <Route
                         exact path="/register"
                         component={() => <Container><RegisterWizard /></Container>}

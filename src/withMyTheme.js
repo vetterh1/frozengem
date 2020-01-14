@@ -2,8 +2,9 @@ import React from 'react';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { indigo, amber, orange, red, green } from '@material-ui/core/colors';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import theme from './theme';
 
-
+/*
 const theme = createMuiTheme({
   palette: {
     // type: 'dark',
@@ -60,7 +61,7 @@ const theme = createMuiTheme({
     },    
   },
 });
-
+*/
 
 function withMyTheme(Component) {
   function withMyTheme(props) {

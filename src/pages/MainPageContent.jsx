@@ -37,10 +37,10 @@ class MainPageContent extends React.Component {
       <React.Fragment>
 
         <Box mt={5} display="flex" flexDirection="column" >
-          <Typography component="h1" variant="h2" color="primary" align="center" gutterBottom>
+          <Typography variant="h1" color="primary" align="center" gutterBottom>
             <FormattedMessage id="app.title" />
           </Typography>
-          <Typography variant="h5" align="center" gutterBottom >
+          <Typography variant="h3" align="center" gutterBottom >
             <FormattedMessage id="app.subtitle" />
           </Typography>
           <Grid container justify="center">
@@ -59,7 +59,7 @@ class MainPageContent extends React.Component {
               <Grid item sm={12} md={4} container direction="column">
                 <Grid className={classes.subtitle} item>
                   <AcUnit color="primary" className={classes.largeIcon} />
-                  <Typography variant="h5" component="h2" color="primary">
+                  <Typography variant="h2" color="primary">
                     <FormattedMessage id="app.reason1.title" />
                   </Typography>
                 </Grid>
@@ -73,7 +73,7 @@ class MainPageContent extends React.Component {
               <Grid item sm={12} md={4}>
                 <Grid className={classes.subtitle} item>
                   <AccessTime color="primary" className={classes.largeIcon} />
-                  <Typography variant="h5" component="h2" color="primary">
+                  <Typography variant="h2" color="primary">
                     <FormattedMessage id="app.reason2.title" />
                   </Typography>
                 </Grid>
@@ -87,7 +87,7 @@ class MainPageContent extends React.Component {
               <Grid item sm={12} md={4}>
                 <Grid className={classes.subtitle} item>
                   <NoteAdd color="primary" className={classes.largeIcon} />
-                  <Typography variant="h5" component="h2" color="primary">
+                  <Typography variant="h2" color="primary">
                     <FormattedMessage id="app.reason3.title" />
                   </Typography>
                 </Grid>

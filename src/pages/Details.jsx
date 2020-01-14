@@ -10,13 +10,21 @@ import { withStyles } from '@material-ui/core/styles';
 
 import config from '../data/config'
 
+import {
+  Avatar,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  DialogActions,
+  Divider,
+  Typography,
+} from '@material-ui/core';
 
 // import useMediaQuery from '@material-ui/core/useMediaQuery';
 // import { useTheme } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import DialogActions from '@material-ui/core/DialogActions';
-
-// import Typography from '@material-ui/core/Typography';
 
 import { getIcon } from "../data/Icons";
 // import EditIcon from '@material-ui/icons/Edit';
@@ -28,19 +36,6 @@ import CharacteristicsSelection from './utils/CharacteristicsSelection';
 
 
 
-
-
-
-
-// import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-// import CardActions from '@material-ui/core/CardActions';
-// import Collapse from '@material-ui/core/Collapse';
-// import Avatar from '@material-ui/core/Avatar';
-// import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 // import { red } from '@material-ui/core/colors';
 // import FavoriteIcon from '@material-ui/icons/Favorite';
 // import ShareIcon from '@material-ui/icons/Share';
@@ -198,6 +193,7 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
         </Typography>        
       </section>
 
+      <Divider />
 
       <CardHeader
         avatar={
@@ -206,11 +202,22 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
         title={item.name}
         subheader={intl.formatMessage(item.__expirationText)}
       />
+      <Divider />
 
       <CardContent>
+      <Typography variant="body2" color="textSecondary" component="p">
+        Container: {item.__containerText}
+        </Typography>
         <Typography variant="body2" color="textSecondary" component="p">
         Container: {item.__containerText}
         </Typography>
+
+        <Typography variant="body2" color="textSecondary" component="p">
+        Container: {item.__containerText}
+        </Typography>
+        <Typography variant="body2" color="textSecondary" component="p">
+        Container: {item.__containerText}
+        </Typography>                        
         <div>Name: {item.name}</div>
         <div>Category: {item.__categoryText}</div>
         <div onClick={handleEditDetails}>Details: {item.__detailsNames}</div>
