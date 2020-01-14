@@ -31,7 +31,7 @@
   "scripts": {
     "start": "cross-env REACT_APP_VERSION=$npm_package_version react-scripts start",
     "build": "cross-env REACT_APP_VERSION=$npm_package_version react-scripts build",
-    "startprod": "cross-env REACT_APP_VERSION=$npm_package_version /usr/local/bin/http-server ./build -p 8060 --cors",
+    "startprod": "cross-env REACT_APP_VERSION=$npm_package_version /usr/local/bin/http-server ./build -p 8060 --cors --proxy http://localhost:8060?",
     "startprod:old": "serve -s build",
     "test": "cross-env CI=true react-scripts test",
     "test:coverage": "npm test -- --coverage",

@@ -50,7 +50,10 @@ echo " "
 echo "----------------------------------"
 echo "6 - Restart the server by adding it to pm2"
 echo " "
-pm2 start /usr/local/bin/http-server --name foFrozen  -- ./build -p 8060 --cors  --proxy http://localhost:8060? --gzip -c2592000
+# don't use proxy anymore to redirect all to / as it does not work with details page
+# pm2 start /usr/local/bin/http-server --name foFrozen  -- ./build -p 8060 --cors  --proxy http://localhost:8060? --gzip -c2592000
+# instead, added a 404 page with redirect
+pm2 start /usr/local/bin/http-server --name foFrozen  -- ./build -p 8060 --cors  --gzip -c2592000
 
 echo " "
 echo "----------------------------------"
