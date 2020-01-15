@@ -84,7 +84,7 @@ const Results = ({item, onResetState, handleAddPicture, isActive, firstStep, int
         </div>
       </div>
 
-      <div className={"flex-normal-height flex-direction-row flex-justifiy-between margin-down"}>
+      <div className={"flex-normal-height flex-direction-row flex-justify-between margin-down"}>
         <Button variant="contained" color="secondary" onClick={_handleAddNew} className={classes.button}>
           <FormattedMessage id="button.addnew" />
         </Button> 

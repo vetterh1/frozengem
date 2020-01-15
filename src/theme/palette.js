@@ -35,7 +35,7 @@ export default {
         secondary: blueGrey[600],
         link: blue[600]
     },
-    divider: grey[200]
+    // divider: grey[200]
 };
 
 /*

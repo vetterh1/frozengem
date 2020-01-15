@@ -23,6 +23,11 @@ import {
   Typography,
 } from '@material-ui/core';
 
+
+import Person from '@material-ui/icons/Person';
+import PersonOutline from '@material-ui/icons/PersonOutline';
+
+
 // import useMediaQuery from '@material-ui/core/useMediaQuery';
 // import { useTheme } from '@material-ui/core/styles';
 
@@ -51,6 +56,8 @@ const styles = theme => ({
     flexDirection: 'column',
     justifyContent: 'top'
   },  
+
+
   details_image_section: {
     display: 'flex',
     position: 'relative',
@@ -59,7 +66,6 @@ const styles = theme => ({
   details_image_media: {
     height: '25vh',
   },
-
   details_image_close: {
     position: 'absolute',
     top: '10px',
@@ -84,7 +90,7 @@ const styles = theme => ({
     padding: '10px',
     color: 'white'
   },
-  
+
   centerAligned : {
     display: 'flex',
     alignItems: 'center',
@@ -96,9 +102,6 @@ const styles = theme => ({
     display: 'flex',
   },
   details_image: {
-    display: 'flex',
-  },
-  details_name_section: {
     display: 'flex',
   },
   actions: {
@@ -113,6 +116,44 @@ const styles = theme => ({
 });
 
 
+
+
+
+const SectionBlock = ({iconName = "edit", main, secondary, editTitle, editItems, editPreselectedItems, editCancelLabel, editHandleChange}) => {
+    return (
+          // Every block has a content part on the left and an action on the right
+          <div className={"flex-direction-row flex-align-start"}>
+            {/* The content part of the block is in column to allow 2+ lines of content */}
+            <div className={"flex-direction-column"}>
+              <Typography variant="h6" className={"small-margin-right"}>
+                {main || '-'}
+              </Typography>
+              <Typography variant="body2">
+                {secondary}
+              </Typography>
+            </div>
+            {/* The action part of the block is also on column for future use */}
+            <div className={"flex-direction-row margin-left"}>
+              <ButtonToModal 
+                iconOnlyButton
+                btnLabel={editTitle}
+                btnIcon={getIcon(iconName)} 
+                cancelLabel={editCancelLabel}
+                onOk={null}
+              >
+                <CharacteristicsSelection
+                  name='size'
+                  title={editTitle}
+                  handleChange={editHandleChange}
+                  items={editItems}
+                  preselectedItems={editPreselectedItems}
+                />
+              </ButtonToModal>
+            </div>
+          </div>
+
+  );
+}
 
 
 
@@ -187,6 +228,13 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
   };
 
 
+  const sizeInIcons = [];
+  for( let i = 0; i < item.size; i++) {
+    sizeInIcons.push( <Person style={{ fontSize: 20 }} key={i.toString()} /> );
+  }
+  if(item.size > 1)
+    sizeInIcons.push( <PersonOutline style={{ fontSize: 20 }} key={item.size.toString()} /> );
+
 
 
   const zero = {
@@ -195,6 +243,12 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
     name: {en: intl.formatMessage({id: 'item.remove.nothing'}), fr: intl.formatMessage({id: 'item.remove.nothing'})},
   };
   const sizesWith0 = [zero, ...sizes];
+
+  const dateToDisplay = `${item.__monthExpirationAsText} ${item.__yearExpiration}`;
+
+  const editTitle = intl.formatMessage({id: 'action.edit'});
+  const removeTitle = intl.formatMessage({id: 'action.remove'});
+  const cancelLabel = intl.formatMessage({id: 'button.cancel'});
 
   return (
     <div className={classes.card}>
@@ -222,61 +276,97 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
         />
       </section>
 
-      <Divider />
+      <div className={"medium-padding"}>
 
-      <CardHeader
-        avatar={
-          getIcon("category"+item.category)
-        }
-        title={item.name}
-        subheader={intl.formatMessage(item.__expirationText)}
-      />
-      <Divider />
+        <section className={"flex-direction-column"}>
+          <div className={"flex-direction-row small-margin-down"}>
+            <Typography variant="h3" component="h1">
+              {item.__nameOrCategory}
+            </Typography>
+          </div>
+          <div className={"flex-direction-row flex-align-end"}>
+            {getIcon("category"+item.category)}
+            <Typography variant="h5" className={"small-margin-left"}>
+              {item.__categoryText} &nbsp; ({item.__detailsNames})
+            </Typography>
+          </div>
+        </section>
 
-      <CardContent>
-      <Typography variant="body2" color="textSecondary" component="p">
-        Container: {item.__containerText}
-        </Typography>
-        <Typography variant="body2" color="textSecondary" component="p">
-        Container: {item.__containerText}
-        </Typography>
-
-        <Typography variant="body2" color="textSecondary" component="p">
-        Container: {item.__containerText}
-        </Typography>
-        <Typography variant="body2" color="textSecondary" component="p">
-        Container: {item.__containerText}
-        </Typography>                        
-        <div>Name: {item.name}</div>
-        <div>Category: {item.__categoryText}</div>
-        <div onClick={handleEditDetails}>Details: {item.__detailsNames}</div>
-        <div onClick={handleEditExpiration}>Expiration level: {item.__expirationLevel}</div>
-        <div>Container: {item.__containerText}</div>
-        <div>Color: {item.__colorText}</div>
-        <div>Freezer: {item.__freezerText}</div>
-        <div>Location: {item.__locationText}</div>
-        <div>Size: {item.__sizeInText}</div>            
-      </CardContent>
-
-      <DialogActions size="small" className={classes.actions}>
-
-        <ButtonToModal 
-          iconOnlyButton
-          btnLabel={intl.formatMessage({id: 'action.remove'})}
-          btnIcon={getIcon("remove")} 
-          cancelLabel={intl.formatMessage({id: 'button.cancel'})}
-          onOk={null}
-        >
-          <CharacteristicsSelection
-            name='size'
-            title={intl.formatMessage({id: 'item.remove.modal.title'})}
-            handleChange={handleClickRemove}
-            items={sizesWith0}
-            preselectedItems={item.size}
+        <Divider className={"margin-top margin-down"}></Divider>
+        
+        {/* Section with 2 info blocks (on same row) */}
+        <section className={"flex-direction-row flex-justify-around"}>
+          <SectionBlock 
+            iconName='remove'
+            main={sizeInIcons} 
+            secondary={item.__sizeInText}
+            editTitle={removeTitle}
+            editItems={sizesWith0}
+            editPreselectedItems={item.size}
+            editCancelLabel={cancelLabel}
+            editHandleChange={handleClickRemove}
           />
-        </ButtonToModal>
+          <SectionBlock 
+            main={dateToDisplay} 
+            secondary={intl.formatMessage(item.__expirationText)}
+            editTitle={editTitle}
+            editItems={sizesWith0}
+            editPreselectedItems={item.size}
+            editCancelLabel={cancelLabel}
+            editHandleChange={handleClickRemove}
+          />
+        </section>
 
-      </DialogActions>
+        <Divider className={"margin-top margin-down"}></Divider>
+
+
+        <section className={"flex-direction-row flex-justify-around"}>
+          <SectionBlock 
+            main={item.__freezerText} 
+            secondary="- Freezer -"
+            editTitle={editTitle}
+            editItems={sizesWith0}
+            editPreselectedItems={item.size}
+            editCancelLabel={cancelLabel}
+            editHandleChange={handleClickRemove}
+          />
+          <SectionBlock 
+            main={item.__locationText} 
+            secondary="- Location -"
+            editTitle={editTitle}
+            editItems={sizesWith0}
+            editPreselectedItems={item.size}
+            editCancelLabel={cancelLabel}
+            editHandleChange={handleClickRemove}
+          />
+        </section>
+
+
+        <Divider className={"margin-top margin-down"}></Divider>
+
+        <section className={"flex-direction-row flex-justify-around"}>
+          <SectionBlock 
+            main={item.__containerText} 
+            secondary="- Container -"
+            editTitle={editTitle}
+            editItems={sizesWith0}
+            editPreselectedItems={item.size}
+            editCancelLabel={cancelLabel}
+            editHandleChange={handleClickRemove}
+          />
+          <SectionBlock 
+            main={item.__colorText} 
+            secondary="- Color -"
+            editTitle={editTitle}
+            editItems={sizesWith0}
+            editPreselectedItems={item.size}
+            editCancelLabel={cancelLabel}
+            editHandleChange={handleClickRemove}
+          />
+        </section>
+
+
+      </div>
 
     </div>
 

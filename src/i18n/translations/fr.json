@@ -1,7 +1,8 @@
 {
   "action.add": "Ajouter",
-  "action.remove": "Retirer",
+  "action.edit": "Editer",
   "action.list": "Liste",
+  "action.remove": "Retirer",
   "action.search": "Chercher",
   "action.update": "Mettre à jour",
   "add.category.title": "Que congelez-vous ?",

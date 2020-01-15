@@ -5,6 +5,7 @@ import Kitchen from '@material-ui/icons/Kitchen';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Remove from '@material-ui/icons/Remove';
+import Edit from '@material-ui/icons/Edit';
 import Room from '@material-ui/icons/Room';
 import VerticalAlignBottom from '@material-ui/icons/VerticalAlignBottom';
 import ThumbUp from '@material-ui/icons/ThumbUp';
@@ -26,6 +27,7 @@ const icons = {
     "removed": <RemoveCircleOutline fontSize="default" />,
 
     "remove": <IconRemove fontSize="default" />,
+    "edit": <Edit fontSize="default" />,
 
     "categoryB": <IconCategoryBread fontSize="default" />,
     "categoryV": <IconCategoryVegetable fontSize="default" />,

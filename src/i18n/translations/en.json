@@ -1,7 +1,8 @@
 {
   "action.add": "Add",
-  "action.remove": "Remove",
+  "action.edit": "Edit",
   "action.list": "List",
+  "action.remove": "Remove",
   "action.search": "Search",
   "action.update": "Update",
   "add.category.title": "What are you storing?",

@@ -12,8 +12,8 @@ export const getVisibleItems = createSelector(
           const tenDaysInMs = 10 * 24 * 60 * 60 * 1000;
           // const oneMonthInMs = 1 * 30 * 24 * 60 * 60 * 1000;
           return list
-            .filter(item => !item.removed && item.updatedAt > nowInMs - tenDaysInMs)
-            .sort((a, b) => (a.updatedAt < b.updatedAt) ? 1 : -1);
+            .filter(item => !item.removed && item.createdAt > nowInMs - tenDaysInMs)
+            .sort((a, b) => (a.createdAt < b.createdAt) ? 1 : -1);
         }
 
         case 'all': {
@@ -25,7 +25,7 @@ export const getVisibleItems = createSelector(
         case 'removed': {
           return list
             .filter(item => item.removed)
-            .sort((a, b) => (a.updatedAt < b.updatedAt) ? 1 : -1);
+            .sort((a, b) => (a.createdAt < b.createdAt) ? 1 : -1);
         }        
 
         default:

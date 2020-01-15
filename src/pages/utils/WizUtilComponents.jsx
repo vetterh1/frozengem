@@ -68,7 +68,7 @@ export const NextButton = ({onClick, isDisabled}) => (
 );
 
 export const WizNavBar = ({onClickPrevious, onClickNext, isBackDisabled = false, isNextDisabled, nextIsSubmit}) => (
-  <div className={"flex-normal-height flex-direction-row flex-justifiy-between big-margin-down big-margin-top"}>
+  <div className={"flex-normal-height flex-direction-row flex-justify-between big-margin-down big-margin-top"}>
     {(onClickPrevious && !isBackDisabled) && <PreviousButton onClick={onClickPrevious}/>}
     {!(onClickPrevious && !isBackDisabled) && <span>&nbsp;</span>}
     {(onClickNext && !nextIsSubmit) && <NextButton onClick={onClickNext} isDisabled={isNextDisabled}/>}

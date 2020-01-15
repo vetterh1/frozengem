@@ -4,7 +4,7 @@ import { Grid, Typography as MuiTypography } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(4)
+    // padding: theme.spacing(4)
   }
 }));
 
