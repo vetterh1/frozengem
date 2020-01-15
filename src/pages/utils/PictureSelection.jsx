@@ -1,5 +1,6 @@
 
 import React from 'react';
+import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
@@ -32,7 +33,7 @@ const styles = theme => ({
     },  
   });
   
-  const PictureSelection = ({itemId, label, iconOnlyButton, hugeIcon, onPicture, classes}) => {
+  const PictureSelection = ({itemId, label, iconOnlyButton, hugeIcon, onPicture, className, classes}) => {
 
 
     const resizePicture = async (img, MAX_WIDTH = 800, MAX_HEIGHT = 800) => {
@@ -159,7 +160,7 @@ const styles = theme => ({
                 </Button>
               }
               { iconOnlyButton &&
-                <IconButton component="span"  color="primary" aria-label={label} className={classes.buttonIconOnly}>
+                <IconButton component="span"  color="primary" aria-label={label} className={clsx(classes.buttonIconOnly, className)}>
                   <PhotoCameraIcon style={iconStyle} />
                 </IconButton> 
               }              

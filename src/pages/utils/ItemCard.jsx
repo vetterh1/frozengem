@@ -189,7 +189,10 @@ const intItemCard = ({item, classes, theme}) => {
 
             </div>
 
-            <div className={classes.cardRight} style={{backgroundColor: theme.palette.itemCard.cardBackgroundColor[item.__cardBackgroundColor]}}>
+            <div className={classes.cardRight} 
+              style={{backgroundColor: theme.palette.itemCard.cardBackgroundColor[item.__cardBackgroundColor]}}
+              onClick={handleClickForDetails}
+            >
                 <Typography variant="h4" component="div">
                   {item.__monthExpirationAsText}
                 </Typography>              

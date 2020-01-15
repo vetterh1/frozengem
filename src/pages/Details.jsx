@@ -80,8 +80,8 @@ const styles = theme => ({
     position: 'absolute',
     bottom: '10px',
     right: '10px',
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    padding: '5px',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    padding: '10px',
     color: 'white'
   },
   
@@ -201,7 +201,7 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
 
       <section className={classes.details_image_section}>
         <CardMedia
-          image={`${config.staticUrl}/static/pictures/items/${item.thumbnailName}`}
+          image={`${config.staticUrl}/static/pictures/items/${item.pictureName}`}
           title={item.name}
           className={classes.details_image_media}
         />
