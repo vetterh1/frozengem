@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */ 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from 'react-redux';
 import { itemsFilterActions } from '../_actions/itemsFilterActions';
 import { injectIntl } from "react-intl";
