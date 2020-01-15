@@ -37,8 +37,8 @@ const BottomNav = ({location, intl}) => {
 
   return (
     <BottomNavigation value={value} onChange={handleChange} className={classes.root} showLabels>
-      <BottomNavigationAction label={intl.formatMessage({id: "action.list"})} value="/" icon={<ViewList />} component={Link} to="/" />
-      <BottomNavigationAction label={intl.formatMessage({id: "action.add"})} value="/add" icon={<SaveAlt />} component={Link} to="/add" />
+      <BottomNavigationAction disabled={location.pathname === '/'} label={intl.formatMessage({id: "action.list"})} value="/" icon={<ViewList />} component={Link} to="/" />
+      <BottomNavigationAction disabled={location.pathname === '/add'} label={intl.formatMessage({id: "action.add"})} value="/add" icon={<SaveAlt />} component={Link} to="/add" />
     </BottomNavigation>
   );
 }

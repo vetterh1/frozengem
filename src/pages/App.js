@@ -140,15 +140,15 @@ const App = (props) => {
                           console.debug("App route / - props:", props, ", loggedIn:", props.loggedIn, ", home: ", props.home, ", language: ", props.language);
                           if(props.loggedIn) {
 
-                            // Token exists, but no name --> in userinfo loading process:
-                            if(!props.name) return <LoadingUserInfo /> ;
-
                             // User exists but has not chosen his home yet: ask him to choose!
                             // if(!props.home) return <Container><ChooseHome /></Container>;
                             if(!props.home){
                               console.debug('[>>> App ------>>>----- choosehome >>>] Reason: no home defined');
                               return <Redirect to='/choosehome'/>
                             }
+
+                            // Token exists, but no name --> in userinfo loading process:
+                            if(!props.name) return <LoadingUserInfo /> ;
                             
                             // Authenticated users see their dashboard:
                             return <Dashboard />;

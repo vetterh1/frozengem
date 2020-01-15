@@ -59,12 +59,29 @@ const styles = theme => ({
   details_image_media: {
     height: '25vh',
   },
+
+  details_image_close: {
+    position: 'absolute',
+    top: '10px',
+    left: '10px',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    padding: '5px',
+    color: 'white'
+  },
   details_image_code: {
     position: 'absolute',
-    left: '10px',
+    right: '10px',
     top: '10px',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     padding: '10px',
+    color: 'white'
+  },
+  details_image_camera: {
+    position: 'absolute',
+    bottom: '10px',
+    right: '10px',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    padding: '5px',
     color: 'white'
   },
   
@@ -188,9 +205,21 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
           title={item.name}
           className={classes.details_image_media}
         />
+        {/* <Typography className={classes.details_image_close} variant="h6" color="textSecondary" component="p" onClick={handleClose}>
+        </Typography>   */}
+        <Button onClick={handleClose} color="primary" className={classes.details_image_close}>
+          &lt; &nbsp; <FormattedMessage id="button.back" />
+        </Button>        
         <Typography className={classes.details_image_code} variant="h4" color="textSecondary" component="p">
         {item.code}
         </Typography>        
+        <PictureSelection 
+              className={classes.details_image_camera} 
+              itemId={item.id}
+              iconOnlyButton
+              onPicture={handleSavePicture}
+              label={intl.formatMessage({id: item.__imageExists ? 'camera.replace' : 'camera.add'})}
+        />
       </section>
 
       <Divider />
@@ -247,16 +276,6 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
           />
         </ButtonToModal>
 
-        <PictureSelection 
-              itemId={item.id}
-              iconOnlyButton
-              onPicture={handleSavePicture}
-              label={intl.formatMessage({id: item.__imageExists ? 'camera.replace' : 'camera.add'})}
-        />
-
-        <Button onClick={handleClose} color="primary">
-          <FormattedMessage id="button.close" />
-        </Button>
       </DialogActions>
 
     </div>

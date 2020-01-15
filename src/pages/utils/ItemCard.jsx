@@ -8,24 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Collapse from '@material-ui/core/Collapse';
 
 import ItemImage from './ItemImage';
-
-// import clsx from 'clsx';
-// import IconButton from '@material-ui/core/IconButton';
-// import CardActions from '@material-ui/core/CardActions';
-
-// import Avatar from '@material-ui/core/Avatar';
-// import CardHeader from '@material-ui/core/CardHeader';
-
-// import PanToolIcon from '@material-ui/icons/PanTool';
-// import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
-// import TimerIcon from '@material-ui/icons/Timer';
-// import DoneIcon from '@material-ui/icons/Done';
-// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-// import FavoriteIcon from '@material-ui/icons/Favorite';
-
 
 
 
@@ -192,8 +176,8 @@ const intItemCard = ({item, classes, theme}) => {
                   <Typography variant="h6">
                     {item.__nameOrCategory}
                   </Typography>
-                  <Typography variant="body1" color="textSecondary">
-                    Size: {item.__sizeInText}
+                  <Typography color="textSecondary">
+                    {item.__sizeInText}
                   </Typography>
                   {/* <div  className={classes.cardActionLine}>
 
@@ -206,23 +190,14 @@ const intItemCard = ({item, classes, theme}) => {
             </div>
 
             <div className={classes.cardRight} style={{backgroundColor: theme.palette.itemCard.cardBackgroundColor[item.__cardBackgroundColor]}}>
-                <Typography variant="h6" component="div" gutterBottom>
-                  {item.__yearExpiration}
-                </Typography>
                 <Typography variant="h4" component="div">
                   {item.__monthExpirationAsText}
                 </Typography>              
+                <Typography  component="div" gutterBottom>
+                  {item.__yearExpiration}
+                </Typography>
             </div>
           </div>
-
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <>
-              <CardContent>
-                {item.__detailsNames && <Typography paragraph>Details: {item.__detailsNames}</Typography>}
-                <Typography paragraph>Code: {item.code}</Typography>
-              </CardContent>
-            </>
-          </Collapse>
 
         </Card>
 

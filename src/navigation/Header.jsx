@@ -18,7 +18,7 @@ import { NavigationStyle } from './configNavigation'
 
 const styles = theme => ({
   appBar: {
-    borderBottom: `1px solid ${theme.palette.divider}`,
+    // borderBottom: `1px solid ${theme.palette.divider}`,
   },
   toolbar: {
     flexWrap: 'wrap',

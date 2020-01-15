@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import { injectIntl } from "react-intl";
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
@@ -12,7 +12,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const MenuNav = ({intl}) => {
+const MenuNav = ({location, intl}) => {
+console.log('menunav location', location);
 
   const classes = useStyles();
 
@@ -24,6 +25,7 @@ const MenuNav = ({intl}) => {
         aria-haspopup="true"
         className={classes.margin} component={Link} to="/"
         color="inherit"
+        disabled={location.pathname === '/'} 
       >
         <ViewListIcon />
       </IconButton>
@@ -33,6 +35,7 @@ const MenuNav = ({intl}) => {
         aria-haspopup="true"
         className={classes.margin} component={Link} to="/add"
         color="inherit"
+        disabled={location.pathname === '/add'} 
       >
         <SaveAltIcon />
       </IconButton>
@@ -40,4 +43,4 @@ const MenuNav = ({intl}) => {
   );
 }
 
-export default injectIntl(MenuNav);
+export default  withRouter(injectIntl(MenuNav));
