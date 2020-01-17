@@ -55,7 +55,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'top'
-  },  
+  },
 
 
   details_image_section: {
@@ -91,7 +91,7 @@ const styles = theme => ({
     color: 'white'
   },
 
-  centerAligned : {
+  centerAligned: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -119,39 +119,30 @@ const styles = theme => ({
 
 
 
-const SectionBlock = ({iconName = "edit", main, secondary, editTitle, editItems, editPreselectedItems, editCancelLabel, editHandleChange}) => {
-    return (
-          // Every block has a content part on the left and an action on the right
-          <div className={"flex-direction-row flex-align-start"}>
-            {/* The content part of the block is in column to allow 2+ lines of content */}
-            <div className={"flex-direction-column"}>
-              <Typography variant="h6" className={"small-margin-right"}>
-                {main || '-'}
-              </Typography>
-              <Typography variant="body2">
-                {secondary}
-              </Typography>
-            </div>
-            {/* The action part of the block is also on column for future use */}
-            <div className={"flex-direction-row margin-left"}>
-              <ButtonToModal 
-                iconOnlyButton
-                btnLabel={editTitle}
-                btnIcon={getIcon(iconName)} 
-                cancelLabel={editCancelLabel}
-                onOk={null}
-              >
-                <CharacteristicsSelection
-                  name='size'
-                  title={editTitle}
-                  handleChange={editHandleChange}
-                  items={editItems}
-                  preselectedItems={editPreselectedItems}
-                />
-              </ButtonToModal>
-            </div>
-          </div>
-
+const SectionBlock = ({ iconName = "edit", main, secondary, editTitle, editItems, editPreselectedItems, editCancelLabel, editHandleChange }) => {
+  return (
+      <div className={"flex-direction-column  flex-align-center"}>
+        <Typography variant="h6">
+          {main || '-'}
+        </Typography>
+        <Typography variant="body2">
+            {secondary}
+        </Typography>
+        <ButtonToModal
+          btnLabel={editTitle}
+          btnIcon={getIcon(iconName)}
+          cancelLabel={editCancelLabel}
+          onOk={null}
+        >
+          <CharacteristicsSelection
+            name='size'
+            title={editTitle}
+            handleChange={editHandleChange}
+            items={editItems}
+            preselectedItems={editPreselectedItems}
+          />
+        </ButtonToModal>
+      </div>
   );
 }
 
@@ -161,17 +152,17 @@ const SectionBlock = ({iconName = "edit", main, secondary, editTitle, editItems,
 
 
 // const Details = ({opened, item, onClose, onSavePicture, onRemoveItem, onEditItem, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
-    // const Details = ({item, match, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
+// const Details = ({item, match, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
 
-const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, loggedIn}) => {
+const Details = ({ item, sizes, removeItem, savePicture, classes, intl, history, loggedIn }) => {
 
-    
-  if (!loggedIn) { 
+
+  if (!loggedIn) {
     console.debug('[>>> Details ------>>>----- / >>>] Reason: not logged in');
     return <Redirect to='/' />
   };
 
-  if (!item) { 
+  if (!item) {
     console.debug('[>>> Details ------>>>----- / >>>] Reason: item not found');
     return <Redirect push to='/' />
   };
@@ -180,10 +171,10 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
   // const theme = useTheme();
   // const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  if(!item || !sizes) return null;
+  if (!item || !sizes) return null;
   console.debug('[--- FC ---] Functional component: Details id!', item.id);
 
-  
+
   const handleClose = () => {
     console.debug('[<<< Details ------<<<----- / <<<] Reason: close details');
     history.goBack();
@@ -194,7 +185,7 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
     // (better use back that goes back at the right place)
   };
 
-  
+
   const handleClickRemove = async ({ size }) => {
     removeItem(item.id, size);
   };
@@ -203,7 +194,7 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
     savePicture(item.id, pictureData, thumbnailData);
   };
 
-  
+
   const handleEditCode = (e) => {
     e.stopPropagation();
     console.debug("ItemCard.handleEditCode: ", item.id);
@@ -229,26 +220,26 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
 
 
   const sizeInIcons = [];
-  for( let i = 0; i < item.size; i++) {
-    sizeInIcons.push( <Person style={{ fontSize: 20 }} key={i.toString()} /> );
+  for (let i = 0; i < item.size; i++) {
+    sizeInIcons.push(<Person style={{ fontSize: 20 }} key={i.toString()} />);
   }
-  if(item.size > 1)
-    sizeInIcons.push( <PersonOutline style={{ fontSize: 20 }} key={item.size.toString()} /> );
+  if (item.size > 1)
+    sizeInIcons.push(<PersonOutline style={{ fontSize: 20 }} key={item.size.toString()} />);
 
 
 
   const zero = {
-    id2: "0", 
-    label: {en: intl.formatMessage({id: 'item.remove.from_freezer'}), fr: intl.formatMessage({id: 'item.remove.from_freezer'})}, 
-    name: {en: intl.formatMessage({id: 'item.remove.nothing'}), fr: intl.formatMessage({id: 'item.remove.nothing'})},
+    id2: "0",
+    label: { en: intl.formatMessage({ id: 'item.remove.from_freezer' }), fr: intl.formatMessage({ id: 'item.remove.from_freezer' }) },
+    name: { en: intl.formatMessage({ id: 'item.remove.nothing' }), fr: intl.formatMessage({ id: 'item.remove.nothing' }) },
   };
   const sizesWith0 = [zero, ...sizes];
 
   const dateToDisplay = `${item.__monthExpirationAsText} ${item.__yearExpiration}`;
 
-  const editTitle = intl.formatMessage({id: 'action.edit'});
-  const removeTitle = intl.formatMessage({id: 'action.remove'});
-  const cancelLabel = intl.formatMessage({id: 'button.cancel'});
+  const editTitle = intl.formatMessage({ id: 'action.edit' });
+  const removeTitle = intl.formatMessage({ id: 'action.remove' });
+  const cancelLabel = intl.formatMessage({ id: 'button.cancel' });
 
   return (
     <div className={classes.card}>
@@ -263,16 +254,16 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
         </Typography>   */}
         <Button onClick={handleClose} color="primary" className={classes.details_image_close}>
           &lt; &nbsp; <FormattedMessage id="button.back" />
-        </Button>        
+        </Button>
         <Typography className={classes.details_image_code} variant="h4" color="textSecondary" component="p">
-        {item.code}
-        </Typography>        
-        <PictureSelection 
-              className={classes.details_image_camera} 
-              itemId={item.id}
-              iconOnlyButton
-              onPicture={handleSavePicture}
-              label={intl.formatMessage({id: item.__imageExists ? 'camera.replace' : 'camera.add'})}
+          {item.code}
+        </Typography>
+        <PictureSelection
+          className={classes.details_image_camera}
+          itemId={item.id}
+          iconOnlyButton
+          onPicture={handleSavePicture}
+          label={intl.formatMessage({ id: item.__imageExists ? 'camera.replace' : 'camera.add' })}
         />
       </section>
 
@@ -285,7 +276,7 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
             </Typography>
           </div>
           <div className={"flex-direction-row flex-align-end"}>
-            {getIcon("category"+item.category)}
+            {getIcon("category" + item.category)}
             <Typography variant="h5" className={"small-margin-left"}>
               {item.__categoryText} &nbsp; ({item.__detailsNames})
             </Typography>
@@ -293,12 +284,12 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
         </section>
 
         <Divider className={"margin-top margin-down"}></Divider>
-        
+
         {/* Section with 2 info blocks (on same row) */}
         <section className={"flex-direction-row flex-justify-around"}>
-          <SectionBlock 
+          <SectionBlock
             iconName='remove'
-            main={sizeInIcons} 
+            main={sizeInIcons}
             secondary={item.__sizeInText}
             editTitle={removeTitle}
             editItems={sizesWith0}
@@ -306,8 +297,8 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
             editCancelLabel={cancelLabel}
             editHandleChange={handleClickRemove}
           />
-          <SectionBlock 
-            main={dateToDisplay} 
+          <SectionBlock
+            main={dateToDisplay}
             secondary={intl.formatMessage(item.__expirationText)}
             editTitle={editTitle}
             editItems={sizesWith0}
@@ -321,8 +312,8 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
 
 
         <section className={"flex-direction-row flex-justify-around"}>
-          <SectionBlock 
-            main={item.__freezerText} 
+          <SectionBlock
+            main={item.__freezerText}
             secondary="- Freezer -"
             editTitle={editTitle}
             editItems={sizesWith0}
@@ -330,8 +321,8 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
             editCancelLabel={cancelLabel}
             editHandleChange={handleClickRemove}
           />
-          <SectionBlock 
-            main={item.__locationText} 
+          <SectionBlock
+            main={item.__locationText}
             secondary="- Location -"
             editTitle={editTitle}
             editItems={sizesWith0}
@@ -345,8 +336,8 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
         <Divider className={"margin-top margin-down"}></Divider>
 
         <section className={"flex-direction-row flex-justify-around"}>
-          <SectionBlock 
-            main={item.__containerText} 
+          <SectionBlock
+            main={item.__containerText}
             secondary="- Container -"
             editTitle={editTitle}
             editItems={sizesWith0}
@@ -354,8 +345,8 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
             editCancelLabel={cancelLabel}
             editHandleChange={handleClickRemove}
           />
-          <SectionBlock 
-            main={item.__colorText} 
+          <SectionBlock
+            main={item.__colorText}
             secondary="- Color -"
             editTitle={editTitle}
             editItems={sizesWith0}
@@ -371,9 +362,9 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
     </div>
 
   );
- 
-      
-      {/*
+
+
+  {/*
       
         <div>Name: {item.name}</div>
         <div>Category: {item.__categoryText}</div>
@@ -394,7 +385,7 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
       {item.location}
       {item.container}
       {item.color} */}
-      
+
 }
 
 
@@ -414,7 +405,7 @@ const Details = ({item, sizes, removeItem, savePicture, classes, intl, history, 
 
 function mapStateToProps(state, ownProps) {
   const id = ownProps.match.params.id;
-  if(!id) return {item: null}
+  if (!id) return { item: null }
 
   return {
     item: state.items.list.find(item => item.id === id),

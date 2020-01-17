@@ -112,7 +112,7 @@
 
 .flex-justify-start {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
 }
 
 .flex-justify-center {
@@ -132,6 +132,10 @@
 
 .flex-align-start {
   align-items: flex-start;
+}
+
+.flex-align-center {
+  align-items: center;
 }
 
 

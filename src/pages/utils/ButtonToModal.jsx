@@ -12,6 +12,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 const styles = theme => ({
   button: {
     padding: '0px',
+    textTransform: 'none !important',
   },  
   leftIcon: {
     marginRight: theme.spacing(1),
