@@ -78,7 +78,8 @@ const Results = ({item, onResetState, handleAddPicture, isActive, firstStep, int
           <ItemImage item={item} />
           <PictureSelection 
             onPicture={handleAddPicture}
-            hugeIcon={!imageExists}
+            iconStyle={!imageExists ? { fontSize: 96 } : {}}
+            labelUnderIcon
             label={intl.formatMessage({id: imageExists ? 'camera.replace' : 'camera.add'})}
           />
         </div>

@@ -121,7 +121,7 @@ const styles = theme => ({
 
 const SectionBlock = ({ iconName = "edit", main, secondary, editTitle, editItems, editPreselectedItems, editCancelLabel, editHandleChange }) => {
   return (
-      <div className={"flex-direction-column  flex-align-center"}>
+      <div className={"flex-direction-column  flex-align-center flex-basis-50"}>
         <Typography variant="h6">
           {main || '-'}
         </Typography>

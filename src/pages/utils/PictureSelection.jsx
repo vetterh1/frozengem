@@ -33,7 +33,7 @@ const styles = theme => ({
     },  
   });
   
-  const PictureSelection = ({itemId, label, iconOnlyButton, hugeIcon, onPicture, className, classes}) => {
+  const PictureSelection = ({itemId, label, iconOnlyButton, iconStyle = {}, labelUnderIcon = false, onPicture, className, classes}) => {
 
 
     const resizePicture = async (img, MAX_WIDTH = 800, MAX_HEIGHT = 800) => {
@@ -138,8 +138,7 @@ const styles = theme => ({
     };
 
 
-    const iconStyle = hugeIcon ? { fontSize: 96 } : {};
-    const specialClasses = (hugeIcon && !iconOnlyButton) ? {label: classes.buttonContentFlexVertical} : {};
+    const specialClasses = labelUnderIcon ? {label: classes.buttonContentFlexVertical} : {};
     const idInput = `input-${itemId}`
 
     return (

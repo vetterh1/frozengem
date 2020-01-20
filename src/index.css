@@ -90,15 +90,22 @@
   flex-direction: column;
 }
   
-.flex-max-height {
+.flex-grow {
   display: flex;
   flex-grow: 1;
 }
   
-.flex-normal-height {
+.flex-no-grow {
   display: flex;
   flex-grow: 0;
 }
+
+
+.flex-basis-50 {
+  display: flex;
+  flex-basis: 50%;
+}
+
   
 .flex-justify-around {
   display: flex;
