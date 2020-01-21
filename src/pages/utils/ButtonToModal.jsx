@@ -11,7 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 const styles = theme => ({
   button: {
-    padding: '0px',
+    padding: '1px',
     textTransform: 'none !important',
   },  
   leftIcon: {
@@ -23,7 +23,8 @@ const styles = theme => ({
 });
 
 
-const ButtonToModal = ({btnLabel, iconOnlyButton, btnIcon, modalTitle, okLabel, cancelLabel, onOk, onCancel, classes, children}) => {
+
+const ButtonToModal = ({btnLabel, iconOnlyButton, btnIcon, iconStyle = {}, labelStyle = {}, btnStyle = {}, modalTitle, okLabel, cancelLabel, onOk, onCancel, classes, children}) => {
   const [open, setOpen] = React.useState(false);
 
   function handleClickOpen(e) {
@@ -45,13 +46,13 @@ const ButtonToModal = ({btnLabel, iconOnlyButton, btnIcon, modalTitle, okLabel, 
     <React.Fragment>
 
       { !iconOnlyButton &&
-        <Button component="span" size="small" color="primary" className={classes.button} onClick={handleClickOpen}>
-          <div className={classes.leftIcon}>{btnIcon}</div>
-          <span>{btnLabel}</span>
+        <Button component="span" size="small" color="primary" style={btnStyle} className={classes.button} onClick={handleClickOpen}>
+          <div className={classes.leftIcon} style={iconStyle}>{btnIcon}</div>
+          <span style={labelStyle}>{btnLabel}</span>
         </Button>
       }
       { iconOnlyButton &&
-        <IconButton component="span"  color="primary" aria-label={btnLabel} className={classes.buttonIconOnly} onClick={handleClickOpen}>
+        <IconButton component="span"  color="primary" aria-label={btnLabel} className={classes.buttonIconOnly} style={iconStyle} onClick={handleClickOpen}>
           {btnIcon}
         </IconButton> 
       }     
@@ -82,6 +83,8 @@ ButtonToModal.propTypes = {
   btnLabel: PropTypes.string,
   iconOnlyButton: PropTypes.bool,
   btnIcon: PropTypes.object,
+  iconStyle: PropTypes.object, 
+  labelStyle: PropTypes.object, 
   modalTitle: PropTypes.string,
   okLabel: PropTypes.string,
   cancelLabel: PropTypes.string.isRequired,

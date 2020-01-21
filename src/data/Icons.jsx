@@ -940,7 +940,8 @@ function IconSize4(props) {
 
           
 
-    function IconRemove(props) {
+   export function IconRemove(props) {
+       const style = {enableBackground:"new 0 0 26 26", ...props.style}
         return (
             <SvgIcon 
                 {...props} 
@@ -950,7 +951,7 @@ function IconSize4(props) {
                 x="0px" 
                 y="0px"
                 viewBox="0 0 26 26" 
-                style={{enableBackground:"new 0 0 26 26"}} 
+                style={style}
                 xmlSpace="preserve" >
                 <path d="m12.937503,11.045268l2.59,-2.58l1.41,1.41l-5,5l-5,-5l1.41,-1.41l2.59,2.58l0,-9.67l2,0l0,9.67z" id="svg_1" transform="rotate(-180 11.937503814697266,8.12526798248291) "/>
                 <path d="m19,12l0,7l-14,0l0,-7l-2,0l0,7c0,1.1 0.9,2 2,2l14,0c1.1,0 2,-0.9 2,-2l0,-7l-2,0z" id="svg_1"/>

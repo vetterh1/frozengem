@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from "react-router";
 import { itemsActions } from '../_actions/itemsActions';
@@ -31,7 +31,8 @@ import PersonOutline from '@material-ui/icons/PersonOutline';
 // import useMediaQuery from '@material-ui/core/useMediaQuery';
 // import { useTheme } from '@material-ui/core/styles';
 
-import { getIcon } from "../data/Icons";
+import { getIcon, IconRemove } from "../data/Icons";
+import Edit from '@material-ui/icons/Edit';
 // import EditIcon from '@material-ui/icons/Edit';
 // import CloseIcon from '@material-ui/icons/Close';
 
@@ -130,7 +131,9 @@ const SectionBlock = ({ iconName = "edit", main, secondary, editTitle, editItems
         </Typography>
         <ButtonToModal
           btnLabel={editTitle}
-          btnIcon={getIcon(iconName)}
+          btnIcon={iconName === "edit" ? <Edit style={ {fontSize:'13px'} } /> : <IconRemove style={ {fontSize:'15px'} } />}
+          labelStyle = { { fontSize: '11px' } }
+          btnStyle = { {backgroundColor: 'rgba(0, 0, 0, 0.05)'} }
           cancelLabel={editCancelLabel}
           onOk={null}
         >
