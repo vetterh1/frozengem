@@ -120,7 +120,36 @@ const styles = theme => ({
 
 
 
-const SectionBlock = ({ iconName = "edit", main, secondary, editTitle, editItems, editPreselectedItems, editCancelLabel, editHandleChange }) => {
+
+
+const CharacteristicsButton = ({ characteristicName, iconName = "edit", editTitle, editItems, editPreselectedItems, editMultiselection = false, editCancelLabel, editHandleChange }) => {
+  return (
+    <ButtonToModal
+      btnLabel={editTitle}
+      btnIcon={iconName === "edit" ? <Edit style={ {fontSize:'12px'} } /> : <IconRemove style={ {fontSize:'15px'} } />}
+      labelStyle = { { fontSize: '9px', fontWeight: 'bold' } }
+      btnStyle = { {backgroundColor: 'rgba(0, 0, 0, 0.04)'} }
+      cancelLabel={editCancelLabel}
+      onOk={null}
+    >
+      <CharacteristicsSelection
+        name={characteristicName}
+        title={editTitle}
+        handleChange={editHandleChange}
+        items={editItems}
+        preselectedItems={editPreselectedItems}
+        multiselection={editMultiselection}
+      />
+    </ButtonToModal>
+  );
+}
+
+
+
+
+
+
+const SectionBlock = ({ characteristicName, iconName = "edit", main, secondary, editTitle, editItems, editPreselectedItems, editCancelLabel, editHandleChange }) => {
   return (
       <div className={"flex-direction-column  flex-align-center flex-basis-50"}>
         <Typography variant="h6">
@@ -129,22 +158,15 @@ const SectionBlock = ({ iconName = "edit", main, secondary, editTitle, editItems
         <Typography variant="body2">
             {secondary}
         </Typography>
-        <ButtonToModal
-          btnLabel={editTitle}
-          btnIcon={iconName === "edit" ? <Edit style={ {fontSize:'13px'} } /> : <IconRemove style={ {fontSize:'15px'} } />}
-          labelStyle = { { fontSize: '11px' } }
-          btnStyle = { {backgroundColor: 'rgba(0, 0, 0, 0.05)'} }
-          cancelLabel={editCancelLabel}
-          onOk={null}
-        >
-          <CharacteristicsSelection
-            name='size'
-            title={editTitle}
-            handleChange={editHandleChange}
-            items={editItems}
-            preselectedItems={editPreselectedItems}
-          />
-        </ButtonToModal>
+        <CharacteristicsButton
+          characteristicName={characteristicName}
+          iconName={iconName}
+          editTitle={editTitle}
+          editItems={editItems}
+          editPreselectedItems={editPreselectedItems}
+          editCancelLabel={editCancelLabel}
+          editHandleChange={editHandleChange}
+        />
       </div>
   );
 }
@@ -157,7 +179,7 @@ const SectionBlock = ({ iconName = "edit", main, secondary, editTitle, editItems
 // const Details = ({opened, item, onClose, onSavePicture, onRemoveItem, onEditItem, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
 // const Details = ({item, match, classes, intl, userInfo, enqueueSnackbar, closeSnackbar, itemCharacteristics}) => {
 
-const Details = ({ item, sizes, removeItem, savePicture, classes, intl, history, loggedIn }) => {
+const Details = ({ item, characteristics, removeItem, updateItem, savePicture, classes, intl, history, loggedIn }) => {
 
 
   if (!loggedIn) {
@@ -174,7 +196,7 @@ const Details = ({ item, sizes, removeItem, savePicture, classes, intl, history,
   // const theme = useTheme();
   // const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  if (!item || !sizes) return null;
+  if (!item || !characteristics) return null;
   console.debug('[--- FC ---] Functional component: Details id!', item.id);
 
 
@@ -192,6 +214,13 @@ const Details = ({ item, sizes, removeItem, savePicture, classes, intl, history,
   const handleClickRemove = async ({ size }) => {
     removeItem(item.id, size);
   };
+
+  const handleClickUpdateCharacteristic = async (update) => {
+    updateItem(item.id, update);
+  };
+
+
+  
 
   const handleSavePicture = (pictureData, thumbnailData) => {
     savePicture(item.id, pictureData, thumbnailData);
@@ -236,7 +265,7 @@ const Details = ({ item, sizes, removeItem, savePicture, classes, intl, history,
     label: { en: intl.formatMessage({ id: 'item.remove.from_freezer' }), fr: intl.formatMessage({ id: 'item.remove.from_freezer' }) },
     name: { en: intl.formatMessage({ id: 'item.remove.nothing' }), fr: intl.formatMessage({ id: 'item.remove.nothing' }) },
   };
-  const sizesWith0 = [zero, ...sizes];
+  const sizesWith0 = [zero, ...characteristics.sizes];
 
   const dateToDisplay = `${item.__monthExpirationAsText} ${item.__yearExpiration}`;
 
@@ -274,15 +303,37 @@ const Details = ({ item, sizes, removeItem, savePicture, classes, intl, history,
 
         <section className={"flex-direction-column"}>
           <div className={"flex-direction-row small-margin-down"}>
-            <Typography variant="h3" component="h1">
+            <Typography variant="h2" component="h1">
               {item.__nameOrCategory}
             </Typography>
           </div>
-          <div className={"flex-direction-row flex-align-end"}>
+          <div className={"flex-direction-row flex-align-end small-margin-down"}>
             {getIcon("category" + item.category)}
-            <Typography variant="h5" className={"small-margin-left"}>
-              {item.__categoryText} &nbsp; ({item.__detailsNames})
+            <Typography variant="h4" className={"small-margin-left small-margin-right"}>
+              {item.__categoryText}
             </Typography>
+            <CharacteristicsButton
+              characteristicName='category'
+              editTitle={editTitle}
+              editItems={characteristics.categories}
+              editPreselectedItems={item.category}
+              editCancelLabel={cancelLabel}
+              editHandleChange={handleClickUpdateCharacteristic}
+            />            
+          </div>
+          <div className={"flex-direction-row flex-align-end"}>
+            <Typography variant="h5" className={"small-margin-right"}>
+              ({item.__detailsNames})
+            </Typography>
+            <CharacteristicsButton
+              characteristicName='detail'
+              editTitle={editTitle}
+              editItems={characteristics.details}
+              editPreselectedItems={item.__detailsArray}
+              editMultiselection={true}
+              editCancelLabel={cancelLabel}
+              editHandleChange={handleClickUpdateCharacteristic}
+            />    
           </div>
         </section>
 
@@ -292,6 +343,7 @@ const Details = ({ item, sizes, removeItem, savePicture, classes, intl, history,
         <section className={"flex-direction-row flex-justify-around"}>
           <SectionBlock
             iconName='remove'
+            characteristicName='size'
             main={sizeInIcons}
             secondary={item.__sizeInText}
             editTitle={removeTitle}
@@ -316,22 +368,24 @@ const Details = ({ item, sizes, removeItem, savePicture, classes, intl, history,
 
         <section className={"flex-direction-row flex-justify-around"}>
           <SectionBlock
+            characteristicName='freezer'
             main={item.__freezerText}
             secondary="- Freezer -"
             editTitle={editTitle}
-            editItems={sizesWith0}
-            editPreselectedItems={item.size}
+            editItems={characteristics.freezers}
+            editPreselectedItems={item.freezer}
             editCancelLabel={cancelLabel}
-            editHandleChange={handleClickRemove}
+            editHandleChange={handleClickUpdateCharacteristic}
           />
           <SectionBlock
+            characteristicName='location'
             main={item.__locationText}
             secondary="- Location -"
             editTitle={editTitle}
-            editItems={sizesWith0}
-            editPreselectedItems={item.size}
+            editItems={characteristics.locations}
+            editPreselectedItems={item.location}
             editCancelLabel={cancelLabel}
-            editHandleChange={handleClickRemove}
+            editHandleChange={handleClickUpdateCharacteristic}
           />
         </section>
 
@@ -340,22 +394,24 @@ const Details = ({ item, sizes, removeItem, savePicture, classes, intl, history,
 
         <section className={"flex-direction-row flex-justify-around"}>
           <SectionBlock
+            characteristicName='container'
             main={item.__containerText}
             secondary="- Container -"
             editTitle={editTitle}
-            editItems={sizesWith0}
-            editPreselectedItems={item.size}
+            editItems={characteristics.containers}
+            editPreselectedItems={item.container}
             editCancelLabel={cancelLabel}
-            editHandleChange={handleClickRemove}
+            editHandleChange={handleClickUpdateCharacteristic}
           />
           <SectionBlock
+            characteristicName='color'
             main={item.__colorText}
             secondary="- Color -"
             editTitle={editTitle}
-            editItems={sizesWith0}
-            editPreselectedItems={item.size}
+            editItems={characteristics.colors}
+            editPreselectedItems={item.color}
             editCancelLabel={cancelLabel}
-            editHandleChange={handleClickRemove}
+            editHandleChange={handleClickUpdateCharacteristic}
           />
         </section>
 
@@ -412,12 +468,13 @@ function mapStateToProps(state, ownProps) {
 
   return {
     item: state.items.list.find(item => item.id === id),
-    sizes: state.characteristics.sizes,
+    characteristics: state.characteristics,
     loggedIn: state.user.loggedIn,
   };
 }
 
 const mapDispatchToProps = {
+  updateItem: itemsActions.updateItem,
   removeItem: itemsActions.removeItem,
   savePicture: itemsActions.savePicture,
 };

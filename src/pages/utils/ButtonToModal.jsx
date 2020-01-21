@@ -11,11 +11,12 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 const styles = theme => ({
   button: {
-    padding: '1px',
+    padding: '0px 6px',
     textTransform: 'none !important',
+    minWidth: '0px',
   },  
   leftIcon: {
-    marginRight: theme.spacing(1),
+    marginRight: theme.spacing(0.5),
   },
   buttonIconOnly: {
     padding: 0,
