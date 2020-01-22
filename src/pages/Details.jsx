@@ -122,15 +122,15 @@ const styles = theme => ({
 
 
 
-const CharacteristicsButton = ({ characteristicName, iconName = "edit", editTitle, editItems, editPreselectedItems, editMultiselection = false, editCancelLabel, editHandleChange }) => {
+const CharacteristicsButton = ({ characteristicName, iconName = "edit", editTitle, editItems, editPreselectedItems, editMultiselection = false, editCancelLabel, editHandleChange, editOnOk = null }) => {
   return (
     <ButtonToModal
       btnLabel={editTitle}
-      btnIcon={iconName === "edit" ? <Edit style={ {fontSize:'12px'} } /> : <IconRemove style={ {fontSize:'15px'} } />}
-      labelStyle = { { fontSize: '9px', fontWeight: 'bold' } }
-      btnStyle = { {backgroundColor: 'rgba(0, 0, 0, 0.04)'} }
+      btnIcon={iconName === "edit" ? <Edit style={ {fontSize:'14px'} } /> : <IconRemove style={ {fontSize:'15px'} } />}
+      labelStyle = { { fontSize: '11px', fontWeight: 'bold' } }
+      btnStyle = { {backgroundColor: 'rgba(0, 0, 0, 0.075)'} }
       cancelLabel={editCancelLabel}
-      onOk={null}
+      onOk={editOnOk}
     >
       <CharacteristicsSelection
         name={characteristicName}
@@ -149,7 +149,7 @@ const CharacteristicsButton = ({ characteristicName, iconName = "edit", editTitl
 
 
 
-const SectionBlock = ({ characteristicName, iconName = "edit", main, secondary, editTitle, editItems, editPreselectedItems, editCancelLabel, editHandleChange }) => {
+const SectionBlock = ({ characteristicName, iconName = "edit", main, secondary, editTitle, editItems, editPreselectedItems, editCancelLabel, editHandleChange, editOnOk = null }) => {
   return (
       <div className={"flex-direction-column  flex-align-center flex-basis-50"}>
         <Typography variant="h6">
@@ -166,6 +166,7 @@ const SectionBlock = ({ characteristicName, iconName = "edit", main, secondary, 
           editPreselectedItems={editPreselectedItems}
           editCancelLabel={editCancelLabel}
           editHandleChange={editHandleChange}
+          editOnOk={editOnOk}
         />
       </div>
   );
@@ -326,13 +327,14 @@ const Details = ({ item, characteristics, removeItem, updateItem, savePicture, c
               ({item.__detailsNames})
             </Typography>
             <CharacteristicsButton
-              characteristicName='detail'
+              characteristicName='details'
               editTitle={editTitle}
               editItems={characteristics.details}
               editPreselectedItems={item.__detailsArray}
               editMultiselection={true}
               editCancelLabel={cancelLabel}
               editHandleChange={handleClickUpdateCharacteristic}
+              editOnOk={handleClickUpdateCharacteristic}
             />    
           </div>
         </section>

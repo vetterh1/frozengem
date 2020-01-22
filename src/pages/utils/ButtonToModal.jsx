@@ -14,6 +14,7 @@ const styles = theme => ({
     padding: '0px 6px',
     textTransform: 'none !important',
     minWidth: '0px',
+    opacity: '0.6',
   },  
   leftIcon: {
     marginRight: theme.spacing(0.5),
