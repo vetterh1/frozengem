@@ -75,6 +75,12 @@
 
 
 
+.flex {
+  display: flex;
+}  
+
+
+
 .flex-direction-row-reverse {
   display: flex;
   flex-direction: row-reverse;
@@ -143,6 +149,25 @@
 
 .flex-align-center {
   align-items: center;
+}
+
+
+
+
+.flex-align-self-unset {
+  align-self: flex-unset;
+}
+
+.flex-align-self-center {
+  align-self: flex-center;
+}
+
+.flex-align-self-start {
+  align-self: flex-start;
+}
+
+.flex-align-self-end {
+  align-self: flex-end;
 }
 
 

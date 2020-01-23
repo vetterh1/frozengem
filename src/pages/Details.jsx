@@ -135,7 +135,7 @@ const CharacteristicsButton = ({
         iconName === "edit" ? (
           <Edit style={{ fontSize: "14px" }} />
         ) : (
-          <IconRemove style={{ fontSize: "15px" }} />
+          <IconRemove style={{ fontSize: "15px", display: "flex" }} />
         )
       }
       labelStyle={{ fontSize: "11px", fontWeight: "bold" }}

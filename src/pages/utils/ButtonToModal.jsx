@@ -11,10 +11,12 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 const styles = theme => ({
   button: {
-    padding: '0px 6px',
+    alignSelf: 'center',
+    padding: '2px 6px 0px 6px',
     textTransform: 'none !important',
     minWidth: '0px',
     opacity: '0.6',
+    lineHeight: 'unset'
   },  
   leftIcon: {
     marginRight: theme.spacing(0.5),
@@ -61,7 +63,7 @@ const ButtonToModal = ({btnLabel, iconOnlyButton, btnIcon, iconStyle = {}, label
         </IconButton> 
       }     
 
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         { modalTitle && 
           <DialogTitle id="form-dialog-title">{modalTitle}</DialogTitle>
         }
