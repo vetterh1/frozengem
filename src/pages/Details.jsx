@@ -172,6 +172,7 @@ const SectionBlock = ({
   main,
   secondary,
   editTitle,
+  editHelp,
   editItems,
   editPreselectedItems,
   editCancelLabel,
@@ -187,6 +188,7 @@ const SectionBlock = ({
         isDate={isDate}
         iconName={iconName}
         editTitle={editTitle}
+        editHelp={editHelp}
         editItems={editItems}
         editPreselectedItems={editPreselectedItems}
         editCancelLabel={editCancelLabel}
@@ -292,6 +294,8 @@ const Details = ({
   const dateToDisplay = `${item.__monthExpirationAsText} ${item.__yearExpiration}`;
 
   const editTitle = intl.formatMessage({ id: "action.edit" });
+  const editHelpName=intl.formatMessage({id: 'add.name.help'});
+  const editHelpDate=intl.formatMessage({id: 'add.date.help'});
   const removeTitle = intl.formatMessage({ id: "action.remove" });
   const cancelLabel = intl.formatMessage({ id: "button.cancel" });
 
@@ -339,6 +343,7 @@ const Details = ({
               characteristicName="name"
               isText={true}
               editTitle={editTitle}
+              editHelp={editHelpName}
               editPreselectedItems={item.name}
               editCancelLabel={cancelLabel}
               editHandleChange={handleClickUpdateCharacteristic}
@@ -400,6 +405,7 @@ const Details = ({
             main={dateToDisplay}
             secondary={intl.formatMessage(item.__expirationText)}
             editTitle={editTitle}
+            editHelp={editHelpDate}
             editPreselectedItems={item.expirationDate}
             editCancelLabel={cancelLabel}
             editHandleChange={handleClickUpdateCharacteristic}

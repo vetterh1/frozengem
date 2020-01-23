@@ -91,7 +91,7 @@ const TextOrDateSelection = ({
       {!isDate && (
         <FormControl
           className={
-            "flex-normal-height flex-direction-column huge-margin-down"
+            "flex-normal-height flex-direction-column margin-top margin-down"
           }
         >
           <Input
@@ -102,14 +102,14 @@ const TextOrDateSelection = ({
             fullWidth
           />
           <FormHelperText id="name-text">
-            {validationMessage ? validationMessage : help ? help : "---"}
+            {validationMessage ? validationMessage : help ? help : ""}
           </FormHelperText>
         </FormControl>
       )}
       {isDate && (
         <div
           className={
-            "flex-normal-height flex-direction-column huge-margin-down"
+            "flex-normal-height flex-direction-column margin-top margin-down"
           }
         >
           <DatePicker
