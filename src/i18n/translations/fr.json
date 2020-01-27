@@ -80,8 +80,6 @@
   "item.add.success": "Produit ajouté !",
   "item.remove.confirmation.title": "Retirer ce produit ?",
   "item.remove.confirmation.text": "Ce produit ne sera plus affiché. A utiliser lorsque vous retirez un produit de votre congélateur.",
-  "item.remove.confirmation.cancel": "Annuler",
-  "item.remove.confirmation.remove": "Retirer",
   "item.remove.from_freezer": "Retirer ce produit de votre congélateur",
   "item.remove.nothing": "Rien",
   "item.remove.error": "Désolé, une erreur est survenue lors du retrait. Veuillez ré-essayer...",

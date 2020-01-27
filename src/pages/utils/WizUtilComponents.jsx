@@ -61,18 +61,18 @@ export const PreviousButton = ({onClick}) => (
   </Button>
 );
 
-export const NextButton = ({onClick, isDisabled}) => (
+export const NextButton = ({onClick, isDisabled, nextIsOk}) => (
   <Button variant="contained" color="primary" onClick={onClick} disabled={isDisabled} type="submit">
-    <FormattedMessage id="button.continue" />
+    <FormattedMessage id={nextIsOk ? "button.ok" : "button.continue"} />
   </Button>
 );
 
-export const WizNavBar = ({onClickPrevious, onClickNext, isBackDisabled = false, isNextDisabled, nextIsSubmit}) => (
+export const WizNavBar = ({onClickPrevious, onClickNext, isBackDisabled = false, isNextDisabled, nextIsOk = false, nextIsSubmit}) => (
   <div className={"flex-normal-height flex-direction-row flex-justify-between big-margin-down big-margin-top"}>
     {(onClickPrevious && !isBackDisabled) && <PreviousButton onClick={onClickPrevious}/>}
     {!(onClickPrevious && !isBackDisabled) && <span>&nbsp;</span>}
-    {(onClickNext && !nextIsSubmit) && <NextButton onClick={onClickNext} isDisabled={isNextDisabled}/>}
-    {(!onClickNext && nextIsSubmit) && <NextButton isDisabled={isNextDisabled}/>}
+    {(onClickNext && !nextIsSubmit) && <NextButton onClick={onClickNext} isDisabled={isNextDisabled} nextIsOk={nextIsOk} />}
+    {(!onClickNext && nextIsSubmit) && <NextButton isDisabled={isNextDisabled} nextIsOk={nextIsOk}/>}
   </div>
 );
 

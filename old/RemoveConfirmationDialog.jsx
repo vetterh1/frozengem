@@ -20,18 +20,20 @@ const RemoveConfirmationDialog = ({opened, onClose, onRemoveItem}) => {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title"><FormattedMessage id="item.remove.confirmation.title" defaultMessage="Remove this item?" /></DialogTitle>
+      <DialogTitle id="alert-dialog-title">
+        <FormattedMessage id="item.remove.confirmation.title"/>
+      </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          <FormattedMessage id="item.remove.confirmation.text" defaultMessage="This item will not be shown anymore. Use this when you remove an item from your freezer." />
+          <FormattedMessage id="item.remove.confirmation.text"/>
         </DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
-          <FormattedMessage id="item.remove.confirmation.cancel" defaultMessage="Cancel" />
+          <FormattedMessage id="button.cancel"/>
         </Button>
         <Button onClick={onRemoveItem} color="primary" autoFocus>
-          <FormattedMessage id="item.remove.confirmation.remove" defaultMessage="Remove" />
+          <FormattedMessage id="action.remove"/>
         </Button>
       </DialogActions>
     </Dialog>

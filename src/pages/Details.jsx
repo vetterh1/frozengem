@@ -30,15 +30,13 @@ import PersonOutline from "@material-ui/icons/PersonOutline";
 // import { useTheme } from '@material-ui/core/styles';
 
 import { getIcon, IconRemove } from "../data/Icons";
-import Edit from "@material-ui/icons/Edit";
 // import EditIcon from '@material-ui/icons/Edit';
 // import CloseIcon from '@material-ui/icons/Close';
 
 import PictureSelection from "./utils/PictureSelection";
 import ButtonToModal from "./utils/ButtonToModal";
 import CharacteristicsSelection from "./utils/CharacteristicsSelection";
-import TextOrDateSelection from './utils/TextOrDateSelection';
-
+import TextOrDateSelection from "./utils/TextOrDateSelection";
 
 // import { red } from '@material-ui/core/colors';
 // import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -109,61 +107,66 @@ const styles = theme => ({
   }
 });
 
-
-
-
-
-
 const CharacteristicsButton = ({
   characteristicName,
   iconName = "edit",
   isText = false,
   isDate = false,
+  btnLabelId,
   editTitle,
   editHelp,
   editItems,
   editPreselectedItems,
-  editMultiselection = false,
-  editCancelLabel,
-  editHandleChange,
-  editOnOk = null
+  multiselection = false,
+  showOkBtn = false,
+  onOk = null
 }) => {
   return (
     <ButtonToModal
-      btnLabel={editTitle}
-      btnIcon={
-        iconName === "edit" ? (
-          <Edit style={{ fontSize: "14px" }} />
-        ) : (
-          <IconRemove style={{ fontSize: "15px", display: "flex" }} />
-        )
-      }
-      labelStyle={{ fontSize: "11px", fontWeight: "bold" }}
-      btnStyle={{ backgroundColor: "rgba(0, 0, 0, 0.075)" }}
-      cancelLabel={editCancelLabel}
-      onOk={editOnOk}
-    > 
-      { (!isText && !isDate) ?
+      btnLabelId={btnLabelId}
+      onOk={onOk}
+      showOkBtn={multiselection || showOkBtn}
+    >
+      {!isText && !isDate ? (
         <CharacteristicsSelection
           name={characteristicName}
           title={editTitle}
-          handleChange={editHandleChange}
+          handleChange={null} // filled by parent (when cloning this component)
           items={editItems}
           preselectedItems={editPreselectedItems}
-          multiselection={editMultiselection}
-        /> :
+          multiselection={multiselection}
+        />
+      ) : (
         <TextOrDateSelection
           name={characteristicName}
           isDate={isDate}
           title={editTitle}
           help={editHelp}
-          handleNext={editHandleChange}
+          // handleNext={editHandleChange}
           initialValue={editPreselectedItems}
-        />        
-      }
+        />
+      )}
     </ButtonToModal>
   );
 };
+
+const RemoveButton = ({
+  onOk
+}) => {
+  return (
+    <ButtonToModal
+      btnLabelId="action.remove"
+      alternateBtnIcon={
+        <IconRemove style={{ fontSize: "15px", display: "flex" }} />
+      }
+      onOk={onOk}
+      showOkBtn={true}
+    >
+      <div>Remove???</div>
+    </ButtonToModal>
+  );
+};
+
 
 const SectionBlock = ({
   isDate = false,
@@ -175,26 +178,28 @@ const SectionBlock = ({
   editHelp,
   editItems,
   editPreselectedItems,
-  editCancelLabel,
-  editHandleChange,
-  editOnOk = null
+  onOk,
+  showOkBtn=false,
+  additionalButton = null
 }) => {
   return (
     <div className={"flex-direction-column  flex-align-center flex-basis-50"}>
       <Typography variant="h6">{main || "-"}</Typography>
       <Typography variant="body2">{secondary}</Typography>
-      <CharacteristicsButton
-        characteristicName={characteristicName}
-        isDate={isDate}
-        iconName={iconName}
-        editTitle={editTitle}
-        editHelp={editHelp}
-        editItems={editItems}
-        editPreselectedItems={editPreselectedItems}
-        editCancelLabel={editCancelLabel}
-        editHandleChange={editHandleChange}
-        editOnOk={editOnOk}
-      />
+      <div className={"flex-direction-row"}>
+        <CharacteristicsButton
+          characteristicName={characteristicName}
+          isDate={isDate}
+          iconName={iconName}
+          editTitle={editTitle}
+          editHelp={editHelp}
+          editItems={editItems}
+          editPreselectedItems={editPreselectedItems}
+          onOk={onOk}
+          showOkBtn={showOkBtn}
+        />
+        {additionalButton && <div className={"small-margin-left"}>{additionalButton}</div>}
+      </div>
     </div>
   );
 };
@@ -236,12 +241,18 @@ const Details = ({
     // (better use back that goes back at the right place)
   };
 
-  const handleClickRemove = async ({ size }) => {
+  const _handleRemove = async () => {
+    removeItem(item.id, 0);
+  };
+
+  const _handleUpdateQuantity = async ({ size }) => {
     removeItem(item.id, size);
   };
 
-  const handleClickUpdateCharacteristic = async update => {
+  const _handleUpdateCharacteristic = async update => {
+    console.debug("ItemCard._handleUpdateCharacteristic: ", item.id, update);
     updateItem(item.id, update);
+    return null;
   };
 
   const handleSavePicture = (pictureData, thumbnailData) => {
@@ -294,13 +305,17 @@ const Details = ({
   const dateToDisplay = `${item.__monthExpirationAsText} ${item.__yearExpiration}`;
 
   const editTitle = intl.formatMessage({ id: "action.edit" });
-  const editHelpName=intl.formatMessage({id: 'add.name.help'});
-  const editHelpDate=intl.formatMessage({id: 'add.date.help'});
+  const editHelpName = intl.formatMessage({ id: "add.name.help" });
+  const editHelpDate = intl.formatMessage({ id: "add.date.help" });
   const removeTitle = intl.formatMessage({ id: "action.remove" });
-  const cancelLabel = intl.formatMessage({ id: "button.cancel" });
 
   return (
     <div className={classes.card}>
+      {/*
+      ********************************************************************
+                Picture section with Return and Picture buttons
+      ********************************************************************
+      */}
       <section className={classes.details_image_section}>
         <CardMedia
           image={`${config.staticUrl}/static/pictures/items/${item.pictureName}`}
@@ -332,11 +347,19 @@ const Details = ({
           })}
         />
       </section>
-
       <div className={"medium-padding"}>
+        {/*
+        ********************************************************************
+                        Name + Category + Details section
+        ********************************************************************
+        */}
         <section className={"flex-direction-column"}>
           <div className={"flex-direction-row small-margin-down"}>
-            <Typography variant="h2" component="h1" className={"small-margin-right"}>
+            <Typography
+              variant="h2"
+              component="h1"
+              className={"small-margin-right"}
+            >
               {item.__nameOrCategory}
             </Typography>
             <CharacteristicsButton
@@ -345,8 +368,8 @@ const Details = ({
               editTitle={editTitle}
               editHelp={editHelpName}
               editPreselectedItems={item.name}
-              editCancelLabel={cancelLabel}
-              editHandleChange={handleClickUpdateCharacteristic}
+              onOk={_handleUpdateCharacteristic}
+              showOkBtn={true}
             />
           </div>
           <div
@@ -364,8 +387,7 @@ const Details = ({
               editTitle={editTitle}
               editItems={characteristics.categories}
               editPreselectedItems={item.category}
-              editCancelLabel={cancelLabel}
-              editHandleChange={handleClickUpdateCharacteristic}
+              onOk={_handleUpdateCharacteristic}
             />
           </div>
           <div className={"flex-direction-row flex-align-end"}>
@@ -377,17 +399,17 @@ const Details = ({
               editTitle={editTitle}
               editItems={characteristics.details}
               editPreselectedItems={item.__detailsArray}
-              editMultiselection={true}
-              editCancelLabel={cancelLabel}
-              editHandleChange={handleClickUpdateCharacteristic}
-              editOnOk={handleClickUpdateCharacteristic}
+              multiselection={true}
+              onOk={_handleUpdateCharacteristic}
             />
           </div>
         </section>
-
         <Divider className={"margin-top margin-down"}></Divider>
-
-        {/* Section with 2 info blocks (on same row) */}
+        {/*
+        ********************************************************************
+                        Quantity and Date section
+        ********************************************************************
+        */}
         <section className={"flex-direction-row flex-justify-around"}>
           <SectionBlock
             iconName="remove"
@@ -397,23 +419,27 @@ const Details = ({
             editTitle={removeTitle}
             editItems={sizesWith0}
             editPreselectedItems={item.size}
-            editCancelLabel={cancelLabel}
-            editHandleChange={handleClickRemove}
+            onOk={_handleUpdateQuantity}
+            additionalButton={<RemoveButton onOk={_handleRemove}/>}
           />
           <SectionBlock
+            characteristicName="expirationDate"
             isDate={true}
             main={dateToDisplay}
             secondary={intl.formatMessage(item.__expirationText)}
             editTitle={editTitle}
             editHelp={editHelpDate}
             editPreselectedItems={item.expirationDate}
-            editCancelLabel={cancelLabel}
-            editHandleChange={handleClickUpdateCharacteristic}
+            onOk={_handleUpdateCharacteristic}
+            showOkBtn={true}
           />
         </section>
-
         <Divider className={"margin-top margin-down"}></Divider>
-
+        {/*
+        ********************************************************************
+                        Freezer and Location section
+        ********************************************************************
+        */}
         <section className={"flex-direction-row flex-justify-around"}>
           <SectionBlock
             characteristicName="freezer"
@@ -422,8 +448,7 @@ const Details = ({
             editTitle={editTitle}
             editItems={characteristics.freezers}
             editPreselectedItems={item.freezer}
-            editCancelLabel={cancelLabel}
-            editHandleChange={handleClickUpdateCharacteristic}
+            onOk={_handleUpdateCharacteristic}
           />
           <SectionBlock
             characteristicName="location"
@@ -432,13 +457,15 @@ const Details = ({
             editTitle={editTitle}
             editItems={characteristics.locations}
             editPreselectedItems={item.location}
-            editCancelLabel={cancelLabel}
-            editHandleChange={handleClickUpdateCharacteristic}
+            onOk={_handleUpdateCharacteristic}
           />
         </section>
-
         <Divider className={"margin-top margin-down"}></Divider>
-
+        {/*
+        ********************************************************************
+                        Container and Color section
+        ********************************************************************
+        */}
         <section className={"flex-direction-row flex-justify-around"}>
           <SectionBlock
             characteristicName="container"
@@ -447,8 +474,7 @@ const Details = ({
             editTitle={editTitle}
             editItems={characteristics.containers}
             editPreselectedItems={item.container}
-            editCancelLabel={cancelLabel}
-            editHandleChange={handleClickUpdateCharacteristic}
+            onOk={_handleUpdateCharacteristic}
           />
           <SectionBlock
             characteristicName="color"
@@ -457,8 +483,7 @@ const Details = ({
             editTitle={editTitle}
             editItems={characteristics.colors}
             editPreselectedItems={item.color}
-            editCancelLabel={cancelLabel}
-            editHandleChange={handleClickUpdateCharacteristic}
+            onOk={_handleUpdateCharacteristic}
           />
         </section>
       </div>

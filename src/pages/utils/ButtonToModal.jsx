@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from "react-intl";
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
+import Edit from "@material-ui/icons/Edit";
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
 
 
 const styles = theme => ({
@@ -28,55 +28,65 @@ const styles = theme => ({
 
 
 
-const ButtonToModal = ({btnLabel, iconOnlyButton, btnIcon, iconStyle = {}, labelStyle = {}, btnStyle = {}, modalTitle, okLabel, cancelLabel, onOk, onCancel, classes, children}) => {
+const ButtonToModal = ({btnLabelId = "action.edit", alternateBtnIcon, onOk, onCancel, showOkBtn = false, classes, children}) => {
   const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState();
 
   if(!children) return null;
 
-  function handleClickOpen(e) {
+  console.debug("ButtonToModal init");
+
+
+  function _handleClickOpen(e) {
     e.stopPropagation();
     setOpen(true);
   }
 
-  function handleOk() {
+  function _handleOk(params) {
+    console.debug("ButtonToModal._handleOk: ", params);
     setOpen(false);
-    if(onOk) onOk();
+    if(onOk) onOk(value);
   }
 
-  function handleClose() {
+  function _handleUpdateAndValidation(newValue) {
+    console.debug("ButtonToModal._handleUpdateAndValidation 1: ", value, newValue);
+    setValue(newValue);
+    console.debug("ButtonToModal._handleUpdateAndValidation 2: ", value, newValue);
+    return null; // all is ok!
+  }
+
+
+  function _handleClose() {
     setOpen(false);
     if(onCancel) onCancel();
   }
 
+
+  const btnIcon= alternateBtnIcon ? 
+    alternateBtnIcon
+    :
+    <Edit style={{ fontSize: "14px" }} />;
+  
   return (
     <React.Fragment>
 
-      { !iconOnlyButton &&
-        <Button component="span" size="small" color="primary" style={btnStyle} className={classes.button} onClick={handleClickOpen}>
-          <div className={classes.leftIcon} style={iconStyle}>{btnIcon}</div>
-          <span style={labelStyle}>{btnLabel}</span>
-        </Button>
-      }
-      { iconOnlyButton &&
-        <IconButton component="span"  color="primary" aria-label={btnLabel} className={classes.buttonIconOnly} style={iconStyle} onClick={handleClickOpen}>
-          {btnIcon}
-        </IconButton> 
-      }     
+      <Button component="span" size="small" color="primary" style={{ backgroundColor: "rgba(0, 0, 0, 0.075)" }} className={classes.button} onClick={_handleClickOpen}>
+        <div className={classes.leftIcon}>{btnIcon}</div>
+        <FormattedMessage style={{ fontSize: "11px", fontWeight: "bold" }} id={btnLabelId} />
+      </Button>
 
-      <Dialog fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        { modalTitle && 
-          <DialogTitle id="form-dialog-title">{modalTitle}</DialogTitle>
-        }
+      <Dialog fullWidth open={open} onClose={_handleClose} aria-labelledby="form-dialog-title">
         <DialogContent>
-          {React.cloneElement(children, { secondaryHandleChange: handleOk })}
+          {/* {React.cloneElement(children)} */}
+          {React.cloneElement(children, { handleChange: _handleOk, parentUpdateAndValidation: _handleUpdateAndValidation })}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
-           {cancelLabel}
+          <Button onClick={_handleClose} color="primary">
+            <FormattedMessage id="button.cancel" />
           </Button>
-          { onOk && 
-            <Button onClick={handleOk} color="primary">
-              {okLabel}
+          { onOk && showOkBtn &&
+            <Button onClick={_handleOk} color="primary">
+              <FormattedMessage id="button.ok" />
             </Button>
           }
         </DialogActions>
@@ -86,16 +96,11 @@ const ButtonToModal = ({btnLabel, iconOnlyButton, btnIcon, iconStyle = {}, label
 }
 
 ButtonToModal.propTypes = {
-  btnLabel: PropTypes.string,
-  iconOnlyButton: PropTypes.bool,
+  btnLabelId: PropTypes.string,
   btnIcon: PropTypes.object,
-  iconStyle: PropTypes.object, 
-  labelStyle: PropTypes.object, 
-  modalTitle: PropTypes.string,
-  okLabel: PropTypes.string,
-  cancelLabel: PropTypes.string.isRequired,
   onOk: PropTypes.func,
   onCancel: PropTypes.func,
+  showOkBtn: PropTypes.bool,
   classes: PropTypes.object,
   children: PropTypes.object,
 }
