@@ -34,7 +34,7 @@ const ButtonToModal = ({btnLabelId = "action.edit", alternateBtnIcon, onOk, onCa
 
   if(!children) return null;
 
-  console.debug("ButtonToModal init");
+  console.debug("ButtonToModal init : value = ", value);
 
 
   function _handleClickOpen(e) {
@@ -42,16 +42,17 @@ const ButtonToModal = ({btnLabelId = "action.edit", alternateBtnIcon, onOk, onCa
     setOpen(true);
   }
 
-  function _handleOk(params) {
-    console.debug("ButtonToModal._handleOk: ", params);
+  // Return the value to parent & close the modal
+  // (!) The child MUST update the value by another call (ex: _handleUpdateValue)
+  function _handleOk() {
+    console.debug("ButtonToModal._handleOk: value = ", value);
     setOpen(false);
     if(onOk) onOk(value);
   }
 
-  function _handleUpdateAndValidation(newValue) {
-    console.debug("ButtonToModal._handleUpdateAndValidation 1: ", value, newValue);
+  function _handleUpdateValue(newValue) {
     setValue(newValue);
-    console.debug("ButtonToModal._handleUpdateAndValidation 2: ", value, newValue);
+    console.debug("ButtonToModal._handleUpdateValue: old, new = ", value, newValue);
     return null; // all is ok!
   }
 
@@ -78,7 +79,7 @@ const ButtonToModal = ({btnLabelId = "action.edit", alternateBtnIcon, onOk, onCa
       <Dialog fullWidth open={open} onClose={_handleClose} aria-labelledby="form-dialog-title">
         <DialogContent>
           {/* {React.cloneElement(children)} */}
-          {React.cloneElement(children, { handleChange: _handleOk, parentUpdateAndValidation: _handleUpdateAndValidation })}
+          {React.cloneElement(children, { handleChange: _handleOk, parentUpdateValue: _handleUpdateValue })}
         </DialogContent>
         <DialogActions>
           <Button onClick={_handleClose} color="primary">

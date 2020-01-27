@@ -16,12 +16,12 @@ import { DatePicker } from "@material-ui/pickers";
 //       --> help parameters shows an optional message under the text input
 // - Need validation
 //       --> same a simple way
-//       -->  + the text is sent at every change to a parentUpdateAndValidation parent method.
+//       -->  + the text is sent at every change to a parentUpdateValue parent method.
 //            (the help text is replaced by the result of this function, see below)
 //
-//            (!) parentUpdateAndValidation should return null if all is OK, or an error message if not
+//            (!) parentUpdateValue should return null if all is OK, or an error message if not
 //
-// (!) handleBack & handleNext & parentUpdateAndValidation are async (!)
+// (!) handleBack & handleNext & parentUpdateValue are async (!)
 //
 
 const TextOrDateSelection = ({
@@ -32,7 +32,7 @@ const TextOrDateSelection = ({
   handleBack = null,
   handleNext = null,
   initialValue,
-  parentUpdateAndValidation = null,
+  parentUpdateValue,
   showNavigation = false,
   navNextIsOk = false,
   backDisabled = false,
@@ -44,10 +44,10 @@ const TextOrDateSelection = ({
 
   const [value, setValue] = React.useState(initialValue);
   const [validationMessage, setvalidationMessage] = React.useState(
-    // parentUpdateAndValidation ? parentUpdateAndValidation(initialValue) : help ? help : ""
+    // parentUpdateValue ? parentUpdateValue(initialValue) : help ? help : ""
   );
 
-  console.debug("TextOrDateSelection init: ", name, initialValue);
+  console.debug("TextOrDateSelection init: name, initialValue = ", name, initialValue);
 
 
   const _handleBack = async () => {
@@ -66,10 +66,10 @@ const TextOrDateSelection = ({
   };
 
   const _handleSimpleChange = async (newValue, event) => {
-    console.debug("TextOrDateSelection._handleSimpleChange 1: ", value, newValue, event);
+    console.debug("TextOrDateSelection._handleSimpleChange start: old, new, event = : ", value, newValue, event);
     setValue(newValue);
-    if (parentUpdateAndValidation) {
-      // let validationMessage = await parentUpdateAndValidation(newValue);
+    if (parentUpdateValue) {
+      let validationMessage = await parentUpdateValue({ [name]: newValue });
       // console.debug("TextOrDateSelection._handleSimpleChange 2: ", value, newValue, event);
       // if (validationMessage === null) {
       //   if (help) validationMessage = help;
@@ -77,7 +77,7 @@ const TextOrDateSelection = ({
       // }
       setvalidationMessage();
     }
-    console.debug("TextOrDateSelection._handleSimpleChange 3: ", value, newValue, event);
+    console.debug("TextOrDateSelection._handleSimpleChange end: old, new, event = : ", value, newValue, event);
   };
 
   const _handleDateChange = async dateAsObject => {
@@ -149,7 +149,7 @@ TextOrDateSelection.propTypes = {
   handleBack: PropTypes.func,
   handleNext: PropTypes.func,
   initialValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  parentUpdateAndValidation: PropTypes.func, // return null if valid, or otherwise, an error string to display
+  parentUpdateValue: PropTypes.func.isRequired, // return null if valid, or otherwise, an error string to display
   showNavigation: PropTypes.bool,
   navNextIsOk: PropTypes.bool,
   backDisabled: PropTypes.bool,

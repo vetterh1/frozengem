@@ -251,7 +251,8 @@ const Details = ({
 
   const _handleUpdateCharacteristic = async update => {
     console.debug("ItemCard._handleUpdateCharacteristic: ", item.id, update);
-    updateItem(item.id, update);
+    if(update)
+      updateItem(item.id, update);
     return null;
   };
 
