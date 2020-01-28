@@ -7,8 +7,8 @@ import { characteristicsServices } from '../../_services/characteristicsServices
 import { Redirect } from 'react-router'
 import { injectIntl } from "react-intl";
 import { withStyles } from '@material-ui/core/styles';
-import CharacteristicsSelection from '../utils/CharacteristicsSelection';
-import TextOrDateSelection from '../utils/TextOrDateSelection';
+import WizCharacteristicsSelection from '../utils/WizCharacteristicsSelection';
+import WizTextOrDateSelection from '../utils/WizTextOrDateSelection';
 import Stepper from '../utils/Stepper';
 import Results from './Results';
 import StepWizard from 'react-step-wizard';
@@ -313,7 +313,7 @@ if (!loggedIn) {
           classNameWrapper={'flex-normal-height flex-direction-column'}
           nav={<Stepper />}
         >
-          <CharacteristicsSelection
+          <WizCharacteristicsSelection
             hashKey={'category'}
             name='category'
             title={intl.formatMessage({id: 'add.category.title'})}
@@ -323,7 +323,7 @@ if (!loggedIn) {
             showNavigation
             backDisabled
           />
-          <CharacteristicsSelection
+          <WizCharacteristicsSelection
             hashKey={'details'}
             name='details'
             title={intl.formatMessage({id: 'add.details.title'}, {category: item.categoryName})}
@@ -336,7 +336,7 @@ if (!loggedIn) {
             showNavigation
             defaultIconName={"category"+item.category}
           />          
-          <TextOrDateSelection
+          <WizTextOrDateSelection
             hashKey={'name'}
             name='name'
             title={intl.formatMessage({id: 'add.name.title'})}
@@ -346,7 +346,7 @@ if (!loggedIn) {
             initialValue={item.name}
             showNavigation
           />
-          <TextOrDateSelection
+          <WizTextOrDateSelection
             hashKey={'expirationDate'}
             name='expirationDate'
             isDate
@@ -357,7 +357,7 @@ if (!loggedIn) {
             initialValue={item.expirationDate}
             showNavigation
           />          
-          <CharacteristicsSelection
+          <WizCharacteristicsSelection
             hashKey={'container'}
             name='container'
             title={intl.formatMessage({id: 'add.container.title'})}
@@ -367,7 +367,7 @@ if (!loggedIn) {
             preselectedItems={item.container}
             showNavigation
           />          
-          <CharacteristicsSelection
+          <WizCharacteristicsSelection
             hashKey={'color'}
             name='color'
             title={intl.formatMessage({id: 'add.color.title'}, {container: item.containerName})}
@@ -377,7 +377,7 @@ if (!loggedIn) {
             preselectedItems={item.color}
             showNavigation
           />
-          <CharacteristicsSelection
+          <WizCharacteristicsSelection
             hashKey={'size'}
             name='size'
             title={intl.formatMessage({id: 'add.size.title'})}
@@ -387,7 +387,7 @@ if (!loggedIn) {
             preselectedItems={item.size}
             showNavigation
           />
-          <CharacteristicsSelection
+          <WizCharacteristicsSelection
             hashKey={'freezer'}
             name='freezer'
             title={intl.formatMessage({id: 'add.freezer.title'})}
@@ -397,7 +397,7 @@ if (!loggedIn) {
             preselectedItems={item.freezer}
             showNavigation
           />
-          <CharacteristicsSelection
+          <WizCharacteristicsSelection
             hashKey={'location'}
             name='location'
             title={intl.formatMessage({id: 'add.location.title'})}

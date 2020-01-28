@@ -24,7 +24,7 @@ import { DatePicker } from "@material-ui/pickers";
 // (!) handleBack & handleNext & validityCheck are async (!)
 //
 
-const TextOrDateSelection = ({
+const WizTextOrDateSelection = ({
   name,
   isDate = false,
   title,
@@ -134,7 +134,7 @@ const TextOrDateSelection = ({
   );
 };
 
-TextOrDateSelection.propTypes = {
+WizTextOrDateSelection.propTypes = {
   name: PropTypes.string.isRequired,
   isDate: PropTypes.bool,
   title: PropTypes.string.isRequired,
@@ -153,4 +153,4 @@ TextOrDateSelection.propTypes = {
   goToStep: PropTypes.func
 };
 
-export default TextOrDateSelection;
+export default WizTextOrDateSelection;

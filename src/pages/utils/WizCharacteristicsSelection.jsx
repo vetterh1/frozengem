@@ -12,46 +12,22 @@ import SelectFromMatrix from "./SelectFromMatrix";
 // It's the responsibility of the parent to aggregate the multiple selected
 // and return them as an array in preselectedItems (with multiselection = true)
 
-const CharacteristicsSelection = ({
-  name,
-  title,
-  handleChange,
-  parentUpdateValue,
-  handleBack = null,
-  handleNext = null,
-  items,
-  preselectedItems,
-  multiselection = false,
-  showNavigation = false,
-  backDisabled = false,
-  defaultIconName = null,
-  isActive,
-  currentStep,
-  goToStep
-}) => {
+
+const WizCharacteristicsSelection = ({name, title, handleChange, secondaryHandleChange, handleBack = null, handleNext = null, items, preselectedItems, multiselection = false, showNavigation = false, backDisabled = false, defaultIconName = null, isActive, currentStep, goToStep}) => {
+
   if (isActive === false) return null;
   if (!items) return null;
 
   const _handleMultiselectionClick = async id => {
   }
 
-  const _handleClick = async id => {
-
-    if (multiselection)
-      await _handleMultiselectionClick(id)
-    else {
-      const nbStepsForward = await parentUpdateValue({ [name]: id });
-      if (nbStepsForward)
-        goToStep(currentStep + nbStepsForward);
-      else
-        
-    }
-
-    // const nbStepsForward = await handleChange({ [name]: id });
-    
-
-
+  const _handleClick = async (id) => {
+    const nbStepsForward = await handleChange({ [name]: id });
+    if(secondaryHandleChange) secondaryHandleChange({ [name]: id });
+    if(!multiselection && nbStepsForward)
+      goToStep(currentStep + nbStepsForward);
   };
+
 
   const _handleBack = async () => {
     // Clear current value when return to previous page
@@ -93,7 +69,7 @@ const CharacteristicsSelection = ({
   );
 };
 
-CharacteristicsSelection.propTypes = {
+WizCharacteristicsSelection.propTypes = {
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   handleChange: PropTypes.func,
@@ -118,4 +94,4 @@ CharacteristicsSelection.propTypes = {
   goToStep: PropTypes.func
 };
 
-export default CharacteristicsSelection;
+export default WizCharacteristicsSelection;

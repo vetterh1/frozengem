@@ -36,7 +36,8 @@ import { getIcon, IconRemove } from "../data/Icons";
 import PictureSelection from "./utils/PictureSelection";
 import ButtonToModal from "./utils/ButtonToModal";
 import CharacteristicsSelection from "./utils/CharacteristicsSelection";
-import TextOrDateSelection from "./utils/TextOrDateSelection";
+import DateSelection from "./utils/DateSelection";
+import TextSelection from "./utils/TextSelection";
 
 // import { red } from '@material-ui/core/colors';
 // import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -121,30 +122,40 @@ const CharacteristicsButton = ({
   showOkBtn = false,
   onOk = null
 }) => {
+  // console.debug("CharacteristicsButton : characteristicName, isText, isDate = ", characteristicName, isText, isDate);
   return (
     <ButtonToModal
       btnLabelId={btnLabelId}
       onOk={onOk}
       showOkBtn={multiselection || showOkBtn}
     >
-      {!isText && !isDate ? (
+      {(!isText && !isDate) ?
         <CharacteristicsSelection
           name={characteristicName}
           title={editTitle}
           handleChange={null} // filled by parent (when cloning this component)
           items={editItems}
-          preselectedItems={editPreselectedItems}
+          initialValue={editPreselectedItems}
           multiselection={multiselection}
         />
-      ) : (
-        <TextOrDateSelection
-          name={characteristicName}
-          isDate={isDate}
-          title={editTitle}
-          help={editHelp}
-          // handleNext={editHandleChange}
-          initialValue={editPreselectedItems}
-        />
+      : 
+      (
+        (isText && !isDate) ?
+          <TextSelection
+            name={characteristicName}
+            title={editTitle}
+            help={editHelp}
+            parentUpdateValue={() => {}} // filled by parent (when cloning this component)
+            initialValue={editPreselectedItems}
+          />
+        :
+          <DateSelection
+            name={characteristicName}
+            title={editTitle}
+            help={editHelp}
+            parentUpdateValue={() => {}} // filled by parent (when cloning this component)
+            initialValue={editPreselectedItems}
+          />
       )}
     </ButtonToModal>
   );
