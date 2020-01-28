@@ -22,18 +22,23 @@ const CharacteristicsSelection = ({
   defaultIconName = null,
 }) => {
   const [value, setValue] = React.useState(initialValue);
-
+ 
   if (!items) return null;
+
+  console.debug("CharacteristicsSelection.init: name, value, initialValue = ", name, value, initialValue)
 
   const _handleClick = id => {
     setValue(id);
+    console.debug("CharacteristicsSelection._handleClick: name, id, value = ", name, id, value)
     if(!multiselection)
-      _handleOk();
+      _handleOk(id);
   };
 
+pourquoi value est vide ???
 
-  const _handleOk = async () => {
-    await handleOk({ [name]: value });
+  const _handleOk = async (id) => {
+    console.debug("CharacteristicsSelection._handleOk: name, value, id = ", name, value, id)
+    await handleOk({ [name]: id });
   };
 
   return (
