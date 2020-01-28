@@ -145,7 +145,6 @@ const CharacteristicsButton = ({
             name={characteristicName}
             title={editTitle}
             help={editHelp}
-            parentUpdateValue={() => {}} // filled by parent (when cloning this component)
             initialValue={editPreselectedItems}
           />
         :

@@ -4,88 +4,83 @@ import React from "react";
 import PropTypes from "prop-types";
 import { WizPageTitle } from "./WizUtilComponents";
 import FormControl from "@material-ui/core/FormControl";
-import FormHelperText from "@material-ui/core/FormHelperText";
+//import FormHelperText from "@material-ui/core/FormHelperText";
 import Input from "@material-ui/core/Input";
-import { DatePicker } from "@material-ui/pickers";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import { FormattedMessage } from "react-intl";
+import Button from '@material-ui/core/Button';
 
-//
-// (!) Way of working (!)
-//
-// - Simple way (NO validity check)
-//       --> the entered text is sent to the parent only when the user clicks on Next (as a parameter of handleNext)
-//       --> help parameters shows an optional message under the text input
-// - Need validation
-//       --> same a simple way
-//       -->  + the text is sent at every change to a parentUpdateValue parent method.
-//            (the help text is replaced by the result of this function, see below)
-//
-//            (!) parentUpdateValue should return null if all is OK, or an error message if not
-//
-// (!) handleBack & handleNext & parentUpdateValue are async (!)
-//
+
 
 const TextSelection = ({
   name,
   title,
-  help,
+  // help,
   initialValue,
-  parentUpdateValue,
+  open,
+  handleOk,
+  handleClose
 }) => {
   const [value, setValue] = React.useState(initialValue);
-  const [validationMessage, setvalidationMessage] = React.useState(
-    // parentUpdateValue ? parentUpdateValue(initialValue) : help ? help : ""
-  );
-
-  console.debug("TextSelection init: name, initialValue = ", name, initialValue);
 
   const _handleSimpleChange = async (newValue, event) => {
-    console.debug("TextSelection._handleSimpleChange start: old, new, event = : ", value, newValue, event);
     setValue(newValue);
-    if (parentUpdateValue) {
-      let validationMessage = await parentUpdateValue({ [name]: newValue });
-      // console.debug("TextSelection._handleSimpleChange 2: ", value, newValue, event);
-      // if (validationMessage === null) {
-      //   if (help) validationMessage = help;
-      //   else validationMessage = "";
-      // }
-      setvalidationMessage();
-    }
-    console.debug("TextSelection._handleSimpleChange end: old, new, event = : ", value, newValue, event);
   };
 
   const _handleEventChange = async event => {
     await _handleSimpleChange(event.target.value, event);
   };
 
+  const _handleOk = async () => {
+    await handleOk({ [name]: value });
+  };
+
   return (
-    <div className={"flex-normal-height flex-direction-column"}>
-      <WizPageTitle message={title} />
-        <FormControl
-          className={
-            "flex-normal-height flex-direction-column margin-top margin-down"
-          }
-        >
-          <Input
-            id={name}
-            value={value}
-            onChange={_handleEventChange}
-            aria-describedby="name-text"
-            fullWidth
-          />
-          <FormHelperText id="name-text">
-            {validationMessage ? validationMessage : help ? help : ""}
-          </FormHelperText>
-        </FormControl>
-    </div>
+    <Dialog fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <DialogContent>
+        <div className={"flex-normal-height flex-direction-column"}>
+          <WizPageTitle message={title} />
+          <FormControl
+            className={
+              "flex-normal-height flex-direction-column margin-top margin-down"
+            }
+          >
+            <Input
+              id={name}
+              value={value}
+              onChange={_handleEventChange}
+              aria-describedby="name-text"
+              fullWidth
+            />
+            {/* <FormHelperText id="name-text">
+              {validationMessage ? validationMessage : help ? help : ""}
+            </FormHelperText> */}
+          </FormControl>
+        </div>
+
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} color="primary">
+          <FormattedMessage id="button.cancel" />
+        </Button>
+        <Button onClick={_handleOk} color="primary">
+          <FormattedMessage id="button.ok" />
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 
 TextSelection.propTypes = {
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  help: PropTypes.string,
+  // help: PropTypes.string,
   initialValue: PropTypes.string,
-  parentUpdateValue: PropTypes.func.isRequired, // return null if valid, or otherwise, an error string to display
+  open: PropTypes.bool,
+  handleOk: PropTypes.func.isRequired, 
+  handleClose: PropTypes.func.isRequired, 
 };
 
 export default TextSelection;

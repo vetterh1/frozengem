@@ -30,37 +30,26 @@ const styles = theme => ({
 
 const ButtonToModal = ({btnLabelId = "action.edit", alternateBtnIcon, onOk, onCancel, showOkBtn = false, classes, children}) => {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState();
 
   if(!children) return null;
   const multiselection = children.props.multiselection;
-  const initialValue = children.props.initialValue;
-  console.debug("ButtonToModal init : value, name, multiselection, initialValue = ", value, children.props.name, multiselection, initialValue);
-
+  console.debug("ButtonToModal init : name, multiselection = ", children.props.name, multiselection);
 
   function _handleClickOpen(e) {
     e.stopPropagation();
     setOpen(true);
   }
 
-  // Return the value to parent & close the modal
-  // (!) The child MUST update the value by another call (ex: _handleUpdateValue)
-  function _handleOk() {
-    console.debug("ButtonToModal._handleOk: value = ", value);
+  // Return the update to parent & close the modal
+  // (!) The child MUST call handleOk with a {key=value} update
+  function handleOk(update) {
+    console.debug("ButtonToModal.handleOk: update = ", update);
     setOpen(false);
-    if(onOk) onOk(value);
-  }
-
-  function _handleUpdateValue(newValue) {
-    console.debug("ButtonToModal._handleUpdateValue: old, new = ", value, newValue);
-    setValue(newValue);
-    // if(!multiselection)
-    //   _handleOk();
-    return null; // all is ok!
+    if(onOk) onOk(update);
   }
 
 
-  function _handleClose() {
+  function handleClose() {
     setOpen(false);
     if(onCancel) onCancel();
   }
@@ -80,25 +69,7 @@ const ButtonToModal = ({btnLabelId = "action.edit", alternateBtnIcon, onOk, onCa
       </Button>
 
       { open && 
-
-
----> put dialog in the 3 kind of children so OK is inside it & no unecessary refreshes
-        <Dialog fullWidth open={open} onClose={_handleClose} aria-labelledby="form-dialog-title">
-          <DialogContent>
-            {/* {React.cloneElement(children)} */}
-            {React.cloneElement(children, { parentUpdateValue: _handleUpdateValue })}
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={_handleClose} color="primary">
-              <FormattedMessage id="button.cancel" />
-            </Button>
-            { onOk && showOkBtn &&
-              <Button onClick={_handleOk} color="primary">
-                <FormattedMessage id="button.ok" />
-              </Button>
-            }
-          </DialogActions>
-        </Dialog>
+        React.cloneElement(children, { handleOk: handleOk, handleClose: handleClose, open: open })
       }
     </React.Fragment>
   );
