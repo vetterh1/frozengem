@@ -16,12 +16,12 @@ import { DatePicker } from "@material-ui/pickers";
 //       --> help parameters shows an optional message under the text input
 // - Need validation
 //       --> same a simple way
-//       -->  + the text is sent at every change to a parentUpdateValue parent method.
+//       -->  + the text is sent at every change to a validityCheck parent method.
 //            (the help text is replaced by the result of this function, see below)
 //
-//            (!) parentUpdateValue should return null if all is OK, or an error message if not
+//            (!) validityCheck should return null if all is OK, or an error message if not
 //
-// (!) handleBack & handleNext & parentUpdateValue are async (!)
+// (!) handleBack & handleNext & validityCheck are async (!)
 //
 
 const TextOrDateSelection = ({
@@ -32,9 +32,8 @@ const TextOrDateSelection = ({
   handleBack = null,
   handleNext = null,
   initialValue,
-  parentUpdateValue,
+  validityCheck = null,
   showNavigation = false,
-  navNextIsOk = false,
   backDisabled = false,
   isActive,
   currentStep,
@@ -44,40 +43,35 @@ const TextOrDateSelection = ({
 
   const [value, setValue] = React.useState(initialValue);
   const [validationMessage, setvalidationMessage] = React.useState(
-    // parentUpdateValue ? parentUpdateValue(initialValue) : help ? help : ""
+    validityCheck ? validityCheck(initialValue) : help ? help : ""
   );
-
-  console.debug("TextOrDateSelection init: name, initialValue = ", name, initialValue);
-
 
   const _handleBack = async () => {
     // Clear current value when return to previous page
     if (handleBack) {
       const nbStepsBack = await handleBack({ [name]: undefined });
-      if (nbStepsBack) goToStep(currentStep - nbStepsBack);
+      goToStep(currentStep - nbStepsBack);
     }
   };
 
   const _handleNext = async () => {
     if (handleNext) {
       const nbStepsForward = await handleNext({ [name]: value });
-      if (nbStepsForward) goToStep(currentStep + nbStepsForward);
+      goToStep(currentStep + nbStepsForward);
     }
   };
 
-  const _handleSimpleChange = async (newValue, event) => {
-    console.debug("TextOrDateSelection._handleSimpleChange start: old, new, event = : ", value, newValue, event);
-    setValue(newValue);
-    if (parentUpdateValue) {
-      let validationMessage = await parentUpdateValue({ [name]: newValue });
-      // console.debug("TextOrDateSelection._handleSimpleChange 2: ", value, newValue, event);
-      // if (validationMessage === null) {
-      //   if (help) validationMessage = help;
-      //   else validationMessage = "";
-      // }
+  const _handleSimpleChange = async value => {
+    // console.log(" %%%%%%%%%%%%%%%%%%%% _handleSimpleChange:", value);
+    setValue(value);
+    if (validityCheck) {
+      let validationMessage = await validityCheck(value);
+      if (validationMessage === null) {
+        if (help) validationMessage = help;
+        else validationMessage = "";
+      }
       setvalidationMessage();
     }
-    console.debug("TextOrDateSelection._handleSimpleChange end: old, new, event = : ", value, newValue, event);
   };
 
   const _handleDateChange = async dateAsObject => {
@@ -85,7 +79,7 @@ const TextOrDateSelection = ({
   };
 
   const _handleEventChange = async event => {
-    await _handleSimpleChange(event.target.value, event);
+    await _handleSimpleChange(event.target.value);
   };
 
   const sixMonthsAgo = new Date();
@@ -134,7 +128,6 @@ const TextOrDateSelection = ({
           isBackDisabled={backDisabled}
           onClickNext={_handleNext}
           onClickPrevious={_handleBack}
-          nextIsOk={navNextIsOk}
         />
       )}
     </div>
@@ -149,9 +142,8 @@ TextOrDateSelection.propTypes = {
   handleBack: PropTypes.func,
   handleNext: PropTypes.func,
   initialValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  parentUpdateValue: PropTypes.func.isRequired, // return null if valid, or otherwise, an error string to display
+  validityCheck: PropTypes.func, // return null if valid, or otherwise, an error string to display
   showNavigation: PropTypes.bool,
-  navNextIsOk: PropTypes.bool,
   backDisabled: PropTypes.bool,
   // Props for StepWizard, can be null when call NOT from StepWizard:
   hashKey: PropTypes.string,
