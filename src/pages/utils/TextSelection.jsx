@@ -53,6 +53,7 @@ const TextSelection = ({
               onChange={_handleEventChange}
               aria-describedby="name-text"
               fullWidth
+              autoFocus
             />
             {/* <FormHelperText id="name-text">
               {validationMessage ? validationMessage : help ? help : ""}

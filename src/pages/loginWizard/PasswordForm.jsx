@@ -29,7 +29,11 @@ class PasswordForm extends React.Component {
     this.handleTextChange = this.handleTextChange.bind(this)
     this.handleNext = this.handleNext.bind(this)
     this.handlePrevious = this.handlePrevious.bind(this)
+    this.textInput = React.createRef();
   }
+
+  componentDidMount = () => { this.timer = setTimeout(() => this.textInput.current.focus(), 1500,); }
+  componentWillUnmount = () => { clearInterval(this.timer); }
   
   handleTextChange(event) {
     if(!this.props.isActive) return;
@@ -75,13 +79,13 @@ class PasswordForm extends React.Component {
             <TextField
               id="new-password"
               autoComplete="new-password"
-              autoFocus
               value={password}
               onChange={this.handleTextChange}
               type="password"
               label={this.props.intl.formatMessage({id: 'register.password.label'})}
               fullWidth
               disabled={registrationInProgress || registrationFinished}
+              inputRef={this.textInput} 
             />
   
           </div>

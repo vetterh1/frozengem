@@ -15,8 +15,19 @@ class EmailForm extends React.Component {
     }; 
     this.handleTextChange = this.handleTextChange.bind(this)
     this.handleNext = this.handleNext.bind(this)
+    this.textInput = React.createRef();
   }
 
+  componentDidMount() {
+    this.timer = setTimeout(
+      () => this.textInput.current.focus(),
+      1500
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+}
 
 
   handleTextChange(event) {
@@ -61,7 +72,6 @@ class EmailForm extends React.Component {
             <TextField
                 id="email"
                 autoComplete="email"
-                autoFocus
                 value={email}
                 type="email"
                 onChange={this.handleTextChange}
@@ -69,6 +79,7 @@ class EmailForm extends React.Component {
                 helperText={this.props.intl.formatMessage({ id: validData ? 'register.email.help' : 'register.email.error'})}
                 error={email !== "" && !validData}
                 fullWidth
+                inputRef={this.textInput} 
               />
       
           </div>
