@@ -8,7 +8,7 @@
 // resources are updated in the background.
 
 // To learn more about the benefits of this model and instructions on how to
-// opt-in, read https://bit.ly/CRA-PWA
+// opt-in, read https://github.com/facebook/create-react-app/blob/master/packages/cra-template/template/README.md
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
@@ -69,6 +69,7 @@ function registerValidSW(swUrl, config) {
               // At this point, the updated precached content has been fetched,
               // but the previous service worker will still serve the older
               // content until all client tabs are closed.
+              alert("A new version of FrozenGem has been downloaded. Please close this page and re-open it.");
               console.log(
                 'New content is available and will be used when all ' +
                   'tabs for this page are closed. See https://bit.ly/CRA-PWA.'
@@ -83,6 +84,7 @@ function registerValidSW(swUrl, config) {
               // It's the perfect time to display a
               // "Content is cached for offline use." message.
               console.log('Content is cached for offline use.');
+              alert("FrozenGem is now installed.");
 
               // Execute callback
               if (config && config.onSuccess) {
@@ -94,6 +96,7 @@ function registerValidSW(swUrl, config) {
       };
     })
     .catch(error => {
+      alert("FrozenGem could not be installed successfully :(");
       console.error('Error during service worker registration:', error);
     });
 }
@@ -120,6 +123,7 @@ function checkValidServiceWorker(swUrl, config) {
       }
     })
     .catch(() => {
+      alert('No internet connection found. FrozenGem is running in offline mode.')
       console.log(
         'No internet connection found. App is running in offline mode.'
       );
