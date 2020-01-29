@@ -39,12 +39,12 @@ const styles = theme => ({
 
 const AddWizard = ({addItem, savePicture, addIntlNotifier, loggedIn, language, characteristics, intl, classes}) => {
 
-  const emptyEmpty = {
+  const emptyItem = {
     id: null,
     category: null,
     categoryName: "",
     categoryDetails: [],
-    details: [],
+    detailsArray: [],
     container: null,
     containerName: "",
     containerColors: [],      
@@ -59,11 +59,11 @@ const AddWizard = ({addItem, savePicture, addIntlNotifier, loggedIn, language, c
     thumbnailName: null,
     code: null,
   };
-  const [item, setItemValues] = React.useState(emptyEmpty);
+  const [item, setItemValues] = React.useState(emptyItem);
   // const [cameraDialogState, setCameraDialogState] = React.useState(false);
   
 
-  const _resetState = () => setItemValues(emptyEmpty);
+  const _resetState = () => setItemValues(emptyItem);
 
  
   const _handleChangeWithServerSave = async (updates) => {
@@ -177,7 +177,7 @@ const AddWizard = ({addItem, savePicture, addIntlNotifier, loggedIn, language, c
 
    
   const handleDetailsChange = async (updates, updateServer = false) => {
-    await handleMultiselectionChange('details')(updates, updateServer);
+    await handleMultiselectionChange('detailsArray')(updates, updateServer);
     return null;
   }
 
@@ -188,7 +188,7 @@ const AddWizard = ({addItem, savePicture, addIntlNotifier, loggedIn, language, c
   // Compute expiration date from now & category & details
   //
   const computeExpiration =  () => {
-    const defaultExpirationInMonths = characteristicsServices.getDefaultExpirationInMonths(item.category, item.details, characteristics);
+    const defaultExpirationInMonths = characteristicsServices.getDefaultExpirationInMonths(item.category, item.detailsArray, characteristics);
     let expirationDateInDateForm = new Date();
     expirationDateInDateForm.setMonth(expirationDateInDateForm.getMonth() + defaultExpirationInMonths, 1);
     console.debug("computeExpiration - defaultExpirationInMonths: " + defaultExpirationInMonths + ", expirationDateInDateForm:", expirationDateInDateForm);
@@ -325,13 +325,13 @@ if (!loggedIn) {
           />
           <WizCharacteristicsSelection
             hashKey={'details'}
-            name='details'
+            name='detailsArray'
             title={intl.formatMessage({id: 'add.details.title'}, {category: item.categoryName})}
             handleChange={handleDetailsChange}
             handleNext={handleNextFromDetails}
             handleBack={handleBack}
             items={item.categoryDetails}
-            preselectedItems={item.details}
+            preselectedItems={item.detailsArray}
             multiselection
             showNavigation
             defaultIconName={"category"+item.category}

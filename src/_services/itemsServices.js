@@ -177,7 +177,7 @@ function computeAllItemsUtilityFields(items, language, characteristics) {
   async function addItemToServer(item, user) {
     console.debug('|--- SERVER CALL ---|--- POST ---| Items.addItemToServer: ', item);
     const data = { 'access_token': user.accessToken, ...item };
-    data.details = item.details.join();
+    data.details = item.detailsArray.join();
     const options = {
       method: 'POST',
       url: `${config.boUrl}/items`,

@@ -3,12 +3,11 @@ import PropTypes from "prop-types";
 import { WizPageTitle } from "./WizUtilComponents";
 import SelectFromMatrix from "./SelectFromMatrix";
 import FormControl from "@material-ui/core/FormControl";
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
 import { FormattedMessage } from "react-intl";
-import Button from '@material-ui/core/Button';
-
+import Button from "@material-ui/core/Button";
 
 const CharacteristicsSelection = ({
   name,
@@ -19,30 +18,41 @@ const CharacteristicsSelection = ({
   handleOk,
   handleClose,
   multiselection = false,
-  defaultIconName = null,
+  defaultIconName = null
 }) => {
   const [value, setValue] = React.useState(initialValue);
- 
+
+  // Call the parent handleOK & close the dialog when
+  // it's not a multiselection
+  // and the value has changed (through the setValue in _handleClick)
+  React.useEffect(() => {
+    if (!multiselection && value !== initialValue) {
+      // console.debug("CharacteristicsSelection.useEffect: name, value, initialValue = ", name, value, initialValue)
+      _handleOk();
+    }
+  }, [value]);
+
   if (!items) return null;
 
-  console.debug("CharacteristicsSelection.init: name, value, initialValue = ", name, value, initialValue)
+  // console.debug("CharacteristicsSelection.init: name, value, initialValue = ", name, value, initialValue)
 
-  const _handleClick = id => {
+  const _handleClick = async id => {
     setValue(id);
-    console.debug("CharacteristicsSelection._handleClick: name, id, value = ", name, id, value)
-    if(!multiselection)
-      _handleOk(id);
+    // console.debug("CharacteristicsSelection._handleClick: name, id, value = ", name, id, value)
   };
 
-pourquoi value est vide ???
-
-  const _handleOk = async (id) => {
-    console.debug("CharacteristicsSelection._handleOk: name, value, id = ", name, value, id)
-    await handleOk({ [name]: id });
+  const _handleOk = async () => {
+    // console.debug("CharacteristicsSelection._handleOk: name, id, value = ", name, value)
+    await handleOk({ [name]: value });
   };
 
   return (
-    <Dialog fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+    <Dialog
+      fullWidth
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="form-dialog-title"
+    >
       <DialogContent>
         <div className={"flex-normal-height flex-direction-column"}>
           <WizPageTitle message={title} />
@@ -53,7 +63,9 @@ pourquoi value est vide ???
           >
             <SelectFromMatrix
               name={name}
-              defaultIconName={defaultIconName ? defaultIconName : name + "Default"}
+              defaultIconName={
+                defaultIconName ? defaultIconName : name + "Default"
+              }
               items={items}
               preselectedItems={initialValue}
               multiselection={multiselection}
@@ -61,15 +73,16 @@ pourquoi value est vide ???
             />
           </FormControl>
         </div>
-
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">
           <FormattedMessage id="button.cancel" />
         </Button>
-        <Button onClick={_handleOk} color="primary">
-          <FormattedMessage id="button.ok" />
-        </Button>
+        {multiselection && (
+          <Button onClick={_handleOk} color="primary">
+            <FormattedMessage id="button.ok" />
+          </Button>
+        )}
       </DialogActions>
     </Dialog>
   );
@@ -87,7 +100,7 @@ CharacteristicsSelection.propTypes = {
   multiselection: PropTypes.bool,
   defaultIconName: PropTypes.string,
   open: PropTypes.bool,
-  handleOk: PropTypes.func.isRequired, 
+  handleOk: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired
 };
 

@@ -112,12 +112,12 @@ function getCharacteristicsUtilityFields(rawFields, language, characteristics) {
 }
 
 
-function getDefaultExpirationInMonths(category, details, characteristics) {
-  console.debug('getDefaultExpirationInMonths: category=', category, " - details=", details);
+function getDefaultExpirationInMonths(category, detailsArray, characteristics) {
+  console.debug('getDefaultExpirationInMonths: category=', category, " - detailsArray=", detailsArray);
   console.debug('getDefaultExpirationInMonths: this.state=', this.state);
-  if(!category || !details) return null;
+  if(!category || !detailsArray) return null;
 
-  // const { categories, details } = characteristics;
+  // const { categories, detailsArray } = characteristics;
   const { categories } = characteristics;
 
   // Find the expiration & expiration exceptions for this category
@@ -128,7 +128,7 @@ function getDefaultExpirationInMonths(category, details, characteristics) {
   // Find the expiration by taking the category expiration value
   // then + or - the exceptions
   let expirationInMonth = parseInt(expiration);
-  details.forEach(detail => {
+  detailsArray.forEach(detail => {
     const variation = expirationMinusPlus[detail];
     // console.debug('getDefaultExpirationInMonths: variation=', variation);
 
