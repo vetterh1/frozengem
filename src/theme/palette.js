@@ -1,41 +1,49 @@
-import { amber, blue, blueGrey, green, grey, indigo, orange, red } from '@material-ui/core/colors';
+import {
+  amber,
+  blue,
+  blueGrey,
+  green,
+  indigo,
+  orange,
+  red
+} from "@material-ui/core/colors";
 
 export default {
-    // type: 'dark',
-    primary: {
-      light: indigo[100],
-      main: indigo[700],
-      dark: indigo[900],
+  // type: 'dark',
+  primary: {
+    light: indigo[100],
+    main: indigo[700],
+    dark: indigo[900]
+  },
+  secondary: {
+    superlight: amber[200],
+    light: amber[300],
+    main: amber[500],
+    dark: amber[700]
+  },
+  itemCard: {
+    avatarBackgroundColor: {
+      expired: red["A700"],
+      next_30_days: red[500],
+      within_3_months: orange[500],
+      later: green[500]
     },
-    secondary: {
-      superlight: amber[200],
-      light: amber[300],
-      main: amber[500],
-      dark: amber[700],
-    },
-    itemCard: {
-      avatarBackgroundColor: {
-        expired: red['A700'],
-        next_30_days: red[500],
-        within_3_months: orange[500],
-        later: green[500],
-      },
-      cardBackgroundColor: {
-        expired: red[100],
-        next_30_days: red[50],
-        within_3_months: orange[50],
-        later: green[50],
-      },
-    },
-    matrixCard: {
-        selected: amber[100],
-    },    
-    text: {
-        primary: blueGrey[900],
-        secondary: blueGrey[600],
-        link: blue[600]
-    },
-    // divider: grey[200]
+    cardBackgroundColor: {
+      expired: red[100],
+      next_30_days: red[50],
+      within_3_months: orange[50],
+      later: green[50]
+    }
+  },
+  matrixCard: {
+    selected: amber[100]
+  },
+  text: {
+    primary: blueGrey[900],
+    secondary: blueGrey[600],
+    link: blue[600]
+  }
+  // divider: grey[200]
 };
 
 /*

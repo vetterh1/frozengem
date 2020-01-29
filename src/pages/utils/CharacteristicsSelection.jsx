@@ -106,8 +106,8 @@ CharacteristicsSelection.propTypes = {
   multiselection: PropTypes.bool,
   defaultIconName: PropTypes.string,
   open: PropTypes.bool,
-  handleOk: PropTypes.func.isRequired,
-  handleClose: PropTypes.func.isRequired
+  handleOk: PropTypes.func,
+  handleClose: PropTypes.func
 };
 
 export default CharacteristicsSelection;

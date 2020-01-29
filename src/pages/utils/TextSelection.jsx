@@ -80,8 +80,8 @@ TextSelection.propTypes = {
   // help: PropTypes.string,
   initialValue: PropTypes.string,
   open: PropTypes.bool,
-  handleOk: PropTypes.func.isRequired, 
-  handleClose: PropTypes.func.isRequired, 
+  handleOk: PropTypes.func, 
+  handleClose: PropTypes.func, 
 };
 
 export default TextSelection;

@@ -4,54 +4,26 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { itemsActions } from "../_actions/itemsActions";
 import { Redirect } from "react-router";
-
 import { injectIntl, FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
-
 import config from "../data/config";
-
 import {
-  Avatar,
   Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
   CardMedia,
-  DialogActions,
   Divider,
   Typography
 } from "@material-ui/core";
-
 import Person from "@material-ui/icons/Person";
 import PersonOutline from "@material-ui/icons/PersonOutline";
-
-// import useMediaQuery from '@material-ui/core/useMediaQuery';
-// import { useTheme } from '@material-ui/core/styles';
-
 import { getIcon, IconRemove } from "../data/Icons";
-// import EditIcon from '@material-ui/icons/Edit';
-// import CloseIcon from '@material-ui/icons/Close';
-
 import PictureSelection from "./utils/PictureSelection";
 import ButtonToModal from "./utils/ButtonToModal";
 import CharacteristicsSelection from "./utils/CharacteristicsSelection";
 import DateSelection from "./utils/DateSelection";
 import TextSelection from "./utils/TextSelection";
-
-// import { red } from '@material-ui/core/colors';
-// import FavoriteIcon from '@material-ui/icons/Favorite';
-// import ShareIcon from '@material-ui/icons/Share';
-// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-// import MoreVertIcon from '@material-ui/icons/MoreVert';
+import DialogMinimal from "./utils/DialogMinimal";
 
 const styles = theme => ({
-  details_main: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "top"
-  },
-
   details_image_section: {
     display: "flex",
     position: "relative",
@@ -84,58 +56,33 @@ const styles = theme => ({
     padding: "10px",
     color: "white"
   },
-
-  centerAligned: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-
-  details_code: {
-    display: "flex"
-  },
-  details_image: {
-    display: "flex"
-  },
-  actions: {
-    display: "flex",
-    flexDirection: "row",
-
-    padding: 0,
-    marginTop: theme.spacing(1),
-
-    justifyContent: "space-between"
-  }
 });
 
 const CharacteristicsButton = ({
   characteristicName,
-  iconName = "edit",
   isText = false,
   isDate = false,
   btnLabelId,
-  editTitle,
-  editHelp,
-  editItems,
-  editPreselectedItems,
+  dialogTitle,
+  dialogHelp,
+  dialogItems,
+  dialogPreselectedItems,
   multiselection = false,
-  showOkBtn = false,
-  onOk = null
+  onOk
 }) => {
   // console.debug("CharacteristicsButton : characteristicName, isText, isDate = ", characteristicName, isText, isDate);
   return (
     <ButtonToModal
       btnLabelId={btnLabelId}
       onOk={onOk}
-      showOkBtn={multiselection || showOkBtn}
     >
       {(!isText && !isDate) ?
         <CharacteristicsSelection
           name={characteristicName}
-          title={editTitle}
+          title={dialogTitle}
           handleChange={null} // filled by parent (when cloning this component)
-          items={editItems}
-          initialValue={editPreselectedItems}
+          items={dialogItems}
+          initialValue={dialogPreselectedItems}
           multiselection={multiselection}
         />
       : 
@@ -143,17 +90,17 @@ const CharacteristicsButton = ({
         (isText && !isDate) ?
           <TextSelection
             name={characteristicName}
-            title={editTitle}
-            help={editHelp}
-            initialValue={editPreselectedItems}
+            title={dialogTitle}
+            help={dialogHelp}
+            initialValue={dialogPreselectedItems}
           />
         :
           <DateSelection
             name={characteristicName}
-            title={editTitle}
-            help={editHelp}
+            title={dialogTitle}
+            help={dialogHelp}
             parentUpdateValue={() => {}} // filled by parent (when cloning this component)
-            initialValue={editPreselectedItems}
+            initialValue={dialogPreselectedItems}
           />
       )}
     </ButtonToModal>
@@ -166,30 +113,28 @@ const RemoveButton = ({
   return (
     <ButtonToModal
       btnLabelId="action.remove"
+      onOk={onOk}
       alternateBtnIcon={
         <IconRemove style={{ fontSize: "15px", display: "flex" }} />
       }
-      onOk={onOk}
-      showOkBtn={true}
     >
-      <div>Remove???</div>
+      <DialogMinimal idTitle="item.remove.from_freezer" idSubtitle="item.remove.confirmation.title" idBody="item.remove.confirmation.text" />
     </ButtonToModal>
   );
 };
 
 
 const SectionBlock = ({
-  isDate = false,
   characteristicName,
-  iconName = "edit",
+  isText = false,
+  isDate = false,
   main,
   secondary,
-  editTitle,
-  editHelp,
-  editItems,
-  editPreselectedItems,
+  dialogTitle,
+  dialogHelp,
+  dialogItems,
+  dialogPreselectedItems,
   onOk,
-  showOkBtn=false,
   additionalButton = null
 }) => {
   return (
@@ -199,14 +144,13 @@ const SectionBlock = ({
       <div className={"flex-direction-row"}>
         <CharacteristicsButton
           characteristicName={characteristicName}
+          isText={isText}
           isDate={isDate}
-          iconName={iconName}
-          editTitle={editTitle}
-          editHelp={editHelp}
-          editItems={editItems}
-          editPreselectedItems={editPreselectedItems}
+          dialogTitle={dialogTitle}
+          dialogHelp={dialogHelp}
+          dialogItems={dialogItems}
+          dialogPreselectedItems={dialogPreselectedItems}
           onOk={onOk}
-          showOkBtn={showOkBtn}
         />
         {additionalButton && <div className={"small-margin-left"}>{additionalButton}</div>}
       </div>
@@ -239,7 +183,7 @@ const Details = ({
   // const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   if (!item || !characteristics) return null;
-  console.debug("[--- FC ---] Functional component: Details id!", item.id);
+  console.debug(`[--- FC ---] Functional component: Details - id=${item.id}`);
 
   const handleClose = () => {
     console.debug("[<<< Details ------<<<----- / <<<] Reason: close details");
@@ -253,10 +197,13 @@ const Details = ({
 
   const _handleRemove = async () => {
     removeItem(item.id, 0);
+    handleClose();
   };
 
   const _handleUpdateQuantity = async ({ size }) => {
     removeItem(item.id, size);
+    if(size === '0')
+      handleClose();
   };
 
   const _handleUpdateCharacteristic = async update => {
@@ -268,27 +215,6 @@ const Details = ({
 
   const handleSavePicture = (pictureData, thumbnailData) => {
     savePicture(item.id, pictureData, thumbnailData);
-  };
-
-  const handleEditCode = e => {
-    e.stopPropagation();
-    console.debug("ItemCard.handleEditCode: ", item.id);
-    // onEditItem(item, 'name');
-    return null;
-  };
-
-  const handleEditDetails = e => {
-    e.stopPropagation();
-    console.debug("ItemCard.handleEditDetails: ", item.id);
-    // onEditItem(item, 'details');
-    return null;
-  };
-
-  const handleEditExpiration = e => {
-    e.stopPropagation();
-    console.debug("ItemCard.handleEditExpiration: ", item.id);
-    // onEditItem(item, 'expirationDate');
-    return null;
   };
 
   const sizeInIcons = [];
@@ -315,9 +241,9 @@ const Details = ({
 
   const dateToDisplay = `${item.__monthExpirationAsText} ${item.__yearExpiration}`;
 
-  const editTitle = intl.formatMessage({ id: "action.edit" });
-  const editHelpName = intl.formatMessage({ id: "add.name.help" });
-  const editHelpDate = intl.formatMessage({ id: "add.date.help" });
+  const dialogTitle = intl.formatMessage({ id: "action.edit" });
+  const dialogHelpName = intl.formatMessage({ id: "add.name.help" });
+  const dialogHelpDate = intl.formatMessage({ id: "add.date.help" });
   const removeTitle = intl.formatMessage({ id: "action.remove" });
 
   return (
@@ -376,9 +302,9 @@ const Details = ({
             <CharacteristicsButton
               characteristicName="name"
               isText={true}
-              editTitle={editTitle}
-              editHelp={editHelpName}
-              editPreselectedItems={item.name}
+              dialogTitle={dialogTitle}
+              dialogHelp={dialogHelpName}
+              dialogPreselectedItems={item.name}
               onOk={_handleUpdateCharacteristic}
               showOkBtn={true}
             />
@@ -395,9 +321,9 @@ const Details = ({
             </Typography>
             <CharacteristicsButton
               characteristicName="category"
-              editTitle={editTitle}
-              editItems={characteristics.categories}
-              editPreselectedItems={item.category}
+              dialogTitle={dialogTitle}
+              dialogItems={characteristics.categories}
+              dialogPreselectedItems={item.category}
               onOk={_handleUpdateCharacteristic}
             />
           </div>
@@ -407,9 +333,9 @@ const Details = ({
             </Typography>
             <CharacteristicsButton
               characteristicName="details"
-              editTitle={editTitle}
-              editItems={characteristics.details}
-              editPreselectedItems={item.__detailsArray}
+              dialogTitle={dialogTitle}
+              dialogItems={characteristics.details}
+              dialogPreselectedItems={item.__detailsArray}
               multiselection={true}
               onOk={_handleUpdateCharacteristic}
             />
@@ -423,13 +349,12 @@ const Details = ({
         */}
         <section className={"flex-direction-row flex-justify-around"}>
           <SectionBlock
-            iconName="remove"
             characteristicName="size"
             main={sizeInIcons}
             secondary={item.__sizeInText}
-            editTitle={removeTitle}
-            editItems={sizesWith0}
-            editPreselectedItems={item.size}
+            dialogTitle={removeTitle}
+            dialogItems={sizesWith0}
+            dialogPreselectedItems={item.size}
             onOk={_handleUpdateQuantity}
             additionalButton={<RemoveButton onOk={_handleRemove}/>}
           />
@@ -438,9 +363,9 @@ const Details = ({
             isDate={true}
             main={dateToDisplay}
             secondary={intl.formatMessage(item.__expirationText)}
-            editTitle={editTitle}
-            editHelp={editHelpDate}
-            editPreselectedItems={item.expirationDate}
+            dialogTitle={dialogTitle}
+            dialogHelp={dialogHelpDate}
+            dialogPreselectedItems={item.expirationDate}
             onOk={_handleUpdateCharacteristic}
             showOkBtn={true}
           />
@@ -456,18 +381,18 @@ const Details = ({
             characteristicName="freezer"
             main={item.__freezerText}
             secondary="- Freezer -"
-            editTitle={editTitle}
-            editItems={characteristics.freezers}
-            editPreselectedItems={item.freezer}
+            dialogTitle={dialogTitle}
+            dialogItems={characteristics.freezers}
+            dialogPreselectedItems={item.freezer}
             onOk={_handleUpdateCharacteristic}
           />
           <SectionBlock
             characteristicName="location"
             main={item.__locationText}
             secondary="- Location -"
-            editTitle={editTitle}
-            editItems={characteristics.locations}
-            editPreselectedItems={item.location}
+            dialogTitle={dialogTitle}
+            dialogItems={characteristics.locations}
+            dialogPreselectedItems={item.location}
             onOk={_handleUpdateCharacteristic}
           />
         </section>
@@ -482,48 +407,24 @@ const Details = ({
             characteristicName="container"
             main={item.__containerText}
             secondary="- Container -"
-            editTitle={editTitle}
-            editItems={characteristics.containers}
-            editPreselectedItems={item.container}
+            dialogTitle={dialogTitle}
+            dialogItems={characteristics.containers}
+            dialogPreselectedItems={item.container}
             onOk={_handleUpdateCharacteristic}
           />
           <SectionBlock
             characteristicName="color"
             main={item.__colorText}
             secondary="- Color -"
-            editTitle={editTitle}
-            editItems={characteristics.colors}
-            editPreselectedItems={item.color}
+            dialogTitle={dialogTitle}
+            dialogItems={characteristics.colors}
+            dialogPreselectedItems={item.color}
             onOk={_handleUpdateCharacteristic}
           />
         </section>
       </div>
     </div>
   );
-
-  {
-    /*
-      
-        <div>Name: {item.name}</div>
-        <div>Category: {item.__categoryText}</div>
-        <div onClick={handleEditDetails}>Details: {item.__detailsNames}</div>
-        <div onClick={handleEditExpiration}>Expiration level: {item.__expirationLevel}</div>
-        <div>Container: {item.__containerText}</div>
-        <div>Color: {item.__colorText}</div>
-        <div>Freezer: {item.__freezerText}</div>
-        <div>Location: {item.__locationText}</div>
-        <div>Size: {item.__sizeInText}</div>      
-
-      {item.__iconExpiration}
-      {item.__expirationText}
-      {item.__sizeInText}
-      {item.__monthExpirationAsText}
-      {item.__yearExpiration}
-      {item.freezer}
-      {item.location}
-      {item.container}
-      {item.color} */
-  }
 };
 
 // Details.propTypes = {

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 // import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Redirect } from 'react-router'
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { userActions } from '../_actions/userActions';
 import { IntlProvider } from "react-intl";
 import { SnackbarProvider } from 'notistack';
@@ -46,7 +46,7 @@ const NotFound = () => <h2>404 error - This page has not been found!</h2>;
 
 
 
-const App = (props) => {
+const App = ({autologin, ...props}) => {
 
   const divStyle = {
     display: "flex",
@@ -70,9 +70,10 @@ const App = (props) => {
 
   // Run only once
   // Try to auto-login
+  const dispatch = useDispatch();
   useEffect(
-    () => props.autologin(), 
-    [] // ==> generates a warning on the console, but only way found to have it executed only once!
+    () => dispatch(autologin()),
+    [dispatch, autologin] // ==> generates a warning on the console, but only way found to have it executed only once!
   );
   
   if(!props.language){ console.log('app.js - no language');  return null; }
@@ -201,9 +202,9 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps() {
   return {
-    autologin: () => dispatch(userActions.autologin())
+    autologin: userActions.autologin
   }
 }
 

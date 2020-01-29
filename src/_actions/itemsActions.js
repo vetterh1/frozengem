@@ -146,6 +146,10 @@ function removeItem(id, size) {
 
             // Add items to redux store
             dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_SUCCESS, item });
+
+            // Success message
+            const message = (!size || size === '0') ? 'item.remove.success' : 'item.sizeChange.success';
+            dispatch(notifierActions.addIntlNotifier(message, 'success'));                  
             return item;
         } catch (error) {
             dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_FAILURE, error: error.toString() });

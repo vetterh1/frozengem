@@ -78,8 +78,8 @@ DateSelection.propTypes = {
   // help: PropTypes.string,
   initialValue: PropTypes.number,
   open: PropTypes.bool,
-  handleOk: PropTypes.func.isRequired, 
-  handleClose: PropTypes.func.isRequired, 
+  handleOk: PropTypes.func, 
+  handleClose: PropTypes.func, 
 };
 
 export default DateSelection;
