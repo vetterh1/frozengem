@@ -37,7 +37,7 @@ const intSelectFromMatrix = ({ name = "", defaultIconName = "", items, preselect
       if(!iconItem)  iconItem = getIcon(defaultIconName);
       let selected = false;
       if(multiselection) {
-        console.log("preselectedItems:", preselectedItems)
+        // console.log("preselectedItems:", preselectedItems)
         if(preselectedItems)
           selected = preselectedItems.find(detail => detail === item.id2) !== undefined;
       } else {
@@ -61,7 +61,11 @@ intSelectFromMatrix.propTypes = {
   name: PropTypes.string.isRequired,
   defaultIconName: PropTypes.string.isRequired,
   items: PropTypes.array.isRequired,
-  preselectedItems: PropTypes.oneOfType([PropTypes.array,PropTypes.string,PropTypes.number]), // can be null: nothing is pre-selected
+  // preselectedItems is a string if NOT multi selection
+  // preselectedItems is an array if multi selection 
+  // preselectedItems: if nothing is pre-selected AND NOT multi selection: null
+  // preselectedItems: if nothing is pre-selected AND multi selection: []
+  preselectedItems: PropTypes.oneOfType([PropTypes.array,PropTypes.string,PropTypes.number]), 
   multiselection: PropTypes.bool,
   handleClick: PropTypes.func,
   classes: PropTypes.object,

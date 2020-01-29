@@ -20,30 +20,32 @@ const CharacteristicsSelection = ({
   multiselection = false,
   defaultIconName = null
 }) => {
-  const [value, setValue] = React.useState(initialValue);
+  const [multiselectionSelectedItems, setMultiselectionSelectedItems] = React.useState(initialValue);
 
-  // Call the parent handleOK & close the dialog when
-  // it's not a multiselection
-  // and the value has changed (through the setValue in _handleClick)
-  React.useEffect(() => {
-    if (!multiselection && value !== initialValue) {
-      // console.debug("CharacteristicsSelection.useEffect: name, value, initialValue = ", name, value, initialValue)
-      _handleOk();
-    }
-  }, [value]);
-
-  if (!items) return null;
-
-  // console.debug("CharacteristicsSelection.init: name, value, initialValue = ", name, value, initialValue)
+ 
+  console.debug("CharacteristicsSelection.init: name, value, initialValue = ", name, multiselectionSelectedItems, initialValue)
 
   const _handleClick = async id => {
-    setValue(id);
-    // console.debug("CharacteristicsSelection._handleClick: name, id, value = ", name, id, value)
+    if(!multiselection)
+      await handleOk({ [name]: id });
+    else {
+      const alreadyExists = multiselectionSelectedItems.find(valueInList => valueInList === id);
+      // Add the new value to the list if it does not exist yet
+      // If it already exists: remove it (toggle action)
+      let newSelectedItems;
+      if(alreadyExists){
+        newSelectedItems = multiselectionSelectedItems.filter(valueInList => valueInList !== id);
+      } else {
+          newSelectedItems = [...multiselectionSelectedItems, id];
+      }
+      setMultiselectionSelectedItems(newSelectedItems);
+      console.debug("CharacteristicsSelection._handleClick - multiselection: name, id, newSelectedItems = ", name, id, newSelectedItems)
+    }
   };
 
   const _handleOk = async () => {
     // console.debug("CharacteristicsSelection._handleOk: name, id, value = ", name, value)
-    await handleOk({ [name]: value });
+    await handleOk({ [name]: multiselectionSelectedItems });
   };
 
   return (
@@ -67,7 +69,7 @@ const CharacteristicsSelection = ({
                 defaultIconName ? defaultIconName : name + "Default"
               }
               items={items}
-              preselectedItems={initialValue}
+              preselectedItems={multiselection ? multiselectionSelectedItems : initialValue}
               multiselection={multiselection}
               handleClick={_handleClick}
             />
@@ -92,11 +94,15 @@ CharacteristicsSelection.propTypes = {
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   items: PropTypes.array.isRequired,
+  // initialValue is a string if NOT multi selection
+  // initialValue is an array if multi selection 
+  // initialValue: if nothing is pre-selected AND NOT multi selection: null
+  // initialValue: if nothing is pre-selected AND multi selection: []
   initialValue: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.string,
     PropTypes.number
-  ]), // can be null: nothing is pre-selected
+  ]),
   multiselection: PropTypes.bool,
   defaultIconName: PropTypes.string,
   open: PropTypes.bool,
