@@ -1,20 +1,20 @@
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
+import "react-app-polyfill/ie11";
+import "react-app-polyfill/stable";
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
-import { Provider } from 'react-redux'
-import { createStore, applyMiddleware, compose } from 'redux';
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware, compose } from "redux";
 // import { createLogger } from 'redux-logger';
-import thunk from 'redux-thunk';
-import combinedReducer from './_reducers/combinedReducer';
+import thunk from "redux-thunk";
+import combinedReducer from "./_reducers/combinedReducer";
 
-import './index.css';
-import App from './pages/App';
-import * as serviceWorker from './serviceWorker';
+import TagManager from "react-gtm-module";
 
-
+import "./index.css";
+import App from "./pages/App";
+import * as serviceWorker from "./serviceWorker";
 
 //
 // --------------- Init Redux actions & reducers ---------------
@@ -26,28 +26,36 @@ const reduxMiddleware = applyMiddleware(thunk);
 
 console.debug("index init store");
 
-const store = createStore(
-  combinedReducer,
-  composeEnhancers(reduxMiddleware));
+const store = createStore(combinedReducer, composeEnhancers(reduxMiddleware));
 
 // Note: Init Redux store with Server data not here, only possible when user is signed in!
-
-
 
 // ------------------  i18n  ---------------------
 // Polyfill for Intl, not supported on old browsers
 // like IE10 or Safari.
 function ensureIntlSupport() {
-    if (window.Intl) return Promise.resolve();
-    return new Promise((resolve) => {
-      resolve(require('intl'));
-    })
-    .then(() => Promise.all([
-      require('intl/locale-data/jsonp/en.js'),
-      require('intl/locale-data/jsonp/fr.js'),
-    ]));
-  }
-  
+  if (window.Intl) return Promise.resolve();
+  return new Promise(resolve => {
+    resolve(require("intl"));
+  }).then(() =>
+    Promise.all([
+      require("intl/locale-data/jsonp/en.js"),
+      require("intl/locale-data/jsonp/fr.js")
+    ])
+  );
+}
+
+//
+// --------------- Google Tag Manager ---------------
+//
+
+// PROD Live: gtm_auth=fKCmYzZKmPIDEYs2Tc7yCQ - gtm_preview=env-1
+// Dev: gtm_auth=8Bk7s8CVYrNmPabwWcX8Wg - gtm_preview=env-3
+
+const tagManagerArgs = {
+  gtmId: "GTM-TFF4FK9"
+};
+TagManager.initialize(tagManagerArgs);
 
 
 //
@@ -59,9 +67,9 @@ ensureIntlSupport().then(
     <Provider store={store}>
       <App />
     </Provider>,
-    document.getElementById('root')));
-
-
+    document.getElementById("root")
+  )
+);
 
 //
 // ---------------------------- PWA -------------------------------
