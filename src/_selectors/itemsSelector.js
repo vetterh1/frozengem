@@ -25,7 +25,7 @@ export const getVisibleItems = createSelector(
         case 'removed': {
           return list
             .filter(item => item.removed)
-            .sort((a, b) => (a.createdAt < b.createdAt) ? 1 : -1);
+            .sort((a, b) => (a.updatedAt < b.updatedAt) ? 1 : -1);
         }        
 
         default:

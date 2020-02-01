@@ -78,6 +78,7 @@ const CharacteristicsButton = ({
     >
       {(!isText && !isDate) ?
         <CharacteristicsSelection
+          id={"details_update_" + characteristicName}
           name={characteristicName}
           title={dialogTitle}
           handleChange={null} // filled by parent (when cloning this component)
@@ -89,6 +90,7 @@ const CharacteristicsButton = ({
       (
         (isText && !isDate) ?
           <TextSelection
+            id={"details_update_" + characteristicName}
             name={characteristicName}
             title={dialogTitle}
             help={dialogHelp}
@@ -96,6 +98,7 @@ const CharacteristicsButton = ({
           />
         :
           <DateSelection
+            id={"details_update_" + characteristicName}
             name={characteristicName}
             title={dialogTitle}
             help={dialogHelp}
@@ -118,7 +121,7 @@ const RemoveButton = ({
         <IconRemove style={{ fontSize: "15px", display: "flex" }} />
       }
     >
-      <DialogMinimal idTitle="item.remove.from_freezer" idSubtitle="item.remove.confirmation.title" idBody="item.remove.confirmation.text" />
+      <DialogMinimal id="details_remove_item" idTitle="item.remove.from_freezer" idSubtitle="item.remove.confirmation.title" idBody="item.remove.confirmation.text" />
     </ButtonToModal>
   );
 };

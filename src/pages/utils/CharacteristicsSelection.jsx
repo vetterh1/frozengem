@@ -10,6 +10,7 @@ import { FormattedMessage } from "react-intl";
 import Button from "@material-ui/core/Button";
 
 const CharacteristicsSelection = ({
+  id,
   name,
   title,
   items,
@@ -50,6 +51,7 @@ const CharacteristicsSelection = ({
 
   return (
     <Dialog
+      id={"dlg_" + id}
       fullWidth
       open={open}
       onClose={handleClose}
@@ -91,6 +93,7 @@ const CharacteristicsSelection = ({
 };
 
 CharacteristicsSelection.propTypes = {
+  id: PropTypes.string.isRequired,  // used for analytics (GTM/GA)
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   items: PropTypes.array.isRequired,

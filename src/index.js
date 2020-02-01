@@ -53,7 +53,13 @@ function ensureIntlSupport() {
 // Dev: gtm_auth=8Bk7s8CVYrNmPabwWcX8Wg - gtm_preview=env-3
 
 const tagManagerArgs = {
-  gtmId: "GTM-TFF4FK9"
+  gtmId: "GTM-TFF4FK9",
+  // auth: "fKCmYzZKmPIDEYs2Tc7yCQ",
+  // preview: "PROD",
+  dataLayer: {
+    userId: '001',
+    userProject: 'frozenGem'
+  }
 };
 TagManager.initialize(tagManagerArgs);
 

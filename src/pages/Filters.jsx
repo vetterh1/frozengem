@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */ 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
 import { itemsFilterActions } from '../_actions/itemsFilterActions';
 import { injectIntl } from "react-intl";
@@ -23,16 +23,14 @@ function intFilters ({language, filter, categories, filterItems, intl}) {
   
   const classes = useStyles();
   
-  if(!categories) return null;
-
   const [sortedCategories] = useState(
-    categories.sort((a, b) => (a.name[language] > b.name[language]) ? 1 : -1)
+    categories && categories.sort((a, b) => (a.name[language] > b.name[language]) ? 1 : -1)
   );
 
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   // Restore tab used in previous session:
-  // useEffect(() => {
+  useEffect(() => {
     console.log('Filters.useEffect() - should run only once!');
     
     if(!selectedCategory) {
@@ -45,8 +43,9 @@ function intFilters ({language, filter, categories, filterItems, intl}) {
       filterItems(sel);
     }
   // },[]);  // ==> generates a warning on the console, but only way found to have it executed only once!
-  // },[selectedCategory, sortedCategories, filterItems]);
+  },[selectedCategory, sortedCategories, filterItems]);
 
+  if(!categories) return null;
 
 
   function handleChange(event, newValue) {
@@ -71,6 +70,7 @@ function intFilters ({language, filter, categories, filterItems, intl}) {
         textColor="primary"
       >
         <Tab
+          id='filter.all'
           key={'all'}
           label={intl.formatMessage({id: "filter.all"})}
           value={'all'}
@@ -78,6 +78,7 @@ function intFilters ({language, filter, categories, filterItems, intl}) {
           className={classes.tabNoUppercaseChange} 
         />
         <Tab
+          id='filter.latest'
           key={'latest'}
           label={intl.formatMessage({id: "filter.latest"})}
           value={'latest'}
@@ -85,6 +86,7 @@ function intFilters ({language, filter, categories, filterItems, intl}) {
           className={classes.tabNoUppercaseChange} 
         />
         {sortedCategories.map(category => <Tab
+          id={'filter.' + category.name['en'].toLowerCase()}
           key={category.id2}
           label={category.name[language]}
           value={category.id2}
@@ -92,6 +94,7 @@ function intFilters ({language, filter, categories, filterItems, intl}) {
           className={classes.tabNoUppercaseChange} 
         />)}
         <Tab
+          id='filter.removed'
           key={'removed'}
           label={intl.formatMessage({id: "filter.removed"})}
           value={'removed'}

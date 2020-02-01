@@ -4,6 +4,8 @@ import { FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Edit from "@material-ui/icons/Edit";
+import TagManager from 'react-gtm-module'
+
 
 const styles = theme => ({
   button: {
@@ -32,9 +34,23 @@ const ButtonToModal = ({
   const [open, setOpen] = React.useState(false);
 
   if (!children) return null;
+  // console.debug("ButtonToModal: children = ", children);
+
+
 
   function _handleClickOpen(e) {
     e.stopPropagation();
+
+    const tagManagerArgs = {
+      gtmId: "GTM-TFF4FK9",
+      events: {
+        event: "ButtonToModalOpen",
+        dialog: children.props.id
+      }
+    }    
+    TagManager.initialize(tagManagerArgs);
+
+    
     setOpen(true);
   }
 
@@ -42,11 +58,32 @@ const ButtonToModal = ({
   // (!) The child MUST call handleOk with a {key=value} update
   function handleOk(update) {
     console.debug("ButtonToModal.handleOk: update = ", update);
+
+    const tagManagerArgs = {
+      gtmId: "GTM-TFF4FK9",
+      events: {
+        event: "ButtonToModalCloseOK",
+        dialog: children.props.id,
+        value: update
+      }
+    }    
+    TagManager.initialize(tagManagerArgs);
+
     setOpen(false);
     if (onOk) onOk(update);
   }
 
   function handleClose() {
+
+    const tagManagerArgs = {
+      gtmId: "GTM-TFF4FK9",
+      events: {
+        event: "ButtonToModalCloseCancel",
+        dialog: children.props.id
+      }
+    }    
+    TagManager.initialize(tagManagerArgs);
+
     setOpen(false);
   }
 
@@ -59,7 +96,8 @@ const ButtonToModal = ({
   return (
     <React.Fragment>
       <Button
-        component="span"
+        id={"btn_" + children.props.id}
+        // component="button"
         size="small"
         color="primary"
         style={{ backgroundColor: "rgba(0, 0, 0, 0.075)" }}

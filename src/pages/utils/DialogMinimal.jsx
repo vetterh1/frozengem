@@ -7,6 +7,7 @@ import { FormattedMessage } from "react-intl";
 import { Button, Typography } from "@material-ui/core";
 
 const DialogMinimal = ({
+  id,
   idTitle,
   idSubtitle,
   idBody,
@@ -16,8 +17,15 @@ const DialogMinimal = ({
 }) => {
   console.debug("DialogMinimal.init: btnLabelId = ", idTitle);
 
+
+  const _handleOk = async () => {
+    await handleOk(null);
+  };
+
+
   return (
     <Dialog
+      id={"dlg_" + id}
       fullWidth
       open={open}
       onClose={handleClose}
@@ -40,7 +48,7 @@ const DialogMinimal = ({
         <Button onClick={handleClose} color="primary">
           <FormattedMessage id="button.cancel" />
         </Button>
-        <Button onClick={handleOk} color="primary">
+        <Button onClick={_handleOk} color="primary">
           <FormattedMessage id="button.ok" />
         </Button>
       </DialogActions>
@@ -49,6 +57,7 @@ const DialogMinimal = ({
 };
 
 DialogMinimal.propTypes = {
+  id: PropTypes.string.isRequired,  // used for analytics (GTM/GA)
   idTitle: PropTypes.string.isRequired,
   idSubtitle: PropTypes.string.isRequired,
   idBody: PropTypes.string.isRequired,
