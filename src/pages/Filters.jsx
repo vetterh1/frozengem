@@ -7,6 +7,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { getIcon } from "../data/Icons"; 
 import { makeStyles } from '@material-ui/core/styles';
+import TagManager from 'react-gtm-module'
 
 
 
@@ -41,6 +42,16 @@ function intFilters ({language, filter, categories, filterItems, intl}) {
         sel = 'all';
       setSelectedCategory( sel );
       filterItems(sel);
+
+      const tagManagerArgs = {
+        gtmId: "GTM-TFF4FK9",
+        events: {
+          event: "Filter",
+          action: "Init",
+          value: sel
+        }
+      }    
+      TagManager.initialize(tagManagerArgs);      
     }
   // },[]);  // ==> generates a warning on the console, but only way found to have it executed only once!
   },[selectedCategory, sortedCategories, filterItems]);
@@ -49,6 +60,17 @@ function intFilters ({language, filter, categories, filterItems, intl}) {
 
 
   function handleChange(event, newValue) {
+
+    const tagManagerArgs = {
+      gtmId: "GTM-TFF4FK9",
+      events: {
+        event: "Filter",
+        action: "Change",
+        value: newValue
+      }
+    }    
+    TagManager.initialize(tagManagerArgs);  
+
     localStorage.setItem('selectedCategory', newValue);
     setSelectedCategory( newValue );
     filterItems(newValue);

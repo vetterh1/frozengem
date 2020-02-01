@@ -46,7 +46,7 @@ const ButtonToModal = ({
       events: {
         event: "UpdateDetails",
         action: "Open",
-        dialog: children.props.id
+        value: children.props.id
       }
     }    
     TagManager.initialize(tagManagerArgs);
@@ -65,8 +65,8 @@ const ButtonToModal = ({
       events: {
         event: "UpdateDetails",
         action: "Ok",
-        dialog: children.props.id,
-        value: update
+        value: children.props.id,
+        change: update
       }
     }    
     TagManager.initialize(tagManagerArgs);
@@ -82,7 +82,7 @@ const ButtonToModal = ({
       events: {
         event: "UpdateDetails",
         action: "Cancel",
-        dialog: children.props.id
+        value: children.props.id
       }
     }    
     TagManager.initialize(tagManagerArgs);
