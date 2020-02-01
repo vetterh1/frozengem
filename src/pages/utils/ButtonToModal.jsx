@@ -44,7 +44,8 @@ const ButtonToModal = ({
     const tagManagerArgs = {
       gtmId: "GTM-TFF4FK9",
       events: {
-        event: "ButtonToModalOpen",
+        event: "UpdateDetails",
+        action: "Open",
         dialog: children.props.id
       }
     }    
@@ -62,7 +63,8 @@ const ButtonToModal = ({
     const tagManagerArgs = {
       gtmId: "GTM-TFF4FK9",
       events: {
-        event: "ButtonToModalCloseOK",
+        event: "UpdateDetails",
+        action: "Ok",
         dialog: children.props.id,
         value: update
       }
@@ -78,7 +80,8 @@ const ButtonToModal = ({
     const tagManagerArgs = {
       gtmId: "GTM-TFF4FK9",
       events: {
-        event: "ButtonToModalCloseCancel",
+        event: "UpdateDetails",
+        action: "Cancel",
         dialog: children.props.id
       }
     }    
