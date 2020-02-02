@@ -45,7 +45,7 @@ const ButtonToModal = ({
       gtmId: "GTM-TFF4FK9",
       events: {
         event: "Details",
-        action: "OpenUpdate",
+        action: "UpdateOpen",
         value: children.props.id
       }
     }    
@@ -63,7 +63,7 @@ const ButtonToModal = ({
       gtmId: "GTM-TFF4FK9",
       events: {
         event: "Details",
-        action: "ValidateUpdate",
+        action: "UpdateValidate",
         value: children.props.id,
         change: update
       }
@@ -80,7 +80,7 @@ const ButtonToModal = ({
       gtmId: "GTM-TFF4FK9",
       events: {
         event: "Details",
-        action: "CancelUpdate",
+        action: "UpdateCancel",
         value: children.props.id
       }
     }    
