@@ -13,6 +13,9 @@ import TagManager from 'react-gtm-module'
 
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    color: theme.palette.text.primary,
+  },  
   tabNoUppercaseChange: {
     textTransform: 'none',
   },
@@ -90,6 +93,7 @@ function intFilters ({language, filter, categories, filterItems, intl}) {
         scrollButtons="on"
         indicatorColor="primary"
         textColor="primary"
+        // className={classes.root} 
       >
         <Tab
           id='filter.all'
