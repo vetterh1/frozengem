@@ -22,6 +22,7 @@ import CharacteristicsSelection from "./utils/CharacteristicsSelection";
 import DateSelection from "./utils/DateSelection";
 import TextSelection from "./utils/TextSelection";
 import DialogMinimal from "./utils/DialogMinimal";
+import TagManager from 'react-gtm-module'
 
 const styles = theme => ({
   details_image_section: {
@@ -190,6 +191,16 @@ const Details = ({
 
   const handleClose = () => {
     console.debug("[<<< Details ------<<<----- / <<<] Reason: close details");
+
+    const tagManagerArgs = {
+      gtmId: "GTM-TFF4FK9",
+      events: {
+        event: "Details",
+        action: "Close",
+      }
+    }    
+    TagManager.initialize(tagManagerArgs);
+
     history.goBack();
 
     // Strangely, history.push/goBack works here...

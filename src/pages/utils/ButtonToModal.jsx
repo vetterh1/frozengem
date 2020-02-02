@@ -45,13 +45,12 @@ const ButtonToModal = ({
       gtmId: "GTM-TFF4FK9",
       events: {
         event: "Details",
-        action: "Edit",
+        action: "OpenUpdate",
         value: children.props.id
       }
     }    
     TagManager.initialize(tagManagerArgs);
 
-    
     setOpen(true);
   }
 
