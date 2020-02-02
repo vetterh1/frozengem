@@ -3,6 +3,7 @@ import { userServices } from '../_services/userServices';
 import { characteristicsActions } from './characteristicsActions';
 import { itemsActions } from './itemsActions';
 import { notifierActions } from './notifierActions';
+import TagManager from 'react-gtm-module'
 
 export const userActions = {
     login,
@@ -73,9 +74,30 @@ function login(email, password) {
     return async dispatch => {
         try {
             let user = await userServices.login(email, password);
+
+            const tagManagerArgs = {
+                gtmId: "GTM-TFF4FK9",
+                events: {
+                    event: "Login",
+                    action: "Login",
+                    value: "Success"
+                }
+            }    
+            TagManager.initialize(tagManagerArgs);  
+
             return afterLoginOrRegister(false, user, dispatch);
         } catch (error) {
             console.debug("userActions.login error - email: ", email);
+
+            const tagManagerArgs = {
+                gtmId: "GTM-TFF4FK9",
+                events: {
+                    event: "Login",
+                    action: "Login",
+                    value: "Error"
+                }
+            }    
+            TagManager.initialize(tagManagerArgs);  
 
             dispatch({ type: ACTIONS.LOGIN_FAILURE, error: error.toString() });
 
@@ -94,10 +116,30 @@ function autologin() {
         userServices.autologin()
             .then(
                 user => {
+                    const tagManagerArgs = {
+                        gtmId: "GTM-TFF4FK9",
+                        events: {
+                            event: "Login",
+                            action: "Autologin",
+                            value: "Success"
+                        }
+                    }    
+                    TagManager.initialize(tagManagerArgs);  
+                                        
                     return afterLoginOrRegister(false, user, dispatch);
                 },
                 error => {
                     // No error message ==> autologin is silent!
+
+                    const tagManagerArgs = {
+                        gtmId: "GTM-TFF4FK9",
+                        events: {
+                            event: "Login",
+                            action: "Autologin",
+                            value: "Error"
+                        }
+                    }    
+                    TagManager.initialize(tagManagerArgs);                      
                 }
             );
     };
