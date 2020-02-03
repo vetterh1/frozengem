@@ -12,20 +12,34 @@ import TagManager from 'react-gtm-module'
 
 
 
-const useStyles = makeStyles(theme => ({
+const useStylesTabs = makeStyles(theme => ({
   root: {
     color: theme.palette.text.primary,
-  },  
-  tabNoUppercaseChange: {
+  }
+}));
+
+
+
+const useStylesTab = makeStyles(theme => ({
+  root: {
     textTransform: 'none',
+    '&$selected': {
+      color: theme.palette.text.secondary,
+    },
   },
 }));
 
 
 
+WIP
+see https://material-ui.com/components/tabs/#tabs
+and https://material-ui.com/api/tab/
+
+
 function intFilters ({language, filter, categories, filterItems, intl}) {
   
-  const classes = useStyles();
+  const classesTabs = useStylesTabs();
+  const classesTab = useStylesTab();
   
   const [sortedCategories] = useState(
     categories && categories.sort((a, b) => (a.name[language] > b.name[language]) ? 1 : -1)
@@ -92,8 +106,8 @@ function intFilters ({language, filter, categories, filterItems, intl}) {
         variant="scrollable"
         scrollButtons="on"
         indicatorColor="primary"
-        textColor="primary"
-        // className={classes.root} 
+        // textColor="primary"
+        className={classesTabs.root} 
       >
         <Tab
           id='filter.all'
@@ -101,15 +115,15 @@ function intFilters ({language, filter, categories, filterItems, intl}) {
           label={intl.formatMessage({id: "filter.all"})}
           value={'all'}
           icon={getIcon("all")} 
-          className={classes.tabNoUppercaseChange} 
-        />
+          className={classesTab.root} 
+          />
         <Tab
           id='filter.latest'
           key={'latest'}
           label={intl.formatMessage({id: "filter.latest"})}
           value={'latest'}
           icon={getIcon("latest")} 
-          className={classes.tabNoUppercaseChange} 
+          className={classesTab.root} 
         />
         {sortedCategories.map(category => <Tab
           id={'filter.' + category.name['en'].toLowerCase()}
@@ -117,7 +131,7 @@ function intFilters ({language, filter, categories, filterItems, intl}) {
           label={category.name[language]}
           value={category.id2}
           icon={getIcon("category"+category.id2)} 
-          className={classes.tabNoUppercaseChange} 
+          className={classesTab.root} 
         />)}
         <Tab
           id='filter.removed'
@@ -125,7 +139,7 @@ function intFilters ({language, filter, categories, filterItems, intl}) {
           label={intl.formatMessage({id: "filter.removed"})}
           value={'removed'}
           icon={getIcon("removed")} 
-          className={classes.tabNoUppercaseChange} 
+          className={classesTab.root} 
         />
       </Tabs>      
 
