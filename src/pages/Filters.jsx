@@ -6,40 +6,50 @@ import { injectIntl } from "react-intl";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { getIcon } from "../data/Icons"; 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TagManager from 'react-gtm-module'
 
 
 
 
-const useStylesTabs = makeStyles(theme => ({
-  root: {
-    color: theme.palette.text.primary,
-  }
-}));
-
-
-
-const useStylesTab = makeStyles(theme => ({
-  root: {
-    textTransform: 'none',
-    '&$selected': {
-      color: theme.palette.text.secondary,
-    },
+/* eslint-disable no-dupe-keys */
+const useStyles = makeStyles(theme => ({
+  tabs: {
+    backgroundColor: theme.palette.primary.light,
   },
 }));
 
 
 
-WIP
-see https://material-ui.com/components/tabs/#tabs
-and https://material-ui.com/api/tab/
+const FilterTab = withStyles(theme => ({
+  root: {
+    textTransform: 'none',
+    color: theme.palette.text.primary,
+    '&:hover': {
+      color: theme.palette.primary.dark,
+    },
+    '&$selected': {
+      color: theme.palette.primary.dark,
+    },
+    '&:focus': {
+      color: theme.palette.primary.dark,
+    },
+  },
+  selected: {},
+}))(props => <Tab disableRipple {...props} />);
+
+
+
+
+// WIP
+// see https://material-ui.com/components/tabs/#tabs
+// and https://material-ui.com/api/tab/
 
 
 function intFilters ({language, filter, categories, filterItems, intl}) {
   
-  const classesTabs = useStylesTabs();
-  const classesTab = useStylesTab();
+  const classes = useStyles();
+
   
   const [sortedCategories] = useState(
     categories && categories.sort((a, b) => (a.name[language] > b.name[language]) ? 1 : -1)
@@ -107,39 +117,39 @@ function intFilters ({language, filter, categories, filterItems, intl}) {
         scrollButtons="on"
         indicatorColor="primary"
         // textColor="primary"
-        className={classesTabs.root} 
+        className={classes.tabs} 
       >
-        <Tab
+        <FilterTab
           id='filter.all'
           key={'all'}
           label={intl.formatMessage({id: "filter.all"})}
           value={'all'}
           icon={getIcon("all")} 
-          className={classesTab.root} 
+          className={classes.tab} 
           />
-        <Tab
+        <FilterTab
           id='filter.latest'
           key={'latest'}
           label={intl.formatMessage({id: "filter.latest"})}
           value={'latest'}
           icon={getIcon("latest")} 
-          className={classesTab.root} 
+          className={classes.tab} 
         />
-        {sortedCategories.map(category => <Tab
+        {sortedCategories.map(category => <FilterTab
           id={'filter.' + category.name['en'].toLowerCase()}
           key={category.id2}
           label={category.name[language]}
           value={category.id2}
           icon={getIcon("category"+category.id2)} 
-          className={classesTab.root} 
+          className={classes.tab} 
         />)}
-        <Tab
+        <FilterTab
           id='filter.removed'
           key={'removed'}
           label={intl.formatMessage({id: "filter.removed"})}
           value={'removed'}
           icon={getIcon("removed")} 
-          className={classesTab.root} 
+          className={classes.tab} 
         />
       </Tabs>      
 
