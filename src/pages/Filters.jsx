@@ -6,19 +6,19 @@ import { injectIntl } from "react-intl";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { getIcon } from "../data/Icons"; 
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import TagManager from 'react-gtm-module'
 
-
-
-
-/* eslint-disable no-dupe-keys */
-const useStyles = makeStyles(theme => ({
-  tabs: {
+const FilterTabs = withStyles(theme => ({
+  root: {
     backgroundColor: theme.palette.primary.light,
+    borderBottom: '10px solid #e8e8e8',
   },
-}));
-
+  indicator: {
+    backgroundColor: theme.palette.primary.dark,
+    height:"3px",
+  },
+}))(Tabs);
 
 
 const FilterTab = withStyles(theme => ({
@@ -36,7 +36,7 @@ const FilterTab = withStyles(theme => ({
     },
   },
   selected: {},
-}))(props => <Tab disableRipple {...props} />);
+}))(props => <Tab {...props} />);
 
 
 
@@ -47,9 +47,6 @@ const FilterTab = withStyles(theme => ({
 
 
 function intFilters ({language, filter, categories, filterItems, intl}) {
-  
-  const classes = useStyles();
-
   
   const [sortedCategories] = useState(
     categories && categories.sort((a, b) => (a.name[language] > b.name[language]) ? 1 : -1)
@@ -110,14 +107,13 @@ function intFilters ({language, filter, categories, filterItems, intl}) {
   return (
     <React.Fragment>
 
-      <Tabs
+      <FilterTabs
         value={selectedCategory}
         onChange={handleChange}
         variant="scrollable"
         scrollButtons="on"
         indicatorColor="primary"
         // textColor="primary"
-        className={classes.tabs} 
       >
         <FilterTab
           id='filter.all'
@@ -125,7 +121,6 @@ function intFilters ({language, filter, categories, filterItems, intl}) {
           label={intl.formatMessage({id: "filter.all"})}
           value={'all'}
           icon={getIcon("all")} 
-          className={classes.tab} 
           />
         <FilterTab
           id='filter.latest'
@@ -133,7 +128,6 @@ function intFilters ({language, filter, categories, filterItems, intl}) {
           label={intl.formatMessage({id: "filter.latest"})}
           value={'latest'}
           icon={getIcon("latest")} 
-          className={classes.tab} 
         />
         {sortedCategories.map(category => <FilterTab
           id={'filter.' + category.name['en'].toLowerCase()}
@@ -141,7 +135,6 @@ function intFilters ({language, filter, categories, filterItems, intl}) {
           label={category.name[language]}
           value={category.id2}
           icon={getIcon("category"+category.id2)} 
-          className={classes.tab} 
         />)}
         <FilterTab
           id='filter.removed'
@@ -149,9 +142,8 @@ function intFilters ({language, filter, categories, filterItems, intl}) {
           label={intl.formatMessage({id: "filter.removed"})}
           value={'removed'}
           icon={getIcon("removed")} 
-          className={classes.tab} 
         />
-      </Tabs>      
+      </FilterTabs>      
 
     </React.Fragment>
   );
