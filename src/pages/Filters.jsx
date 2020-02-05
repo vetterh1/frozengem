@@ -14,7 +14,7 @@ import TagManager from "react-gtm-module";
 
 const FilterTabs = withStyles(theme => ({
   root: {
-    backgroundColor: theme.palette.primary.light
+    backgroundColor: theme.palette.primary.light,
   },
   indicator: {
     backgroundColor: theme.palette.primary.dark,
@@ -25,6 +25,12 @@ const FilterTabs = withStyles(theme => ({
 
 const FilterTab = withStyles(theme => ({
   root: {
+    [theme.breakpoints.down('xs')]: {
+      minWidth: '75px',
+    },
+    [theme.breakpoints.up('sm')]: {
+      minWidth: '150px',
+    },    
     textTransform: "none",
     color: theme.palette.text.primary,
     "&:hover": {
@@ -37,22 +43,30 @@ const FilterTab = withStyles(theme => ({
       color: theme.palette.primary.dark
     }
   },
-  selected: {}
+  selected: {
+  },
 }))(props => <Tab {...props} />);
 
 
-const StyledCountBadge = withStyles({
+const StyledCountBadge = withStyles(theme => ({
   root: {
     position: 'absolute',
-    right: 16,
-    top: 16,
+    [theme.breakpoints.down('xs')]: {
+      right: 20,
+      top: 16,    
+    },
+    [theme.breakpoints.up('sm')]: {
+      right: 50,
+      top: 16,
+    },    
+
   },
   badge: {
     backgroundColor: "rgba(0, 0, 0, 0.25)",
     color: "black",
     padding: '0 2px',
   },
-})(props => <Badge {...props} />);
+}))(props => <Badge {...props} />);
 
 
 
