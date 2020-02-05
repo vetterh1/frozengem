@@ -57,22 +57,6 @@ const styles = theme => ({
     padding: "10px",
     color: "white"
   },
-
-  uncomplete_box: {
-    padding: "20px",
-    margin: "10px",
-    background: "#ff0030",
-    color: "#fff",
-    fontSize: "21px",
-    fontWeight: "bold",
-    lineHeight: "1.3em",
-    border: "2px dashed #fff",
-    borderRadius: "10px",
-    boxShadow: "0 0 0 4px #ff0030, 2px 1px 6px 4px rgba(10, 10, 0, 0.5)",
-    textShadow: "-1px -1px #aa3030",
-    fontWeight: "normal",
-  },
-
 });
 
 const CharacteristicsButton = ({
@@ -411,7 +395,7 @@ const Details = ({
           <SectionBlock
             characteristicName="freezer"
             main={item.__freezerText}
-            secondary="- Freezer -"
+            secondary={intl.formatMessage({ id: "characteristics.freezer" })}
             dialogTitle={dialogTitle}
             dialogItems={characteristics.freezers}
             dialogPreselectedItems={item.freezer}
@@ -420,7 +404,7 @@ const Details = ({
           <SectionBlock
             characteristicName="location"
             main={item.__locationText}
-            secondary="- Location -"
+            secondary={intl.formatMessage({ id: "characteristics.location" })}
             dialogTitle={dialogTitle}
             dialogItems={characteristics.locations}
             dialogPreselectedItems={item.location}
@@ -437,7 +421,7 @@ const Details = ({
           <SectionBlock
             characteristicName="container"
             main={item.__containerText}
-            secondary="- Container -"
+            secondary={intl.formatMessage({ id: "characteristics.container" })}
             dialogTitle={dialogTitle}
             dialogItems={characteristics.containers}
             dialogPreselectedItems={item.container}
@@ -446,7 +430,7 @@ const Details = ({
           <SectionBlock
             characteristicName="color"
             main={item.__colorText}
-            secondary="- Color -"
+            secondary={intl.formatMessage({ id: "characteristics.color" })}
             dialogTitle={dialogTitle}
             dialogItems={characteristics.colors}
             dialogPreselectedItems={item.color}
