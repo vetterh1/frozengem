@@ -14,6 +14,7 @@ import Apps from '@material-ui/icons/Apps';
 import FilterList from '@material-ui/icons/FilterList';
 import CancelPresentation from '@material-ui/icons/CancelPresentation';
 import RemoveCircleOutline from '@material-ui/icons/RemoveCircleOutline';
+import WarningIcon from '@material-ui/icons/Warning';
 
 
 export const getIcon = (iconName) => icons[iconName];
@@ -25,6 +26,7 @@ const icons = {
     "all": <Apps fontSize="default" />,
     "latest": <FilterList fontSize="default" />,
     "removed": <RemoveCircleOutline fontSize="default" />,
+    "incomplete": <WarningIcon fontSize="default" />,
 
     "remove": <IconRemove fontSize="default" />,
     "edit": <Edit fontSize="default" />,

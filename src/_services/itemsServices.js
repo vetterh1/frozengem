@@ -36,6 +36,14 @@ function _computeExpirationLevel(dateInMs) {
 
 function _isComplete(item) {
   let isComplete = true;
+  if( 
+    !item.name ||
+    !item.location ||
+    !item.freezer ||
+    !item.container
+   )
+    isComplete = false;
+
   return isComplete;
 }
 

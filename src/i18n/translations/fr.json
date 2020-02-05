@@ -59,6 +59,7 @@
   "expiration.message.within_3_months": "Expire dans les 3 mois",
   "expiration.message.later": "Expire dans plus de 3 mois",
   "filter.all": "Tout",
+  "filter.incomplete": "Incomplets",
   "filter.latest": "Récents",
   "filter.removed": "Retirés",
   "footer.builtby": "Construit avec amour par ",

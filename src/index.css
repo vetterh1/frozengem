@@ -208,3 +208,15 @@ video {
   opacity: .6;
   text-shadow: 0 0px 2px;
 }
+
+
+.stitched {
+  margin: 6px;
+  padding: 6px;
+  background: #fdb2c0;
+  color: #fff;
+  border: 2px dashed #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 0 4px #fdb2c0, 2px 1px 6px 4px rgba(10, 10, 0, 0.5);
+  font-weight: normal;
+}

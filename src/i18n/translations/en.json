@@ -60,6 +60,7 @@
   "expiration.message.within_3_months": "Expires withing 3 months",
   "expiration.message.later": "Expires in more than 3 months",
   "filter.all": "All",
+  "filter.incomplete": "Incompletes",
   "filter.latest": "Latest",
   "filter.removed": "Removed",
   "footer.builtby": "Built with love by ",

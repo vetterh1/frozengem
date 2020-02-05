@@ -2,9 +2,12 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { itemsFilterActions } from "../_actions/itemsFilterActions";
+import { filterCounts } from '../_selectors/itemsSelector';
 import { injectIntl } from "react-intl";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import Badge from "@material-ui/core/Badge";
+
 import { getIcon } from "../data/Icons";
 import { withStyles } from "@material-ui/core/styles";
 import TagManager from "react-gtm-module";
@@ -18,6 +21,7 @@ const FilterTabs = withStyles(theme => ({
     height: "3px"
   }
 }))(Tabs);
+
 
 const FilterTab = withStyles(theme => ({
   root: {
@@ -36,7 +40,26 @@ const FilterTab = withStyles(theme => ({
   selected: {}
 }))(props => <Tab {...props} />);
 
-function intFilters({ language, filter, categories, filterItems, intl }) {
+
+const StyledCountBadge = withStyles({
+  root: {
+    position: 'absolute',
+    right: 16,
+    top: 16,
+  },
+  badge: {
+    backgroundColor: "rgba(0, 0, 0, 0.25)",
+    color: "black",
+    padding: '0 2px',
+  },
+})(props => <Badge {...props} />);
+
+
+
+
+
+
+function intFilters({ language, filter, categories, filterItems, filterCounters, intl }) {
   const [sortedCategories] = useState(
     categories &&
       categories.sort((a, b) => (a.name[language] > b.name[language] ? 1 : -1))
@@ -87,6 +110,8 @@ function intFilters({ language, filter, categories, filterItems, intl }) {
 
   if (!selectedCategory) return null;
 
+  const counts = filterCounters;
+
   return (
     <React.Fragment>
       <FilterTabs
@@ -101,14 +126,14 @@ function intFilters({ language, filter, categories, filterItems, intl }) {
           key={"all"}
           label={intl.formatMessage({ id: "filter.all" })}
           value={"all"}
-          icon={getIcon("all")}
+          icon={<div>{getIcon("all")}<StyledCountBadge badgeContent={counts["all"]} /></div>}
         />
         <FilterTab
           id="filter.latest"
           key={"latest"}
           label={intl.formatMessage({ id: "filter.latest" })}
           value={"latest"}
-          icon={getIcon("latest")}
+          icon={<div>{getIcon("latest")}<StyledCountBadge badgeContent={counts["latest"]} /></div>}
         />
         {sortedCategories.map(category => (
           <FilterTab
@@ -116,15 +141,22 @@ function intFilters({ language, filter, categories, filterItems, intl }) {
             key={category.id2}
             label={category.name[language]}
             value={category.id2}
-            icon={getIcon("category" + category.id2)}
+            icon={<div>{getIcon("category" + category.id2)}<StyledCountBadge badgeContent={counts[category.id2]} /></div>}
           />
         ))}
+        <FilterTab
+          id="filter.incomplete"
+          key={"incomplete"}
+          label={intl.formatMessage({ id: "filter.incomplete" })}
+          value={"incomplete"}
+          icon={<div>{getIcon("incomplete")}<StyledCountBadge badgeContent={counts["incomplete"]} /></div>}
+        />
         <FilterTab
           id="filter.removed"
           key={"removed"}
           label={intl.formatMessage({ id: "filter.removed" })}
           value={"removed"}
-          icon={getIcon("removed")}
+          icon={<div>{getIcon("removed")}<StyledCountBadge badgeContent={counts["removed"]} /></div>}
         />
       </FilterTabs>
     </React.Fragment>
@@ -137,16 +169,21 @@ function mapStateToProps(state) {
     itemsFilter: { filter },
     characteristics: { categories }
   } = state;
+
+  let counts = {};
+  if(state) counts = filterCounts(state);
+
   return {
     language,
     filter,
-    categories
+    categories,
+    filterCounters: counts,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    filterItems: filter => dispatch(itemsFilterActions.filterItems(filter))
+    filterItems: filter => dispatch(itemsFilterActions.filterItems(filter)),
   };
 }
 

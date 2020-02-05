@@ -57,6 +57,22 @@ const styles = theme => ({
     padding: "10px",
     color: "white"
   },
+
+  uncomplete_box: {
+    padding: "20px",
+    margin: "10px",
+    background: "#ff0030",
+    color: "#fff",
+    fontSize: "21px",
+    fontWeight: "bold",
+    lineHeight: "1.3em",
+    border: "2px dashed #fff",
+    borderRadius: "10px",
+    boxShadow: "0 0 0 4px #ff0030, 2px 1px 6px 4px rgba(10, 10, 0, 0.5)",
+    textShadow: "-1px -1px #aa3030",
+    fontWeight: "normal",
+  },
+
 });
 
 const CharacteristicsButton = ({
@@ -141,8 +157,9 @@ const SectionBlock = ({
   onOk,
   additionalButton = null
 }) => {
+  const classUncomplete = main ? null : "stitched"
   return (
-    <div className={"flex-direction-column  flex-align-center flex-basis-50"}>
+    <div className={`flex-direction-column  flex-align-center flex-basis-50 ${classUncomplete}`}>
       <Typography variant="h6">{main || "-"}</Typography>
       <Typography variant="body2">{secondary}</Typography>
       <div className={"flex-direction-row"}>
