@@ -20,6 +20,27 @@ const isLocalhost = Boolean(
     )
 );
 
+const messages = {
+  error: {
+    en: "FrozenGem could not be installed successfully :(", 
+    fr: "FrozenGem n'a pas pu être installé :("
+  },
+  reinstalled: {
+    en: "A new version of FrozenGem is here! Please close this page and re-open it.", 
+    fr: "Une nouvelle version de FrozenGem est là ! Veuillez fermer cette page et la ré-ouvrir."
+  },
+  internet: {
+    en: "FrozenGem needs to be connected to Internet to work properly.", 
+    fr: "Attention, FrozenGem a besoin d'une connexion internet pour fonctionner."
+  },
+}
+
+
+console.log("Browser language: ", navigator.language);
+const lg = navigator.language && navigator.language.includes("fr") ? "fr" : "en";
+
+
+
 export function register(config) {
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
@@ -69,7 +90,7 @@ function registerValidSW(swUrl, config) {
               // At this point, the updated precached content has been fetched,
               // but the previous service worker will still serve the older
               // content until all client tabs are closed.
-              alert("A new version of FrozenGem has been downloaded. Please close this page and re-open it.");
+              alert(messages["reinstalled"][lg]);
               console.log(
                 'New content is available and will be used when all ' +
                   'tabs for this page are closed. See https://bit.ly/CRA-PWA.'
@@ -84,7 +105,7 @@ function registerValidSW(swUrl, config) {
               // It's the perfect time to display a
               // "Content is cached for offline use." message.
               console.log('Content is cached for offline use.');
-              alert("FrozenGem is now installed.");
+              // alert("FrozenGem is now installed.");
 
               // Execute callback
               if (config && config.onSuccess) {
@@ -96,7 +117,7 @@ function registerValidSW(swUrl, config) {
       };
     })
     .catch(error => {
-      alert("FrozenGem could not be installed successfully :(");
+      alert(messages["error"][lg]);
       console.error('Error during service worker registration:', error);
     });
 }
@@ -123,7 +144,7 @@ function checkValidServiceWorker(swUrl, config) {
       }
     })
     .catch(() => {
-      alert('No internet connection found. FrozenGem is running in offline mode.')
+      alert(messages["internet"][lg]);
       console.log(
         'No internet connection found. App is running in offline mode.'
       );
