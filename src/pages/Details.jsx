@@ -142,6 +142,7 @@ const SectionBlock = ({
   additionalButton = null
 }) => {
   const classUncomplete = main ? null : "stitched"
+  console.debug("test")
   return (
     <div className={`flex-direction-column  flex-align-center flex-basis-50 ${classUncomplete}`}>
       <Typography variant="h6">{main || "-"}</Typography>
