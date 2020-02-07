@@ -21,26 +21,47 @@ const CharacteristicsSelection = ({
   multiselection = false,
   defaultIconName = null
 }) => {
-  const [multiselectionSelectedItems, setMultiselectionSelectedItems] = React.useState(initialValue);
+  const [
+    multiselectionSelectedItems,
+    setMultiselectionSelectedItems
+  ] = React.useState(initialValue);
 
- 
-  console.debug("CharacteristicsSelection.init: name, value, initialValue = ", name, multiselectionSelectedItems, initialValue)
+  console.debug(
+    "CharacteristicsSelection.init: name, value, initialValue = ",
+    name,
+    multiselectionSelectedItems,
+    initialValue
+  );
 
   const _handleClick = async id => {
-    if(!multiselection)
-      await handleOk({ [name]: id });
+    if (!multiselection) await handleOk({ [name]: id });
     else {
-      const alreadyExists = multiselectionSelectedItems.find(valueInList => valueInList === id);
+      const alreadyExists = multiselectionSelectedItems.find(
+        valueInList => valueInList === id
+      );
+
       // Add the new value to the list if it does not exist yet
       // If it already exists: remove it (toggle action)
       let newSelectedItems;
-      if(alreadyExists){
-        newSelectedItems = multiselectionSelectedItems.filter(valueInList => valueInList !== id);
+      if (alreadyExists) {
+        newSelectedItems = multiselectionSelectedItems.filter(
+          valueInList => valueInList !== id
+        );
       } else {
-          newSelectedItems = [...multiselectionSelectedItems, id];
+        newSelectedItems = [...multiselectionSelectedItems, id];
       }
+
+      // If array is empty, replace by null so qs (stringify during the save process updateItemToServer)
+      // does generate something like "arrayName=" instead of nothing
+      if (newSelectedItems.length === 0) newSelectedItems = null;
+
       setMultiselectionSelectedItems(newSelectedItems);
-      console.debug("CharacteristicsSelection._handleClick - multiselection: name, id, newSelectedItems = ", name, id, newSelectedItems)
+      console.debug(
+        "CharacteristicsSelection._handleClick - multiselection: name, id, newSelectedItems = ",
+        name,
+        id,
+        newSelectedItems
+      );
     }
   };
 
@@ -71,7 +92,9 @@ const CharacteristicsSelection = ({
                 defaultIconName ? defaultIconName : name + "Default"
               }
               items={items}
-              preselectedItems={multiselection ? multiselectionSelectedItems : initialValue}
+              preselectedItems={
+                multiselection ? multiselectionSelectedItems : initialValue
+              }
               multiselection={multiselection}
               handleClick={_handleClick}
             />
@@ -93,12 +116,12 @@ const CharacteristicsSelection = ({
 };
 
 CharacteristicsSelection.propTypes = {
-  id: PropTypes.string.isRequired,  // used for analytics (GTM/GA)
+  id: PropTypes.string.isRequired, // used for analytics (GTM/GA)
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   items: PropTypes.array.isRequired,
   // initialValue is a string if NOT multi selection
-  // initialValue is an array if multi selection 
+  // initialValue is an array if multi selection
   // initialValue: if nothing is pre-selected AND NOT multi selection: null
   // initialValue: if nothing is pre-selected AND multi selection: []
   initialValue: PropTypes.oneOfType([

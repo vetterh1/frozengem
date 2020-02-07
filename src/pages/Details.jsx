@@ -1,5 +1,4 @@
 import React from "react";
-// import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { itemsActions } from "../_actions/itemsActions";
@@ -10,14 +9,13 @@ import config from "../data/config";
 import { Button, CardMedia, Divider, Typography } from "@material-ui/core";
 import Person from "@material-ui/icons/Person";
 import PersonOutline from "@material-ui/icons/PersonOutline";
-import { getIcon, IconRemove } from "../data/Icons";
+import { getIcon } from "../data/Icons";
 import PictureSelection from "./utils/PictureSelection";
-import ButtonToModal from "./utils/ButtonToModal";
-import CharacteristicsSelection from "./utils/CharacteristicsSelection";
-import DateSelection from "./utils/DateSelection";
-import TextSelection from "./utils/TextSelection";
-import DialogMinimal from "./utils/DialogMinimal";
+import RemoveButton from "./utils/RemoveButton";
 import { gtmPush } from "../utils/gtmPush";
+import CharacteristicsButton from "./utils/CharacteristicsButton";
+import SectionBlock from "./utils/SectionBlock";
+
 
 const styles = theme => ({
   details_image_section: {
@@ -54,110 +52,9 @@ const styles = theme => ({
   }
 });
 
-const CharacteristicsButton = ({
-  characteristicName,
-  isText = false,
-  isDate = false,
-  btnLabelId,
-  dialogTitle,
-  dialogHelp,
-  dialogItems,
-  dialogPreselectedItems,
-  multiselection = false,
-  onOk
-}) => {
-  // console.debug("CharacteristicsButton : characteristicName, isText, isDate = ", characteristicName, isText, isDate);
-  return (
-    <ButtonToModal btnLabelId={btnLabelId} onOk={onOk}>
-      {!isText && !isDate ? (
-        <CharacteristicsSelection
-          id={"details_update_" + characteristicName}
-          name={characteristicName}
-          title={dialogTitle}
-          handleChange={null} // filled by parent (when cloning this component)
-          items={dialogItems}
-          initialValue={dialogPreselectedItems}
-          multiselection={multiselection}
-        />
-      ) : isText && !isDate ? (
-        <TextSelection
-          id={"details_update_" + characteristicName}
-          name={characteristicName}
-          title={dialogTitle}
-          help={dialogHelp}
-          initialValue={dialogPreselectedItems}
-        />
-      ) : (
-        <DateSelection
-          id={"details_update_" + characteristicName}
-          name={characteristicName}
-          title={dialogTitle}
-          help={dialogHelp}
-          parentUpdateValue={() => {}} // filled by parent (when cloning this component)
-          initialValue={dialogPreselectedItems}
-        />
-      )}
-    </ButtonToModal>
-  );
-};
 
-const RemoveButton = ({ onOk }) => {
-  return (
-    <ButtonToModal
-      btnLabelId="action.remove"
-      onOk={onOk}
-      alternateBtnIcon={
-        <IconRemove style={{ fontSize: "15px", display: "flex" }} />
-      }
-    >
-      <DialogMinimal
-        id="details_remove_item"
-        idTitle="item.remove.from_freezer"
-        idSubtitle="item.remove.confirmation.title"
-        idBody="item.remove.confirmation.text"
-      />
-    </ButtonToModal>
-  );
-};
 
-const SectionBlock = ({
-  characteristicName,
-  isText = false,
-  isDate = false,
-  main,
-  secondary,
-  dialogTitle,
-  dialogHelp,
-  dialogItems,
-  dialogPreselectedItems,
-  onOk,
-  additionalButton = null
-}) => {
-  const classUncomplete = main ? null : "stitched";
-  return (
-    <div
-      className={`flex-direction-column  flex-align-center flex-basis-50 ${classUncomplete}`}
-    >
-      <Typography variant="h6">{main || "-"}</Typography>
-      <Typography variant="body2">{secondary}</Typography>
-      <div className={"flex-direction-row"}>
-        <CharacteristicsButton
-          characteristicName={characteristicName}
-          isText={isText}
-          isDate={isDate}
-          dialogTitle={dialogTitle}
-          dialogHelp={dialogHelp}
-          dialogItems={dialogItems}
-          dialogPreselectedItems={dialogPreselectedItems}
-          onOk={onOk}
-        />
-        {additionalButton && (
-          <div className={"small-margin-left"}>{additionalButton}</div>
-        )}
-      </div>
-    </div>
-  );
-};
+
 
 const Details = ({
   item,
@@ -251,6 +148,11 @@ const Details = ({
   const dialogHelpDate = intl.formatMessage({ id: "add.date.help" });
   const removeTitle = intl.formatMessage({ id: "action.remove" });
 
+  const classNameUncomplete = item.name ? null : "stitched";
+  const classCategoryUncomplete = item.category ? null : "stitched";
+  const classDetailsUncomplete = item.__detailsNames ? null : "stitched";
+
+
   return (
     <div className={classes.card}>
       {/*
@@ -296,13 +198,13 @@ const Details = ({
         ********************************************************************
         */}
         <section className={"flex-direction-column"}>
-          <div className={"flex-direction-row small-margin-down"}>
+          <div className={`flex-direction-row margin-down ${classNameUncomplete}`}>
             <Typography
               variant="h2"
               component="h1"
               className={"small-margin-right"}
             >
-              {item.__nameOrCategory}
+              {item.name}
             </Typography>
             <CharacteristicsButton
               characteristicName="name"
@@ -315,7 +217,7 @@ const Details = ({
             />
           </div>
           <div
-            className={"flex-direction-row flex-align-end small-margin-down"}
+            className={`flex-direction-row flex-align-end margin-down ${classCategoryUncomplete}`}
           >
             {getIcon("category" + item.category)}
             <Typography
@@ -332,9 +234,9 @@ const Details = ({
               onOk={_handleUpdateCharacteristic}
             />
           </div>
-          <div className={"flex-direction-row flex-align-end"}>
+          <div className={`flex-direction-row flex-align-end ${classDetailsUncomplete}`}>
             <Typography variant="h5" className={"small-margin-right"}>
-              ({item.__detailsNames})
+              {item.__detailsNames}
             </Typography>
             <CharacteristicsButton
               characteristicName="details"
