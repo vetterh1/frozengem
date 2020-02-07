@@ -3,7 +3,7 @@ import { userServices } from "../_services/userServices";
 import { characteristicsActions } from "./characteristicsActions";
 import { itemsActions } from "./itemsActions";
 import { notifierActions } from "./notifierActions";
-import gtmPush from "../utils/gtmPush";
+import { gtmPush } from "../utils/gtmPush";
 
 export const userActions = {
   login,
@@ -72,11 +72,9 @@ function login(email, password) {
       let user = await userServices.login(email, password);
 
       gtmPush({
-        events: {
-          event: "Login",
-          action: "Login",
-          value: "Success"
-        }
+        event: "Login",
+        action: "Login",
+        value: "Success"
       });
 
       return afterLoginOrRegister(false, user, dispatch);
@@ -84,11 +82,9 @@ function login(email, password) {
       console.debug("userActions.login error - email: ", email);
 
       gtmPush({
-        events: {
-          event: "Login",
-          action: "Login",
-          value: "Error"
-        }
+        event: "Login",
+        action: "Login",
+        value: "Error"
       });
 
       dispatch({ type: ACTIONS.LOGIN_FAILURE, error: error.toString() });
@@ -110,11 +106,9 @@ function autologin() {
     userServices.autologin().then(
       user => {
         gtmPush({
-          events: {
-            event: "Login",
-            action: "Autologin",
-            value: "Success"
-          }
+          event: "Login",
+          action: "Autologin",
+          value: "Success"
         });
 
         return afterLoginOrRegister(false, user, dispatch);
@@ -123,11 +117,9 @@ function autologin() {
         // No error message ==> autologin is silent!
 
         gtmPush({
-          events: {
-            event: "Login",
-            action: "Autologin",
-            value: "Error"
-          }
+          event: "Login",
+          action: "Autologin",
+          value: "Error"
         });
       }
     );

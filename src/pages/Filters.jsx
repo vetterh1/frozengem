@@ -10,7 +10,7 @@ import Badge from "@material-ui/core/Badge";
 
 import { getIcon } from "../data/Icons";
 import { withStyles } from "@material-ui/core/styles";
-import gtmPush from "../utils/gtmPush";
+import { gtmPush } from "../utils/gtmPush";
 
 const FilterTabs = withStyles(theme => ({
   root: {
@@ -91,11 +91,9 @@ function intFilters({
       filterItems(sel);
 
       gtmPush({
-        events: {
-          event: "Filter",
-          action: "Init",
-          value: sel
-        }
+        event: "Filter",
+        action: "Init",
+        value: sel
       });
     }
   }, [selectedCategory, sortedCategories, filterItems]);
@@ -103,13 +101,10 @@ function intFilters({
   if (!categories) return null;
 
   function handleChange(event, newValue) {
-    
     gtmPush({
-      events: {
-        event: "Filter",
-        action: "Change",
-        value: newValue
-      }
+      event: "Filter",
+      action: "Change",
+      value: newValue
     });
 
     localStorage.setItem("selectedCategory", newValue);

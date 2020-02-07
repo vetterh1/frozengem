@@ -17,7 +17,7 @@ import CharacteristicsSelection from "./utils/CharacteristicsSelection";
 import DateSelection from "./utils/DateSelection";
 import TextSelection from "./utils/TextSelection";
 import DialogMinimal from "./utils/DialogMinimal";
-import gtmPush from "../utils/gtmPush";
+import { gtmPush } from "../utils/gtmPush";
 
 const styles = theme => ({
   details_image_section: {
@@ -190,10 +190,8 @@ const Details = ({
     console.debug("[<<< Details ------<<<----- / <<<] Reason: close details");
 
     gtmPush({
-      events: {
-        event: "Details",
-        action: "Close"
-      }
+      event: "Details",
+      action: "Close"
     });
 
     history.goBack();

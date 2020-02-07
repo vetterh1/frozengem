@@ -4,7 +4,7 @@ import { FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Edit from "@material-ui/icons/Edit";
-import gtmPush from "../../utils/gtmPush";
+import { gtmPush } from "../../utils/gtmPush";
 
 const styles = theme => ({
   button: {
@@ -39,11 +39,9 @@ const ButtonToModal = ({
     e.stopPropagation();
 
     gtmPush({
-      events: {
-        event: "Details",
-        action: "UpdateOpen",
-        value: children.props.id
-      }
+      event: "Details",
+      action: "UpdateOpen",
+      value: children.props.id
     });
 
     setOpen(true);
@@ -55,12 +53,10 @@ const ButtonToModal = ({
     console.debug("ButtonToModal.handleOk: update = ", update);
 
     gtmPush({
-      events: {
-        event: "Details",
-        action: "UpdateValidate",
-        value: children.props.id,
-        change: update
-      }
+      event: "Details",
+      action: "UpdateValidate",
+      value: children.props.id,
+      change: update
     });
 
     setOpen(false);
@@ -69,11 +65,9 @@ const ButtonToModal = ({
 
   function handleClose() {
     gtmPush({
-      events: {
-        event: "Details",
-        action: "UpdateCancel",
-        value: children.props.id
-      }
+      event: "Details",
+      action: "UpdateCancel",
+      value: children.props.id
     });
 
     setOpen(false);
