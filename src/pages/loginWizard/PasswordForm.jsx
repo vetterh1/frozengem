@@ -32,8 +32,8 @@ class PasswordForm extends React.Component {
     this.textInput = React.createRef();
   }
 
-  componentDidMount = () => { this.timer = setTimeout(() => this.textInput.current.focus(), 1500,); }
-  componentWillUnmount = () => { clearInterval(this.timer); }
+  // componentDidMount = () => { this.timer = setTimeout(() => this.textInput.current.focus(), 1500,); }
+  // componentWillUnmount = () => { clearInterval(this.timer); }
   
   handleTextChange(event) {
     if(!this.props.isActive) return;

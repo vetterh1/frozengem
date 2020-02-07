@@ -4,8 +4,7 @@ import { FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Edit from "@material-ui/icons/Edit";
-import TagManager from 'react-gtm-module'
-
+import gtmPush from "../../utils/gtmPush";
 
 const styles = theme => ({
   button: {
@@ -36,20 +35,16 @@ const ButtonToModal = ({
   if (!children) return null;
   // console.debug("ButtonToModal: children = ", children);
 
-
-
   function _handleClickOpen(e) {
     e.stopPropagation();
 
-    const tagManagerArgs = {
-      gtmId: "GTM-TFF4FK9",
+    gtmPush({
       events: {
         event: "Details",
         action: "UpdateOpen",
         value: children.props.id
       }
-    }    
-    TagManager.initialize(tagManagerArgs);
+    });
 
     setOpen(true);
   }
@@ -59,32 +54,27 @@ const ButtonToModal = ({
   function handleOk(update) {
     console.debug("ButtonToModal.handleOk: update = ", update);
 
-    const tagManagerArgs = {
-      gtmId: "GTM-TFF4FK9",
+    gtmPush({
       events: {
         event: "Details",
         action: "UpdateValidate",
         value: children.props.id,
         change: update
       }
-    }    
-    TagManager.initialize(tagManagerArgs);
+    });
 
     setOpen(false);
     if (onOk) onOk(update);
   }
 
   function handleClose() {
-
-    const tagManagerArgs = {
-      gtmId: "GTM-TFF4FK9",
+    gtmPush({
       events: {
         event: "Details",
         action: "UpdateCancel",
         value: children.props.id
       }
-    }    
-    TagManager.initialize(tagManagerArgs);
+    });
 
     setOpen(false);
   }

@@ -10,7 +10,7 @@ import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import combinedReducer from "./_reducers/combinedReducer";
 
-import TagManager from "react-gtm-module";
+import gtmPush from "./utils/gtmPush";
 
 import "./index.css";
 import App from "./pages/App";
@@ -52,17 +52,12 @@ function ensureIntlSupport() {
 // PROD Live: gtm_auth=fKCmYzZKmPIDEYs2Tc7yCQ - gtm_preview=env-1
 // Dev: gtm_auth=8Bk7s8CVYrNmPabwWcX8Wg - gtm_preview=env-3
 
-const tagManagerArgs = {
-  gtmId: "GTM-TFF4FK9",
-  // auth: "fKCmYzZKmPIDEYs2Tc7yCQ",
-  // preview: "PROD",
+gtmPush({
   dataLayer: {
-    userId: '001',
-    userProject: 'frozenGem'
+    userId: "001",
+    userProject: "frozenGem"
   }
-};
-TagManager.initialize(tagManagerArgs);
-
+});
 
 //
 // --------------- MAIN RENDER ---------------

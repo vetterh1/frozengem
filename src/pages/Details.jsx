@@ -7,12 +7,7 @@ import { Redirect } from "react-router";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 import config from "../data/config";
-import {
-  Button,
-  CardMedia,
-  Divider,
-  Typography
-} from "@material-ui/core";
+import { Button, CardMedia, Divider, Typography } from "@material-ui/core";
 import Person from "@material-ui/icons/Person";
 import PersonOutline from "@material-ui/icons/PersonOutline";
 import { getIcon, IconRemove } from "../data/Icons";
@@ -22,7 +17,7 @@ import CharacteristicsSelection from "./utils/CharacteristicsSelection";
 import DateSelection from "./utils/DateSelection";
 import TextSelection from "./utils/TextSelection";
 import DialogMinimal from "./utils/DialogMinimal";
-import TagManager from 'react-gtm-module'
+import gtmPush from "../utils/gtmPush";
 
 const styles = theme => ({
   details_image_section: {
@@ -56,7 +51,7 @@ const styles = theme => ({
     backgroundColor: "rgba(0, 0, 0, 0.8)",
     padding: "10px",
     color: "white"
-  },
+  }
 });
 
 const CharacteristicsButton = ({
@@ -73,11 +68,8 @@ const CharacteristicsButton = ({
 }) => {
   // console.debug("CharacteristicsButton : characteristicName, isText, isDate = ", characteristicName, isText, isDate);
   return (
-    <ButtonToModal
-      btnLabelId={btnLabelId}
-      onOk={onOk}
-    >
-      {(!isText && !isDate) ?
+    <ButtonToModal btnLabelId={btnLabelId} onOk={onOk}>
+      {!isText && !isDate ? (
         <CharacteristicsSelection
           id={"details_update_" + characteristicName}
           name={characteristicName}
@@ -87,33 +79,29 @@ const CharacteristicsButton = ({
           initialValue={dialogPreselectedItems}
           multiselection={multiselection}
         />
-      : 
-      (
-        (isText && !isDate) ?
-          <TextSelection
-            id={"details_update_" + characteristicName}
-            name={characteristicName}
-            title={dialogTitle}
-            help={dialogHelp}
-            initialValue={dialogPreselectedItems}
-          />
-        :
-          <DateSelection
-            id={"details_update_" + characteristicName}
-            name={characteristicName}
-            title={dialogTitle}
-            help={dialogHelp}
-            parentUpdateValue={() => {}} // filled by parent (when cloning this component)
-            initialValue={dialogPreselectedItems}
-          />
+      ) : isText && !isDate ? (
+        <TextSelection
+          id={"details_update_" + characteristicName}
+          name={characteristicName}
+          title={dialogTitle}
+          help={dialogHelp}
+          initialValue={dialogPreselectedItems}
+        />
+      ) : (
+        <DateSelection
+          id={"details_update_" + characteristicName}
+          name={characteristicName}
+          title={dialogTitle}
+          help={dialogHelp}
+          parentUpdateValue={() => {}} // filled by parent (when cloning this component)
+          initialValue={dialogPreselectedItems}
+        />
       )}
     </ButtonToModal>
   );
 };
 
-const RemoveButton = ({
-  onOk
-}) => {
+const RemoveButton = ({ onOk }) => {
   return (
     <ButtonToModal
       btnLabelId="action.remove"
@@ -122,11 +110,15 @@ const RemoveButton = ({
         <IconRemove style={{ fontSize: "15px", display: "flex" }} />
       }
     >
-      <DialogMinimal id="details_remove_item" idTitle="item.remove.from_freezer" idSubtitle="item.remove.confirmation.title" idBody="item.remove.confirmation.text" />
+      <DialogMinimal
+        id="details_remove_item"
+        idTitle="item.remove.from_freezer"
+        idSubtitle="item.remove.confirmation.title"
+        idBody="item.remove.confirmation.text"
+      />
     </ButtonToModal>
   );
 };
-
 
 const SectionBlock = ({
   characteristicName,
@@ -141,10 +133,11 @@ const SectionBlock = ({
   onOk,
   additionalButton = null
 }) => {
-  const classUncomplete = main ? null : "stitched"
-  console.debug("test")
+  const classUncomplete = main ? null : "stitched";
   return (
-    <div className={`flex-direction-column  flex-align-center flex-basis-50 ${classUncomplete}`}>
+    <div
+      className={`flex-direction-column  flex-align-center flex-basis-50 ${classUncomplete}`}
+    >
       <Typography variant="h6">{main || "-"}</Typography>
       <Typography variant="body2">{secondary}</Typography>
       <div className={"flex-direction-row"}>
@@ -158,7 +151,9 @@ const SectionBlock = ({
           dialogPreselectedItems={dialogPreselectedItems}
           onOk={onOk}
         />
-        {additionalButton && <div className={"small-margin-left"}>{additionalButton}</div>}
+        {additionalButton && (
+          <div className={"small-margin-left"}>{additionalButton}</div>
+        )}
       </div>
     </div>
   );
@@ -194,14 +189,12 @@ const Details = ({
   const handleClose = () => {
     console.debug("[<<< Details ------<<<----- / <<<] Reason: close details");
 
-    const tagManagerArgs = {
-      gtmId: "GTM-TFF4FK9",
+    gtmPush({
       events: {
         event: "Details",
-        action: "Close",
+        action: "Close"
       }
-    }    
-    TagManager.initialize(tagManagerArgs);
+    });
 
     history.goBack();
 
@@ -218,14 +211,12 @@ const Details = ({
 
   const _handleUpdateQuantity = async ({ size }) => {
     removeItem(item.id, size);
-    if(size === '0')
-      handleClose();
+    if (size === "0") handleClose();
   };
 
   const _handleUpdateCharacteristic = async update => {
     console.debug("ItemCard._handleUpdateCharacteristic: ", item.id, update);
-    if(update)
-      updateItem(item.id, update);
+    if (update) updateItem(item.id, update);
     return null;
   };
 
@@ -372,7 +363,7 @@ const Details = ({
             dialogItems={sizesWith0}
             dialogPreselectedItems={item.size}
             onOk={_handleUpdateQuantity}
-            additionalButton={<RemoveButton onOk={_handleRemove}/>}
+            additionalButton={<RemoveButton onOk={_handleRemove} />}
           />
           <SectionBlock
             characteristicName="expirationDate"
