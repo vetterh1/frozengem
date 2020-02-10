@@ -2,17 +2,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import { Button, CardMedia } from "@material-ui/core";
 import config from '../../data/config'
 import { getIcon } from "../../data/Icons";
 
-
-const regularHeight = '150px';
-const expandedHeight = '100%';
-
-
 const useStyles = makeStyles({
+
   media: {borderRadius: '3px'}, // a style rule
 
   details_image_close: {
@@ -27,7 +22,7 @@ const useStyles = makeStyles({
 });
 
 
-const ItemImage = ({item, thumbnailSize = null, timestampClickAway = 0}) => {
+const ItemImage = ({item, style = null}) => {
 
   const imageExists = item.pictureName || item.thumbnailName;
   
@@ -40,43 +35,27 @@ const ItemImage = ({item, thumbnailSize = null, timestampClickAway = 0}) => {
     )
   }
 
+  if(!style)
+    style = {
+      height: "150px",
+      width: "150px",
+    };
+
   const [expanded, setExpanded] = React.useState(false);
   const handleExpanded = () => { setExpanded(prev => !prev); }
-
-  // If user clicks away from parent, close this image:
-  const [previousTimestampClickAway, setPreviousTimestampClickAway] = React.useState(timestampClickAway);
-  if(timestampClickAway !== 0 && timestampClickAway !== previousTimestampClickAway) {
-    setPreviousTimestampClickAway(timestampClickAway);
-    setExpanded(false);
-  }
-
   const thumbnailsOrPictures = expanded ? item.pictureName : item.thumbnailName;
 
-  
-  let style = {};
-  if(thumbnailSize) {
-    const stringSize = `${thumbnailSize}px`;
-    if(expanded){
-      style = {
-        position: 'absolute',
-        top: '0px',
-        left: '0px',
-        height: '100%',
-        width: '100%',
-        zIndex: '2000',      
-      };
-    } else {
-      style = {
-        height: stringSize,
-        width: stringSize,
-      };
-    }
-  } else {
+  if(expanded){
     style = {
-      minHeight: expanded ? expandedHeight : regularHeight
+      position: 'absolute',
+      top: '0px',
+      left: '0px',
+      height: "100vh",
+      width: "100vw",
+      zIndex: '2000',      
     };
   }
-
+  
   const classes = useStyles();
 
    
@@ -104,8 +83,7 @@ const ItemImage = ({item, thumbnailSize = null, timestampClickAway = 0}) => {
 
 ItemImage.propTypes = {
   item: PropTypes.object.isRequired,
-  thumbnailSize: PropTypes.number,
-  timestampClickAway: PropTypes.number,
+  style: PropTypes.object,
 }
 
 

@@ -5,8 +5,7 @@ import { itemsActions } from "../_actions/itemsActions";
 import { Redirect } from "react-router";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
-import config from "../data/config";
-import { Button, CardMedia, Divider, Typography } from "@material-ui/core";
+import { Button, Divider, Typography } from "@material-ui/core";
 import Person from "@material-ui/icons/Person";
 import PersonOutline from "@material-ui/icons/PersonOutline";
 import { getIcon } from "../data/Icons";
@@ -162,16 +161,12 @@ const Details = ({
       ********************************************************************
       */}
       <section className={classes.details_image_section}>
-        {/* <ItemImage
+        <ItemImage
           item={item}
-          thumbnailSize={100}
-          // timestampClickAway={timestampClickAway}
-        />         */}
-        <CardMedia
-          image={`${config.staticUrl}/static/pictures/items/${item.pictureName}`}
-          title={item.name}
-          className={classes.details_image_media}
-        />
+          style={{
+            height: "25vh"
+          }}
+        />        
         <Button
           onClick={handleClose}
           color="primary"

@@ -4,12 +4,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router";
 import { withStyles } from "@material-ui/core/styles";
-
-import Typography from "@material-ui/core/Typography";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-// import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-
+import { Card, CardContent, Typography } from "@material-ui/core";
 import ItemImage from "./ItemImage";
 
 const styles = theme => ({
@@ -42,6 +37,11 @@ const styles = theme => ({
 
     alignSelf: "center",
     textAlign: "center"
+  },
+
+  details_image_media: {
+    height: "100px",
+    width: "100px",
   },
 
   cardCenter: {
@@ -93,11 +93,6 @@ const intItemCard = ({ item, classes, theme }) => {
   console.debug(`[--- FC ---] Functional component: ItemCard - item=${item.id}`);
 
   const [toDetails, setToDetails] = React.useState(false);
-  const [timestampClickAway, setSimestampClickAway] = React.useState(0);
-
-  const handleClickAway = () => {
-    setSimestampClickAway(Date.now());
-  };
 
   const handleClickForDetails = e => {
     setToDetails(true);
@@ -111,51 +106,51 @@ const intItemCard = ({ item, classes, theme }) => {
 
   return (
     <>
-      {/* <ClickAwayListener onClickAway={handleClickAway}> */}
-        <Card className={classes.card}>
-          <div className={classes.cardAlwaysVisible}>
-            <div className={classes.cardLeft}>
-              <ItemImage
-                item={item}
-                thumbnailSize={100}
-                // timestampClickAway={timestampClickAway}
-              />
-            </div>
-            <div className={classes.cardCenter} onClick={handleClickForDetails}>
-              <CardContent className={classes.cardContent}>
-                <div className={classes.cardMain}>
-                  <Typography variant="h6">{item.__nameOrCategory}</Typography>
-                  <Typography color="textSecondary">
-                    {item.__sizeInText}
-                  </Typography>
-                  {/* <div  className={classes.cardActionLine}>
-
-                  </div> */}
-                </div>
-                <div className={classes.cardIcons}></div>
-              </CardContent>
-            </div>
-
-            <div
-              className={classes.cardRight}
+      <Card className={classes.card}>
+        <div className={classes.cardAlwaysVisible}>
+          <div className={classes.cardLeft}>
+            <ItemImage
+              item={item}
               style={{
-                backgroundColor:
-                  theme.palette.itemCard.cardBackgroundColor[
-                    item.__cardBackgroundColor
-                  ]
+                height: "100px",
+                width: "100px",
               }}
-              onClick={handleClickForDetails}
-            >
-              <Typography variant="h4" component="div">
-                {item.__monthExpirationAsText}
-              </Typography>
-              <Typography component="div" gutterBottom>
-                {item.__yearExpiration}
-              </Typography>
-            </div>
+            />
           </div>
-        </Card>
-      {/* </ClickAwayListener> */}
+          <div className={classes.cardCenter} onClick={handleClickForDetails}>
+            <CardContent className={classes.cardContent}>
+              <div className={classes.cardMain}>
+                <Typography variant="h6">{item.__nameOrCategory}</Typography>
+                <Typography color="textSecondary">
+                  {item.__sizeInText}
+                </Typography>
+                {/* <div  className={classes.cardActionLine}>
+
+                </div> */}
+              </div>
+              <div className={classes.cardIcons}></div>
+            </CardContent>
+          </div>
+
+          <div
+            className={classes.cardRight}
+            style={{
+              backgroundColor:
+                theme.palette.itemCard.cardBackgroundColor[
+                  item.__cardBackgroundColor
+                ]
+            }}
+            onClick={handleClickForDetails}
+          >
+            <Typography variant="h4" component="div">
+              {item.__monthExpirationAsText}
+            </Typography>
+            <Typography component="div" gutterBottom>
+              {item.__yearExpiration}
+            </Typography>
+          </div>
+        </div>
+      </Card>
     </>
   );
 };
