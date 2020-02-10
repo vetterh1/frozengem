@@ -98,7 +98,6 @@ const App = ({autologin, ...props}) => {
 
                 <div style={divStyle}>
 
-                  <Header />
 
                   {/* <Container maxWidth="md"  style={containerStyle}> */}
 
@@ -109,7 +108,7 @@ const App = ({autologin, ...props}) => {
                       />
                       <Route
                         exact path="/add"
-                        component={() => <Container><AddWizard /></Container>}
+                        component={() => <><Header /><Container><AddWizard /></Container></>}
                       />
                       <Route
                         exact path="/typography"
@@ -117,15 +116,15 @@ const App = ({autologin, ...props}) => {
                       />                      
                       <Route
                         exact path="/register"
-                        component={() => <Container><RegisterWizard /></Container>}
+                        component={() => <><Header /><Container><RegisterWizard /></Container></>}
                       />
                       <Route
                         exact path="/choosehome"
-                        component={() => <Container><ChooseHome /></Container>}
+                        component={() => <><Header /><Container><ChooseHome /></Container></>}
                       />                      
                       <Route
                         exact path="/login"
-                        component={() => <Container><LoginWizard /></Container>}
+                        component={() => <><Header /><Container><LoginWizard /></Container></>}
                       />
                       <Route
                         exact path="/logout"
@@ -133,7 +132,7 @@ const App = ({autologin, ...props}) => {
                       />
                       <Route
                         exact path="/about"
-                        component={() => <Container><About /></Container>}
+                        component={() => <><Header /><Container><About /></Container></>}
                       />
                       <Route
                         exact path="/"
@@ -152,11 +151,11 @@ const App = ({autologin, ...props}) => {
                             if(!props.name) return <LoadingUserInfo /> ;
                             
                             // Authenticated users see their dashboard:
-                            return <Dashboard />;
+                            return <><Header /><Dashboard /></>;
 
                           } else {
                             // Non logged users see generic page:
-                            return <Container><MainPageContent /></Container>;
+                            return <><Header /><Container><MainPageContent /></Container></>;
                           }
                         }}
                       />
