@@ -15,6 +15,7 @@ import RemoveButton from "./utils/RemoveButton";
 import { gtmPush } from "../utils/gtmPush";
 import CharacteristicsButton from "./utils/CharacteristicsButton";
 import SectionBlock from "./utils/SectionBlock";
+import ItemImage from "./utils/ItemImage";
 
 
 const styles = theme => ({
@@ -161,6 +162,11 @@ const Details = ({
       ********************************************************************
       */}
       <section className={classes.details_image_section}>
+        {/* <ItemImage
+          item={item}
+          thumbnailSize={100}
+          // timestampClickAway={timestampClickAway}
+        />         */}
         <CardMedia
           image={`${config.staticUrl}/static/pictures/items/${item.pictureName}`}
           title={item.name}

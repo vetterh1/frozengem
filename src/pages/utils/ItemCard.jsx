@@ -8,7 +8,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+// import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
 import ItemImage from "./ItemImage";
 
@@ -111,14 +111,14 @@ const intItemCard = ({ item, classes, theme }) => {
 
   return (
     <>
-      <ClickAwayListener onClickAway={handleClickAway}>
+      {/* <ClickAwayListener onClickAway={handleClickAway}> */}
         <Card className={classes.card}>
           <div className={classes.cardAlwaysVisible}>
             <div className={classes.cardLeft}>
               <ItemImage
                 item={item}
                 thumbnailSize={100}
-                timestampClickAway={timestampClickAway}
+                // timestampClickAway={timestampClickAway}
               />
             </div>
             <div className={classes.cardCenter} onClick={handleClickForDetails}>
@@ -155,7 +155,7 @@ const intItemCard = ({ item, classes, theme }) => {
             </div>
           </div>
         </Card>
-      </ClickAwayListener>
+      {/* </ClickAwayListener> */}
     </>
   );
 };
