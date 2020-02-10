@@ -33,20 +33,13 @@ function _computeExpirationLevel(dateInMs) {
   return ExpirationLevel.EXPIRATION_LATER;
 }
 
-
 function _isComplete(item) {
   let isComplete = true;
-  if( 
-    !item.name ||
-    !item.location ||
-    !item.freezer ||
-    !item.container
-   )
+  if (!item.name || !item.location || !item.freezer || !item.container)
     isComplete = false;
 
   return isComplete;
 }
-
 
 /*
       Adds:
@@ -139,9 +132,6 @@ function computeItemUtilityFields(item, language, characteristics) {
   item.__isComplete = _isComplete(item);
 }
 
-
-
-
 function computeAllItemsUtilityFields(items, language, characteristics) {
   // NOT PURE !!!
   // Changes items
@@ -215,11 +205,6 @@ async function addItemToServer(item, user) {
 }
 
 async function updateItemToServer(id, updates, user) {
-  console.debug(
-    "|--- SERVER CALL ---|--- PUT ---| Items.updateItemToServer: ",
-    id,
-    updates
-  );
   const data = { access_token: user.accessToken, ...updates };
   const options = {
     method: "PUT",
@@ -228,6 +213,10 @@ async function updateItemToServer(id, updates, user) {
     headers: { "content-type": "application/x-www-form-urlencoded" },
     data: qs.stringify(data)
   };
+  console.debug(
+    "|--- SERVER CALL ---|--- PUT ---| Items.updateItemToServer: ",
+    options
+  );
 
   try {
     const response = await axios(options);

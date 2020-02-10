@@ -18,16 +18,16 @@ class EmailForm extends React.Component {
     this.textInput = React.createRef();
   }
 
-  componentDidMount() {
-    this.timer = setTimeout(
-      () => this.textInput.current.focus(),
-      1500
-    );
-  }
+  // componentDidMount() {
+  //   this.timer = setTimeout(
+  //     () => this.textInput.current.focus(),
+  //     1500
+  //   );
+//   }
 
-  componentWillUnmount() {
-    clearInterval(this.timer);
-}
+//   componentWillUnmount() {
+//     clearInterval(this.timer);
+// }
 
 
   handleTextChange(event) {
