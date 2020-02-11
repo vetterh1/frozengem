@@ -108,7 +108,7 @@ const App = ({autologin, ...props}) => {
                       />
                       <Route
                         exact path="/add"
-                        component={() => <><Header /><Container><AddWizard /></Container></>}
+                        component={() => <><Container><AddWizard /></Container></>}
                       />
                       <Route
                         exact path="/typography"
