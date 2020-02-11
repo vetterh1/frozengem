@@ -69,7 +69,7 @@ function intFilters({
   filter,
   categories,
   filterItems,
-  filterCounters,
+  counts,
   intl
 }) {
   const [sortedCategories] = useState(
@@ -113,8 +113,6 @@ function intFilters({
   }
 
   if (!selectedCategory) return null;
-
-  const counts = filterCounters;
 
   const IconCategoryAll = getIconComponent("all");
   const IconCategoryLatest = getIconComponent("latest");
@@ -214,7 +212,7 @@ function mapStateToProps(state) {
     language,
     filter,
     categories,
-    filterCounters: counts
+    counts
   };
 }
 
