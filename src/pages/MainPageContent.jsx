@@ -6,7 +6,9 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { FormattedMessage } from "react-intl";
-import { AcUnit, AccessTime, NoteAdd } from '@material-ui/icons'
+import AcUnit from '@material-ui/icons/AcUnit';
+import AccessTime from '@material-ui/icons/AccessTime';
+import NoteAdd from '@material-ui/icons/NoteAdd';
 import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
 
 const styles = theme => ({

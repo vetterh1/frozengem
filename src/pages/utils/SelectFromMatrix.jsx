@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux';
 import MatrixCard from './MatrixCard'
-import { getIcon } from "../../data/Icons";
+import { getIconComponent } from "../../data/Icons";
 
 
 
@@ -33,8 +33,8 @@ const intSelectFromMatrix = ({ name = "", defaultIconName = "", items, preselect
     {items && items.map((item) => {
       const nameItem = item.name[language]
       const labelItem = item.label[language]
-      let iconItem = getIcon(name + item.id2)
-      if(!iconItem)  iconItem = getIcon(defaultIconName);
+      let IconItem = getIconComponent(name + item.id2)
+      if(!IconItem)  IconItem = getIconComponent(defaultIconName);
       let selected = false;
       if(multiselection) {
         // console.log("preselectedItems:", preselectedItems)
@@ -51,7 +51,7 @@ const intSelectFromMatrix = ({ name = "", defaultIconName = "", items, preselect
         id={item.id2}
         name={nameItem}
         label={labelItem}
-        icon={iconItem}
+        icon={<IconItem fontSize="default" />}
       />
     })}
   </div>

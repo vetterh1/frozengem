@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, CardMedia } from "@material-ui/core";
 import config from '../../data/config'
-import { getIcon } from "../../data/Icons";
+import { getIconComponent } from "../../data/Icons";
 
 const useStyles = makeStyles({
 
@@ -24,22 +24,30 @@ const useStyles = makeStyles({
 
 const ItemImage = ({item, style = null}) => {
 
-  const imageExists = item.pictureName || item.thumbnailName;
-  
-  // No image, display the category icon instead!
-  if(!imageExists) {
-    return (
-      <div>
-        {getIcon("category"+item.category)}
-      </div>
-    )
-  }
-
   if(!style)
     style = {
       height: "150px",
       width: "150px",
     };
+
+  const imageExists = item.pictureName || item.thumbnailName;
+  
+  // No image, display the category icon instead!
+  if(!imageExists) {
+    const styleIcon = {
+      justifyContent: "center",
+      display: "flex",
+      alignItems: "center",
+      ...style,
+    }
+
+    const IconCategory = getIconComponent("category"+item.category);
+    return (
+      <div style={styleIcon}>
+        <IconCategory fontSize="large" />
+      </div>
+    )
+  }
 
   const [expanded, setExpanded] = React.useState(false);
   const handleExpanded = () => { setExpanded(prev => !prev); }

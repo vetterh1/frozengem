@@ -32,9 +32,8 @@ const styles = theme => ({
   cardLeft: {
     display: "flex",
     flexGrow: 0,
-
+    justifyContent: "center",
     width: "100px",
-
     alignSelf: "center",
     textAlign: "center"
   },

@@ -8,13 +8,15 @@ import { withStyles } from "@material-ui/core/styles";
 import { Button, Divider, Typography } from "@material-ui/core";
 import Person from "@material-ui/icons/Person";
 import PersonOutline from "@material-ui/icons/PersonOutline";
-import { getIcon } from "../data/Icons";
+import { getIconComponent } from "../data/Icons";
 import PictureSelection from "./utils/PictureSelection";
 import RemoveButton from "./utils/RemoveButton";
 import { gtmPush } from "../utils/gtmPush";
 import CharacteristicsButton from "./utils/CharacteristicsButton";
 import SectionBlock from "./utils/SectionBlock";
 import ItemImage from "./utils/ItemImage";
+import clsx from "clsx";
+
 
 
 const styles = theme => ({
@@ -152,6 +154,7 @@ const Details = ({
   const classCategoryUncomplete = item.category ? null : "stitched";
   const classDetailsUncomplete = item.__detailsNames ? null : "stitched";
 
+  const IconCategory = getIconComponent("category"+item.category);
 
   return (
     <div className={classes.card}>
@@ -160,7 +163,7 @@ const Details = ({
                 Picture section with Return and Picture buttons
       ********************************************************************
       */}
-      <section className={classes.details_image_section}>
+      <section className={clsx(classes.details_image_section, (!item.pictureName) && "stitched")}>
         <ItemImage
           item={item}
           style={{
@@ -183,7 +186,7 @@ const Details = ({
           {item.code}
         </Typography>
         <PictureSelection
-          className={classes.details_image_camera}
+          className={clsx(classes.details_image_camera, (!item.pictureName) && "stitched")}
           itemId={item.id}
           iconOnlyButton
           onPicture={handleSavePicture}
@@ -220,7 +223,7 @@ const Details = ({
           <div
             className={`flex-direction-row flex-align-end margin-down ${classCategoryUncomplete}`}
           >
-            {getIcon("category" + item.category)}
+            <IconCategory fontSize="default" />
             <Typography
               variant="h4"
               className={"small-margin-left small-margin-right"}

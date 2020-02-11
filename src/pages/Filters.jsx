@@ -8,7 +8,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Badge from "@material-ui/core/Badge";
 
-import { getIcon } from "../data/Icons";
+import { getIconComponent } from "../data/Icons";
 import { withStyles } from "@material-ui/core/styles";
 import { gtmPush } from "../utils/gtmPush";
 
@@ -116,6 +116,11 @@ function intFilters({
 
   const counts = filterCounters;
 
+  const IconCategoryAll = getIconComponent("all");
+  const IconCategoryLatest = getIconComponent("latest");
+  const IconCategoryIncomplete = getIconComponent("incomplete");
+  const IconCategoryRemoved = getIconComponent("removed");
+
   return (
     <React.Fragment>
       <FilterTabs
@@ -132,7 +137,7 @@ function intFilters({
           value={"all"}
           icon={
             <div>
-              {getIcon("all")}
+              <IconCategoryAll fontSize="default" />
               <StyledCountBadge badgeContent={counts["all"]} />
             </div>
           }
@@ -144,25 +149,28 @@ function intFilters({
           value={"latest"}
           icon={
             <div>
-              {getIcon("latest")}
+              <IconCategoryLatest fontSize="default" />
               <StyledCountBadge badgeContent={counts["latest"]} />
             </div>
           }
         />
-        {sortedCategories.map(category => (
-          <FilterTab
-            id={"filter." + category.name["en"].toLowerCase()}
-            key={category.id2}
-            label={category.name[language]}
-            value={category.id2}
-            icon={
-              <div>
-                {getIcon("category" + category.id2)}
-                <StyledCountBadge badgeContent={counts[category.id2]} />
-              </div>
-            }
-          />
-        ))}
+        {sortedCategories.map(category => {
+          const IconCategory = getIconComponent("category"+category.id2);
+          return (
+            <FilterTab
+              id={"filter." + category.name["en"].toLowerCase()}
+              key={category.id2}
+              label={category.name[language]}
+              value={category.id2}
+              icon={
+                <div>
+                  <IconCategory fontSize="default" />
+                  <StyledCountBadge badgeContent={counts[category.id2]} />
+                </div>
+              }
+            />
+          )
+        })}
         <FilterTab
           id="filter.incomplete"
           key={"incomplete"}
@@ -170,7 +178,7 @@ function intFilters({
           value={"incomplete"}
           icon={
             <div>
-              {getIcon("incomplete")}
+              <IconCategoryIncomplete fontSize="default" />
               <StyledCountBadge badgeContent={counts["incomplete"]} />
             </div>
           }
@@ -182,7 +190,7 @@ function intFilters({
           value={"removed"}
           icon={
             <div>
-              {getIcon("removed")}
+              <IconCategoryRemoved fontSize="default" />
               <StyledCountBadge badgeContent={counts["removed"]} />
             </div>
           }

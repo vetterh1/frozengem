@@ -211,6 +211,7 @@ video {
 
 
 .stitched {
+  /* color: #fdb2c0 !important; */
   margin: 6px;
   padding: 6px;
   background: #fdb2c0;
