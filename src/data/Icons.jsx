@@ -41,6 +41,7 @@ const iconComponents = {
     "categoryI": IconCategoryIcecream,
     "categoryR": IconCategoryCheese,
 
+    "detailsDefault": null,
     "detailsDHOM": IconDetailsHomemade,
     "detailsDCOM": Store,
     "detailsDCOO": IconDetailsCooked,

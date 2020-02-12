@@ -12,6 +12,7 @@ const CharacteristicsButton = ({
   dialogTitle,
   dialogHelp,
   dialogItems,
+  dialogDefaultIconName = null,
   dialogPreselectedItems,
   multiselection = false,
   onOk
@@ -28,6 +29,7 @@ const CharacteristicsButton = ({
           items={dialogItems}
           initialValue={dialogPreselectedItems}
           multiselection={multiselection}
+          defaultIconName={dialogDefaultIconName}
         />
       ) : isText && !isDate ? (
         <TextSelection

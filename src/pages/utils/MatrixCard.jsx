@@ -43,12 +43,12 @@ const intMatrixCard = ({onClick, selected, name, label, icon = null, classes}) =
         raised={selected}
       >
         <CardHeader
-          avatar={ icon &&
+          avatar={
             <Avatar 
             className={classes.avatar} 
               aria-label="-"
             >
-              {icon}
+              {icon || "?" }
             </Avatar>
           }
           title={name}

@@ -12,12 +12,10 @@ import { getIconComponent } from "../data/Icons";
 import PictureSelection from "./utils/PictureSelection";
 import RemoveButton from "./utils/RemoveButton";
 import { gtmPush } from "../utils/gtmPush";
-import CharacteristicsButton from "./utils/CharacteristicsButton";
+// import CharacteristicsButton from "./utils/CharacteristicsButton";
 import SectionBlock from "./utils/SectionBlock";
 import ItemImage from "./utils/ItemImage";
 import clsx from "clsx";
-
-
 
 const styles = theme => ({
   details_image_section: {
@@ -61,10 +59,6 @@ const styles = theme => ({
     color: "white"
   }
 });
-
-
-
-
 
 const Details = ({
   item,
@@ -157,12 +151,7 @@ const Details = ({
   const dialogHelpName = intl.formatMessage({ id: "add.name.help" });
   const dialogHelpDate = intl.formatMessage({ id: "add.date.help" });
   const removeTitle = intl.formatMessage({ id: "action.remove" });
-
-  const classNameUncomplete = item.name ? null : "stitched";
-  const classCategoryUncomplete = item.category ? null : "stitched";
-  const classDetailsUncomplete = item.__detailsNames ? null : "stitched";
-
-  const IconCategory = getIconComponent("category"+item.category);
+  const IconCategory = getIconComponent("category" + item.category);
 
   return (
     <div className={classes.card}>
@@ -171,13 +160,18 @@ const Details = ({
                 Picture section with Return and Picture buttons
       ********************************************************************
       */}
-      <section className={clsx(classes.details_image_section, (!item.pictureName) && "stitched")}>
+      <section
+        className={clsx(
+          classes.details_image_section,
+          !item.pictureName && "stitched"
+        )}
+      >
         <ItemImage
           item={item}
           style={{
             height: "25vh"
           }}
-        />        
+        />
         <Button
           onClick={handleClose}
           color="primary"
@@ -202,9 +196,12 @@ const Details = ({
           onClick={_handleUpdateCharacteristic}
         >
           <IconCategory fontSize="default" />
-        </IconButton>        
+        </IconButton>
         <PictureSelection
-          className={clsx(classes.details_image_camera, (!item.pictureName) && "stitched")}
+          className={clsx(
+            classes.details_image_camera,
+            !item.pictureName && "stitched"
+          )}
           itemId={item.id}
           iconOnlyButton
           onPicture={handleSavePicture}
@@ -216,7 +213,7 @@ const Details = ({
       <div className={"medium-padding"}>
         {/*
         ********************************************************************
-                        Name + Category + Details section
+                        Name section
         ********************************************************************
         */}
         <section className={"flex-direction-column"}>
@@ -254,7 +251,11 @@ const Details = ({
               onOk={_handleUpdateCharacteristic}
             />
           </div> */}
-
+          {/*
+          ********************************************************************
+                          Details section
+          ********************************************************************
+          */}
           <SectionBlock
             characteristicName="details"
             main={item.__detailsNames}
@@ -262,22 +263,9 @@ const Details = ({
             dialogItems={characteristics.details}
             dialogPreselectedItems={item.__detailsArray}
             multiselection={true}
+            dialogDefaultIconName={"category" + item.category}
             onOk={_handleUpdateCharacteristic}
           />
-
-          {/* <div className={`flex-direction-row flex-align-end ${classDetailsUncomplete}`}>
-            <Typography variant="h5" className={"small-margin-right"}>
-              {item.__detailsNames}
-            </Typography>
-            <CharacteristicsButton
-              characteristicName="details"
-              dialogTitle={dialogTitle}
-              dialogItems={characteristics.details}
-              dialogPreselectedItems={item.__detailsArray}
-              multiselection={true}
-              onOk={_handleUpdateCharacteristic}
-            />
-          </div> */}
         </section>
         <Divider className={"margin-top margin-down"}></Divider>
         {/*
