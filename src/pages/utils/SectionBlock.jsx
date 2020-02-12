@@ -24,7 +24,7 @@ const SectionBlock = ({
     >
       <Typography variant={mainTypography || "h6"}>{main || "-"}</Typography>
       {secondary && <Typography variant="body2">{secondary}</Typography>}
-      <div className={"flex-direction-row"}>
+      <div className={"flex-direction-row small-margin-top"}>
         <CharacteristicsButton
           characteristicName={characteristicName}
           isText={isText}

@@ -5,14 +5,13 @@ import { itemsActions } from "../_actions/itemsActions";
 import { Redirect } from "react-router";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
-import { Button, Divider, IconButton, Typography } from "@material-ui/core";
+import { Button, Divider, Typography } from "@material-ui/core";
 import Person from "@material-ui/icons/Person";
 import PersonOutline from "@material-ui/icons/PersonOutline";
-import { getIconComponent } from "../data/Icons";
 import PictureSelection from "./utils/PictureSelection";
+import CategoryButton from "./utils/CategoryButton";
 import RemoveButton from "./utils/RemoveButton";
 import { gtmPush } from "../utils/gtmPush";
-// import CharacteristicsButton from "./utils/CharacteristicsButton";
 import SectionBlock from "./utils/SectionBlock";
 import ItemImage from "./utils/ItemImage";
 import clsx from "clsx";
@@ -54,8 +53,8 @@ const styles = theme => ({
     position: "absolute",
     bottom: "10px",
     left: "10px",
-    backgroundColor: "rgba(0, 0, 0, 0.8)",
-    padding: "10px",
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    padding: "5px",
     color: "white"
   }
 });
@@ -151,7 +150,6 @@ const Details = ({
   const dialogHelpName = intl.formatMessage({ id: "add.name.help" });
   const dialogHelpDate = intl.formatMessage({ id: "add.date.help" });
   const removeTitle = intl.formatMessage({ id: "action.remove" });
-  const IconCategory = getIconComponent("category" + item.category);
 
   return (
     <div className={classes.card}>
@@ -187,16 +185,17 @@ const Details = ({
         >
           {item.code}
         </Typography>
-
-        <IconButton
-          component="span"
-          color="primary"
-          aria-label={item.__categoryText}
-          className={classes.details_image_category}
-          onClick={_handleUpdateCharacteristic}
-        >
-          <IconCategory fontSize="default" />
-        </IconButton>
+        <CategoryButton
+          categoryText = {item.__categoryText}
+          dialogTitle={dialogTitle}
+          dialogItems={characteristics.categories}
+          dialogPreselectedItems={item.category}
+          onOk={_handleUpdateCharacteristic}          
+          className={clsx(
+            classes.details_image_category,
+            !item.category && "stitched"
+          )}
+        />
         <PictureSelection
           className={clsx(
             classes.details_image_camera,
@@ -230,27 +229,7 @@ const Details = ({
             onOk={_handleUpdateCharacteristic}
             showOkBtn={true}
           />
-
           <Divider className={"margin-top margin-down"}></Divider>
-
-          {/* <div
-            className={`flex-direction-row flex-align-end margin-down ${classCategoryUncomplete}`}
-          >
-            <IconCategory fontSize="default" />
-            <Typography
-              variant="h4"
-              className={"small-margin-left small-margin-right"}
-            >
-              {item.__categoryText}
-            </Typography>
-            <CharacteristicsButton
-              characteristicName="category"
-              dialogTitle={dialogTitle}
-              dialogItems={characteristics.categories}
-              dialogPreselectedItems={item.category}
-              onOk={_handleUpdateCharacteristic}
-            />
-          </div> */}
           {/*
           ********************************************************************
                           Details section

@@ -13,7 +13,8 @@ const styles = theme => ({
     textTransform: "none !important",
     minWidth: "0px",
     opacity: "0.6",
-    lineHeight: "unset"
+    lineHeight: "unset",
+    backgroundColor: "rgba(0, 0, 0, 0.075)"
   },
   leftIcon: {
     marginRight: theme.spacing(0.5)
@@ -27,6 +28,7 @@ const ButtonToModal = ({
   btnLabelId = "action.edit",
   onOk,
   alternateBtnIcon,
+  className,
   classes,
   children
 }) => {
@@ -79,6 +81,8 @@ const ButtonToModal = ({
     <Edit style={{ fontSize: "14px" }} />
   );
 
+  const buttonClassName = className ? className : classes.button;
+
   return (
     <React.Fragment>
       <Button
@@ -86,15 +90,14 @@ const ButtonToModal = ({
         // component="button"
         size="small"
         color="primary"
-        style={{ backgroundColor: "rgba(0, 0, 0, 0.075)" }}
-        className={classes.button}
+        className={buttonClassName}
         onClick={_handleClickOpen}
       >
         <div className={classes.leftIcon}>{btnIcon}</div>
-        <FormattedMessage
+        {btnLabelId.length >0 && <FormattedMessage
           style={{ fontSize: "11px", fontWeight: "bold" }}
           id={btnLabelId}
-        />
+        />}
       </Button>
 
       {open &&
