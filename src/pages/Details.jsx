@@ -5,7 +5,7 @@ import { itemsActions } from "../_actions/itemsActions";
 import { Redirect } from "react-router";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
-import { Button, Divider, Typography } from "@material-ui/core";
+import { Button, Divider, IconButton, Typography } from "@material-ui/core";
 import Person from "@material-ui/icons/Person";
 import PersonOutline from "@material-ui/icons/PersonOutline";
 import { getIconComponent } from "../data/Icons";
@@ -48,6 +48,14 @@ const styles = theme => ({
     position: "absolute",
     bottom: "10px",
     right: "10px",
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
+    padding: "10px",
+    color: "white"
+  },
+  details_image_category: {
+    position: "absolute",
+    bottom: "10px",
+    left: "10px",
     backgroundColor: "rgba(0, 0, 0, 0.8)",
     padding: "10px",
     color: "white"
@@ -185,6 +193,16 @@ const Details = ({
         >
           {item.code}
         </Typography>
+
+        <IconButton
+          component="span"
+          color="primary"
+          aria-label={item.__categoryText}
+          className={classes.details_image_category}
+          onClick={_handleUpdateCharacteristic}
+        >
+          <IconCategory fontSize="default" />
+        </IconButton>        
         <PictureSelection
           className={clsx(classes.details_image_camera, (!item.pictureName) && "stitched")}
           itemId={item.id}
@@ -202,25 +220,23 @@ const Details = ({
         ********************************************************************
         */}
         <section className={"flex-direction-column"}>
-          <div className={`flex-direction-row margin-down ${classNameUncomplete}`}>
-            <Typography
-              variant="h2"
-              component="h1"
-              className={"small-margin-right"}
-            >
-              {item.name}
-            </Typography>
-            <CharacteristicsButton
-              characteristicName="name"
-              isText={true}
-              dialogTitle={dialogTitle}
-              dialogHelp={dialogHelpName}
-              dialogPreselectedItems={item.name}
-              onOk={_handleUpdateCharacteristic}
-              showOkBtn={true}
-            />
-          </div>
-          <div
+          <SectionBlock
+            characteristicName="name"
+            isText={true}
+            main={item.name}
+            mainTypography="h2"
+            secondary={null}
+            dialogTitle={dialogTitle}
+            dialogHelp={dialogHelpName}
+            dialogItems={sizesWith0}
+            dialogPreselectedItems={item.name}
+            onOk={_handleUpdateCharacteristic}
+            showOkBtn={true}
+          />
+
+          <Divider className={"margin-top margin-down"}></Divider>
+
+          {/* <div
             className={`flex-direction-row flex-align-end margin-down ${classCategoryUncomplete}`}
           >
             <IconCategory fontSize="default" />
@@ -237,8 +253,19 @@ const Details = ({
               dialogPreselectedItems={item.category}
               onOk={_handleUpdateCharacteristic}
             />
-          </div>
-          <div className={`flex-direction-row flex-align-end ${classDetailsUncomplete}`}>
+          </div> */}
+
+          <SectionBlock
+            characteristicName="details"
+            main={item.__detailsNames}
+            dialogTitle={dialogTitle}
+            dialogItems={characteristics.details}
+            dialogPreselectedItems={item.__detailsArray}
+            multiselection={true}
+            onOk={_handleUpdateCharacteristic}
+          />
+
+          {/* <div className={`flex-direction-row flex-align-end ${classDetailsUncomplete}`}>
             <Typography variant="h5" className={"small-margin-right"}>
               {item.__detailsNames}
             </Typography>
@@ -250,7 +277,7 @@ const Details = ({
               multiselection={true}
               onOk={_handleUpdateCharacteristic}
             />
-          </div>
+          </div> */}
         </section>
         <Divider className={"margin-top margin-down"}></Divider>
         {/*

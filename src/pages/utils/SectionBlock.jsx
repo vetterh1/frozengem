@@ -7,11 +7,13 @@ const SectionBlock = ({
   isText = false,
   isDate = false,
   main,
+  mainTypography = null,
   secondary,
   dialogTitle,
   dialogHelp,
   dialogItems,
   dialogPreselectedItems,
+  multiselection = false,
   onOk,
   additionalButton = null
 }) => {
@@ -20,8 +22,8 @@ const SectionBlock = ({
     <div
       className={`flex-direction-column  flex-align-center flex-basis-50 ${classUncomplete}`}
     >
-      <Typography variant="h6">{main || "-"}</Typography>
-      <Typography variant="body2">{secondary}</Typography>
+      <Typography variant={mainTypography || "h6"}>{main || "-"}</Typography>
+      {secondary && <Typography variant="body2">{secondary}</Typography>}
       <div className={"flex-direction-row"}>
         <CharacteristicsButton
           characteristicName={characteristicName}
@@ -31,6 +33,7 @@ const SectionBlock = ({
           dialogHelp={dialogHelp}
           dialogItems={dialogItems}
           dialogPreselectedItems={dialogPreselectedItems}
+          multiselection={multiselection}
           onOk={onOk}
         />
         {additionalButton && (

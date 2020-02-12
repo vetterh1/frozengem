@@ -3,23 +3,13 @@
 		"path": "$ROOTPATH$\\src\\pages\\Details.jsx",
 		"bookmarks": [
 			{
-				"line": 110,
-				"column": 18,
+				"line": 203,
+				"column": 22,
 				"label": ""
 			},
 			{
-				"line": 164,
-				"column": 0,
-				"label": ""
-			}
-		]
-	},
-	{
-		"path": "$ROOTPATH$\\src\\_actions\\itemsActions.js",
-		"bookmarks": [
-			{
-				"line": 103,
-				"column": 54,
+				"line": 282,
+				"column": 17,
 				"label": ""
 			}
 		]

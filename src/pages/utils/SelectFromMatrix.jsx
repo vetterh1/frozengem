@@ -37,12 +37,13 @@ const intSelectFromMatrix = ({ name = "", defaultIconName = "", items, preselect
       if(!IconItem)  IconItem = getIconComponent(defaultIconName);
       let selected = false;
       if(multiselection) {
-        // console.log("preselectedItems:", preselectedItems)
+        console.log("intSelectFromMatrix preselectedItems:", preselectedItems)
         if(preselectedItems)
           selected = preselectedItems.find(detail => detail === item.id2) !== undefined;
       } else {
         selected = preselectedItems === item.id2;
       }
+      console.log("intSelectFromMatrix selected:", selected)
 
       return <MatrixCard 
         onClick={handleClick.bind(this, item.id2)} 
