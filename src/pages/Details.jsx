@@ -30,7 +30,7 @@ const styles = theme => ({
     top: "10px",
     left: "10px",
     backgroundColor: "rgba(0, 0, 0, 0.6)",
-    padding: "5px",
+    padding: "5px 10px",
     color: "white"
   },
   details_image_code: {
@@ -54,7 +54,7 @@ const styles = theme => ({
     bottom: "10px",
     left: "10px",
     backgroundColor: "rgba(0, 0, 0, 0.6)",
-    padding: "5px",
+    padding: "5px 10px",
     color: "white"
   }
 });

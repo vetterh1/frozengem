@@ -17,10 +17,11 @@ const CategoryButton = ({
 
   return (
     <ButtonToModal
-      btnLabelId={categoryText}
+      btnLabelId=""
+      btnLabelText={categoryText}
       onOk={onOk}
       alternateBtnIcon={
-        <IconCategory style={{ fontSize: "24px", display: "flex" }} />
+        <div className={"small-margin-right"}><IconCategory fontSize="default" /></div>
       }
       className={className}
     >
