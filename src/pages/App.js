@@ -10,7 +10,7 @@ import { SnackbarProvider } from 'notistack';
 import Notifier from './utils/Notifier';
 import translations from '../i18n/locales';
 import withMyTheme from '../theme/withMyTheme';
-import { indigo } from '@material-ui/core/colors';
+import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Logout from '../navigation/Logout';
 import About from './About';
@@ -46,23 +46,32 @@ const NotFound = () => <h2>404 error - This page has not been found!</h2>;
 
 
 
-const App = ({autologin, ...props}) => {
 
-  const divStyle = {
+const styles = theme => ({
+  divStyle: {
     display: "flex",
     flexDirection: "column",
     minHeight: "100vh",
-    backgroundColor: indigo[50],
+    // backgroundColor: theme.palette.primary.superlight,
 
-  };
-  // const containerStyle = {
-  //   display: "flex",
-  //   flexDirection: "column",
-  //   flexGrow: 1,
-  //   padding: '14px',
-  // };
-  const stickToBottom = {
-  };
+  },
+  containerStyle: {
+    display: "flex",
+    flexDirection: "column",
+    flexGrow: 1,
+    backgroundColor: theme.palette.primary.superlight,
+    // padding: '0px',
+  },
+  stickToBottom: {
+  },
+});
+
+
+
+
+const App = ({autologin, classes, ...props}) => {
+
+
 
   //
   // -------------------- Init -------------------- 
@@ -96,43 +105,43 @@ const App = ({autologin, ...props}) => {
             <Notifier />
               <Router basename={process.env.PUBLIC_URL}>
 
-                <div style={divStyle}>
+                <div className={classes.divStyle}>
 
-
-                  {/* <Container maxWidth="md"  style={containerStyle}> */}
+                  <Header />
+                  <Container maxWidth="md"  className={classes.containerStyle}>
 
                     <Switch>
                       <Route
                         exact path="/details/:id"
-                        component={() => <Container disableGutters><Details /></Container>}
+                        component={Details}
                       />
                       <Route
                         exact path="/add"
-                        component={() => <><Container><AddWizard /></Container></>}
+                        component={AddWizard}
                       />
                       <Route
                         exact path="/typography"
-                        component={() => <Typography />}
+                        component={Typography}
                       />                      
                       <Route
                         exact path="/register"
-                        component={() => <><Header /><Container><RegisterWizard /></Container></>}
+                        component={RegisterWizard}
                       />
                       <Route
                         exact path="/choosehome"
-                        component={() => <><Header /><Container><ChooseHome /></Container></>}
+                        component={ChooseHome}
                       />                      
                       <Route
                         exact path="/login"
-                        component={() => <><Header /><Container><LoginWizard /></Container></>}
+                        component={LoginWizard}
                       />
                       <Route
                         exact path="/logout"
-                        component={() => <Logout />}
+                        component={Logout}
                       />
                       <Route
                         exact path="/about"
-                        component={() => <><Header /><Container><About /></Container></>}
+                        component={About}
                       />
                       <Route
                         exact path="/"
@@ -151,11 +160,11 @@ const App = ({autologin, ...props}) => {
                             if(!props.name) return <LoadingUserInfo /> ;
                             
                             // Authenticated users see their dashboard:
-                            return <><Header /><Dashboard /></>;
+                            return <Dashboard />;
 
                           } else {
                             // Non logged users see generic page:
-                            return <><Header /><Container><MainPageContent /></Container></>;
+                            return <MainPageContent />;
                           }
                         }}
                       />
@@ -165,11 +174,11 @@ const App = ({autologin, ...props}) => {
                       
                       />
                     </Switch>          
-                  {/* </Container> */}
+                  </Container>
 
                   { !props.loggedIn && <Footer location={props.location} />}
                   { props.loggedIn && props.navigationStyle === NavigationStyle.NAVIGATION_BOTTOMNAV && 
-                    <BottomNav style={stickToBottom} /> }
+                    <BottomNav className={classes.stickToBottom} /> }
                   { props.loggedIn && props.navigationStyle === NavigationStyle.NAVIGATION_FLOATING && 
                     <FloatingNav /> }                              
 
@@ -209,4 +218,4 @@ function mapDispatchToProps() {
 
 const connectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
 
-export default withMyTheme(connectedApp);
+export default withMyTheme(withStyles(styles)(connectedApp));

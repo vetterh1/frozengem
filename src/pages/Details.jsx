@@ -13,6 +13,7 @@ import CategoryButton from "./utils/CategoryButton";
 import RemoveButton from "./utils/RemoveButton";
 import { gtmPush } from "../utils/gtmPush";
 import SectionBlock from "./utils/SectionBlock";
+import ScrollToTop from './utils/ScrollToTop';
 import ItemImage from "./utils/ItemImage";
 import clsx from "clsx";
 
@@ -153,6 +154,9 @@ const Details = ({
 
   return (
     <div className={classes.card}>
+
+      <ScrollToTop />
+
       {/*
       ********************************************************************
                 Picture section with Return and Picture buttons

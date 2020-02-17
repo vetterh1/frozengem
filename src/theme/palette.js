@@ -11,6 +11,7 @@ import {
 export default {
   // type: 'dark',
   primary: {
+    superlight: indigo[50],
     light: indigo[100],
     main: indigo[700],
     dark: indigo[900]

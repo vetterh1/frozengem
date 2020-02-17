@@ -55,6 +55,8 @@ class LoginWizard extends React.Component {
   // Set the received value in the state 
   // (replacing any existing one)
   handleChange = (change) => {
+    console.debug("LoginWizard.handleChange - change:", change);  
+
     const {name, value} = change;
     this.setState({[name]: value});
   }
