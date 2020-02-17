@@ -4,7 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { userActions } from '../_actions/userActions';
 
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { FormattedMessage } from "react-intl";
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -34,44 +34,42 @@ const styles = theme => ({
 });
 
 
-class Header extends React.Component {
+const Header = ({classes, loggedIn, language, navigationStyle, setLanguage, ...props}) => {
+  let location = useLocation();
+  console.log("header - location=", location)
+  if(location && location.pathname && location.pathname.startsWith("/details/")) return null;
+  if(!language) return null;
+  return (
+    <AppBar position="static" color="primary" elevation={0} className={classes.appBar}>
+      <Toolbar className={classes.toolbar} disableGutters>
+        <Button color="inherit" component={Link} to="/" className={classes.toolbarTitle}>
+          <Typography variant="h5" color="inherit" noWrap>
+            <FormattedMessage id="header.title" />
+          </Typography>
+        </Button>
+        {!loggedIn &&
+          <nav>
+            {language === "fr" && 
+              <Button color="secondary" onClick={e => setLanguage("en")}>
+                EN
+              </Button>
+            }
+            {language === "en" &&
+              <Button color="secondary" onClick={e => setLanguage("fr")}>
+                FR
+              </Button>
+            }
+          </nav>
+        }
 
-  render() {
-    const { classes, loggedIn, language, navigationStyle, setLanguage } = this.props;
-    if(!language) return null;
+        {loggedIn && navigationStyle === NavigationStyle.NAVIGATION_TOOLBAR && 
+          <MenuNav />
+        }
 
-    return (
-      <AppBar position="static" color="primary" elevation={0} className={classes.appBar}>
-        <Toolbar className={classes.toolbar} disableGutters>
-          <Button color="inherit" component={Link} to="/" className={classes.toolbarTitle}>
-            <Typography variant="h5" color="inherit" noWrap>
-              <FormattedMessage id="header.title" />
-            </Typography>
-          </Button>
-          {!loggedIn &&
-            <nav>
-              {language === "fr" && 
-                <Button color="secondary" onClick={e => setLanguage("en")}>
-                  EN
-                </Button>
-              }
-              {language === "en" &&
-                <Button color="secondary" onClick={e => setLanguage("fr")}>
-                  FR
-                </Button>
-              }
-            </nav>
-          }
-
-          {loggedIn && navigationStyle === NavigationStyle.NAVIGATION_TOOLBAR && 
-            <MenuNav />
-          }
-
-          <LoginInBar />
-        </Toolbar>
-      </AppBar>
-    );
-  }
+        <LoginInBar />
+      </Toolbar>
+    </AppBar>
+  );
 }
 
 

@@ -18,6 +18,11 @@ import ItemImage from "./utils/ItemImage";
 import clsx from "clsx";
 
 const styles = theme => ({
+
+  card: {
+    margin: -theme.spacing(2),
+  },
+
   details_image_section: {
     display: "flex",
     position: "relative",

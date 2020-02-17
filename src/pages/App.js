@@ -60,7 +60,7 @@ const styles = theme => ({
     flexDirection: "column",
     flexGrow: 1,
     backgroundColor: theme.palette.primary.superlight,
-    // padding: '0px',
+    padding: theme.spacing(2),
   },
   stickToBottom: {
   },
@@ -107,7 +107,7 @@ const App = ({autologin, classes, ...props}) => {
 
                 <div className={classes.divStyle}>
 
-                  <Header />
+                  <Header {...props}/>
                   <Container maxWidth="md"  className={classes.containerStyle}>
 
                     <Switch>

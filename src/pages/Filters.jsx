@@ -14,7 +14,10 @@ import { gtmPush } from "../utils/gtmPush";
 
 const FilterTabs = withStyles(theme => ({
   root: {
-    backgroundColor: theme.palette.primary.light
+    backgroundColor: theme.palette.primary.light,
+    marginTop: -theme.spacing(2),
+    marginLeft: -theme.spacing(2),
+    marginRight: -theme.spacing(2),
   },
   indicator: {
     backgroundColor: theme.palette.primary.dark,
