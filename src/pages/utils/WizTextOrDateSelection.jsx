@@ -95,7 +95,7 @@ const WizTextOrDateSelection = ({
           }
         >
           <Input
-            id={name}
+            id={`id-${name}`}
             value={value}
             onChange={_handleEventChange}
             aria-describedby="name-text"

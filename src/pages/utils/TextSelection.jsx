@@ -53,10 +53,10 @@ const TextSelection = ({
             }
           >
             <Input
-              id={name}
+              id={`id-${name}`}
               value={value}
               onChange={_handleEventChange}
-              aria-describedby="name-text"
+              // aria-describedby="name-text"
               fullWidth
               autoFocus
             />
