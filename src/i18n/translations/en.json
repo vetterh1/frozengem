@@ -1,5 +1,6 @@
 {
   "action.add": "Add",
+  "action.addFromBarcode": "Scan",
   "action.edit": "Edit",
   "action.list": "List",
   "action.remove": "Remove",

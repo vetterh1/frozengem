@@ -28,6 +28,7 @@ import RegisterWizard from './registerWizard/RegisterWizard';
 import LoginWizard from './loginWizard/LoginWizard';
 import { NavigationStyle } from '../navigation/configNavigation'
 import Typography from './utils/Typography';
+import AddFromBarcode from './AddFromBarcode';
 
 
 
@@ -118,6 +119,10 @@ const App = ({autologin, classes, ...props}) => {
                       <Route
                         exact path="/add"
                         component={AddWizard}
+                      />
+                      <Route
+                        exact path="/addFromBarcode"
+                        component={AddFromBarcode}
                       />
                       <Route
                         exact path="/typography"
