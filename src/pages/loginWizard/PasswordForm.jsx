@@ -77,8 +77,8 @@ class PasswordForm extends React.Component {
             <input id="emailfield" type="text" defaultValue={email} autoComplete="email" className={classes.hidden} />
 
             <TextField
-              id="new-password"
-              autoComplete="new-password"
+              id="current-password"
+              autoComplete="current-password"
               value={password}
               onChange={this.handleTextChange}
               type="password"
