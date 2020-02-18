@@ -19,13 +19,11 @@ const styles = theme => ({
   leftIcon: {
     marginRight: theme.spacing(0.5)
   },
-  buttonIconOnly: {
-    padding: 0
-  }
 });
 
 const ButtonToModal = ({
   btnLabelId = "action.edit",
+  btnLabelText = null,
   onOk,
   alternateBtnIcon,
   className,
@@ -94,10 +92,13 @@ const ButtonToModal = ({
         onClick={_handleClickOpen}
       >
         <div className={classes.leftIcon}>{btnIcon}</div>
-        {btnLabelId.length >0 && <FormattedMessage
-          style={{ fontSize: "11px", fontWeight: "bold" }}
-          id={btnLabelId}
-        />}
+        {btnLabelId.length > 0 && (
+          <FormattedMessage
+            style={{ fontSize: "11px", fontWeight: "bold" }}
+            id={btnLabelId}
+          />
+        )}
+        {btnLabelText}
       </Button>
 
       {open &&
