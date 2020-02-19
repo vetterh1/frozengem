@@ -1,8 +1,25 @@
 import React, { useEffect } from "react";
+import LinearProgress from '@material-ui/core/LinearProgress';
 import Quagga from "quagga";
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+  },
+}));
+
+
+const MAX = 5;
+const normalise = value => (value * 100) / MAX;
 
 const Scanner = ({ onDetected }) => {
+  const classes = useStyles();
   const [codes, setCodes] = React.useState([]);
+  const [steps, setSteps] = React.useState(0);
 
   console.debug("Scanner init - codes=", codes);
 
@@ -62,7 +79,7 @@ const Scanner = ({ onDetected }) => {
             indexExistingObject,
             codes[indexExistingObject]
           );
-          if (codes[indexExistingObject].count > 5) {
+          if (codes[indexExistingObject].count >= MAX) {
             // We have enough data, let's return this to the parent
             console.debug(
               "Scanner._onDetected - returns code, indexExistingObject = ",
@@ -78,6 +95,8 @@ const Scanner = ({ onDetected }) => {
                 ? { code: codeObject.code, count: codeObject.count + 1 }
                 : codeObject
             );
+            // And update the steps
+            setSteps(oldStep => oldStep < codes[indexExistingObject].count ? oldStep + 1 : oldStep)
           }
         } else {
           // New code to add in array
@@ -90,7 +109,13 @@ const Scanner = ({ onDetected }) => {
     }
   };
 
-  return <div id="interactive" className="viewport" />;
+  return (
+    <div className={classes.root}>
+      {steps}
+      <LinearProgress variant="determinate" value={normalise(steps)} />
+      <div id="interactive" className="viewport" />
+    </div>
+  );
 };
 
 export default Scanner;

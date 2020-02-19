@@ -12,13 +12,14 @@ import { withStyles } from "@material-ui/core/styles";
 // import PictureSelection from "./utils/PictureSelection";
 // import CategoryButton from "./utils/CategoryButton";
 // import RemoveButton from "./utils/RemoveButton";
-import { gtmPush } from "../utils/gtmPush";
+// import { gtmPush } from "../utils/gtmPush";
 // import SectionBlock from "./utils/SectionBlock";
 import ScrollToTop from './utils/ScrollToTop';
 // import ItemImage from "./utils/ItemImage";
 // import clsx from "clsx";
 
 import Scanner from './utils/Scanner';
+import { openfoodfactsServices } from '../_services/openfoodfactsServices';
 
 
 const styles = theme => ({
@@ -33,13 +34,13 @@ const AddFromBarcode = ({
   characteristics,
   classes,
 //   intl,
-  history,
+//   history,
   loggedIn
 }) => {
 
   const [scanning, setScanning] = React.useState(true);
-  const [result, setResult] = React.useState();
-
+  const [code, setCode] = React.useState();
+  const [product, setProduct] = React.useState();
 
 
   if (!loggedIn) {
@@ -50,29 +51,34 @@ const AddFromBarcode = ({
   if ( !characteristics) return null;
   console.debug(`[--- FC ---] Functional component: AddFromBarcode`);
 
-  const handleClose = () => {
-    console.debug("[<<< AddFromBarcode ------<<<----- / <<<] Reason: close details");
+//   const handleClose = () => {
+//     console.debug("[<<< AddFromBarcode ------<<<----- / <<<] Reason: close details");
 
-    gtmPush({
-      event: "AddFromBarcode",
-      action: "Close"
-    });
+//     gtmPush({
+//       event: "AddFromBarcode",
+//       action: "Close"
+//     });
 
-    history.goBack();
+//     history.goBack();
 
-    // Strangely, history.push/goBack works here...
-    // if not, should be replaced by a <redirect push> tag in render
-    // but it would redisplay / and dispay from the top of the page
-    // (better use back that goes back at the right place)
-  };
-
-
+//     // Strangely, history.push/goBack works here...
+//     // if not, should be replaced by a <redirect push> tag in render
+//     // but it would redisplay / and dispay from the top of the page
+//     // (better use back that goes back at the right place)
+//   };
 
 
-  const _onDetected = (result) => {
-    console.debug("AddFromBarcode._onDetected - result=", result);
-    setResult(result);
+
+
+  const _onDetected = async (scannedCode) => {
+    console.debug("AddFromBarcode._onDetected - scannedCode=", scannedCode);
+    setCode(scannedCode);
     setScanning(false);
+
+    const product = await openfoodfactsServices.fetchProductFromOpenfoodfactsServer(scannedCode);
+    console.debug("AddFromBarcode._onDetected - product=", product);
+    setProduct(product.product);
+
     // handleClose();
   };
 
@@ -87,7 +93,10 @@ const AddFromBarcode = ({
         <ScrollToTop />
         {scanning ? <Scanner onDetected={_onDetected}/> : null}
 
-        Result: {result}:
+        Code: {code}
+        Name: {product && product.product_name}
+        Image: <img src={product && product.image_url} alt="product image"></img>
+
     </div>
   );
 };
