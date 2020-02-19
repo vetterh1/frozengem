@@ -38,7 +38,7 @@ const AddFromBarcode = ({
 }) => {
 
   const [scanning, setScanning] = React.useState(true);
-  const [results, setResults] = React.useState([]);
+  const [result, setResult] = React.useState();
 
 
 
@@ -69,9 +69,9 @@ const AddFromBarcode = ({
 
 
 
-  const _onDetected = async (results) => {
-    console.debug("AddFromBarcode._onDetected - results=", results);
-    setResults(results);
+  const _onDetected = (result) => {
+    console.debug("AddFromBarcode._onDetected - result=", result);
+    setResult(result);
     setScanning(false);
     // handleClose();
   };
@@ -87,11 +87,7 @@ const AddFromBarcode = ({
         <ScrollToTop />
         {scanning ? <Scanner onDetected={_onDetected}/> : null}
 
-        Results ({results.length}):
-        <ul>
-        {results.forEach(result => <li>result</li>)}
-        </ul>
-
+        Result: {result}:
     </div>
   );
 };
