@@ -1,6 +1,8 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
+import CharacteristicsTile from "./CharacteristicsTile";
 import CharacteristicsButton from "./CharacteristicsButton";
+import config from '../../data/config'
 
 const SectionBlock = ({
   characteristicName,
@@ -22,6 +24,8 @@ const SectionBlock = ({
     <div
       className={`flex-direction-column  flex-align-center flex-basis-50 ${classUncomplete}`}
     >
+
+    {!config.details_use_clickable_tiles && (<>
       <Typography variant={mainTypography || "h6"}>{main || "-"}</Typography>
       {secondary && <Typography variant="body2">{secondary}</Typography>}
       <div className={"flex-direction-row small-margin-top"}>
@@ -36,10 +40,26 @@ const SectionBlock = ({
           multiselection={multiselection}
           onOk={onOk}
         />
-        {additionalButton && (
-          <div className={"small-margin-left"}>{additionalButton}</div>
-        )}
-      </div>
+          {additionalButton && (
+            <div className={"small-margin-left"}>{additionalButton}</div>
+          )}
+        </div></>)}
+
+    {config.details_use_clickable_tiles && (
+      <CharacteristicsTile
+        characteristicName={characteristicName}
+        isText={isText}
+        isDate={isDate}
+        dialogTitle={dialogTitle}
+        dialogHelp={dialogHelp}
+        dialogItems={dialogItems}
+        dialogPreselectedItems={dialogPreselectedItems}
+        multiselection={multiselection}
+        onOk={onOk}
+      ><>
+        <Typography variant={mainTypography || "h6"}>{main || "-"}</Typography>
+        {secondary && <Typography variant="body2">{secondary}</Typography>}
+      </></CharacteristicsTile>)}
     </div>
   );
 };

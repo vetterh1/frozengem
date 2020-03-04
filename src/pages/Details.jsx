@@ -1,26 +1,28 @@
 import React from "react";
+import clsx from "clsx";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
+import config from '../data/config'
 import { itemsActions } from "../_actions/itemsActions";
 import { Redirect } from "react-router";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 import { Button, Divider, Typography } from "@material-ui/core";
+import IconButton from "@material-ui/core/IconButton";
 import Person from "@material-ui/icons/Person";
 import PersonOutline from "@material-ui/icons/PersonOutline";
+import { IconRemove } from "../data/Icons";
 import PictureSelection from "./utils/PictureSelection";
 import CategoryButton from "./utils/CategoryButton";
 import RemoveButton from "./utils/RemoveButton";
 import { gtmPush } from "../utils/gtmPush";
 import SectionBlock from "./utils/SectionBlock";
-import ScrollToTop from './utils/ScrollToTop';
+import ScrollToTop from "./utils/ScrollToTop";
 import ItemImage from "./utils/ItemImage";
-import clsx from "clsx";
 
 const styles = theme => ({
-
   card: {
-    margin: -theme.spacing(2),
+    margin: -theme.spacing(2)
   },
 
   details_image_section: {
@@ -61,6 +63,14 @@ const styles = theme => ({
     left: "10px",
     backgroundColor: "rgba(0, 0, 0, 0.6)",
     padding: "5px 10px",
+    color: "white"
+  },
+  details_remove: {
+    position: "absolute",
+    // bottom: "10px",
+    // left: "10px",
+    // padding: "5px 10px",
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
     color: "white"
   }
 });
@@ -159,7 +169,6 @@ const Details = ({
 
   return (
     <div className={classes.card}>
-
       <ScrollToTop />
 
       {/*
@@ -195,11 +204,11 @@ const Details = ({
           {item.code}
         </Typography>
         <CategoryButton
-          categoryText = {item.__categoryText}
+          categoryText={item.__categoryText}
           dialogTitle={dialogTitle}
           dialogItems={characteristics.categories}
           dialogPreselectedItems={item.category}
-          onOk={_handleUpdateCharacteristic}          
+          onOk={_handleUpdateCharacteristic}
           className={clsx(
             classes.details_image_category,
             !item.category && "stitched"
@@ -283,6 +292,17 @@ const Details = ({
             onOk={_handleUpdateCharacteristic}
             showOkBtn={true}
           />
+          {config.details_use_clickable_tiles && (
+            <IconButton
+              component="span"
+              color="primary"
+              aria-label="Remove"
+              className={clsx(classes.details_remove)}
+              onClick={_handleRemove}
+            >
+              <IconRemove />
+            </IconButton>
+          )}
         </section>
         <Divider className={"margin-top margin-down"}></Divider>
         {/*
