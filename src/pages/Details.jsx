@@ -281,6 +281,18 @@ const Details = ({
             onOk={_handleUpdateQuantity}
             additionalButton={<RemoveButton onOk={_handleRemove} />}
           />
+          {config.details_use_clickable_tiles && (
+            <RemoveButton onOk={_handleRemove} showLabel={false}/>
+            // <IconButton
+            //   component="span"
+            //   color="primary"
+            //   aria-label="Remove"
+            //   className={clsx(classes.details_remove)}
+            //   onClick={_handleRemove}
+            // >
+            //   <IconRemove />
+            // </IconButton>
+          )}
           <SectionBlock
             characteristicName="expirationDate"
             isDate={true}
@@ -292,17 +304,6 @@ const Details = ({
             onOk={_handleUpdateCharacteristic}
             showOkBtn={true}
           />
-          {config.details_use_clickable_tiles && (
-            <IconButton
-              component="span"
-              color="primary"
-              aria-label="Remove"
-              className={clsx(classes.details_remove)}
-              onClick={_handleRemove}
-            >
-              <IconRemove />
-            </IconButton>
-          )}
         </section>
         <Divider className={"margin-top margin-down"}></Divider>
         {/*

@@ -7,14 +7,11 @@ import Edit from "@material-ui/icons/Edit";
 import { gtmPush } from "../../utils/gtmPush";
 
 const styles = theme => ({
-  button: {
-    alignSelf: "center",
-    padding: "2px 6px 0px 6px",
-    textTransform: "none !important",
-    minWidth: "0px",
-    opacity: "0.6",
-    lineHeight: "unset",
-    backgroundColor: "rgba(0, 0, 0, 0.075)"
+  tile: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    // backgroundColor: "rgba(0, 0, 0, 0.075)"
   },
   leftIcon: {
     marginRight: theme.spacing(0.5)
@@ -81,16 +78,16 @@ const TileToModal = ({
     <Edit style={{ fontSize: "14px" }} />
   );
 
-  const buttonClassName = className ? className : classes.button;
+  const tileClassName = className ? className : classes.tile;
 
   return (
     <React.Fragment>
       <div
-        id={"btn_" + selection.props.id}
-        // component="button"
+        id={"tiile_" + selection.props.id}
+        // component="tile"
         size="small"
         color="primary"
-        className={buttonClassName}
+        className={tileClassName}
         onClick={_handleClickOpen}
       >
         {children}

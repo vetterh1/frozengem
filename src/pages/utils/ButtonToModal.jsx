@@ -7,17 +7,28 @@ import Edit from "@material-ui/icons/Edit";
 import { gtmPush } from "../../utils/gtmPush";
 
 const styles = theme => ({
-  button: {
+  buttonWithText: {
     alignSelf: "center",
     padding: "2px 6px 0px 6px",
     textTransform: "none !important",
     minWidth: "0px",
     opacity: "0.6",
     lineHeight: "unset",
-    backgroundColor: "rgba(0, 0, 0, 0.075)"
+    backgroundColor: "rgba(0, 0, 0, 0.075)",
   },
-  leftIcon: {
+  buttonWithoutText: {
+    alignSelf: "center",
+    padding: "2px 6px 0px 6px",
+    textTransform: "none !important",
+    minWidth: "0px",
+    opacity: "0.6",
+    lineHeight: "unset",
+  },
+  leftIconWithText: {
     marginRight: theme.spacing(0.5)
+  },
+  leftIconWithoutText: {
+    marginRight: 0
   },
 });
 
@@ -79,7 +90,8 @@ const ButtonToModal = ({
     <Edit style={{ fontSize: "14px" }} />
   );
 
-  const buttonClassName = className ? className : classes.button;
+  const buttonClassName = className ? className : (btnLabelId ? classes.buttonWithText : classes.buttonWithoutText);
+  const iconClassName = btnLabelId ? classes.leftIconWithText : classes.leftIconWithoutText;
 
   return (
     <React.Fragment>
@@ -91,8 +103,8 @@ const ButtonToModal = ({
         className={buttonClassName}
         onClick={_handleClickOpen}
       >
-        <div className={classes.leftIcon}>{btnIcon}</div>
-        {btnLabelId.length > 0 && (
+        <div className={iconClassName}>{btnIcon}</div>
+        {btnLabelId && btnLabelId.length > 0 && (
           <FormattedMessage
             style={{ fontSize: "11px", fontWeight: "bold" }}
             id={btnLabelId}
@@ -113,6 +125,7 @@ const ButtonToModal = ({
 
 ButtonToModal.propTypes = {
   btnLabelId: PropTypes.string,
+  btnLabelText: PropTypes.string,
   btnIcon: PropTypes.object,
   onOk: PropTypes.func,
   classes: PropTypes.object,
