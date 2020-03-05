@@ -67,9 +67,8 @@ const styles = theme => ({
   },
   details_remove: {
     position: "absolute",
-    // bottom: "10px",
-    // left: "10px",
-    // padding: "5px 10px",
+    top: "-12px",
+    left: "-8px",
     backgroundColor: "rgba(0, 0, 0, 0.6)",
     color: "white"
   }
