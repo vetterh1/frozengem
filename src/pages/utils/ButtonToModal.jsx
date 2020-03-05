@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import Fab from '@material-ui/core/Fab';
 import Edit from "@material-ui/icons/Edit";
 import { gtmPush } from "../../utils/gtmPush";
 
@@ -35,6 +36,7 @@ const styles = theme => ({
 const ButtonToModal = ({
   btnLabelId = "action.edit",
   btnLabelText = null,
+  isFAB = false,
   onOk,
   alternateBtnIcon,
   className,
@@ -90,11 +92,12 @@ const ButtonToModal = ({
     <Edit style={{ fontSize: "14px" }} />
   );
 
-  const buttonClassName = className ? className : (btnLabelId ? classes.buttonWithText : classes.buttonWithoutText);
-  const iconClassName = btnLabelId ? classes.leftIconWithText : classes.leftIconWithoutText;
+  const buttonClassName = className ? className : ((btnLabelId && !isFAB) ? classes.buttonWithText : classes.buttonWithoutText);
+  const iconClassName = (btnLabelId && !isFAB) ? classes.leftIconWithText : classes.leftIconWithoutText;
 
   return (
     <React.Fragment>
+      {!isFAB && 
       <Button
         id={"btn_" + children.props.id}
         // component="button"
@@ -111,7 +114,20 @@ const ButtonToModal = ({
           />
         )}
         {btnLabelText}
-      </Button>
+      </Button>}
+
+      {isFAB && 
+      <Fab
+        id={"btn_" + children.props.id}
+        // component="Fab"
+        size="small"
+        color="primary"
+        className={buttonClassName}
+        onClick={_handleClickOpen}
+      >
+        <div className={iconClassName}>{btnIcon}</div>
+      </Fab>}
+
 
       {open &&
         React.cloneElement(children, {

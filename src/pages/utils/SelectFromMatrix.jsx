@@ -50,6 +50,7 @@ const intSelectFromMatrix = ({
               undefined;
         } else {
           selected = preselectedItems === item.id2;
+          console.log("intSelectFromMatrix item.id2, preselectedItems, selected:", item.id2, preselectedItems, selected)
         }
 
         return (

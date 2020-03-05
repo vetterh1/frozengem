@@ -54,7 +54,7 @@ const TextSelection = ({
           >
             <Input
               id={`id-${name}`}
-              autocomplete="off"
+              autoComplete="off"
               value={value}
               onChange={_handleEventChange}
               // aria-describedby="name-text"

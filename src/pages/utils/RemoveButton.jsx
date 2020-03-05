@@ -3,17 +3,18 @@ import DialogMinimal from "./DialogMinimal";
 import ButtonToModal from "./ButtonToModal";
 import { IconRemove } from "../../data/Icons";
 
-const RemoveButton = ({ onOk, showLabel = true }) => {
+const RemoveButton = ({ onOk, showLabel = true, isFAB = false }) => {
   return (
     <ButtonToModal
       btnLabelId={showLabel ? "action.remove" : null}
+      isFAB={isFAB}
       onOk={onOk}
       alternateBtnIcon={
         <IconRemove
           style={
-            showLabel
-              ? { fontSize: "15px", display: "flex" }
-              : { fontSize: "32px", display: "flex" }
+            isFAB
+              ? { fontSize: "22px", display: "flex", marginLeft: "2px" }
+              : { fontSize: "15px", display: "flex" }
           }
         />
       }
