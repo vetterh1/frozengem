@@ -23,18 +23,17 @@ const styles = theme => ({
     minWidth: "0px",
     opacity: "0.6",
     lineHeight: "unset",
-    animation: "$pulseAnimation 1.5s ease-in-out 2"
+    animation: "$pulseAnimation 1.5s ease-in-out 3"
   },
 
   "@keyframes pulseAnimation": {
     "0%": {
       transform: "scale(1)"
     },
-
     "55%": {
-      opacity: "0.7",
-      transform: "scale(1.1)"
-    }
+      opacity: "0.8",
+      transform: "scale(1.2)"
+    },
   },
 
   leftIconWithText: {
