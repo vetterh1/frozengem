@@ -19,7 +19,7 @@ import { gtmPush } from "../utils/gtmPush";
 import SectionBlock from "./utils/SectionBlock";
 import ScrollToTop from "./utils/ScrollToTop";
 import ItemImage from "./utils/ItemImage";
-import Joyride from 'react-joyride';
+import Joyride from "react-joyride";
 
 const styles = theme => ({
   card: {
@@ -74,7 +74,6 @@ const styles = theme => ({
     color: "white"
   }
 });
-
 
 const Details = ({
   item,
@@ -170,7 +169,6 @@ const Details = ({
   const dialogHelpName = intl.formatMessage({ id: "add.name.help" });
   const dialogHelpDate = intl.formatMessage({ id: "add.date.help" });
 
-
   const helpSteps = [
     {
       target: ".MuiFab-root",
@@ -191,14 +189,30 @@ const Details = ({
     {
       target: ".MuiCardMedia-root ",
       content: intl.formatMessage({ id: "help.details.image" })
-    },
+    }
   ];
-
 
   return (
     <div className={classes.card}>
       <ScrollToTop />
-      <Joyride steps={helpSteps} debug={true} continuous={true} showProgress={true} />
+      <Joyride
+        steps={helpSteps}
+        debug={true}
+        continuous={true}
+        showProgress={true}
+        locale={{
+          back: intl.formatMessage({ id: "button.previous" }),
+          close: intl.formatMessage({ id: "button.close" }),
+          last: intl.formatMessage({ id: "button.end" }),
+          next: intl.formatMessage({ id: "button.continue" }),
+          skip: intl.formatMessage({ id: "button.skip" }),
+        }}
+        styles={{
+          options: {
+            primaryColor: '#303f9f',
+          }
+        }}        
+      />
 
       {/*
       ********************************************************************
