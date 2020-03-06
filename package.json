@@ -24,6 +24,7 @@
     "react-dom": "^16.12.0",
     "react-gtm-module": "^2.0.8",
     "react-intl": "^3.11.0",
+    "react-joyride": "^2.2.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.0",
     "react-step-wizard": "github:vetterh1/react-step-wizard",

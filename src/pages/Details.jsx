@@ -2,16 +2,16 @@ import React from "react";
 import clsx from "clsx";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
-import config from '../data/config'
+import config from "../data/config";
 import { itemsActions } from "../_actions/itemsActions";
 import { Redirect } from "react-router";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 import { Button, Divider, Typography } from "@material-ui/core";
-import IconButton from "@material-ui/core/IconButton";
+// import IconButton from "@material-ui/core/IconButton";
 import Person from "@material-ui/icons/Person";
 import PersonOutline from "@material-ui/icons/PersonOutline";
-import { IconRemove } from "../data/Icons";
+// import { IconRemove } from "../data/Icons";
 import PictureSelection from "./utils/PictureSelection";
 import CategoryButton from "./utils/CategoryButton";
 import RemoveButton from "./utils/RemoveButton";
@@ -19,6 +19,7 @@ import { gtmPush } from "../utils/gtmPush";
 import SectionBlock from "./utils/SectionBlock";
 import ScrollToTop from "./utils/ScrollToTop";
 import ItemImage from "./utils/ItemImage";
+import Joyride from 'react-joyride';
 
 const styles = theme => ({
   card: {
@@ -73,6 +74,7 @@ const styles = theme => ({
     color: "white"
   }
 });
+
 
 const Details = ({
   item,
@@ -161,13 +163,42 @@ const Details = ({
 
   const dateToDisplay = `${item.__monthExpirationAsText} ${item.__yearExpiration}`;
 
-  const dialogTitle = intl.formatMessage({ id: "item.edit" }, {category: item.__categoryText});
+  const dialogTitle = intl.formatMessage(
+    { id: "item.edit" },
+    { category: item.__categoryText }
+  );
   const dialogHelpName = intl.formatMessage({ id: "add.name.help" });
   const dialogHelpDate = intl.formatMessage({ id: "add.date.help" });
+
+
+  const helpSteps = [
+    {
+      target: ".MuiFab-root",
+      content: intl.formatMessage({ id: "help.details.remove" })
+    },
+    {
+      target: "#tile_details_update_container",
+      content: intl.formatMessage({ id: "help.details.tiles" })
+    },
+    {
+      target: ".code_id",
+      content: intl.formatMessage({ id: "help.details.code" })
+    },
+    {
+      target: ".cam_icon",
+      content: intl.formatMessage({ id: "help.details.camera" })
+    },
+    {
+      target: ".MuiCardMedia-root ",
+      content: intl.formatMessage({ id: "help.details.image" })
+    },
+  ];
+
 
   return (
     <div className={classes.card}>
       <ScrollToTop />
+      <Joyride steps={helpSteps} debug={true} continuous={true} showProgress={true} />
 
       {/*
       ********************************************************************
@@ -194,7 +225,7 @@ const Details = ({
           &lt; &nbsp; <FormattedMessage id="button.back" />
         </Button>
         <Typography
-          className={classes.details_image_code}
+          className={clsx(classes.details_image_code, "code_id")}
           variant="h4"
           color="textSecondary"
           component="p"
@@ -215,7 +246,8 @@ const Details = ({
         <PictureSelection
           className={clsx(
             classes.details_image_camera,
-            !item.pictureName && "stitched"
+            !item.pictureName && "stitched",
+            "cam_icon"
           )}
           itemId={item.id}
           iconOnlyButton
@@ -280,7 +312,7 @@ const Details = ({
             additionalButton={<RemoveButton onOk={_handleRemove} />}
           />
           {config.details_use_clickable_tiles && (
-            <RemoveButton onOk={_handleRemove} isFAB={true} showLabel={false}/>
+            <RemoveButton onOk={_handleRemove} isFAB={true} showLabel={false} />
             // <IconButton
             //   component="span"
             //   color="primary"
@@ -340,7 +372,9 @@ const Details = ({
             characteristicName="container"
             main={item.__containerText}
             secondary={intl.formatMessage({ id: "characteristics.container" })}
-            dialogTitle={intl.formatMessage({ id: "characteristics.container" })}
+            dialogTitle={intl.formatMessage({
+              id: "characteristics.container"
+            })}
             dialogItems={characteristics.containers}
             dialogPreselectedItems={item.container}
             onOk={_handleUpdateCharacteristic}

@@ -83,7 +83,7 @@ const TileToModal = ({
   return (
     <React.Fragment>
       <div
-        id={"tiile_" + selection.props.id}
+        id={"tile_" + selection.props.id}
         // component="tile"
         size="small"
         color="primary"
