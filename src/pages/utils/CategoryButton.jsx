@@ -13,7 +13,7 @@ const CategoryButton = ({
   className
 }) => {
   // console.debug("CategoryButton : characteristicName, isText, isDate = ", characteristicName, isText, isDate);
-  const IconCategory = getIconComponent("category" + dialogPreselectedItems);
+  const IconCategory =  getIconComponent(dialogPreselectedItems ? "category" + dialogPreselectedItems : "help");
 
   return (
     <ButtonToModal

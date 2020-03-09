@@ -94,21 +94,16 @@ const Details = ({
   detailsHelpCompleted,
   setDetailsHelpCompleted
 }) => {
-  if (!loggedIn) {
-    console.debug("[>>> Details ------>>>----- / >>>] Reason: not logged in");
+  if (!loggedIn || !characteristics) {
+    console.debug("[>>> Details ------>>>----- / >>>] Reason: not logged in or empty characteristics");
     return <Redirect to="/" />;
   }
-
-  if (!item) {
-    console.debug("[>>> Details ------>>>----- / >>>] Reason: item not found");
-    return <Redirect push to="/" />;
-  }
+  const createNewItem = item ? false : true;
 
   // const theme = useTheme();
   // const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  if (!item || !characteristics) return null;
-  console.debug(`[--- FC ---] Functional component: Details - id=${item.id}`);
+  console.debug("[--- FC ---] Functional component: Details - createNewItem,id=", createNewItem, item ? item.id : "N/A");
 
   const handleClose = () => {
     console.debug("[<<< Details ------<<<----- / <<<] Reason: close details");
@@ -142,11 +137,16 @@ const Details = ({
     return null;
   };
 
-  const handleSavePicture = (pictureData, thumbnailData) => {
+  const _handleSavePicture = (pictureData, thumbnailData) => {
     savePicture(item.id, pictureData, thumbnailData);
   };
 
+  //
+  // Create Size icon array
+  // 
+
   const sizeInIcons = [];
+  if(item) {
   for (let i = 0; i < item.size; i++) {
     sizeInIcons.push(<Person style={{ fontSize: 20 }} key={i.toString()} />);
   }
@@ -154,6 +154,11 @@ const Details = ({
     sizeInIcons.push(
       <PersonOutline style={{ fontSize: 20 }} key={item.size.toString()} />
     );
+  }
+
+  //
+  // Add "remove / 0" option to the quantity list
+  //
 
   const zero = {
     id2: "0",
@@ -168,14 +173,19 @@ const Details = ({
   };
   const sizesWith0 = [zero, ...characteristics.sizes];
 
-  const dateToDisplay = `${item.__monthExpirationAsText} ${item.__yearExpiration}`;
 
-  const dialogTitle = intl.formatMessage(
-    { id: "item.edit" },
-    { category: item.__categoryText }
-  );
+  const dateToDisplay = item ? `${item.__monthExpirationAsText} ${item.__yearExpiration}` : null;
+
+  //
+  // Misc string / help text configuration
+  // 
   const dialogHelpName = intl.formatMessage({ id: "add.name.help" });
   const dialogHelpDate = intl.formatMessage({ id: "add.date.help" });
+
+
+  // 
+  // Help setup
+  //
 
   const helpSteps = [
     {
@@ -211,21 +221,22 @@ const Details = ({
       content: intl.formatMessage({ id: "help.details.image" })
     }
   ];
-
-
   const handleJoyrideCallback = data => {
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
       console.debug("handleJoyrideCallback: detailsHelpCompleted --> true!")
       setDetailsHelpCompleted(true);
     }
   };
-  
   const _handleHelp = async () => {
     console.debug("handleJoyrideCallback: detailsHelpCompleted --> true!")
     setDetailsHelpCompleted(!detailsHelpCompleted);
     return null;
   };  
 
+
+  //
+  // RENDER
+  //
 
   return (
     <div className={classes.card}>
@@ -259,15 +270,16 @@ const Details = ({
       <section
         className={clsx(
           classes.details_image_section,
-          !item.pictureName && "stitched"
+          (!item || !item.pictureName) && "stitched"
         )}
       >
-        <ItemImage
-          item={item}
-          style={{
-            height: "25vh"
-          }}
-        />
+        {item && 
+          <ItemImage
+            item={item}
+            style={{
+              height: "25vh"
+            }}
+          />}
         <Button
           onClick={handleClose}
           color="primary"
@@ -281,30 +293,30 @@ const Details = ({
           color="textSecondary"
           component="p"
         >
-          {item.code}
+          {item ? item.code : "-"}
         </Typography>
         <CategoryButton
-          categoryText={item.__categoryText}
+          categoryText={item ? item.__categoryText : ""}
           dialogTitle={intl.formatMessage({ id: "characteristics.category" })}
           dialogItems={characteristics.categories}
-          dialogPreselectedItems={item.category}
+          dialogPreselectedItems={item ? item.category : null}
           onOk={_handleUpdateCharacteristic}
           className={clsx(
             classes.details_image_category,
-            !item.category && "stitched"
+            (!item || !item.category) && "stitched"
           )}
         />
         <PictureSelection
           className={clsx(
             classes.details_image_camera,
-            !item.pictureName && "stitched",
+            (!item || !item.pictureName) && "stitched",
             "cam_icon"
           )}
-          itemId={item.id}
+          itemId={item ? item.id : null}
           iconOnlyButton
-          onPicture={handleSavePicture}
+          onPicture={_handleSavePicture}
           label={intl.formatMessage({
-            id: item.__imageExists ? "camera.replace" : "camera.add"
+            id: (item && item.__imageExists) ? "camera.replace" : "camera.add"
           })}
         />
       </section>
@@ -318,13 +330,13 @@ const Details = ({
           <SectionBlock
             characteristicName="name"
             isText={true}
-            main={item.name}
+            main={item ? item.name : "-"}
             mainTypography="h2"
             secondary={null}
             dialogTitle={intl.formatMessage({ id: "characteristics.name" })}
             dialogHelp={dialogHelpName}
             dialogItems={sizesWith0}
-            dialogPreselectedItems={item.name}
+            dialogPreselectedItems={item ? item.name : null}
             onOk={_handleUpdateCharacteristic}
             showOkBtn={true}
           />
@@ -336,12 +348,12 @@ const Details = ({
           */}
           <SectionBlock
             characteristicName="details"
-            main={item.__detailsNames}
+            main={item ? item.__detailsNames : "-"}
             dialogTitle={intl.formatMessage({ id: "characteristics.details" })}
             dialogItems={characteristics.details}
-            dialogPreselectedItems={item.__detailsArray}
+            dialogPreselectedItems={item ? item.__detailsArray : null}
             multiselection={true}
-            dialogDefaultIconName={"category" + item.category}
+            dialogDefaultIconName={item ? "category" + item.category : null}
             onOk={_handleUpdateCharacteristic}
           />
         </section>
@@ -355,10 +367,10 @@ const Details = ({
           <SectionBlock
             characteristicName="size"
             main={sizeInIcons}
-            secondary={item.__sizeInText}
+            secondary={item ? item.__sizeInText : "-"}
             dialogTitle={intl.formatMessage({ id: "characteristics.size" })}
             dialogItems={sizesWith0}
-            dialogPreselectedItems={item.size.toString()}
+            dialogPreselectedItems={item ? item.size.toString() : null}
             onOk={_handleUpdateQuantity}
             additionalButton={<RemoveButton onOk={_handleRemove} />}
           />
@@ -369,10 +381,10 @@ const Details = ({
             characteristicName="expirationDate"
             isDate={true}
             main={dateToDisplay}
-            secondary={intl.formatMessage(item.__expirationText)}
+            secondary={item ? intl.formatMessage(item.__expirationText) : "-"}
             dialogTitle={intl.formatMessage({ id: "characteristics.date" })}
             dialogHelp={dialogHelpDate}
-            dialogPreselectedItems={item.expirationDate}
+            dialogPreselectedItems={item ? item.expirationDate : null}
             onOk={_handleUpdateCharacteristic}
             showOkBtn={true}
           />
@@ -386,20 +398,20 @@ const Details = ({
         <section className={"flex-direction-row flex-justify-around"}>
           <SectionBlock
             characteristicName="freezer"
-            main={item.__freezerText}
+            main={item ? item.__freezerText : "-"}
             secondary={intl.formatMessage({ id: "characteristics.freezer" })}
             dialogTitle={intl.formatMessage({ id: "characteristics.freezer" })}
             dialogItems={characteristics.freezers}
-            dialogPreselectedItems={item.freezer}
+            dialogPreselectedItems={item ? item.freezer : null}
             onOk={_handleUpdateCharacteristic}
           />
           <SectionBlock
             characteristicName="location"
-            main={item.__locationText}
+            main={item ? item.__locationText : "-"}
             secondary={intl.formatMessage({ id: "characteristics.location" })}
             dialogTitle={intl.formatMessage({ id: "characteristics.location" })}
             dialogItems={characteristics.locations}
-            dialogPreselectedItems={item.location}
+            dialogPreselectedItems={item ? item.location : null}
             onOk={_handleUpdateCharacteristic}
           />
         </section>
@@ -412,22 +424,22 @@ const Details = ({
         <section className={"flex-direction-row flex-justify-around"}>
           <SectionBlock
             characteristicName="container"
-            main={item.__containerText}
+            main={item ? item.__containerText : "-"}
             secondary={intl.formatMessage({ id: "characteristics.container" })}
             dialogTitle={intl.formatMessage({
               id: "characteristics.container"
             })}
             dialogItems={characteristics.containers}
-            dialogPreselectedItems={item.container}
+            dialogPreselectedItems={item ? item.container : null}
             onOk={_handleUpdateCharacteristic}
           />
           <SectionBlock
             characteristicName="color"
-            main={item.__colorText}
+            main={item ? item.__colorText : "-"}
             secondary={intl.formatMessage({ id: "characteristics.color" })}
             dialogTitle={intl.formatMessage({ id: "characteristics.color" })}
             dialogItems={characteristics.colors}
-            dialogPreselectedItems={item.color}
+            dialogPreselectedItems={item ? item.color : null}
             onOk={_handleUpdateCharacteristic}
           />
         </section>
@@ -461,10 +473,8 @@ const Details = ({
 
 function mapStateToProps(state, ownProps) {
   const id = ownProps.match.params.id;
-  if (!id) return { item: null };
-
   return {
-    item: state.items.list.find(item => item.id === id),
+    item: id ? state.items.list.find(item => item.id === id) : null,
     characteristics: state.characteristics,
     loggedIn: state.user.loggedIn,
     detailsHelpCompleted: state.user.detailsHelpCompleted,

@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
+// import { FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Edit from "@material-ui/icons/Edit";
+// import Button from "@material-ui/core/Button";
+// import Edit from "@material-ui/icons/Edit";
 import { gtmPush } from "../../utils/gtmPush";
 
 const styles = theme => ({
@@ -72,11 +72,11 @@ const TileToModal = ({
     setOpen(false);
   }
 
-  const btnIcon = alternateBtnIcon ? (
-    alternateBtnIcon
-  ) : (
-    <Edit style={{ fontSize: "14px" }} />
-  );
+  // const btnIcon = alternateBtnIcon ? (
+  //   alternateBtnIcon
+  // ) : (
+  //   <Edit style={{ fontSize: "14px" }} />
+  // );
 
   const tileClassName = className ? className : classes.tile;
 

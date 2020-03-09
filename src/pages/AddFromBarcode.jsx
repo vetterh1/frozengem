@@ -95,7 +95,7 @@ const AddFromBarcode = ({
 
         Code: {code}
         Name: {product && product.product_name}
-        Image: <img src={product && product.image_url} alt="product image"></img>
+        Image: <img src={product && product.image_url} alt=""></img>
 
     </div>
   );

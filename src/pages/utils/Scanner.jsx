@@ -60,7 +60,7 @@ const Scanner = ({ onDetected }) => {
       console.debug("Scanner useEffect cleaning - codes=", codes);
       Quagga && Quagga.offDetected(_onDetected);
     };
-  }, []);
+  });
 
   const _onDetected = results => {
     const newCode =
