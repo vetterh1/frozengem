@@ -13,7 +13,8 @@ export const userActions = {
   joinHome,
   joinNewHome,
   setLanguage,
-  setNavigationStyle
+  setNavigationStyle,
+  setDetailsHelpCompleted
 };
 
 function setLanguage(language) {
@@ -41,7 +42,21 @@ function setNavigationStyle(navigationStyle) {
   };
 }
 
-function afterLoginOrRegister(isRegister, user, dispatch) {
+function setDetailsHelpCompleted(detailsHelpCompleted) {
+  return async dispatch => {
+    try {
+      await userServices.setDetailsHelpCompleted(detailsHelpCompleted);
+      dispatch({
+        type: ACTIONS.SET_DETAILS_HELP_COMPLETED,
+        detailsHelpCompleted
+      });
+    } catch (error) {
+      console.error("setDetailsHelpCompleted failed", detailsHelpCompleted);
+    }
+  };
+}
+
+function afterLoginOrRegister(isRegister, user, dispatch, displayNotifier) {
   // Add user info to redux store
   dispatch({ type: ACTIONS.LOGIN_SUCCESS, user });
 
@@ -52,12 +67,14 @@ function afterLoginOrRegister(isRegister, user, dispatch) {
   dispatch(itemsActions.fetchItems());
 
   // Success message
-  dispatch(
-    notifierActions.addIntlNotifier(
-      isRegister ? "home.join.success" : "login.success",
-      "success"
-    )
-  );
+  if (displayNotifier) {
+    dispatch(
+      notifierActions.addIntlNotifier(
+        isRegister ? "home.join.success" : "login.success",
+        "success"
+      )
+    );
+  }
 
   // navigate to the home route
   //   history.push('/'); --> does not work, so has to be done in the caller components
@@ -77,7 +94,7 @@ function login(email, password) {
         value: "Success"
       });
 
-      return afterLoginOrRegister(false, user, dispatch);
+      return afterLoginOrRegister(false, user, dispatch, true);
     } catch (error) {
       console.debug("userActions.login error - email: ", email);
 
@@ -111,7 +128,7 @@ function autologin() {
           value: "Success"
         });
 
-        return afterLoginOrRegister(false, user, dispatch);
+        return afterLoginOrRegister(false, user, dispatch, false);
       },
       error => {
         // No error message ==> autologin is silent!
@@ -179,7 +196,7 @@ function joinHome(idHome) {
   return async dispatch => {
     try {
       let user = await userServices.joinHome(idHome);
-      return afterLoginOrRegister(true, user, dispatch);
+      return afterLoginOrRegister(true, user, dispatch, true);
     } catch (error) {
       dispatch(
         notifierActions.addIntlNotifier(
@@ -197,7 +214,7 @@ function joinNewHome(name, label) {
   return async dispatch => {
     try {
       let user = await userServices.joinNewHome(name, label);
-      return afterLoginOrRegister(true, user, dispatch);
+      return afterLoginOrRegister(true, user, dispatch, true);
     } catch (error) {
       dispatch(notifierActions.addIntlNotifier("home.join.error", "error"));
     }

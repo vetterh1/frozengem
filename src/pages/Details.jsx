@@ -4,14 +4,15 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import config from "../data/config";
 import { itemsActions } from "../_actions/itemsActions";
+import { userActions } from "../_actions/userActions";
 import { Redirect } from "react-router";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 import { Button, Divider, Typography } from "@material-ui/core";
-// import IconButton from "@material-ui/core/IconButton";
+import IconButton from "@material-ui/core/IconButton";
 import Person from "@material-ui/icons/Person";
 import PersonOutline from "@material-ui/icons/PersonOutline";
-// import { IconRemove } from "../data/Icons";
+import HelpIcon from '@material-ui/icons/Help';
 import PictureSelection from "./utils/PictureSelection";
 import CategoryButton from "./utils/CategoryButton";
 import RemoveButton from "./utils/RemoveButton";
@@ -19,7 +20,7 @@ import { gtmPush } from "../utils/gtmPush";
 import SectionBlock from "./utils/SectionBlock";
 import ScrollToTop from "./utils/ScrollToTop";
 import ItemImage from "./utils/ItemImage";
-import Joyride from "react-joyride";
+import Joyride, { STATUS } from 'react-joyride';
 
 const styles = theme => ({
   card: {
@@ -72,7 +73,12 @@ const styles = theme => ({
     left: "-8px",
     backgroundColor: "rgba(0, 0, 0, 0.6)",
     color: "white"
-  }
+  },
+  details_help: {
+    position: "absolute",
+    bottom: "50px",
+    right: "-6px",
+  },
 });
 
 const Details = ({
@@ -84,7 +90,9 @@ const Details = ({
   classes,
   intl,
   history,
-  loggedIn
+  loggedIn,
+  detailsHelpCompleted,
+  setDetailsHelpCompleted
 }) => {
   if (!loggedIn) {
     console.debug("[>>> Details ------>>>----- / >>>] Reason: not logged in");
@@ -192,28 +200,45 @@ const Details = ({
     }
   ];
 
+
+  const handleJoyrideCallback = data => {
+    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
+      console.debug("handleJoyrideCallback: detailsHelpCompleted --> true!")
+      setDetailsHelpCompleted(true);
+    }
+  };
+  
+  const _handleHelp = async () => {
+    console.debug("handleJoyrideCallback: detailsHelpCompleted --> true!")
+    setDetailsHelpCompleted(!detailsHelpCompleted);
+    return null;
+  };  
+
+
   return (
     <div className={classes.card}>
       <ScrollToTop />
-      <Joyride
-        steps={helpSteps}
-        debug={true}
-        continuous={true}
-        showProgress={true}
-        locale={{
-          back: intl.formatMessage({ id: "button.previous" }),
-          close: intl.formatMessage({ id: "button.close" }),
-          last: intl.formatMessage({ id: "button.end" }),
-          next: intl.formatMessage({ id: "button.continue" }),
-          skip: intl.formatMessage({ id: "button.skip" }),
-        }}
-        styles={{
-          options: {
-            primaryColor: '#303f9f',
-          }
-        }}        
-      />
-
+      {!detailsHelpCompleted &&
+        <Joyride
+          steps={helpSteps}
+          callback={handleJoyrideCallback}
+          debug={true}
+          continuous={true}
+          showProgress={true}
+          locale={{
+            back: intl.formatMessage({ id: "button.previous" }),
+            close: intl.formatMessage({ id: "button.close" }),
+            last: intl.formatMessage({ id: "button.end" }),
+            next: intl.formatMessage({ id: "button.continue" }),
+            skip: intl.formatMessage({ id: "button.skip" }),
+          }}
+          styles={{
+            options: {
+              primaryColor: '#303f9f',
+            }
+          }}        
+        />
+      }
       {/*
       ********************************************************************
                 Picture section with Return and Picture buttons
@@ -327,15 +352,6 @@ const Details = ({
           />
           {config.details_use_clickable_tiles && (
             <RemoveButton onOk={_handleRemove} isFAB={true} showLabel={false} />
-            // <IconButton
-            //   component="span"
-            //   color="primary"
-            //   aria-label="Remove"
-            //   className={clsx(classes.details_remove)}
-            //   onClick={_handleRemove}
-            // >
-            //   <IconRemove />
-            // </IconButton>
           )}
           <SectionBlock
             characteristicName="expirationDate"
@@ -403,6 +419,17 @@ const Details = ({
             onOk={_handleUpdateCharacteristic}
           />
         </section>
+        <section>
+          <IconButton
+            component="span"
+            color="primary"
+            aria-label="Help"
+            className={clsx(classes.details_help)}
+            onClick={_handleHelp}
+          >
+            <HelpIcon />
+          </IconButton>
+        </section>
       </div>
     </div>
   );
@@ -427,14 +454,16 @@ function mapStateToProps(state, ownProps) {
   return {
     item: state.items.list.find(item => item.id === id),
     characteristics: state.characteristics,
-    loggedIn: state.user.loggedIn
+    loggedIn: state.user.loggedIn,
+    detailsHelpCompleted: state.user.detailsHelpCompleted,
   };
 }
 
 const mapDispatchToProps = {
   updateItem: itemsActions.updateItem,
   removeItem: itemsActions.removeItem,
-  savePicture: itemsActions.savePicture
+  savePicture: itemsActions.savePicture,
+  setDetailsHelpCompleted: userActions.setDetailsHelpCompleted,
 };
 
 const connectedDetails = withRouter(

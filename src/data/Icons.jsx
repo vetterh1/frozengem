@@ -15,6 +15,7 @@ import FilterList from '@material-ui/icons/FilterList';
 import CancelPresentation from '@material-ui/icons/CancelPresentation';
 import RemoveCircleOutline from '@material-ui/icons/RemoveCircleOutline';
 import WarningIcon from '@material-ui/icons/Warning';
+import HelpIcon from '@material-ui/icons/Help';
 
 
 export const getIconComponent = (iconName) => iconComponents[iconName];
@@ -26,6 +27,7 @@ const iconComponents = {
     "latest": FilterList,
     "removed": RemoveCircleOutline,
     "incomplete": WarningIcon,
+    "help": HelpIcon,
 
     "remove": IconRemove,
     "edit": Edit,
