@@ -57,7 +57,7 @@ const WizTextOrDateSelection = ({
   const _handleNext = async () => {
     if (handleNext) {
       const nbStepsForward = await handleNext({ [name]: value });
-      goToStep(currentStep + nbStepsForward);
+      if(nbStepsForward) goToStep(currentStep + nbStepsForward);
     }
   };
 

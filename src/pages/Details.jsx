@@ -12,7 +12,7 @@ import { Button, Divider, Typography } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import Person from "@material-ui/icons/Person";
 import PersonOutline from "@material-ui/icons/PersonOutline";
-import HelpIcon from '@material-ui/icons/Help';
+import HelpIcon from "@material-ui/icons/Help";
 import PictureSelection from "./utils/PictureSelection";
 import CategoryButton from "./utils/CategoryButton";
 import RemoveButton from "./utils/RemoveButton";
@@ -20,7 +20,8 @@ import { gtmPush } from "../utils/gtmPush";
 import SectionBlock from "./utils/SectionBlock";
 import ScrollToTop from "./utils/ScrollToTop";
 import ItemImage from "./utils/ItemImage";
-import Joyride, { STATUS } from 'react-joyride';
+import Joyride, { STATUS } from "react-joyride";
+// import { it } from "date-fns/esm/locale";
 
 const styles = theme => ({
   card: {
@@ -77,8 +78,8 @@ const styles = theme => ({
   details_help: {
     position: "absolute",
     bottom: "50px",
-    right: "-6px",
-  },
+    right: "-6px"
+  }
 });
 
 const Details = ({
@@ -94,8 +95,32 @@ const Details = ({
   detailsHelpCompleted,
   setDetailsHelpCompleted
 }) => {
+
+  const emptyItem = {
+    id: null,
+    category: null,
+    categoryName: "",
+    categoryDetails: [],
+    detailsArray: [],
+    container: null,
+    containerName: "",
+    containerColors: [],      
+    color: null,
+    size: null,
+    freezer: null,
+    location: null,
+    name: "",
+    expirationDate: null,
+    expirationInMonth: 0,
+    pictureName: null,
+    thumbnailName: null,
+    code: null,
+  };
+
   if (!loggedIn || !characteristics) {
-    console.debug("[>>> Details ------>>>----- / >>>] Reason: not logged in or empty characteristics");
+    console.debug(
+      "[>>> Details ------>>>----- / >>>] Reason: not logged in or empty characteristics"
+    );
     return <Redirect to="/" />;
   }
   const createNewItem = item ? false : true;
@@ -103,7 +128,11 @@ const Details = ({
   // const theme = useTheme();
   // const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  console.debug("[--- FC ---] Functional component: Details - createNewItem,id=", createNewItem, item ? item.id : "N/A");
+  console.debug(
+    "[--- FC ---] Functional component: Details - createNewItem,id=",
+    createNewItem,
+    item ? item.id : "N/A"
+  );
 
   const handleClose = () => {
     console.debug("[<<< Details ------<<<----- / <<<] Reason: close details");
@@ -143,17 +172,17 @@ const Details = ({
 
   //
   // Create Size icon array
-  // 
+  //
 
   const sizeInIcons = [];
-  if(item) {
-  for (let i = 0; i < item.size; i++) {
-    sizeInIcons.push(<Person style={{ fontSize: 20 }} key={i.toString()} />);
-  }
-  if (item.size > 1)
-    sizeInIcons.push(
-      <PersonOutline style={{ fontSize: 20 }} key={item.size.toString()} />
-    );
+  if (item) {
+    for (let i = 0; i < item.size; i++) {
+      sizeInIcons.push(<Person style={{ fontSize: 20 }} key={i.toString()} />);
+    }
+    if (item.size > 1)
+      sizeInIcons.push(
+        <PersonOutline style={{ fontSize: 20 }} key={item.size.toString()} />
+      );
   }
 
   //
@@ -173,17 +202,17 @@ const Details = ({
   };
   const sizesWith0 = [zero, ...characteristics.sizes];
 
-
-  const dateToDisplay = item ? `${item.__monthExpirationAsText} ${item.__yearExpiration}` : null;
+  const dateToDisplay = item
+    ? `${item.__monthExpirationAsText} ${item.__yearExpiration}`
+    : null;
 
   //
   // Misc string / help text configuration
-  // 
+  //
   const dialogHelpName = intl.formatMessage({ id: "add.name.help" });
   const dialogHelpDate = intl.formatMessage({ id: "add.date.help" });
 
-
-  // 
+  //
   // Help setup
   //
 
@@ -223,16 +252,15 @@ const Details = ({
   ];
   const handleJoyrideCallback = data => {
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
-      console.debug("handleJoyrideCallback: detailsHelpCompleted --> true!")
+      console.debug("handleJoyrideCallback: detailsHelpCompleted --> true!");
       setDetailsHelpCompleted(true);
     }
   };
   const _handleHelp = async () => {
-    console.debug("handleJoyrideCallback: detailsHelpCompleted --> true!")
+    console.debug("handleJoyrideCallback: detailsHelpCompleted --> true!");
     setDetailsHelpCompleted(!detailsHelpCompleted);
     return null;
-  };  
-
+  };
 
   //
   // RENDER
@@ -241,7 +269,7 @@ const Details = ({
   return (
     <div className={classes.card}>
       <ScrollToTop />
-      {!detailsHelpCompleted &&
+      {!detailsHelpCompleted && (
         <Joyride
           steps={helpSteps}
           callback={handleJoyrideCallback}
@@ -253,15 +281,15 @@ const Details = ({
             close: intl.formatMessage({ id: "button.close" }),
             last: intl.formatMessage({ id: "button.end" }),
             next: intl.formatMessage({ id: "button.continue" }),
-            skip: intl.formatMessage({ id: "button.skip" }),
+            skip: intl.formatMessage({ id: "button.skip" })
           }}
           styles={{
             options: {
-              primaryColor: '#303f9f',
+              primaryColor: "#303f9f"
             }
-          }}        
+          }}
         />
-      }
+      )}
       {/*
       ********************************************************************
                 Picture section with Return and Picture buttons
@@ -273,28 +301,33 @@ const Details = ({
           (!item || !item.pictureName) && "stitched"
         )}
       >
-        {item && 
+        {item && (
           <ItemImage
             item={item}
             style={{
               height: "25vh"
             }}
-          />}
-        <Button
-          onClick={handleClose}
-          color="primary"
-          className={classes.details_image_close}
-        >
-          &lt; &nbsp; <FormattedMessage id="button.back" />
-        </Button>
-        <Typography
-          className={clsx(classes.details_image_code, "code_id")}
-          variant="h4"
-          color="textSecondary"
-          component="p"
-        >
-          {item ? item.code : "-"}
-        </Typography>
+          />
+        )}
+        {item && (
+          <Button
+            onClick={handleClose}
+            color="primary"
+            className={classes.details_image_close}
+          >
+            &lt; &nbsp; <FormattedMessage id="button.back" />
+          </Button>
+        )}
+        {item && (
+          <Typography
+            className={clsx(classes.details_image_code, "code_id")}
+            variant="h4"
+            color="textSecondary"
+            component="p"
+          >
+            {item ? item.code : "-"}
+          </Typography>
+        )}
         <CategoryButton
           categoryText={item ? item.__categoryText : ""}
           dialogTitle={intl.formatMessage({ id: "characteristics.category" })}
@@ -316,7 +349,7 @@ const Details = ({
           iconOnlyButton
           onPicture={_handleSavePicture}
           label={intl.formatMessage({
-            id: (item && item.__imageExists) ? "camera.replace" : "camera.add"
+            id: item && item.__imageExists ? "camera.replace" : "camera.add"
           })}
         />
       </section>
@@ -392,32 +425,6 @@ const Details = ({
         <Divider className={"margin-top margin-down"}></Divider>
         {/*
         ********************************************************************
-                        Freezer and Location section
-        ********************************************************************
-        */}
-        <section className={"flex-direction-row flex-justify-around"}>
-          <SectionBlock
-            characteristicName="freezer"
-            main={item ? item.__freezerText : "-"}
-            secondary={intl.formatMessage({ id: "characteristics.freezer" })}
-            dialogTitle={intl.formatMessage({ id: "characteristics.freezer" })}
-            dialogItems={characteristics.freezers}
-            dialogPreselectedItems={item ? item.freezer : null}
-            onOk={_handleUpdateCharacteristic}
-          />
-          <SectionBlock
-            characteristicName="location"
-            main={item ? item.__locationText : "-"}
-            secondary={intl.formatMessage({ id: "characteristics.location" })}
-            dialogTitle={intl.formatMessage({ id: "characteristics.location" })}
-            dialogItems={characteristics.locations}
-            dialogPreselectedItems={item ? item.location : null}
-            onOk={_handleUpdateCharacteristic}
-          />
-        </section>
-        <Divider className={"margin-top margin-down"}></Divider>
-        {/*
-        ********************************************************************
                         Container and Color section
         ********************************************************************
         */}
@@ -440,6 +447,32 @@ const Details = ({
             dialogTitle={intl.formatMessage({ id: "characteristics.color" })}
             dialogItems={characteristics.colors}
             dialogPreselectedItems={item ? item.color : null}
+            onOk={_handleUpdateCharacteristic}
+          />
+        </section>
+        <Divider className={"margin-top margin-down"}></Divider>
+        {/*
+        ********************************************************************
+                        Freezer and Location section
+        ********************************************************************
+        */}
+        <section className={"flex-direction-row flex-justify-around"}>
+          <SectionBlock
+            characteristicName="freezer"
+            main={item ? item.__freezerText : "-"}
+            secondary={intl.formatMessage({ id: "characteristics.freezer" })}
+            dialogTitle={intl.formatMessage({ id: "characteristics.freezer" })}
+            dialogItems={characteristics.freezers}
+            dialogPreselectedItems={item ? item.freezer : null}
+            onOk={_handleUpdateCharacteristic}
+          />
+          <SectionBlock
+            characteristicName="location"
+            main={item ? item.__locationText : "-"}
+            secondary={intl.formatMessage({ id: "characteristics.location" })}
+            dialogTitle={intl.formatMessage({ id: "characteristics.location" })}
+            dialogItems={characteristics.locations}
+            dialogPreselectedItems={item ? item.location : null}
             onOk={_handleUpdateCharacteristic}
           />
         </section>
@@ -477,7 +510,7 @@ function mapStateToProps(state, ownProps) {
     item: id ? state.items.list.find(item => item.id === id) : null,
     characteristics: state.characteristics,
     loggedIn: state.user.loggedIn,
-    detailsHelpCompleted: state.user.detailsHelpCompleted,
+    detailsHelpCompleted: state.user.detailsHelpCompleted
   };
 }
 
@@ -485,7 +518,7 @@ const mapDispatchToProps = {
   updateItem: itemsActions.updateItem,
   removeItem: itemsActions.removeItem,
   savePicture: itemsActions.savePicture,
-  setDetailsHelpCompleted: userActions.setDetailsHelpCompleted,
+  setDetailsHelpCompleted: userActions.setDetailsHelpCompleted
 };
 
 const connectedDetails = withRouter(

@@ -117,12 +117,8 @@ const App = ({autologin, classes, ...props}) => {
                         component={Details}
                       />
                       <Route
-                        exact path="/add_old"
-                        component={AddWizard}
-                      />
-                      <Route
                         exact path="/add"
-                        component={Details}
+                        component={AddWizard}
                       />
                       <Route
                         exact path="/addFromBarcode"
