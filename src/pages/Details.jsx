@@ -187,6 +187,18 @@ const Details = ({
       content: intl.formatMessage({ id: "help.details.tiles" })
     },
     {
+      target: "#tile_details_update_container",
+      content: intl.formatMessage({ id: "help.details.incomplete" })
+    },
+    {
+      target: "#tile_details_update_name",
+      content: intl.formatMessage({ id: "help.details.name" })
+    },
+    {
+      target: "#tile_details_update_details",
+      content: intl.formatMessage({ id: "help.details.details" })
+    },
+    {
       target: ".code_id",
       content: intl.formatMessage({ id: "help.details.code" })
     },
