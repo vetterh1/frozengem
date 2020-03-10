@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from 'react';
 import clsx from "clsx";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
@@ -83,6 +83,7 @@ const styles = theme => ({
 });
 
 const Details = ({
+  isNew = false,
   item,
   characteristics,
   removeItem,
@@ -95,27 +96,16 @@ const Details = ({
   detailsHelpCompleted,
   setDetailsHelpCompleted
 }) => {
+  
+  useEffect(() => {
+    if(isNew && item) {
+      const idInput = `input-${item.id}`;
+      document.getElementById(idInput).click();
+      console.debug("simulate click on ", idInput)
+    }
 
-  const emptyItem = {
-    id: null,
-    category: null,
-    categoryName: "",
-    categoryDetails: [],
-    detailsArray: [],
-    container: null,
-    containerName: "",
-    containerColors: [],      
-    color: null,
-    size: null,
-    freezer: null,
-    location: null,
-    name: "",
-    expirationDate: null,
-    expirationInMonth: 0,
-    pictureName: null,
-    thumbnailName: null,
-    code: null,
-  };
+
+  }, []);
 
   if (!loggedIn || !characteristics) {
     console.debug(
@@ -262,6 +252,9 @@ const Details = ({
     return null;
   };
 
+
+
+
   //
   // RENDER
   //
@@ -309,7 +302,7 @@ const Details = ({
             }}
           />
         )}
-        {item && (
+        {!isNew && (
           <Button
             onClick={handleClose}
             color="primary"
@@ -505,8 +498,11 @@ const Details = ({
 // }
 
 function mapStateToProps(state, ownProps) {
+  console.debug("Details.mapStateToProps - ownProps, match, params=", ownProps, ownProps.match, ownProps.match.params)
   const id = ownProps.match.params.id;
+  const isNew = ownProps.match.path.startsWith("/new/");
   return {
+    isNew: isNew,
     item: id ? state.items.list.find(item => item.id === id) : null,
     characteristics: state.characteristics,
     loggedIn: state.user.loggedIn,

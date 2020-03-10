@@ -112,8 +112,12 @@ const App = ({autologin, classes, ...props}) => {
                   <Container maxWidth="md"  className={classes.containerStyle}>
 
                     <Switch>
-                      <Route
+                    <Route
                         exact path="/details/:id"
+                        component={Details}
+                      />
+                      <Route
+                        exact path="/new/:id"
                         component={Details}
                       />
                       <Route

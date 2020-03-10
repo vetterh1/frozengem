@@ -241,7 +241,7 @@ const AddWizard = ({
         expirationDate: expirationDateInMs,
         expirationInMonth: monthsBetweenNowAndDate
       });
-      history.push(`/details/${id}`);
+      history.push(`/new/${id}`);
     }
 
     return null;
