@@ -22,7 +22,7 @@ const SectionBlock = ({
   const classUncomplete = main ? null : "stitched";
   return (
     <div
-      className={`flex-direction-column  flex-align-center flex-basis-50 ${classUncomplete}`}
+      className={`flex-direction-column  flex-align-center text-center flex-basis-48 small-padding-top small-padding-bottom ${classUncomplete}`}
     >
 
     {!config.details_use_clickable_tiles && (<>

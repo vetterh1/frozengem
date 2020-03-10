@@ -74,6 +74,44 @@
 
 
 
+.small-padding-top {
+  padding-top: 7px !important;
+}
+.medium-padding-top {
+  padding-top: 12px !important;
+}
+.padding-top {
+  padding-top: 15px !important;
+}
+.big-padding-top {
+  padding-top: 30px !important;
+}  
+.huge-padding-top {
+  padding-top: 50px !important;
+}
+  
+
+
+.small-padding-bottom {
+  padding-bottom: 7px !important;
+}
+.medium-padding-bottom {
+  padding-bottom: 12px !important;
+}
+.padding-bottom {
+  padding-bottom: 15px !important;
+}
+.big-padding-bottom {
+  padding-bottom: 30px !important;
+}  
+.huge-padding-bottom {
+  padding-bottom: 50px !important;
+}
+  
+
+
+
+
 
 .flex {
   display: flex;
@@ -110,6 +148,11 @@
 .flex-basis-50 {
   display: flex;
   flex-basis: 50%;
+}
+
+.flex-basis-48 {
+  display: flex;
+  flex-basis: 48%;
 }
 
   
@@ -211,13 +254,15 @@ video {
 
 
 .stitched {
-  /* color: #fdb2c0 !important; */
-  margin: 6px;
-  padding: 6px;
   background: #fddbe1;
-  /* color: #fff;
+  /* 
+  margin: 0px 4px;
+  padding: 4px;
+  background: #fddbe1;
+  border-radius: 3px;  color: #fff;
   border: 2px dashed #fff;
-  border-radius: 10px; */
   box-shadow: 0 0 0 4px #fddbe1, 2px 1px 6px 4px rgba(10, 10, 0, 0.5);
-  font-weight: normal;
+  font-weight: normal; 
+  color: #fdb2c0 !important;
+  */
 }

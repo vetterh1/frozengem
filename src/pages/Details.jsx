@@ -366,7 +366,7 @@ const Details = ({
             onOk={_handleUpdateCharacteristic}
             showOkBtn={true}
           />
-          <Divider className={"margin-top margin-down"}></Divider>
+          <Divider className={"small-margin-top small-margin-down"}></Divider>
           {/*
           ********************************************************************
                           Details section
@@ -383,13 +383,13 @@ const Details = ({
             onOk={_handleUpdateCharacteristic}
           />
         </section>
-        <Divider className={"margin-top margin-down"}></Divider>
+        <Divider className={"small-margin-top small-margin-down"}></Divider>
         {/*
         ********************************************************************
                         Quantity and Date section
         ********************************************************************
         */}
-        <section className={"flex-direction-row flex-justify-around"}>
+        <section className={"flex-direction-row flex-justify-between"}>
           <SectionBlock
             characteristicName="size"
             main={sizeInIcons}
@@ -415,13 +415,13 @@ const Details = ({
             showOkBtn={true}
           />
         </section>
-        <Divider className={"margin-top margin-down"}></Divider>
+        <Divider className={"small-margin-top small-margin-down"}></Divider>
         {/*
         ********************************************************************
                         Container and Color section
         ********************************************************************
         */}
-        <section className={"flex-direction-row flex-justify-around"}>
+        <section className={"flex-direction-row flex-justify-between"}>
           <SectionBlock
             characteristicName="container"
             main={item ? item.__containerText : "-"}
@@ -443,13 +443,13 @@ const Details = ({
             onOk={_handleUpdateCharacteristic}
           />
         </section>
-        <Divider className={"margin-top margin-down"}></Divider>
+        <Divider className={"small-margin-top small-margin-down"}></Divider>
         {/*
         ********************************************************************
                         Freezer and Location section
         ********************************************************************
         */}
-        <section className={"flex-direction-row flex-justify-around"}>
+        <section className={"flex-direction-row flex-justify-between"}>
           <SectionBlock
             characteristicName="freezer"
             main={item ? item.__freezerText : "-"}
