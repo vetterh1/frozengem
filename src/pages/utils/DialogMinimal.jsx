@@ -9,8 +9,9 @@ import { Button, Typography } from "@material-ui/core";
 const DialogMinimal = ({
   id,
   idTitle,
-  idSubtitle,
+  idSubtitle = null,
   idBody,
+  idOk = null,
   open,
   handleOk,
   handleClose
@@ -36,9 +37,9 @@ const DialogMinimal = ({
           <Typography variant="h2" className={"margin-down"}>
             <FormattedMessage id={idTitle} />
           </Typography>
-          <Typography variant="subtitle1" className={"margin-down"}>
+          {idSubtitle && <Typography variant="subtitle1" className={"margin-down"}>
             <FormattedMessage id={idSubtitle} />
-          </Typography>
+          </Typography>}
           <Typography variant="body1" className={"margin-down"}>
             <FormattedMessage id={idBody} />
           </Typography>
@@ -49,7 +50,7 @@ const DialogMinimal = ({
           <FormattedMessage id="button.cancel" />
         </Button>
         <Button onClick={_handleOk} color="primary">
-          <FormattedMessage id="button.ok" />
+          <FormattedMessage id={idOk ? idOk : "button.ok"} />
         </Button>
       </DialogActions>
     </Dialog>
@@ -59,7 +60,7 @@ const DialogMinimal = ({
 DialogMinimal.propTypes = {
   id: PropTypes.string.isRequired,  // used for analytics (GTM/GA)
   idTitle: PropTypes.string.isRequired,
-  idSubtitle: PropTypes.string.isRequired,
+  idSubtitle: PropTypes.string,
   idBody: PropTypes.string.isRequired,
   open: PropTypes.bool,
   handleOk: PropTypes.func,

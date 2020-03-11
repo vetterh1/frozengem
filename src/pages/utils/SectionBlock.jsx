@@ -26,7 +26,7 @@ const SectionBlock = ({
     >
 
     {!config.details_use_clickable_tiles && (<>
-      <Typography variant={mainTypography || "h6"}>{main || "-"}</Typography>
+      <Typography variant={mainTypography || "h5"}>{main || "-"}</Typography>
       {secondary && <Typography variant="body2">{secondary}</Typography>}
       <div className={"flex-direction-row small-margin-top"}>
         <CharacteristicsButton

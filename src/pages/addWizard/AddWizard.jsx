@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
 import React from "react";
+import { useEffect } from "react";
+
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { itemsActions } from "../../_actions/itemsActions";
@@ -67,10 +69,26 @@ const AddWizard = ({
     thumbnailName: null,
     code: null
   };
+
+  const [returnHome, setReturnHome] = React.useState(false);
+
+  useEffect(() => {
+    console.log("> Router", history.action, history.location);
+    if (history.action === "POP" && history.location.hash === "#expirationDate")
+      setReturnHome(true);
+  }, [history.location.key]);
+
   const [item, setItemValues] = React.useState(emptyItem);
   // const [cameraDialogState, setCameraDialogState] = React.useState(false);
 
-  const _resetState = () => setItemValues(emptyItem);
+  // const _resetState = () => setItemValues(emptyItem);
+
+  if (returnHome) {
+    console.debug(
+      "[>>> Add #expirationDate ------>>>----- / >>>] Reason: back from Details not allowed!"
+    );
+    return <Redirect to="/" />;
+  }
 
   const _handleChangeWithServerSave = async updates => {
     // First, save to get the code & id
@@ -97,10 +115,10 @@ const AddWizard = ({
     return 1;
   };
 
-  const handleBackFromSize = async (updates, updateServer = false) => {
-    await handleChange(updates, updateServer);
-    return item.containerColors.length > 0 ? 1 : 2;
-  };
+  // const handleBackFromSize = async (updates, updateServer = false) => {
+  //   await handleChange(updates, updateServer);
+  //   return item.containerColors.length > 0 ? 1 : 2;
+  // };
 
   // Set the received value in the state
   // (replacing any existing one)
@@ -247,52 +265,52 @@ const AddWizard = ({
     return null;
   };
 
-  const handleNextFromContainer = async (updates, updateServer = false) => {
-    let containerColors = [];
-    let containerName = "";
+  // const handleNextFromContainer = async (updates, updateServer = false) => {
+  //   let containerColors = [];
+  //   let containerName = "";
 
-    // If container changes, check if it has a color:
-    const container = updates["container"];
-    if (container) {
-      containerName = !characteristics.containers
-        ? "container"
-        : characteristics.containers
-            .find(oneContainer => oneContainer.id2 === container)
-            .name[language].toLowerCase();
-      containerColors = characteristics.colors.filter(color =>
-        color.parents.find(oneParent => oneParent === container)
-      );
-    }
+  //   // If container changes, check if it has a color:
+  //   const container = updates["container"];
+  //   if (container) {
+  //     containerName = !characteristics.containers
+  //       ? "container"
+  //       : characteristics.containers
+  //           .find(oneContainer => oneContainer.id2 === container)
+  //           .name[language].toLowerCase();
+  //     containerColors = characteristics.colors.filter(color =>
+  //       color.parents.find(oneParent => oneParent === container)
+  //     );
+  //   }
 
-    await handleChange(
-      { ...updates, containerName, containerColors },
-      updateServer
-    );
-    return containerColors.length > 0 ? 1 : 2;
-  };
+  //   await handleChange(
+  //     { ...updates, containerName, containerColors },
+  //     updateServer
+  //   );
+  //   return containerColors.length > 0 ? 1 : 2;
+  // };
 
   // Set the received value in the state
   // (replacing any existing one)
-  const _savePicture = async (pictureData, thumbnailData) => {
-    try {
-      const itemUpdated = await savePicture(
-        item.id,
-        pictureData,
-        thumbnailData
-      );
-      handleChange(
-        {
-          pictureName: itemUpdated.pictureName,
-          thumbnailName: itemUpdated.thumbnailName
-        },
-        false
-      );
-      addIntlNotifier("camera.success", "success");
-    } catch (error) {
-      console.error("AddWizard.handleChange error: ", error);
-      addIntlNotifier("camera.error", "error");
-    }
-  };
+  // const _savePicture = async (pictureData, thumbnailData) => {
+  //   try {
+  //     const itemUpdated = await savePicture(
+  //       item.id,
+  //       pictureData,
+  //       thumbnailData
+  //     );
+  //     handleChange(
+  //       {
+  //         pictureName: itemUpdated.pictureName,
+  //         thumbnailName: itemUpdated.thumbnailName
+  //       },
+  //       false
+  //     );
+  //     addIntlNotifier("camera.success", "success");
+  //   } catch (error) {
+  //     console.error("AddWizard.handleChange error: ", error);
+  //     addIntlNotifier("camera.error", "error");
+  //   }
+  // };
 
   if (!loggedIn) {
     console.debug("[>>> AddWizard ------>>>----- / >>>] Reason: not logged in");
@@ -357,15 +375,15 @@ const AddWizard = ({
           showNavigation
         />
         <WizCharacteristicsSelection
-          hashKey={'container'}
-          name='container'
-          title={intl.formatMessage({id: 'add.container.title'})}
+          hashKey={"container"}
+          name="container"
+          title={intl.formatMessage({ id: "add.container.title" })}
           handleChange={handleChange}
           handleBack={handleBack}
           items={characteristics.containers}
           preselectedItems={item.container}
           showNavigation
-        />          
+        />
         {/* <WizCharacteristicsSelection
           hashKey={'color'}
           name='color'
@@ -421,7 +439,9 @@ const AddWizard = ({
   );
 };
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
+  console.debug("Details.mapStateToProps - ownProps, state=", ownProps, state);
+
   const {
     user: { loggedIn, language },
     characteristics

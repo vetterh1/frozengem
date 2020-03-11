@@ -83,7 +83,6 @@ WizCharacteristicsSelection.propTypes = {
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   handleChange: PropTypes.func,
-  parentUpdateValue: PropTypes.func.isRequired, // return null if valid, or otherwise, an error string to display
   handleBack: PropTypes.func,
   handleNext: PropTypes.func,
   items: PropTypes.array.isRequired,

@@ -23,7 +23,7 @@ const styles = theme => ({
     minWidth: "0px",
     opacity: "0.6",
     lineHeight: "unset",
-    animation: "$pulseAnimation 1.5s ease-in-out 3"
+    // animation: "$pulseAnimation 1.5s ease-in-out 3"
   },
 
   "@keyframes pulseAnimation": {

@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import clsx from "clsx";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
 import config from "../data/config";
 import { itemsActions } from "../_actions/itemsActions";
@@ -46,7 +47,7 @@ const styles = theme => ({
   },
   details_image_code: {
     position: "absolute",
-    right: "10px",
+    right: "30px",
     top: "10px",
     backgroundColor: "rgba(0, 0, 0, 0.6)",
     padding: "10px",
@@ -77,8 +78,9 @@ const styles = theme => ({
   },
   details_help: {
     position: "absolute",
-    bottom: "50px",
-    right: "-6px"
+    top: "-8px",
+    right: "-8px",
+    zLayer: "2000"
   }
 });
 
@@ -96,16 +98,14 @@ const Details = ({
   detailsHelpCompleted,
   setDetailsHelpCompleted
 }) => {
-  
   useEffect(() => {
-    if(isNew && item) {
+    if (isNew && item) {
       const idInput = `input-${item.id}`;
       document.getElementById(idInput).click();
-      console.debug("simulate click on ", idInput)
+      console.debug("simulate click on ", idInput);
     }
-
-
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
 
   if (!loggedIn || !characteristics) {
     console.debug(
@@ -208,37 +208,102 @@ const Details = ({
 
   const helpSteps = [
     {
-      target: ".MuiFab-root",
-      content: intl.formatMessage({ id: "help.details.remove" })
+      target: "body",
+      title: intl.formatMessage({ id: "action.edit" }),
+      content: intl.formatMessage({ id: "help.details.welcome" }),
+      disableBeacon: true,
+      disableOverlayClose: true,
+      hideCloseButton: true,
+      placement: "center",
     },
     {
-      target: "#tile_details_update_container",
-      content: intl.formatMessage({ id: "help.details.tiles" })
-    },
-    {
-      target: "#tile_details_update_container",
-      content: intl.formatMessage({ id: "help.details.incomplete" })
-    },
-    {
-      target: "#tile_details_update_name",
-      content: intl.formatMessage({ id: "help.details.name" })
-    },
-    {
-      target: "#tile_details_update_details",
-      content: intl.formatMessage({ id: "help.details.details" })
-    },
-    {
-      target: ".code_id",
-      content: intl.formatMessage({ id: "help.details.code" })
+      target: "body",
+      title: intl.formatMessage({ id: "action.edit" }),
+      content: intl.formatMessage({ id: "help.details.edit" }),
+      // disableBeacon: true,
+      // disableOverlayClose: true,
+      // hideCloseButton: true,
+      placement: "center",
     },
     {
       target: ".cam_icon",
-      content: intl.formatMessage({ id: "help.details.camera" })
+      title: intl.formatMessage({ id: "action.edit" }),
+      content: intl.formatMessage({ id: "help.details.camera" }),
+      // disableBeacon: true,
+      // disableOverlayClose: true,
+      // hideCloseButton: true
     },
     {
+      target: "#tile_details_update_name",
+      title: intl.formatMessage({ id: "action.edit" }),
+      content: intl.formatMessage({ id: "help.details.name" }),
+      // disableBeacon: true,
+      // disableOverlayClose: true,
+      // hideCloseButton: true
+    },
+    {
+      target: "#tile_details_update_details",
+      title: intl.formatMessage({ id: "action.edit" }),
+      content: intl.formatMessage({ id: "help.details.details" }),
+      // disableBeacon: true,
+      // disableOverlayClose: true,
+      // hideCloseButton: true
+    },
+    {
+      target: "#tile_details_update_location",
+      title: intl.formatMessage({ id: "action.edit" }),
+      content: intl.formatMessage({ id: "help.details.location" }),
+      // disableBeacon: true,
+      // disableOverlayClose: true,
+      // hideCloseButton: true
+    },
+    // {
+    //   target: "#tile_details_update_container",
+    //   content: intl.formatMessage({ id: "help.details.incomplete" }),
+    //   // disableBeacon: true,
+    //   // disableOverlayClose: true,
+      // hideCloseButton: true,
+    // },
+    {
       target: ".MuiCardMedia-root ",
-      content: intl.formatMessage({ id: "help.details.image" })
-    }
+      title: intl.formatMessage({ id: "help.details.image.title" }),
+      content: intl.formatMessage({ id: "help.details.image" }),
+      // disableBeacon: true,
+      // disableOverlayClose: true,
+      // hideCloseButton: true
+    },
+    {
+      target: ".code_id",
+      title: intl.formatMessage({ id: "help.details.important" }),
+      content: intl.formatMessage({ id: "help.details.code" }),
+      // disableBeacon: true,
+      // disableOverlayClose: true,
+      // hideCloseButton: true
+    },
+    {
+      target: "#tile_details_update_size",
+      title: intl.formatMessage({ id: "help.details.important" }),
+      content: intl.formatMessage({ id: "help.details.quantity" }),
+      // disableBeacon: true,
+      // disableOverlayClose: true,
+      // hideCloseButton: true
+    },
+    {
+      target: ".MuiFab-root",
+      title: intl.formatMessage({ id: "help.details.important" }),
+      content: intl.formatMessage({ id: "help.details.remove" }),
+      // disableBeacon: true,
+      // disableOverlayClose: true,
+      // hideCloseButton: true
+    },
+    {
+      target: ".help_btn",
+      title: intl.formatMessage({ id: "action.help" }),
+      content: intl.formatMessage({ id: "help.details.help" }),
+      // disableBeacon: true,
+      // disableOverlayClose: true,
+      // hideCloseButton: true,
+    },
   ];
   const handleJoyrideCallback = data => {
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
@@ -252,8 +317,11 @@ const Details = ({
     return null;
   };
 
+  //
+  // Special buttons
+  //
 
-
+  const _handleDuplicate = () => {};
 
   //
   // RENDER
@@ -266,9 +334,11 @@ const Details = ({
         <Joyride
           steps={helpSteps}
           callback={handleJoyrideCallback}
+          disableScrolling={true}
           debug={true}
           continuous={true}
           showProgress={true}
+          scrollToFirstStep={true}
           locale={{
             back: intl.formatMessage({ id: "button.previous" }),
             close: intl.formatMessage({ id: "button.close" }),
@@ -276,6 +346,7 @@ const Details = ({
             next: intl.formatMessage({ id: "button.continue" }),
             skip: intl.formatMessage({ id: "button.skip" })
           }}
+          run={true}
           styles={{
             options: {
               primaryColor: "#303f9f"
@@ -309,6 +380,16 @@ const Details = ({
             className={classes.details_image_close}
           >
             &lt; &nbsp; <FormattedMessage id="button.back" />
+          </Button>
+        )}
+        {isNew && (
+          <Button
+            color="primary"
+            component={Link}
+            to="/"
+            className={classes.details_image_close}
+          >
+            &lt; &nbsp; <FormattedMessage id="button.backhome" />
           </Button>
         )}
         {item && (
@@ -345,6 +426,15 @@ const Details = ({
             id: item && item.__imageExists ? "camera.replace" : "camera.add"
           })}
         />
+        <IconButton
+          component="span"
+          color="primary"
+          aria-label="Help"
+          className={clsx(classes.details_help, "help_btn")}
+          onClick={_handleHelp}
+        >
+          <HelpIcon />
+        </IconButton>
       </section>
       <div className={"medium-padding"}>
         {/*
@@ -366,7 +456,7 @@ const Details = ({
             onOk={_handleUpdateCharacteristic}
             showOkBtn={true}
           />
-          <Divider className={"small-margin-top small-margin-down"}></Divider>
+          <Divider className={"margin-top margin-down"}></Divider>
           {/*
           ********************************************************************
                           Details section
@@ -383,7 +473,7 @@ const Details = ({
             onOk={_handleUpdateCharacteristic}
           />
         </section>
-        <Divider className={"small-margin-top small-margin-down"}></Divider>
+        <Divider className={"margin-top margin-down"}></Divider>
         {/*
         ********************************************************************
                         Quantity and Date section
@@ -415,7 +505,7 @@ const Details = ({
             showOkBtn={true}
           />
         </section>
-        <Divider className={"small-margin-top small-margin-down"}></Divider>
+        <Divider className={"margin-top margin-down"}></Divider>
         {/*
         ********************************************************************
                         Container and Color section
@@ -443,7 +533,7 @@ const Details = ({
             onOk={_handleUpdateCharacteristic}
           />
         </section>
-        <Divider className={"small-margin-top small-margin-down"}></Divider>
+        <Divider className={"margin-top margin-down"}></Divider>
         {/*
         ********************************************************************
                         Freezer and Location section
@@ -469,16 +559,41 @@ const Details = ({
             onOk={_handleUpdateCharacteristic}
           />
         </section>
-        <section>
-          <IconButton
-            component="span"
-            color="primary"
-            aria-label="Help"
-            className={clsx(classes.details_help)}
-            onClick={_handleHelp}
-          >
-            <HelpIcon />
-          </IconButton>
+        {/*
+        ********************************************************************
+                        Bottom buttons (add, duplicate,...)
+        ********************************************************************
+        */}
+        <Divider className={"margin-top margin-down"}></Divider>
+        <section className={"flex-normal-height flex-direction-row flex-justify-between margin-down"}>
+            {/* <Button
+              variant="contained"
+              color="primary"
+              component={Link}
+              to="/"
+              className={classes.button}
+            >
+              <FormattedMessage id="button.backhome" />
+            </Button> */}
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={_handleDuplicate}
+              className={`flex-direction-column  flex-align-center text-center flex-basis-48 small-padding-top small-padding-bottom`}
+            >
+              <FormattedMessage id="button.duplicate" />
+            </Button>
+            {isNew && (
+              <Button
+                variant="contained"
+                color="secondary"
+                component={Link}
+                to="/add"
+                className={`flex-direction-column  flex-align-center text-center flex-basis-48 small-padding-top small-padding-bottom`}
+              >
+                <FormattedMessage id="button.addnew" />
+              </Button>
+            )}
         </section>
       </div>
     </div>
@@ -498,7 +613,12 @@ const Details = ({
 // }
 
 function mapStateToProps(state, ownProps) {
-  console.debug("Details.mapStateToProps - ownProps, match, params=", ownProps, ownProps.match, ownProps.match.params)
+  console.debug(
+    "Details.mapStateToProps - ownProps, match, params=",
+    ownProps,
+    ownProps.match,
+    ownProps.match.params
+  );
   const id = ownProps.match.params.id;
   const isNew = ownProps.match.path.startsWith("/new/");
   return {

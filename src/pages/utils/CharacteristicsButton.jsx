@@ -45,7 +45,6 @@ const CharacteristicsButton = ({
           name={characteristicName}
           title={dialogTitle}
           help={dialogHelp}
-          parentUpdateValue={() => {}} // filled by parent (when cloning this component)
           initialValue={dialogPreselectedItems}
         />
       )}

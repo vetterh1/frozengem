@@ -21,9 +21,11 @@ const RemoveButton = ({ onOk, showLabel = true, isFAB = false }) => {
     >
       <DialogMinimal
         id="details_remove_item"
-        idTitle="item.remove.from_freezer"
-        idSubtitle="item.remove.confirmation.title"
+        // idTitle="item.remove.from_freezer"
+        // idSubtitle="item.remove.confirmation.title"
+        idTitle="item.remove.confirmation.title"
         idBody="item.remove.confirmation.text"
+        idOk="item.remove.confirmation.ok"
       />
     </ButtonToModal>
   );
