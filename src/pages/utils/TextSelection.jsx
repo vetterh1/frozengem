@@ -54,9 +54,9 @@ const TextSelection = ({
           >
             <Input
               id={`id-${name}`}
-              autoComplete="off"
               value={value}
               onChange={_handleEventChange}
+              inputProps={{ 'aria-label': 'name' }}
               // aria-describedby="name-text"
               fullWidth
               autoFocus

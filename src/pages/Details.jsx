@@ -90,6 +90,7 @@ const Details = ({
   characteristics,
   removeItem,
   updateItem,
+  duplicateItem,
   savePicture,
   classes,
   intl,
@@ -119,9 +120,10 @@ const Details = ({
   // const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   console.debug(
-    "[--- FC ---] Functional component: Details - createNewItem,id=",
-    createNewItem,
-    item ? item.id : "N/A"
+    "[--- FC ---] Functional component: Details - createNewItem = ",
+    createNewItem, 
+    " - item = ",
+    item ? item : "N/A"
   );
 
   const handleClose = () => {
@@ -158,6 +160,13 @@ const Details = ({
 
   const _handleSavePicture = (pictureData, thumbnailData) => {
     savePicture(item.id, pictureData, thumbnailData);
+  };
+
+  const _handleDuplicate = async () => {
+    // Duplicate the current item 
+    const duplicatedItem = await duplicateItem(item.id);
+    // Then go to the new item!
+    history.push(`/details/${duplicatedItem.id}`);
   };
 
   //
@@ -317,11 +326,7 @@ const Details = ({
     return null;
   };
 
-  //
-  // Special buttons
-  //
 
-  const _handleDuplicate = () => {};
 
   //
   // RENDER
@@ -373,25 +378,14 @@ const Details = ({
             }}
           />
         )}
-        {!isNew && (
-          <Button
-            onClick={handleClose}
-            color="primary"
-            className={classes.details_image_close}
-          >
-            &lt; &nbsp; <FormattedMessage id="button.back" />
-          </Button>
-        )}
-        {isNew && (
-          <Button
-            color="primary"
-            component={Link}
-            to="/"
-            className={classes.details_image_close}
-          >
-            &lt; &nbsp; <FormattedMessage id="button.backhome" />
-          </Button>
-        )}
+        <Button
+          color="primary"
+          component={Link}
+          to="/"
+          className={classes.details_image_close}
+        >
+          &lt; &nbsp; <FormattedMessage id="button.backtolist" />
+        </Button>
         {item && (
           <Typography
             className={clsx(classes.details_image_code, "code_id")}
@@ -423,7 +417,7 @@ const Details = ({
           iconOnlyButton
           onPicture={_handleSavePicture}
           label={intl.formatMessage({
-            id: item && item.__imageExists ? "camera.replace" : "camera.add"
+            id: (item && item.__imageExists) ? "camera.replace" : "camera.add"
           })}
         />
         <IconButton
@@ -486,7 +480,7 @@ const Details = ({
             secondary={item ? item.__sizeInText : "-"}
             dialogTitle={intl.formatMessage({ id: "characteristics.size" })}
             dialogItems={sizesWith0}
-            dialogPreselectedItems={item ? item.size.toString() : null}
+            dialogPreselectedItems={(item && item.size) ? item.size.toString() : null}
             onOk={_handleUpdateQuantity}
             additionalButton={<RemoveButton onOk={_handleRemove} />}
           />
@@ -497,7 +491,7 @@ const Details = ({
             characteristicName="expirationDate"
             isDate={true}
             main={dateToDisplay}
-            secondary={item ? intl.formatMessage(item.__expirationText) : "-"}
+            secondary={(item && item.__expirationText) ? intl.formatMessage(item.__expirationText) : "-"}
             dialogTitle={intl.formatMessage({ id: "characteristics.date" })}
             dialogHelp={dialogHelpDate}
             dialogPreselectedItems={item ? item.expirationDate : null}
@@ -514,7 +508,7 @@ const Details = ({
         <section className={"flex-direction-row flex-justify-between"}>
           <SectionBlock
             characteristicName="container"
-            main={item ? item.__containerText : "-"}
+            main={(item && item.__containerText) ? item.__containerText : "-"}
             secondary={intl.formatMessage({ id: "characteristics.container" })}
             dialogTitle={intl.formatMessage({
               id: "characteristics.container"
@@ -525,11 +519,11 @@ const Details = ({
           />
           <SectionBlock
             characteristicName="color"
-            main={item ? item.__colorText : "-"}
+            main={(item && item.__colorText) ? item.__colorText : "-"}
             secondary={intl.formatMessage({ id: "characteristics.color" })}
             dialogTitle={intl.formatMessage({ id: "characteristics.color" })}
             dialogItems={characteristics.colors}
-            dialogPreselectedItems={item ? item.color : null}
+            dialogPreselectedItems={(item && item.color) ? item.color : null}
             onOk={_handleUpdateCharacteristic}
           />
         </section>
@@ -542,20 +536,20 @@ const Details = ({
         <section className={"flex-direction-row flex-justify-between"}>
           <SectionBlock
             characteristicName="freezer"
-            main={item ? item.__freezerText : "-"}
+            main={(item && item.__freezerText) ? item.__freezerText : "-"}
             secondary={intl.formatMessage({ id: "characteristics.freezer" })}
             dialogTitle={intl.formatMessage({ id: "characteristics.freezer" })}
             dialogItems={characteristics.freezers}
-            dialogPreselectedItems={item ? item.freezer : null}
+            dialogPreselectedItems={(item && item.freezer) ? item.freezer : null}
             onOk={_handleUpdateCharacteristic}
           />
           <SectionBlock
             characteristicName="location"
-            main={item ? item.__locationText : "-"}
+            main={(item && item.__locationText) ? item.__locationText : "-"}
             secondary={intl.formatMessage({ id: "characteristics.location" })}
             dialogTitle={intl.formatMessage({ id: "characteristics.location" })}
             dialogItems={characteristics.locations}
-            dialogPreselectedItems={item ? item.location : null}
+            dialogPreselectedItems={(item && item.location) ? item.location : null}
             onOk={_handleUpdateCharacteristic}
           />
         </section>
@@ -634,6 +628,7 @@ const mapDispatchToProps = {
   updateItem: itemsActions.updateItem,
   removeItem: itemsActions.removeItem,
   savePicture: itemsActions.savePicture,
+  duplicateItem: itemsActions.duplicateItem,
   setDetailsHelpCompleted: userActions.setDetailsHelpCompleted
 };
 

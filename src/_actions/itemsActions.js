@@ -10,6 +10,7 @@ export const itemsActions = {
   removeItem,
   updateAllItemsUtilityFields,
   // updateItemUtilityFields,
+  duplicateItem,
 };
 
          
@@ -121,6 +122,45 @@ function updateItem(id, updates) {
         }
     }
 }
+
+
+
+//
+// Duplicate item on Server & store
+//
+
+function duplicateItem(id) {
+    return async (dispatch, getState) => {
+        try {
+            dispatch({ type: ACTIONS.DUPLICATE_ITEM_REQUEST });
+
+            const user = getState().user;
+            const characteristics = getState().characteristics;
+
+            let duplicatedItem = await itemsServices.duplicateItemOnServer(id, user);
+
+            // Update fields
+            itemsServices.computeItemUtilityFields(duplicatedItem, user.language, characteristics);
+
+            // Add items to redux store
+            dispatch({ type: ACTIONS.DUPLICATE_ITEM_SUCCESS, item: duplicatedItem });
+
+            // Success message
+            dispatch(notifierActions.addIntlNotifier('item.duplicate.success', 'info'));                  
+            return duplicatedItem;
+
+        } catch (error) {
+
+            dispatch({ type: ACTIONS.DUPLICATE_ITEM_FAILURE, error: error.toString() });
+
+            // Error message
+            const unauthorized = error.response && error.response.status === 401;
+            const message = unauthorized ? 'unauthorized' : 'item.duplicate.error';
+            dispatch(notifierActions.addIntlNotifier(message, 'error'));                  
+        }
+    }
+}
+
 
 
 

@@ -18,6 +18,7 @@ export const itemsServices = {
   addItemToServer,
   updateItemToServer,
   updatePictureItemToServer,
+  duplicateItemOnServer,
   removeItemOnServer,
   ExpirationLevel
 };
@@ -197,6 +198,32 @@ async function addItemToServer(item, user) {
     // console.debug('addItemToServer options: ' , options);
     const response = await axios(options);
     // console.debug('addItemToServer OK: ' , response.data);
+    return response.data;
+  } catch (error) {
+    console.error("register error: ", error);
+    throw error;
+  }
+}
+
+async function duplicateItemOnServer(id, user) {
+  const data = { access_token: user.accessToken,
+    duplicated_picture_name: `${id}-picture-${Date.now()}.jpg`,
+    duplicated_thumbnail_name: `${id}-thumbnail-${Date.now()}.jpg`,
+ };
+  const options = {
+    method: "PUT",
+    url: `${config.boUrl}/items/${id}/duplicate`,
+    crossdomain: true,
+    headers: { "content-type": "application/x-www-form-urlencoded" },
+    data: qs.stringify(data)
+  };
+  console.debug(
+    "|--- SERVER CALL ---|--- PUT ---| Items.duplicateItemOnServer: ",
+    options
+  );
+
+  try {
+    const response = await axios(options);
     return response.data;
   } catch (error) {
     console.error("register error: ", error);

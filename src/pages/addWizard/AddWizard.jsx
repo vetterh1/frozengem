@@ -76,6 +76,7 @@ const AddWizard = ({
     console.log("> Router", history.action, history.location);
     if (history.action === "POP" && history.location.hash === "#expirationDate")
       setReturnHome(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history.location.key]);
 
   const [item, setItemValues] = React.useState(emptyItem);
