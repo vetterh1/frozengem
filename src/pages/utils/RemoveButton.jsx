@@ -1,7 +1,7 @@
 import React from "react";
 import DialogMinimal from "./DialogMinimal";
 import ButtonToModal from "./ButtonToModal";
-import { IconRemove } from "../../data/Icons";
+// import { IconRemove } from "../../data/Icons";
 
 const RemoveButton = ({
   onOk,

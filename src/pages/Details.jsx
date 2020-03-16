@@ -8,8 +8,9 @@ import { itemsActions } from "../_actions/itemsActions";
 import { userActions } from "../_actions/userActions";
 import { Redirect } from "react-router";
 import { injectIntl, FormattedMessage } from "react-intl";
-import { withStyles } from "@material-ui/core/styles";
+import { lighten, withStyles } from "@material-ui/core/styles";
 import { Button, Divider, Typography } from "@material-ui/core";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import IconButton from "@material-ui/core/IconButton";
 import Person from "@material-ui/icons/Person";
 import PersonOutline from "@material-ui/icons/PersonOutline";
@@ -17,12 +18,27 @@ import HelpIcon from "@material-ui/icons/Help";
 import PictureSelection from "./utils/PictureSelection";
 import CategoryButton from "./utils/CategoryButton";
 import RemoveButton from "./utils/RemoveButton";
+import DuplicateButton from "./utils/DuplicateButton";
 import { gtmPush } from "../utils/gtmPush";
 import SectionBlock from "./utils/SectionBlock";
 import ScrollToTop from "./utils/ScrollToTop";
 import ItemImage from "./utils/ItemImage";
 import Joyride, { STATUS } from "react-joyride";
 // import { it } from "date-fns/esm/locale";
+
+const BorderLinearProgress = withStyles(theme => ({
+  root: {
+    height: 15,
+    backgroundColor: theme.palette.primary.light,
+  },
+  bar: {
+    borderRadius: 3,
+    backgroundColor: theme.palette.primary.main,
+  }
+}))(LinearProgress);
+
+
+
 
 const styles = theme => ({
   card: {
@@ -108,6 +124,8 @@ const Details = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const [displayProgress, setDisplayProgress] = React.useState(false);
+
   if (!loggedIn || !characteristics) {
     console.debug(
       "[>>> Details ------>>>----- / >>>] Reason: not logged in or empty characteristics"
@@ -163,10 +181,17 @@ const Details = ({
   };
 
   const _handleDuplicate = async () => {
+    // Simulate a wait for 3 seconds of progress indicator
+    setDisplayProgress(true);
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
     // Duplicate the current item
     const duplicatedItem = await duplicateItem(item.id);
+
     // Then go to the new item!
     history.push(`/details/${duplicatedItem.id}`);
+
+    setDisplayProgress( false );
   };
 
   //
@@ -210,7 +235,7 @@ const Details = ({
   //
   const dialogHelpName = intl.formatMessage({ id: "add.name.help" });
   const dialogHelpDate = intl.formatMessage({ id: "add.date.help" });
-  const dividerClassName = "small-margin-top small-margin-down"
+  const dividerClassName = "small-margin-top small-margin-down";
 
   //
   // Help setup
@@ -436,6 +461,7 @@ const Details = ({
         ********************************************************************
         */}
         <section className={"flex-direction-column"}>
+          {displayProgress && <BorderLinearProgress />}
           <SectionBlock
             characteristicName="name"
             isText={true}
@@ -603,16 +629,15 @@ const Details = ({
               }}
             />
           )}
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={_handleDuplicate}
-            className={
-              "flex-direction-column  flex-align-center text-center flex-basis-48 small-padding-top small-padding-bottom"
-            }
-          >
-            <FormattedMessage id="button.duplicate" />
-          </Button>
+          <DuplicateButton
+            onOk={_handleDuplicate}
+            btnClassName="flex-direction-column  flex-align-center text-center flex-basis-48 small-padding-top small-padding-bottom"
+            propsBtn={{
+              variant: "contained",
+              size: "medium",
+              color: "secondary"
+            }}
+          />
         </section>
       </div>
     </div>
