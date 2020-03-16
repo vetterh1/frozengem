@@ -10,7 +10,7 @@ const CategoryButton = ({
   dialogItems,
   dialogPreselectedItems,
   onOk,
-  className
+  btnClassName
 }) => {
   // console.debug("CategoryButton : characteristicName, isText, isDate = ", characteristicName, isText, isDate);
   const IconCategory =  getIconComponent(dialogPreselectedItems ? "category" + dialogPreselectedItems : "help");
@@ -20,10 +20,10 @@ const CategoryButton = ({
       btnLabelId=""
       btnLabelText={categoryText}
       onOk={onOk}
-      alternateBtnIcon={
+      btnIcon={
         <div className={"small-margin-right"}><IconCategory fontSize="default" /></div>
       }
-      className={className}
+      btnClassName={btnClassName}
     >
       <CharacteristicsSelection
         id="details_update_category"

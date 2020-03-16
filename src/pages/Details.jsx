@@ -105,8 +105,8 @@ const Details = ({
       document.getElementById(idInput).click();
       console.debug("simulate click on ", idInput);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!loggedIn || !characteristics) {
     console.debug(
@@ -121,7 +121,7 @@ const Details = ({
 
   console.debug(
     "[--- FC ---] Functional component: Details - createNewItem = ",
-    createNewItem, 
+    createNewItem,
     " - item = ",
     item ? item : "N/A"
   );
@@ -163,7 +163,7 @@ const Details = ({
   };
 
   const _handleDuplicate = async () => {
-    // Duplicate the current item 
+    // Duplicate the current item
     const duplicatedItem = await duplicateItem(item.id);
     // Then go to the new item!
     history.push(`/details/${duplicatedItem.id}`);
@@ -210,6 +210,7 @@ const Details = ({
   //
   const dialogHelpName = intl.formatMessage({ id: "add.name.help" });
   const dialogHelpDate = intl.formatMessage({ id: "add.date.help" });
+  const dividerClassName = "small-margin-top small-margin-down"
 
   //
   // Help setup
@@ -223,7 +224,7 @@ const Details = ({
       disableBeacon: true,
       disableOverlayClose: true,
       hideCloseButton: true,
-      placement: "center",
+      placement: "center"
     },
     {
       target: "body",
@@ -232,12 +233,12 @@ const Details = ({
       // disableBeacon: true,
       // disableOverlayClose: true,
       // hideCloseButton: true,
-      placement: "center",
+      placement: "center"
     },
     {
       target: ".cam_icon",
       title: intl.formatMessage({ id: "action.edit" }),
-      content: intl.formatMessage({ id: "help.details.camera" }),
+      content: intl.formatMessage({ id: "help.details.camera" })
       // disableBeacon: true,
       // disableOverlayClose: true,
       // hideCloseButton: true
@@ -245,7 +246,7 @@ const Details = ({
     {
       target: "#tile_details_update_name",
       title: intl.formatMessage({ id: "action.edit" }),
-      content: intl.formatMessage({ id: "help.details.name" }),
+      content: intl.formatMessage({ id: "help.details.name" })
       // disableBeacon: true,
       // disableOverlayClose: true,
       // hideCloseButton: true
@@ -253,7 +254,7 @@ const Details = ({
     {
       target: "#tile_details_update_details",
       title: intl.formatMessage({ id: "action.edit" }),
-      content: intl.formatMessage({ id: "help.details.details" }),
+      content: intl.formatMessage({ id: "help.details.details" })
       // disableBeacon: true,
       // disableOverlayClose: true,
       // hideCloseButton: true
@@ -261,7 +262,7 @@ const Details = ({
     {
       target: "#tile_details_update_location",
       title: intl.formatMessage({ id: "action.edit" }),
-      content: intl.formatMessage({ id: "help.details.location" }),
+      content: intl.formatMessage({ id: "help.details.location" })
       // disableBeacon: true,
       // disableOverlayClose: true,
       // hideCloseButton: true
@@ -271,12 +272,12 @@ const Details = ({
     //   content: intl.formatMessage({ id: "help.details.incomplete" }),
     //   // disableBeacon: true,
     //   // disableOverlayClose: true,
-      // hideCloseButton: true,
+    // hideCloseButton: true,
     // },
     {
       target: ".MuiCardMedia-root ",
       title: intl.formatMessage({ id: "help.details.image.title" }),
-      content: intl.formatMessage({ id: "help.details.image" }),
+      content: intl.formatMessage({ id: "help.details.image" })
       // disableBeacon: true,
       // disableOverlayClose: true,
       // hideCloseButton: true
@@ -284,7 +285,7 @@ const Details = ({
     {
       target: ".code_id",
       title: intl.formatMessage({ id: "help.details.important" }),
-      content: intl.formatMessage({ id: "help.details.code" }),
+      content: intl.formatMessage({ id: "help.details.code" })
       // disableBeacon: true,
       // disableOverlayClose: true,
       // hideCloseButton: true
@@ -292,15 +293,15 @@ const Details = ({
     {
       target: "#tile_details_update_size",
       title: intl.formatMessage({ id: "help.details.important" }),
-      content: intl.formatMessage({ id: "help.details.quantity" }),
+      content: intl.formatMessage({ id: "help.details.quantity" })
       // disableBeacon: true,
       // disableOverlayClose: true,
       // hideCloseButton: true
     },
     {
-      target: ".MuiFab-root",
+      target: "#btn_details_remove_item",
       title: intl.formatMessage({ id: "help.details.important" }),
-      content: intl.formatMessage({ id: "help.details.remove" }),
+      content: intl.formatMessage({ id: "help.details.remove" })
       // disableBeacon: true,
       // disableOverlayClose: true,
       // hideCloseButton: true
@@ -308,11 +309,11 @@ const Details = ({
     {
       target: ".help_btn",
       title: intl.formatMessage({ id: "action.help" }),
-      content: intl.formatMessage({ id: "help.details.help" }),
+      content: intl.formatMessage({ id: "help.details.help" })
       // disableBeacon: true,
       // disableOverlayClose: true,
       // hideCloseButton: true,
-    },
+    }
   ];
   const handleJoyrideCallback = data => {
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
@@ -325,8 +326,6 @@ const Details = ({
     setDetailsHelpCompleted(!detailsHelpCompleted);
     return null;
   };
-
-
 
   //
   // RENDER
@@ -402,7 +401,7 @@ const Details = ({
           dialogItems={characteristics.categories}
           dialogPreselectedItems={item ? item.category : null}
           onOk={_handleUpdateCharacteristic}
-          className={clsx(
+          btnClassName={clsx(
             classes.details_image_category,
             (!item || !item.category) && "stitched"
           )}
@@ -417,7 +416,7 @@ const Details = ({
           iconOnlyButton
           onPicture={_handleSavePicture}
           label={intl.formatMessage({
-            id: (item && item.__imageExists) ? "camera.replace" : "camera.add"
+            id: item && item.__imageExists ? "camera.replace" : "camera.add"
           })}
         />
         <IconButton
@@ -450,7 +449,7 @@ const Details = ({
             onOk={_handleUpdateCharacteristic}
             showOkBtn={true}
           />
-          <Divider className={"margin-top margin-down"}></Divider>
+          <Divider className={dividerClassName}></Divider>
           {/*
           ********************************************************************
                           Details section
@@ -467,7 +466,7 @@ const Details = ({
             onOk={_handleUpdateCharacteristic}
           />
         </section>
-        <Divider className={"margin-top margin-down"}></Divider>
+        <Divider className={dividerClassName}></Divider>
         {/*
         ********************************************************************
                         Quantity and Date section
@@ -480,18 +479,21 @@ const Details = ({
             secondary={item ? item.__sizeInText : "-"}
             dialogTitle={intl.formatMessage({ id: "characteristics.size" })}
             dialogItems={sizesWith0}
-            dialogPreselectedItems={(item && item.size) ? item.size.toString() : null}
+            dialogPreselectedItems={
+              item && item.size ? item.size.toString() : null
+            }
             onOk={_handleUpdateQuantity}
             additionalButton={<RemoveButton onOk={_handleRemove} />}
           />
-          {config.details_use_clickable_tiles && (
-            <RemoveButton onOk={_handleRemove} isFAB={true} showLabel={false} />
-          )}
           <SectionBlock
             characteristicName="expirationDate"
             isDate={true}
             main={dateToDisplay}
-            secondary={(item && item.__expirationText) ? intl.formatMessage(item.__expirationText) : "-"}
+            secondary={
+              item && item.__expirationText
+                ? intl.formatMessage(item.__expirationText)
+                : "-"
+            }
             dialogTitle={intl.formatMessage({ id: "characteristics.date" })}
             dialogHelp={dialogHelpDate}
             dialogPreselectedItems={item ? item.expirationDate : null}
@@ -499,7 +501,7 @@ const Details = ({
             showOkBtn={true}
           />
         </section>
-        <Divider className={"margin-top margin-down"}></Divider>
+        <Divider className={dividerClassName}></Divider>
         {/*
         ********************************************************************
                         Container and Color section
@@ -508,7 +510,7 @@ const Details = ({
         <section className={"flex-direction-row flex-justify-between"}>
           <SectionBlock
             characteristicName="container"
-            main={(item && item.__containerText) ? item.__containerText : "-"}
+            main={item && item.__containerText ? item.__containerText : "-"}
             secondary={intl.formatMessage({ id: "characteristics.container" })}
             dialogTitle={intl.formatMessage({
               id: "characteristics.container"
@@ -519,15 +521,15 @@ const Details = ({
           />
           <SectionBlock
             characteristicName="color"
-            main={(item && item.__colorText) ? item.__colorText : "-"}
+            main={item && item.__colorText ? item.__colorText : "-"}
             secondary={intl.formatMessage({ id: "characteristics.color" })}
             dialogTitle={intl.formatMessage({ id: "characteristics.color" })}
             dialogItems={characteristics.colors}
-            dialogPreselectedItems={(item && item.color) ? item.color : null}
+            dialogPreselectedItems={item && item.color ? item.color : null}
             onOk={_handleUpdateCharacteristic}
           />
         </section>
-        <Divider className={"margin-top margin-down"}></Divider>
+        <Divider className={dividerClassName}></Divider>
         {/*
         ********************************************************************
                         Freezer and Location section
@@ -536,20 +538,22 @@ const Details = ({
         <section className={"flex-direction-row flex-justify-between"}>
           <SectionBlock
             characteristicName="freezer"
-            main={(item && item.__freezerText) ? item.__freezerText : "-"}
+            main={item && item.__freezerText ? item.__freezerText : "-"}
             secondary={intl.formatMessage({ id: "characteristics.freezer" })}
             dialogTitle={intl.formatMessage({ id: "characteristics.freezer" })}
             dialogItems={characteristics.freezers}
-            dialogPreselectedItems={(item && item.freezer) ? item.freezer : null}
+            dialogPreselectedItems={item && item.freezer ? item.freezer : null}
             onOk={_handleUpdateCharacteristic}
           />
           <SectionBlock
             characteristicName="location"
-            main={(item && item.__locationText) ? item.__locationText : "-"}
+            main={item && item.__locationText ? item.__locationText : "-"}
             secondary={intl.formatMessage({ id: "characteristics.location" })}
             dialogTitle={intl.formatMessage({ id: "characteristics.location" })}
             dialogItems={characteristics.locations}
-            dialogPreselectedItems={(item && item.location) ? item.location : null}
+            dialogPreselectedItems={
+              item && item.location ? item.location : null
+            }
             onOk={_handleUpdateCharacteristic}
           />
         </section>
@@ -558,36 +562,57 @@ const Details = ({
                         Bottom buttons (add, duplicate,...)
         ********************************************************************
         */}
-        <Divider className={"margin-top margin-down"}></Divider>
-        <section className={"flex-normal-height flex-direction-row flex-justify-between margin-down"}>
-            {/* <Button
-              variant="contained"
-              color="primary"
-              component={Link}
-              to="/"
-              className={classes.button}
+        {isNew && (
+          <>
+            <Divider className={dividerClassName}></Divider>
+            <section
+              className={
+                "flex-normal-height flex-direction-row flex-justify-between margin-down"
+              }
             >
-              <FormattedMessage id="button.backhome" />
-            </Button> */}
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={_handleDuplicate}
-              className={`flex-direction-column  flex-align-center text-center flex-basis-48 small-padding-top small-padding-bottom`}
-            >
-              <FormattedMessage id="button.duplicate" />
-            </Button>
-            {isNew && (
               <Button
                 variant="contained"
                 color="secondary"
                 component={Link}
                 to="/add"
-                className={`flex-direction-column  flex-align-center text-center flex-basis-48 small-padding-top small-padding-bottom`}
+                className={
+                  "flex-direction-column  flex-align-center text-center flex-basis-48 small-padding-top small-padding-bottom"
+                }
               >
                 <FormattedMessage id="button.addnew" />
               </Button>
-            )}
+            </section>
+          </>
+        )}
+        <Divider className={dividerClassName}></Divider>
+        <section
+          className={
+            "flex-normal-height flex-direction-row flex-justify-between margin-down"
+          }
+        >
+          {config.details_use_clickable_tiles && (
+            <RemoveButton
+              onOk={_handleRemove}
+              isFAB={false}
+              showLabel={true}
+              btnClassName="flex-direction-column  flex-align-center text-center flex-basis-48 small-padding-top small-padding-bottom"
+              propsBtn={{
+                variant: "contained",
+                size: "medium",
+                color: "secondary"
+              }}
+            />
+          )}
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={_handleDuplicate}
+            className={
+              "flex-direction-column  flex-align-center text-center flex-basis-48 small-padding-top small-padding-bottom"
+            }
+          >
+            <FormattedMessage id="button.duplicate" />
+          </Button>
         </section>
       </div>
     </div>

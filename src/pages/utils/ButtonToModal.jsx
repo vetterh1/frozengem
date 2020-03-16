@@ -22,7 +22,7 @@ const styles = theme => ({
     padding: "2px 6px 0px 6px",
     minWidth: "0px",
     opacity: "0.6",
-    lineHeight: "unset",
+    lineHeight: "unset"
     // animation: "$pulseAnimation 1.5s ease-in-out 3"
   },
 
@@ -33,7 +33,7 @@ const styles = theme => ({
     "55%": {
       opacity: "0.8",
       transform: "scale(1.2)"
-    },
+    }
   },
 
   leftIconWithText: {
@@ -49,8 +49,9 @@ const ButtonToModal = ({
   btnLabelText = null,
   isFAB = false,
   onOk,
-  alternateBtnIcon,
-  className,
+  btnIcon = null,
+  btnClassName,
+  propsBtn = null,
   classes,
   children
 }) => {
@@ -97,14 +98,14 @@ const ButtonToModal = ({
     setOpen(false);
   }
 
-  const btnIcon = alternateBtnIcon ? (
-    alternateBtnIcon
-  ) : (
-    <Edit style={{ fontSize: "14px" }} />
-  );
+  // const btnIcon = alternateBtnIcon ? (
+  //   alternateBtnIcon
+  // ) : (
+  //   <Edit style={{ fontSize: "14px" }} />
+  // );
 
-  const buttonClassName = className
-    ? className
+  const buttonClassName = btnClassName
+    ? btnClassName
     : btnLabelId && !isFAB
     ? classes.buttonWithText
     : classes.buttonWithoutText;
@@ -118,13 +119,13 @@ const ButtonToModal = ({
       {!isFAB && (
         <Button
           id={"btn_" + children.props.id}
-          // component="button"
-          size="small"
-          color="primary"
+          variant={propsBtn && propsBtn.variant ? propsBtn.variant : null}
+          size={propsBtn && propsBtn.size ? propsBtn.size : "small"}
+          color={propsBtn && propsBtn.color ? propsBtn.color : "primary"}
           className={buttonClassName}
           onClick={_handleClickOpen}
         >
-          <div className={iconClassName}>{btnIcon}</div>
+          {btnIcon && <div className={iconClassName}>{btnIcon}</div>}
           {btnLabelId && btnLabelId.length > 0 && (
             <FormattedMessage
               style={{ fontSize: "11px", fontWeight: "bold" }}
@@ -162,6 +163,8 @@ ButtonToModal.propTypes = {
   btnLabelId: PropTypes.string,
   btnLabelText: PropTypes.string,
   btnIcon: PropTypes.object,
+  btnClassName: PropTypes.string,
+  propsBtn: PropTypes.object,
   onOk: PropTypes.func,
   classes: PropTypes.object,
   children: PropTypes.object.isRequired
