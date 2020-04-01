@@ -106,6 +106,7 @@ function login(email, password) {
 
       dispatch({ type: ACTIONS.LOGIN_FAILURE, error: error.toString() });
 
+      alert(error.toString())
       // Error message
       const unauthorized = error.response && error.response.status === 401;
       const message = unauthorized ? "login.unauthorized" : "login.error";

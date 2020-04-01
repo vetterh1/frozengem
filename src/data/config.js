@@ -1,6 +1,11 @@
 /* eslint-disable no-unused-vars */
 import merge from 'lodash/merge'
 
+const locationWithoutPort = 
+  window.location.protocol
+  + "//"
+  + window.location.hostname;
+
 const config = {
   all: {
     env: process.env.NODE_ENV || 'development',
@@ -10,12 +15,12 @@ const config = {
   },
   test: { },
   development: {
-    boUrl: 'http://localhost:9000',
-    staticUrl: 'http://localhost:9000',
+    boUrl: `${locationWithoutPort}:9000`,
+    staticUrl: `${locationWithoutPort}:9000`,
   },
   production: {
-    boUrl: 'https://frozengem.com/frozenbo',
-    staticUrl: 'https://frozengem.com/frozenbo',
+    boUrl: `${locationWithoutPort}/frozenbo`,
+    staticUrl: `${locationWithoutPort}/frozenbo`,
   }
 }
 

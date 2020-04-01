@@ -104,6 +104,10 @@ const App = ({autologin, classes, ...props}) => {
           >     
             <> 
             <Notifier />
+
+              {/* process.env.PUBLIC_URL is defined in package.json / homepage.
+                  here, it's either "" (dev) or "." (prod)
+               */}
               <Router basename={process.env.PUBLIC_URL}>
 
                 <div className={classes.divStyle}>
