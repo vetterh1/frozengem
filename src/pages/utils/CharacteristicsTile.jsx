@@ -35,7 +35,7 @@ const CharacteristicsTile = ({
       ) : isText && !isDate ? (
         <TextSelection
           id={"details_update_" + characteristicName}
-          name={characteristicName}
+          name={characteristicName === "name" ? "main" : characteristicName} // NO "name" in input to avoid Safari mobile to display the user name :( :( :(
           title={dialogTitle}
           help={dialogHelp}
           initialValue={dialogPreselectedItems}

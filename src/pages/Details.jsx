@@ -8,7 +8,7 @@ import { itemsActions } from "../_actions/itemsActions";
 import { userActions } from "../_actions/userActions";
 import { Redirect } from "react-router";
 import { injectIntl, FormattedMessage } from "react-intl";
-import { lighten, withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import { Button, Divider, Typography } from "@material-ui/core";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import IconButton from "@material-ui/core/IconButton";

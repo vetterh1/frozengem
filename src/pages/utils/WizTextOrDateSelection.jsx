@@ -85,6 +85,8 @@ const WizTextOrDateSelection = ({
   const sixMonthsAgo = new Date();
   sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6, 1);
 
+  const id = "id-" + (name === "name" ? "description" : name);
+
   return (
     <div className={"flex-normal-height flex-direction-column"}>
       <WizPageTitle message={title} />
@@ -95,15 +97,15 @@ const WizTextOrDateSelection = ({
           }
         >
           <Input
-            id={`id-${name}`}
+            id={id}
             autoComplete="off"
             value={value}
             onChange={_handleEventChange}
-            aria-describedby="name-text"
+            aria-describedby="helper-text"
             fullWidth
             autoFocus
           />
-          <FormHelperText id="name-text">
+          <FormHelperText id="helper-text">
             {validationMessage ? validationMessage : help ? help : ""}
           </FormHelperText>
         </FormControl>
