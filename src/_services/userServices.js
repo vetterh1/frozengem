@@ -99,7 +99,7 @@ async function login(email, password) {
     headers: { "content-type": "application/x-www-form-urlencoded" },
     data: qs.stringify(data)
   };
-  alert(stringifyOnce(options));
+  // alert(stringifyOnce(options));
 
   try {
     const response = await axios(options);

@@ -131,6 +131,7 @@ const Details = ({
     if (isNew || (item && !item.__imageExists)) {
       setShowHugeCameraBtn(true);
     }
+   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [displayProgress, setDisplayProgress] = React.useState(false);
