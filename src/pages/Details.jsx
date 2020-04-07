@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+// import React from "react";
 import clsx from "clsx";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -18,6 +19,7 @@ import HelpIcon from "@material-ui/icons/Help";
 import PictureSelection from "./utils/PictureSelection";
 import CategoryButton from "./utils/CategoryButton";
 import RemoveButton from "./utils/RemoveButton";
+import PictureModalSelection from "./utils/PictureModalSelection";
 import DuplicateButton from "./utils/DuplicateButton";
 import { gtmPush } from "../utils/gtmPush";
 import SectionBlock from "./utils/SectionBlock";
@@ -77,6 +79,14 @@ const styles = theme => ({
     padding: "10px",
     color: "white"
   },
+  huge_image_camera: {
+    position: "absolute",
+    top: "50px",
+    right: "50px",
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
+    padding: "10px",
+    color: "white"
+  },
   details_image_category: {
     position: "absolute",
     bottom: "10px",
@@ -115,13 +125,12 @@ const Details = ({
   detailsHelpCompleted,
   setDetailsHelpCompleted
 }) => {
-  useEffect(() => {
-    if (isNew && item) {
-      const idInput = `input-${item.id}`;
-      document.getElementById(idInput).click();
-      console.debug("simulate click on ", idInput);
+  const [showHugeCameraBtn, setShowHugeCameraBtn] = React.useState(false);
+  useEffect(() =>  {
+    // if (isNew && item) {
+    if (isNew || (item && !item.__imageExists)) {
+      setShowHugeCameraBtn(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [displayProgress, setDisplayProgress] = React.useState(false);
@@ -165,6 +174,16 @@ const Details = ({
     handleClose();
   };
 
+  // const _simulatePictureClick = async () => {
+  //   await new Promise(resolve => setTimeout(resolve, 5000));
+
+  //   const idInput = `button-for-input-${item.id}`;
+  //   // const idInput = `tile_details_update_name`;
+  //   const input = document.getElementById(idInput)
+  //   input.click();
+  //   console.debug("simulate click on ", idInput, input);
+  // }
+
   const _handleUpdateQuantity = async ({ size }) => {
     removeItem(item.id, size);
     if (size === "0") handleClose();
@@ -178,6 +197,7 @@ const Details = ({
 
   const _handleSavePicture = (pictureData, thumbnailData) => {
     savePicture(item.id, pictureData, thumbnailData);
+    setShowHugeCameraBtn(false);
   };
 
   const _handleDuplicate = async () => {
@@ -444,6 +464,15 @@ const Details = ({
             id: item && item.__imageExists ? "camera.replace" : "camera.add"
           })}
         />
+
+        {
+        //  isNew && item &&
+          <PictureModalSelection
+            onPicture={_handleSavePicture}
+            onCancel={() => setShowHugeCameraBtn(false)}
+            open={showHugeCameraBtn}
+        /> }
+                
         <IconButton
           component="span"
           color="primary"

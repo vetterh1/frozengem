@@ -12,36 +12,40 @@ import createImageAsync from "../../utils/createImageAsync.js";
 import getExifTagsAsync from "../../utils/getExifTagsAsync";
 import { gtmPush } from "../../utils/gtmPush";
 
-const styles = theme => ({
+const styles = (theme) => ({
   button: {
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
     // background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
   },
   buttonContentFlexVertical: {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   buttonIconOnly: {
-    padding: 0
+    padding: 0,
   },
   leftIcon: {
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing(1),
   },
   hiddenInput: {
-    display: "none"
-  }
+    display: "none",
+  },
 });
 
 const PictureSelection = ({
   itemId,
   label,
-  iconOnlyButton,
+  iconOnlyButton = true,
   iconStyle = {},
   labelUnderIcon = false,
   onPicture,
   className,
-  classes
+  classes,
 }) => {
+
+  console.debug("PictureSelection.init: itemId, className, iconOnlyButton = ", itemId, className, iconOnlyButton);
+
+
   const resizePicture = async (img, MAX_WIDTH = 800, MAX_HEIGHT = 800) => {
     var canvas = document.createElement("canvas");
 
@@ -109,9 +113,9 @@ const PictureSelection = ({
     return await canvasToBlobAsync(canvas);
   };
 
-  const onInputChange = async e => {
-    console.debug('onInputChange', e)
-    if (e.target.files.length < 1){ 
+  const onInputChange = async (e) => {
+    console.debug("onInputChange", e);
+    if (e.target.files.length < 1) {
       gtmPush({
         event: "Details",
         action: "CameraCancel",
@@ -143,10 +147,7 @@ const PictureSelection = ({
       event: "Details",
       action: "CameraChange",
     });
-
   };
-
-
 
   function _handleClickOpen(e) {
     // e.stopPropagation();  Don't stop propagation as this is just to push a gtm tag
@@ -155,8 +156,6 @@ const PictureSelection = ({
       action: "CameraOpen",
     });
   }
-
-
 
   const specialClasses = labelUnderIcon
     ? { label: classes.buttonContentFlexVertical }
@@ -172,10 +171,11 @@ const PictureSelection = ({
         type="file"
         onChange={onInputChange}
       />
-      <label htmlFor={idInput}>
+      <label htmlFor={idInput} id={`label-for-${idInput}`}>
         <>
           {!iconOnlyButton && (
             <Button
+              id={`button-for-${idInput}`}
               component="span"
               size="small"
               color="primary"
@@ -189,6 +189,7 @@ const PictureSelection = ({
           )}
           {iconOnlyButton && (
             <IconButton
+              id={`button-for-${idInput}`}
               component="span"
               color="primary"
               aria-label={label}

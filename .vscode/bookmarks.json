@@ -3,12 +3,22 @@
 		"path": "$ROOTPATH$\\src\\pages\\Details.jsx",
 		"bookmarks": [
 			{
-				"line": 203,
-				"column": 22,
+				"line": 120,
+				"column": 23,
 				"label": ""
 			},
 			{
-				"line": 282,
+				"line": 463,
+				"column": 17,
+				"label": ""
+			}
+		]
+	},
+	{
+		"path": "$ROOTPATH$\\src\\pages\\utils\\PictureSelection.jsx",
+		"bookmarks": [
+			{
+				"line": 31,
 				"column": 17,
 				"label": ""
 			}

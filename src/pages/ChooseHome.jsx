@@ -87,7 +87,6 @@ class ChooseHome extends React.Component {
                   <Grid className={classes.subtitle} item >
                     <ButtonWithOneInputModal 
                       btnLabel={this.props.intl.formatMessage({id: 'home.join.title'})}
-                      btnIcon="btnHome"
                       modalTitle={this.props.intl.formatMessage({id: 'home.join.short'})}
                       modalText={this.props.intl.formatMessage({id: 'home.join.message'})}
                       inputLabel={this.props.intl.formatMessage({id: 'home.join.code'})}
@@ -110,7 +109,6 @@ class ChooseHome extends React.Component {
                   <Grid className={classes.subtitle} item >
                     <ButtonWithOneInputModal 
                       btnLabel={this.props.intl.formatMessage({id: 'home.new.title'})}
-                      btnIcon="btnHome"
                       modalTitle={this.props.intl.formatMessage({id: 'home.new.short'})}
                       modalText={this.props.intl.formatMessage({id: 'home.new.message'})}
                       inputLabel={this.props.intl.formatMessage({id: 'home.new.label'})}
