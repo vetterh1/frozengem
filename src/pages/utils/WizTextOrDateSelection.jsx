@@ -85,7 +85,7 @@ const WizTextOrDateSelection = ({
   const sixMonthsAgo = new Date();
   sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6, 1);
 
-  const id = "id-" + (name === "name" ? "description" : name);
+  const id = "id-" + name;
 
   return (
     <div className={"flex-normal-height flex-direction-column"}>

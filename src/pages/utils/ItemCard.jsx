@@ -49,20 +49,22 @@ const styles = theme => ({
     flexGrow: 1,
 
     padding: 0,
-    margin: `${theme.spacing(1)}px ${theme.spacing(2)}px`
+    margin: `${theme.spacing(1)}px`
   },
 
   cardContent: {
     display: "flex",
     flexDirection: "column",
     flexGrow: 1,
-
-    padding: 0
+    padding: 0,
+    paddingBottom: "0 !important",
   },
 
   cardMain: {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    alignItems: "flex-start",
+    flexGrow: 1,
   },
 
   cardIcons: {
@@ -86,6 +88,15 @@ const styles = theme => ({
 
     borderRadius: "3px"
   },
+  details_image_code: {
+    display: "flex",
+    alignSelf: "flex-end",
+    justifySelf: "end",
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    borderRadius: "3px",
+    padding: "0px 4px",
+    color: "white"
+  },  
 });
 
 const intItemCard = ({ item, classes, theme }) => {
@@ -119,15 +130,18 @@ const intItemCard = ({ item, classes, theme }) => {
           <div className={classes.cardCenter} onClick={handleClickForDetails}>
             <CardContent className={classes.cardContent}>
               <div className={classes.cardMain}>
-                <Typography variant="h6">{item.__nameOrCategory}</Typography>
+                <Typography variant="h6">{item.__descriptionOrCategory}</Typography>
                 <Typography color="textSecondary">
                   {item.__sizeInText}
                 </Typography>
-                {/* <div  className={classes.cardActionLine}>
-
-                </div> */}
               </div>
-              <div className={classes.cardIcons}></div>
+              <Typography
+                className={classes.details_image_code}
+                color="textSecondary"
+                component="p"
+              >
+                {item ? item.code : "-"}
+              </Typography>
             </CardContent>
           </div>
 

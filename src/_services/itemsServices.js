@@ -36,7 +36,7 @@ function _computeExpirationLevel(dateInMs) {
 
 function _isComplete(item) {
   let isComplete = true;
-  if (!item.name || !item.location || !item.freezer || !item.container)
+  if (!item.description || !item.location || !item.freezer || !item.container)
     isComplete = false;
 
   return isComplete;
@@ -56,7 +56,7 @@ function _isComplete(item) {
       __colorText
       __freezerText
       __locationText
-      __nameOrCategory
+      __descriptionOrCategory
       __sizeInText
       __detailsNames
       __imageExists
@@ -118,8 +118,8 @@ function computeItemUtilityFields(item, language, characteristics) {
   item.__colorText = characteristicsUtilityFields.color;
   item.__freezerText = characteristicsUtilityFields.freezer;
   item.__locationText = characteristicsUtilityFields.location;
-  item.__nameOrCategory =
-    item.name && item.name.length > 0 ? item.name : item.__categoryText;
+  item.__descriptionOrCategory =
+    item.description && item.description.length > 0 ? item.description : item.__categoryText;
   item.__sizeInText = item.removed ? "-" : characteristicsUtilityFields.size;
   const detailsNamesArray = characteristicsUtilityFields.detailsArray;
   item.__detailsNames = detailsNamesArray ? detailsNamesArray.join(", ") : null;

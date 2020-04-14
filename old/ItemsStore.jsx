@@ -82,7 +82,7 @@ export class Items extends React.Component {
       freezer: "O"
       id: "5d14adfc1546b6356c48a24c"
       location: "M"
-      name: ""
+      description: ""
       size: 4
       tableData: {id: 0}
       updatedAt: "2019-06-27T11:52:28.031Z"
@@ -96,7 +96,7 @@ export class Items extends React.Component {
         __iconExpiration
         __expirationText
         __categoryText
-        __nameOrCategory
+        __descriptionOrCategory
         __sizeInText
         __detailsNames
         __imageExists
@@ -146,7 +146,7 @@ export class Items extends React.Component {
       __colorText
       __freezerText
       __locationText
-      __nameOrCategory
+      __descriptionOrCategory
       __sizeInText
       __detailsNames
       __imageExists
@@ -190,7 +190,7 @@ export class Items extends React.Component {
     item.__colorText = itemCharacteristics.getColorName(item.color, userInfo.language);
     item.__freezerText = itemCharacteristics.getFreezerName(item.freezer, userInfo.language);
     item.__locationText = itemCharacteristics.getLocationName(item.location, userInfo.language);
-    item.__nameOrCategory = item.name && item.name.length > 0 ? item.name : item.__categoryText;
+    item.__descriptionOrCategory = item.description && item.description.length > 0 ? item.description : item.__categoryText;
     item.__sizeInText = itemCharacteristics.getSizeLabel(item.size, userInfo.language);
     const detailsNamesArray = itemCharacteristics.getDetailsNamesArray(item.__detailsArray, userInfo.language);
     item.__detailsNames = detailsNamesArray ? detailsNamesArray.join( ', ') : null;

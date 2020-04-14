@@ -73,7 +73,7 @@ const ItemImage = ({ item, style = null }) => {
         onClick={handleExpanded}
         style={style}
         image={`${config.staticUrl}/static/pictures/items/${thumbnailsOrPictures}`}
-        title={item.name}
+        title={item.description}
         className={classes.media}
       />
       {expanded && (

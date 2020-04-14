@@ -68,6 +68,7 @@ const styles = theme => ({
     right: "30px",
     top: "10px",
     backgroundColor: "rgba(0, 0, 0, 0.6)",
+    borderRadius: "4px",
     padding: "10px",
     color: "white"
   },
@@ -254,7 +255,7 @@ const Details = ({
   //
   // Misc string / help text configuration
   //
-  const dialogHelpName = intl.formatMessage({ id: "add.name.help" });
+  const dialogHelpName = intl.formatMessage({ id: "add.description.help" });
   const dialogHelpDate = intl.formatMessage({ id: "add.date.help" });
   const dividerClassName = "small-margin-top small-margin-down";
 
@@ -290,9 +291,9 @@ const Details = ({
       // hideCloseButton: true
     },
     {
-      target: "#tile_details_update_name",
+      target: "#tile_details_update_description",
       title: intl.formatMessage({ id: "action.edit" }),
-      content: intl.formatMessage({ id: "help.details.name" })
+      content: intl.formatMessage({ id: "help.details.description" })
       // disableBeacon: true,
       // disableOverlayClose: true,
       // hideCloseButton: true
@@ -487,21 +488,21 @@ const Details = ({
       <div className={"medium-padding"}>
         {/*
         ********************************************************************
-                        Name section
+                        Description section
         ********************************************************************
         */}
         <section className={"flex-direction-column"}>
           {displayProgress && <BorderLinearProgress />}
           <SectionBlock
-            characteristicName="name"
+            characteristicName="description"
             isText={true}
-            main={item ? item.name : "-"}
+            main={item ? item.description : "-"}
             mainTypography="h2"
             secondary={null}
-            dialogTitle={intl.formatMessage({ id: "characteristics.name" })}
+            dialogTitle={intl.formatMessage({ id: "characteristics.description" })}
             dialogHelp={dialogHelpName}
             dialogItems={sizesWith0}
-            dialogPreselectedItems={item ? item.name : null}
+            dialogPreselectedItems={item ? item.description : null}
             onOk={_handleUpdateCharacteristic}
             showOkBtn={true}
           />

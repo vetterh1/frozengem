@@ -62,7 +62,7 @@ const AddWizard = ({
     size: null,
     freezer: null,
     location: null,
-    name: "",
+    description: "",
     expirationDate: null,
     expirationInMonth: 0,
     pictureName: null,
@@ -356,13 +356,13 @@ const AddWizard = ({
           defaultIconName={"category" + item.category}
         />
         <WizTextOrDateSelection
-          hashKey={"name"}
-          name="name"
-          title={intl.formatMessage({ id: "add.name.title" })}
-          help={intl.formatMessage({ id: "add.name.help" })}
+          hashKey={"description"}
+          name="description"
+          title={intl.formatMessage({ id: "add.description.title" })}
+          help={intl.formatMessage({ id: "add.description.help" })}
           handleBack={handleBack}
           handleNext={handleChange}
-          initialValue={item.name}
+          initialValue={item.description}
           showNavigation
         />
         <WizCharacteristicsSelection

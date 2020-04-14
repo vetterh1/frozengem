@@ -60,7 +60,7 @@ const Results = ({item, onResetState, handleAddPicture, isActive, firstStep, int
           <div className={classes.centerFlex}>
             <CheckCircleOutlineIcon  className={classes.leftIcon} style={{ fontSize: 96 }} />
             <Typography variant="h5" className={"small-margin-down"}>
-              <FormattedMessage id="item.add.success" values={{name: isEmpty(item.name) ? item.categoryName : item.name}} />
+              <FormattedMessage id="item.add.success" values={{description: isEmpty(item.description) ? item.categoryName : item.description}} />
             </Typography>
           </div>
           <Typography variant="h4" className={"small-margin-down"}>
