@@ -501,7 +501,6 @@ const Details = ({
             secondary={null}
             dialogTitle={intl.formatMessage({ id: "characteristics.description" })}
             dialogHelp={dialogHelpName}
-            dialogItems={sizesWith0}
             dialogPreselectedItems={item ? item.description : null}
             onOk={_handleUpdateCharacteristic}
             showOkBtn={true}

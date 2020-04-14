@@ -56,7 +56,7 @@ const TextSelection = ({
               id={`id-${name}`}  // NO "name" in input to avoid Safari mobile to display the user name :( :( :(
               value={value}
               onChange={_handleEventChange}
-              // inputProps={{ 'aria-label': 'name' }}
+              inputProps={{ 'aria-label': `${name}` }}
               autoComplete="off"
               fullWidth
               autoFocus
