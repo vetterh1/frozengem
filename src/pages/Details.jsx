@@ -27,8 +27,9 @@ import ScrollToTop from "./utils/ScrollToTop";
 import ItemImage from "./utils/ItemImage";
 import Joyride, { STATUS } from "react-joyride";
 // import { it } from "date-fns/esm/locale";
+import { fade } from "@material-ui/core/styles/colorManipulator";
 
-const BorderLinearProgress = withStyles(theme => ({
+const BorderLinearProgress = withStyles((theme) => ({
   root: {
     height: 15,
     backgroundColor: theme.palette.primary.light,
@@ -36,24 +37,24 @@ const BorderLinearProgress = withStyles(theme => ({
   bar: {
     borderRadius: 3,
     backgroundColor: theme.palette.primary.main,
-  }
+  },
 }))(LinearProgress);
 
-
-
-
-const styles = theme => ({
+const styles = (theme) => ({
   card: {
-    margin: -theme.spacing(2)
+    backgroundColor: fade(theme.palette.primary.light, 0.4),
+    backdropFilter: "blur(8px) contrast(0.4) brightness(1.0)",
+    // margin: -theme.spacing(2),
+    borderRadius: "10px",
   },
 
   details_image_section: {
     display: "flex",
     position: "relative",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   details_image_media: {
-    height: "25vh"
+    height: "25vh",
   },
   details_image_close: {
     position: "absolute",
@@ -61,7 +62,7 @@ const styles = theme => ({
     left: "10px",
     backgroundColor: "rgba(0, 0, 0, 0.6)",
     padding: "5px 10px",
-    color: "white"
+    color: "white",
   },
   details_image_code: {
     position: "absolute",
@@ -70,7 +71,7 @@ const styles = theme => ({
     backgroundColor: "rgba(0, 0, 0, 0.6)",
     borderRadius: "4px",
     padding: "10px",
-    color: "white"
+    color: "white",
   },
   details_image_camera: {
     position: "absolute",
@@ -78,7 +79,7 @@ const styles = theme => ({
     right: "10px",
     backgroundColor: "rgba(0, 0, 0, 0.8)",
     padding: "10px",
-    color: "white"
+    color: "white",
   },
   huge_image_camera: {
     position: "absolute",
@@ -86,7 +87,7 @@ const styles = theme => ({
     right: "50px",
     backgroundColor: "rgba(0, 0, 0, 0.8)",
     padding: "10px",
-    color: "white"
+    color: "white",
   },
   details_image_category: {
     position: "absolute",
@@ -94,21 +95,21 @@ const styles = theme => ({
     left: "10px",
     backgroundColor: "rgba(0, 0, 0, 0.6)",
     padding: "5px 10px",
-    color: "white"
+    color: "white",
   },
   details_remove: {
     position: "absolute",
     top: "-12px",
     left: "-8px",
     backgroundColor: "rgba(0, 0, 0, 0.6)",
-    color: "white"
+    color: "white",
   },
   details_help: {
     position: "absolute",
     top: "-8px",
     right: "-8px",
-    zLayer: "2000"
-  }
+    zLayer: "2000",
+  },
 });
 
 const Details = ({
@@ -124,15 +125,15 @@ const Details = ({
   history,
   loggedIn,
   detailsHelpCompleted,
-  setDetailsHelpCompleted
+  setDetailsHelpCompleted,
 }) => {
   const [showHugeCameraBtn, setShowHugeCameraBtn] = React.useState(false);
-  useEffect(() =>  {
+  useEffect(() => {
     // if (isNew && item) {
     if (isNew || (item && !item.__imageExists)) {
       setShowHugeCameraBtn(true);
     }
-   // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [displayProgress, setDisplayProgress] = React.useState(false);
@@ -160,7 +161,7 @@ const Details = ({
 
     gtmPush({
       event: "Details",
-      action: "Close"
+      action: "Close",
     });
 
     history.goBack();
@@ -191,8 +192,8 @@ const Details = ({
     if (size === "0") handleClose();
   };
 
-  const _handleUpdateCharacteristic = async update => {
-    console.debug("ItemCard._handleUpdateCharacteristic: ", item.id, update);
+  const _handleUpdateCharacteristic = async (update) => {
+    console.debug("Details._handleUpdateCharacteristic: ", item.id, update);
     if (update) updateItem(item.id, update);
     return null;
   };
@@ -205,7 +206,7 @@ const Details = ({
   const _handleDuplicate = async () => {
     // Simulate a wait for 3 seconds of progress indicator
     setDisplayProgress(true);
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 3000));
 
     // Duplicate the current item
     const duplicatedItem = await duplicateItem(item.id);
@@ -213,7 +214,7 @@ const Details = ({
     // Then go to the new item!
     history.push(`/details/${duplicatedItem.id}`);
 
-    setDisplayProgress( false );
+    setDisplayProgress(false);
   };
 
   //
@@ -239,12 +240,12 @@ const Details = ({
     id2: "0",
     label: {
       en: intl.formatMessage({ id: "item.remove.from_freezer" }),
-      fr: intl.formatMessage({ id: "item.remove.from_freezer" })
+      fr: intl.formatMessage({ id: "item.remove.from_freezer" }),
     },
     name: {
       en: intl.formatMessage({ id: "item.remove.nothing" }),
-      fr: intl.formatMessage({ id: "item.remove.nothing" })
-    }
+      fr: intl.formatMessage({ id: "item.remove.nothing" }),
+    },
   };
   const sizesWith0 = [zero, ...characteristics.sizes];
 
@@ -271,7 +272,7 @@ const Details = ({
       disableBeacon: true,
       disableOverlayClose: true,
       hideCloseButton: true,
-      placement: "center"
+      placement: "center",
     },
     {
       target: "body",
@@ -280,12 +281,12 @@ const Details = ({
       // disableBeacon: true,
       // disableOverlayClose: true,
       // hideCloseButton: true,
-      placement: "center"
+      placement: "center",
     },
     {
       target: ".cam_icon",
       title: intl.formatMessage({ id: "action.edit" }),
-      content: intl.formatMessage({ id: "help.details.camera" })
+      content: intl.formatMessage({ id: "help.details.camera" }),
       // disableBeacon: true,
       // disableOverlayClose: true,
       // hideCloseButton: true
@@ -293,7 +294,7 @@ const Details = ({
     {
       target: "#tile_details_update_description",
       title: intl.formatMessage({ id: "action.edit" }),
-      content: intl.formatMessage({ id: "help.details.description" })
+      content: intl.formatMessage({ id: "help.details.description" }),
       // disableBeacon: true,
       // disableOverlayClose: true,
       // hideCloseButton: true
@@ -301,7 +302,7 @@ const Details = ({
     {
       target: "#tile_details_update_details",
       title: intl.formatMessage({ id: "action.edit" }),
-      content: intl.formatMessage({ id: "help.details.details" })
+      content: intl.formatMessage({ id: "help.details.details" }),
       // disableBeacon: true,
       // disableOverlayClose: true,
       // hideCloseButton: true
@@ -309,7 +310,7 @@ const Details = ({
     {
       target: "#tile_details_update_location",
       title: intl.formatMessage({ id: "action.edit" }),
-      content: intl.formatMessage({ id: "help.details.location" })
+      content: intl.formatMessage({ id: "help.details.location" }),
       // disableBeacon: true,
       // disableOverlayClose: true,
       // hideCloseButton: true
@@ -324,7 +325,7 @@ const Details = ({
     {
       target: ".MuiCardMedia-root ",
       title: intl.formatMessage({ id: "help.details.image.title" }),
-      content: intl.formatMessage({ id: "help.details.image" })
+      content: intl.formatMessage({ id: "help.details.image" }),
       // disableBeacon: true,
       // disableOverlayClose: true,
       // hideCloseButton: true
@@ -332,7 +333,7 @@ const Details = ({
     {
       target: ".code_id",
       title: intl.formatMessage({ id: "help.details.important" }),
-      content: intl.formatMessage({ id: "help.details.code" })
+      content: intl.formatMessage({ id: "help.details.code" }),
       // disableBeacon: true,
       // disableOverlayClose: true,
       // hideCloseButton: true
@@ -340,7 +341,7 @@ const Details = ({
     {
       target: "#tile_details_update_size",
       title: intl.formatMessage({ id: "help.details.important" }),
-      content: intl.formatMessage({ id: "help.details.quantity" })
+      content: intl.formatMessage({ id: "help.details.quantity" }),
       // disableBeacon: true,
       // disableOverlayClose: true,
       // hideCloseButton: true
@@ -348,7 +349,7 @@ const Details = ({
     {
       target: "#btn_details_remove_item",
       title: intl.formatMessage({ id: "help.details.important" }),
-      content: intl.formatMessage({ id: "help.details.remove" })
+      content: intl.formatMessage({ id: "help.details.remove" }),
       // disableBeacon: true,
       // disableOverlayClose: true,
       // hideCloseButton: true
@@ -356,13 +357,13 @@ const Details = ({
     {
       target: ".help_btn",
       title: intl.formatMessage({ id: "action.help" }),
-      content: intl.formatMessage({ id: "help.details.help" })
+      content: intl.formatMessage({ id: "help.details.help" }),
       // disableBeacon: true,
       // disableOverlayClose: true,
       // hideCloseButton: true,
-    }
+    },
   ];
-  const handleJoyrideCallback = data => {
+  const handleJoyrideCallback = (data) => {
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
       console.debug("handleJoyrideCallback: detailsHelpCompleted --> true!");
       setDetailsHelpCompleted(true);
@@ -395,13 +396,13 @@ const Details = ({
             close: intl.formatMessage({ id: "button.close" }),
             last: intl.formatMessage({ id: "button.end" }),
             next: intl.formatMessage({ id: "button.continue" }),
-            skip: intl.formatMessage({ id: "button.skip" })
+            skip: intl.formatMessage({ id: "button.skip" }),
           }}
           run={true}
           styles={{
             options: {
-              primaryColor: "#303f9f"
-            }
+              primaryColor: "#303f9f",
+            },
           }}
         />
       )}
@@ -420,7 +421,8 @@ const Details = ({
           <ItemImage
             item={item}
             style={{
-              height: "25vh"
+              height: "25vh",
+              borderRadius: "10px 10px 0px 0px",
             }}
           />
         )}
@@ -463,18 +465,19 @@ const Details = ({
           iconOnlyButton
           onPicture={_handleSavePicture}
           label={intl.formatMessage({
-            id: item && item.__imageExists ? "camera.replace" : "camera.add"
+            id: item && item.__imageExists ? "camera.replace" : "camera.add",
           })}
         />
 
         {
-        //  isNew && item &&
+          //  isNew && item &&
           <PictureModalSelection
             onPicture={_handleSavePicture}
             onCancel={() => setShowHugeCameraBtn(false)}
             open={showHugeCameraBtn}
-        /> }
-                
+          />
+        }
+
         <IconButton
           component="span"
           color="primary"
@@ -499,7 +502,9 @@ const Details = ({
             main={item ? item.description : "-"}
             mainTypography="h2"
             secondary={null}
-            dialogTitle={intl.formatMessage({ id: "characteristics.description" })}
+            dialogTitle={intl.formatMessage({
+              id: "characteristics.description",
+            })}
             dialogHelp={dialogHelpName}
             dialogPreselectedItems={item ? item.description : null}
             onOk={_handleUpdateCharacteristic}
@@ -569,7 +574,7 @@ const Details = ({
             main={item && item.__containerText ? item.__containerText : "-"}
             secondary={intl.formatMessage({ id: "characteristics.container" })}
             dialogTitle={intl.formatMessage({
-              id: "characteristics.container"
+              id: "characteristics.container",
             })}
             dialogItems={characteristics.containers}
             dialogPreselectedItems={item ? item.container : null}
@@ -655,7 +660,7 @@ const Details = ({
               propsBtn={{
                 variant: "contained",
                 size: "medium",
-                color: "secondary"
+                color: "secondary",
               }}
             />
           )}
@@ -665,7 +670,7 @@ const Details = ({
             propsBtn={{
               variant: "contained",
               size: "medium",
-              color: "secondary"
+              color: "secondary",
             }}
           />
         </section>
@@ -697,10 +702,10 @@ function mapStateToProps(state, ownProps) {
   const isNew = ownProps.match.path.startsWith("/new/");
   return {
     isNew: isNew,
-    item: id ? state.items.list.find(item => item.id === id) : null,
+    item: id ? state.items.list.find((item) => item.id === id) : null,
     characteristics: state.characteristics,
     loggedIn: state.user.loggedIn,
-    detailsHelpCompleted: state.user.detailsHelpCompleted
+    detailsHelpCompleted: state.user.detailsHelpCompleted,
   };
 }
 
@@ -709,7 +714,7 @@ const mapDispatchToProps = {
   removeItem: itemsActions.removeItem,
   savePicture: itemsActions.savePicture,
   duplicateItem: itemsActions.duplicateItem,
-  setDetailsHelpCompleted: userActions.setDetailsHelpCompleted
+  setDetailsHelpCompleted: userActions.setDetailsHelpCompleted,
 };
 
 const connectedDetails = withRouter(

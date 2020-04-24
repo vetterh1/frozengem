@@ -53,17 +53,29 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "column",
     minHeight: "100vh",
-    // backgroundColor: theme.palette.primary.superlight,
-
   },
   containerStyle: {
     display: "flex",
     flexDirection: "column",
     flexGrow: 1,
-    backgroundColor: theme.palette.primary.superlight,
     padding: theme.spacing(2),
   },
   stickToBottom: {
+  },
+
+
+  fixedBackground: {
+    zIndex: -1,
+    position: "fixed",
+    left: 0,
+    top: 0,
+    width: "100%",
+    height: "100%",
+    pointerEvents: "none",
+
+    backgroundImage: "url(bg-hill.jpg)",
+    backgroundSize: "cover",
+    backgroundPosition: "center center",
   },
 });
 
@@ -103,6 +115,8 @@ const App = ({autologin, classes, ...props}) => {
             messages={translations[props.language]}
           >     
             <> 
+            <div className={classes.fixedBackground}></div>
+
             <Notifier />
 
               {/* process.env.PUBLIC_URL is defined in package.json / homepage.

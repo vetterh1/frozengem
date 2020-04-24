@@ -23,5 +23,15 @@
 				"label": ""
 			}
 		]
+	},
+	{
+		"path": "$ROOTPATH$\\src\\pages\\App.js",
+		"bookmarks": [
+			{
+				"line": 55,
+				"column": 7,
+				"label": ""
+			}
+		]
 	}
 ]

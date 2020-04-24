@@ -4,29 +4,27 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router";
 import { withStyles } from "@material-ui/core/styles";
-import { Card, CardContent, Typography } from "@material-ui/core";
+import { fade } from "@material-ui/core/styles/colorManipulator";
+import { Card, Typography } from "@material-ui/core";
 import ItemImage from "./ItemImage";
 
-const styles = theme => ({
+const styles = (theme) => ({
   card: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
+
+    // zIndex: 10,
 
     [theme.breakpoints.down("xs")]: {
       minWidth: "100%",
-      maxWidth: "100%"
+      maxWidth: "100%",
     },
     [theme.breakpoints.up("sm")]: {
       minWidth: 350,
-      maxWidth: 350
+      maxWidth: 350,
     },
 
-    marginBottom: theme.spacing(1)
-  },
-
-  cardAlwaysVisible: {
-    display: "flex",
-    flexDirection: "row"
+    marginBottom: theme.spacing(2),
   },
 
   cardLeft: {
@@ -35,12 +33,7 @@ const styles = theme => ({
     justifyContent: "center",
     width: "100px",
     alignSelf: "center",
-    textAlign: "center"
-  },
-
-  details_image_media: {
-    height: "100px",
-    width: "100px",
+    textAlign: "center",
   },
 
   cardCenter: {
@@ -49,15 +42,7 @@ const styles = theme => ({
     flexGrow: 1,
 
     padding: 0,
-    margin: `${theme.spacing(1)}px`
-  },
-
-  cardContent: {
-    display: "flex",
-    flexDirection: "column",
-    flexGrow: 1,
-    padding: 0,
-    paddingBottom: "0 !important",
+    margin: `${theme.spacing(1)}px`,
   },
 
   cardMain: {
@@ -67,26 +52,22 @@ const styles = theme => ({
     flexGrow: 1,
   },
 
-  cardIcons: {
-    display: "flex",
-    flexDirection: "column"
-  },
-
   cardRight: {
     display: "flex",
     flexDirection: "column",
     flexGrow: 0,
 
-    width: "85px",
+    // width: "85px",
     minWidth: "85px",
     maxWidth: "85px",
 
-    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+    // padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
 
     justifyContent: "center",
     textAlign: "center",
 
-    borderRadius: "3px"
+    // borderRadius: "3px",
+
   },
   details_image_code: {
     display: "flex",
@@ -95,16 +76,27 @@ const styles = theme => ({
     backgroundColor: "rgba(0, 0, 0, 0.3)",
     borderRadius: "3px",
     padding: "0px 4px",
-    color: "white"
-  },  
+    color: "white",
+  },
 });
 
+const TranlucidCard = withStyles((theme) => ({
+  root: {
+    backgroundColor: "transparent",
+    backdropFilter: "blur(8px) contrast(0.4) brightness(1.5)",
+    boxShadow: "none"
+    // backgroundColor: "rgba(255, 255, 255, 0.17)",
+  },
+}))(Card);
+
 const intItemCard = ({ item, classes, theme }) => {
-  console.debug(`[--- FC ---] Functional component: ItemCard - item=${item.id}`);
+  console.debug(
+    `[--- FC ---] Functional component: ItemCard - item=${item.id}`
+  );
 
   const [toDetails, setToDetails] = React.useState(false);
 
-  const handleClickForDetails = e => {
+  const handleClickForDetails = (e) => {
     setToDetails(true);
     e.stopPropagation();
   };
@@ -115,56 +107,54 @@ const intItemCard = ({ item, classes, theme }) => {
   }
 
   return (
-    <>
-      <Card className={classes.card}>
-        <div className={classes.cardAlwaysVisible}>
-          <div className={classes.cardLeft}>
-            <ItemImage
-              item={item}
-              style={{
-                height: "100px",
-                width: "100px",
-              }}
-            />
-          </div>
-          <div className={classes.cardCenter} onClick={handleClickForDetails}>
-            <CardContent className={classes.cardContent}>
-              <div className={classes.cardMain}>
-                <Typography variant="h6">{item.__descriptionOrCategory}</Typography>
-                <Typography color="textSecondary">
-                  {item.__sizeInText}
-                </Typography>
-              </div>
-              <Typography
-                className={classes.details_image_code}
-                color="textSecondary"
-                component="p"
-              >
-                {item ? item.code : "-"}
-              </Typography>
-            </CardContent>
-          </div>
-
-          <div
-            className={classes.cardRight}
-            style={{
-              backgroundColor:
-                theme.palette.itemCard.cardBackgroundColor[
-                  item.__cardBackgroundColor
-                ]
-            }}
-            onClick={handleClickForDetails}
-          >
-            <Typography variant="h4" component="div">
-              {item.__monthExpirationAsText}
-            </Typography>
-            <Typography component="div" gutterBottom>
-              {item.__yearExpiration}
-            </Typography>
-          </div>
+    <TranlucidCard className={classes.card}>
+      <div className={classes.cardLeft}>
+        <ItemImage
+          item={item}
+          style={{
+            height: "100px",
+            width: "100px",
+            zIndex: "auto",
+            // opacity: "0.8",
+          }}
+        />
+      </div>
+      <div className={classes.cardCenter} onClick={handleClickForDetails}>
+        <div className={classes.cardMain}>
+          <Typography variant="h6">
+            {item.__descriptionOrCategory}
+          </Typography>
+          <Typography color="textSecondary">{item.__sizeInText}</Typography>
         </div>
-      </Card>
-    </>
+        <Typography
+          className={classes.details_image_code}
+          color="textSecondary"
+          component="p"
+        >
+          {item ? item.code : "-"}
+        </Typography>
+      </div>
+
+      <div
+        className={classes.cardRight}
+        style={{
+          backgroundColor: fade(
+            theme.palette.itemCard.cardBackgroundColor[
+              item.__cardBackgroundColor
+            ],
+            0.6
+          ),
+        }}
+        onClick={handleClickForDetails}
+      >
+        <Typography variant="h4" component="div">
+          {item.__monthExpirationAsText}
+        </Typography>
+        <Typography component="div" gutterBottom>
+          {item.__yearExpiration}
+        </Typography>
+      </div>
+    </TranlucidCard>
   );
 };
 
@@ -174,7 +164,7 @@ intItemCard.propTypes = {
 
   // Props from other HOC
   classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired
+  theme: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(intItemCard);

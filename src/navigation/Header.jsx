@@ -15,14 +15,16 @@ import LoginInBar from "../navigation/LoginInBar";
 import MenuNav from "./MenuNav";
 import { NavigationStyle } from "./configNavigation";
 // import HelpIcon from "@material-ui/icons/Help";
+import { fade } from "@material-ui/core/styles/colorManipulator";
 
 const styles = theme => ({
   appBar: {
-    // borderBottom: `1px solid ${theme.palette.divider}`,
+    backgroundColor: fade( theme.palette.primary.dark, 0.4),
+    backdropFilter: "blur(8px) contrast(0.4) brightness(1.0)",
   },
   toolbar: {
     flexWrap: "wrap",
-    flexDirection: "row"
+    flexDirection: "row",
   },
   toolbarTitle: {
     flexGrow: 1,
