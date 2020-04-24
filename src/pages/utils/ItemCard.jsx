@@ -24,6 +24,8 @@ const styles = (theme) => ({
       maxWidth: 350,
     },
 
+    borderRadius: "10px",
+
     marginBottom: theme.spacing(2),
   },
 
@@ -115,7 +117,7 @@ const intItemCard = ({ item, classes, theme }) => {
             height: "100px",
             width: "100px",
             zIndex: "auto",
-            // opacity: "0.8",
+            opacity: "0.8",
           }}
         />
       </div>

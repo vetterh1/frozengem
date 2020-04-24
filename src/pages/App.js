@@ -58,7 +58,8 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "column",
     flexGrow: 1,
-    padding: theme.spacing(2),
+    paddingTop: theme.spacing(2),
+    paddingBottom: 0,
   },
   stickToBottom: {
   },
@@ -73,7 +74,7 @@ const styles = theme => ({
     height: "100%",
     pointerEvents: "none",
 
-    backgroundImage: "url(bg-hill.jpg)",
+    backgroundImage: "url(bg-mountain.jpg)",
     backgroundSize: "cover",
     backgroundPosition: "center center",
   },
