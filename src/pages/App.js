@@ -74,7 +74,7 @@ const styles = theme => ({
     height: "100%",
     pointerEvents: "none",
 
-    backgroundImage: "url(bg-mountain.jpg)",
+    backgroundImage: "url(bg-snow.jpg)",
     backgroundSize: "cover",
     backgroundPosition: "center center",
   },

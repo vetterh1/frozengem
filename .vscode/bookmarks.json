@@ -3,33 +3,8 @@
 		"path": "$ROOTPATH$\\src\\pages\\Details.jsx",
 		"bookmarks": [
 			{
-				"line": 120,
-				"column": 23,
-				"label": ""
-			},
-			{
-				"line": 463,
-				"column": 17,
-				"label": ""
-			}
-		]
-	},
-	{
-		"path": "$ROOTPATH$\\src\\pages\\utils\\PictureSelection.jsx",
-		"bookmarks": [
-			{
-				"line": 31,
-				"column": 17,
-				"label": ""
-			}
-		]
-	},
-	{
-		"path": "$ROOTPATH$\\src\\pages\\App.js",
-		"bookmarks": [
-			{
-				"line": 55,
-				"column": 7,
+				"line": 383,
+				"column": 58,
 				"label": ""
 			}
 		]
