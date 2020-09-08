@@ -84,10 +84,9 @@ const styles = (theme) => ({
 
 const TranlucidCard = withStyles((theme) => ({
   root: {
-    backgroundColor: "transparent",
-    backdropFilter: "blur(8px) contrast(0.4) brightness(1.5)",
+    backgroundColor: theme.transparency ? "transparent" : "rgba(255, 255, 255, 0.17)",
+    backdropFilter: theme.transparency ? "blur(8px) contrast(0.4) brightness(1.5)" : null,
     boxShadow: "none"
-    // backgroundColor: "rgba(255, 255, 255, 0.17)",
   },
 }))(Card);
 

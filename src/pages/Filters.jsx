@@ -14,9 +14,8 @@ import { gtmPush } from "../utils/gtmPush";
 
 const FilterTabs = withStyles(theme => ({
   root: {
-    backgroundColor: "transparent",
-    backdropFilter: "blur(8px) contrast(0.3) brightness(1.5)",
-    // backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.transparency ? "transparent" : theme.palette.primary.light,
+    backdropFilter: theme.transparency ? "blur(8px) contrast(0.3) brightness(1.5)" : null,
 
     marginTop: -theme.spacing(2),
     marginLeft: -theme.spacing(2),

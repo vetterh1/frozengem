@@ -15,20 +15,6 @@ const styles = (theme) => ({
     width: "auto",
     padding: `${theme.spacing(2)}px 0`,
   },
-
-  // fixedBackground: {
-  //   zIndex: -1,
-  //   position: "fixed",
-  //   left: 0,
-  //   top: 0,
-  //   width: "100%",
-  //   height: "100%",
-  //   pointerEvents: "none",
-
-  //   backgroundImage: "url(bg1.jpg)",
-  //   backgroundSize: "cover",
-  //   backgroundPosition: "center center",
-  // },
 });
 
 const intItemsList = ({ list, classes }) => {

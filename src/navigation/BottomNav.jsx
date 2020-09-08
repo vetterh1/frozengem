@@ -16,10 +16,8 @@ const useStyles = makeStyles(theme => ({
     position: '-webkit-sticky', /* Safari */  
     position: 'sticky', 
     bottom: 0,
-    // paddingTop: theme.spacing(1),
-    // backgroundColor: theme.palette.primary.light,
-    backgroundColor: "transparent",
-    backdropFilter: "blur(10px) contrast(0.2) brightness(1.8)",
+    backgroundColor: theme.transparency ? "transparent" : theme.palette.primary.light,
+    backdropFilter: theme.transparency ? "blur(10px) contrast(0.2) brightness(1.8)" : null,
     color: theme.palette.text.primary,
   },
 }));

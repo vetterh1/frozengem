@@ -74,9 +74,10 @@ const styles = theme => ({
     height: "100%",
     pointerEvents: "none",
 
-    backgroundImage: "url(bg-snow.jpg)",
-    backgroundSize: "cover",
-    backgroundPosition: "center center",
+    backgroundImage: theme.transparency ? "url(bg-snow.jpg)" : null,
+    backgroundSize: theme.transparency ? "cover" : null,
+    backgroundPosition: theme.transparency ? "center center" : null,
+    backgroundColor: theme.transparency ? null : theme.palette.primary.light,
   },
 });
 

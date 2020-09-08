@@ -5,6 +5,8 @@ import typography from './typography';
 // import overrides from './overrides';
 
 const theme = createMuiTheme({
+  transparency: false,
+  image: "url(bg-snow.jpg)",
   palette,
   typography,
 //   overrides,
