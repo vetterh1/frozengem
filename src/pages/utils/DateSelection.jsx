@@ -57,6 +57,7 @@ const DateSelection = ({
               views={["year", "month"]}
               value={value}
               onChange={_handleDateChange}
+              // renderInput={props => <TextField {...props} />}
               // label={help}
               minDate={sixMonthsAgo}
               autoOk
