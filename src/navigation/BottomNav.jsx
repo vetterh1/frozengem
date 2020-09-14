@@ -19,6 +19,8 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.transparency ? "transparent" : theme.palette.primary.light,
     backdropFilter: theme.transparency ? "blur(10px) contrast(0.2) brightness(1.8)" : null,
     color: theme.palette.text.primary,
+    zIndex: 10,
+    paddingTop: theme.spacing(1),
   },
 }));
 
