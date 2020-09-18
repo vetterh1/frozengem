@@ -14,6 +14,7 @@
     "clsx": "^1.1.1",
     "date-fns": "^2.16.1",
     "exif-js": "^2.3.0",
+    "formik": "^2.1.5",
     "intl": "^1.2.5",
     "notistack": "^1.0.0",
     "qs": "^6.9.4",
@@ -29,7 +30,8 @@
     "react-scripts": "3.4.3",
     "react-step-wizard": "github:vetterh1/react-step-wizard",
     "reselect": "^4.0.0",
-    "source-map-explorer": "^2.5.0"
+    "source-map-explorer": "^2.5.0",
+    "yup": "^0.29.3"
   },
   "scripts": {
     "start": "cross-env REACT_APP_VERSION=$npm_package_version react-scripts start",

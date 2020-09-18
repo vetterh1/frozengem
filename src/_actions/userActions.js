@@ -78,7 +78,7 @@ function afterLoginOrRegister(isRegister, user, dispatch, displayNotifier) {
 
   // navigate to the home route
   //   history.push('/'); --> does not work, so has to be done in the caller components
-  //   ex: <Redirect to='/' /> in loginWizard
+  //   ex: <Redirect to='/' /> in loginForm
 
   return user.name;
 }
