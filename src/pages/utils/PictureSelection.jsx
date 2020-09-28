@@ -46,7 +46,7 @@ const PictureSelection = ({
   console.debug("PictureSelection.init: itemId, className, iconOnlyButton = ", itemId, className, iconOnlyButton);
 
 
-  const resizePicture = async (img, MAX_WIDTH = 800, MAX_HEIGHT = 800) => {
+  const resizePicture = async (img, quality = 0.7, MAX_WIDTH = 800, MAX_HEIGHT = 800) => {
     var canvas = document.createElement("canvas");
 
     const exifTags = await getExifTagsAsync(img);
@@ -110,7 +110,7 @@ const PictureSelection = ({
 
     ctx.drawImage(img, 0, 0, turn ? h : w, turn ? w : h);
 
-    return await canvasToBlobAsync(canvas);
+    return await canvasToBlobAsync(canvas, quality);
   };
 
   const onInputChange = async (e) => {
@@ -133,11 +133,11 @@ const PictureSelection = ({
     // console.log(`resizePicture: 0 image width=${img.width}, height=${img.height}`);
 
     // Resize the image and get is as binary data
-    const resizedPictureBlob = await resizePicture(img);
+    const resizedPictureBlob = await resizePicture(img, 0.8);
     // console.log(`after resize: length: ${sizeInMB(resizedPictureBlob.size)}`);
 
     // Resize again for thumbnail and get is as binary data
-    const resizedThumbnailBlob = await resizePicture(img, 400, 400);
+    const resizedThumbnailBlob = await resizePicture(img, 0.5, 400, 400);
     // console.log(`thumbnail after resize: length: ${sizeInMB(resizedThumbnailBlob.size)}`);
 
     // Call the props when it's done for saving
