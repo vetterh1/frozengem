@@ -39,8 +39,8 @@ export const SelectFromList = connect(mapStateToProps, null)(intSelectFromList);
 
 
 
-export const WizPageTitle = ({message}) => (
-  <div className={"flex-normal-height flex-direction-column"}>
+export const WizPageTitle = ({message, classes}) => (
+  <div className={`flex-normal-height flex-direction-column ${classes}`}>
     <Typography variant="h4">
       {message}
     </Typography>

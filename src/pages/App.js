@@ -25,7 +25,7 @@ import ChooseHome from './ChooseHome';
 import LoadingUserInfo from './LoadingUserInfo';
 import AddWizard from './addWizard/AddWizard';
 import RegisterWizard from './registerWizard/RegisterWizard';
-import LoginWizard from './loginWizard/LoginWizard';
+import LoginForm from './LoginForm';
 import { NavigationStyle } from '../navigation/configNavigation'
 import Typography from './utils/Typography';
 import AddFromBarcode from './AddFromBarcode';
@@ -162,7 +162,7 @@ const App = ({autologin, classes, ...props}) => {
                       />                      
                       <Route
                         exact path="/login"
-                        component={LoginWizard}
+                        component={LoginForm}
                       />
                       <Route
                         exact path="/logout"
