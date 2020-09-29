@@ -112,6 +112,7 @@ const intItemCard = ({ item, classes, theme }) => {
       <div className={classes.cardLeft}>
         <ItemImage
           item={item}
+          forceThumbnail={true}
           style={{
             height: "100px",
             width: "100px",

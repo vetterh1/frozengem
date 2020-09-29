@@ -21,7 +21,7 @@ const useStyles = makeStyles({
   }
 });
 
-const ItemImage = ({ item, style = null }) => {
+const ItemImage = ({ item, forceThumbnail = false, style = null }) => {
   if (!style)
     style = {
       height: "150px",
@@ -52,7 +52,8 @@ const ItemImage = ({ item, style = null }) => {
     // window.scrollTo(0, 0);
     setExpanded(prev => !prev);
   };
-  const thumbnailsOrPictures = expanded ? item.pictureName : item.thumbnailName;
+  // const thumbnailsOrPictures = expanded ? item.pictureName : item.thumbnailName;
+  const thumbnailsOrPictures = expanded || !forceThumbnail ? item.pictureName : item.thumbnailName;
 
   if (expanded) {
     style = {
