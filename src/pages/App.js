@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */ 
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense, lazy } from 'react';
 // import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Redirect } from 'react-router'
@@ -12,31 +12,51 @@ import translations from '../i18n/locales';
 import withMyTheme from '../theme/withMyTheme';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Logout from '../navigation/Logout';
-import About from './About';
-import Header from '../navigation/Header';
-import Footer from '../navigation/Footer';
-import BottomNav from '../navigation/BottomNav';
-import FloatingNav from '../navigation/FloatingNav';
-import MainPageContent from './MainPageContent';
-import Dashboard from './Dashboard';
-import Details from './Details';
-import ChooseHome from './ChooseHome';
-import LoadingUserInfo from './LoadingUserInfo';
-import AddWizard from './addWizard/AddWizard';
-import RegisterWizard from './registerWizard/RegisterWizard';
-import LoginForm from './LoginForm';
 import { NavigationStyle } from '../navigation/configNavigation'
-import Typography from './utils/Typography';
-import AddFromBarcode from './AddFromBarcode';
-
-
-
 // Date util library (moment like) & date picker:
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
+// ------------ Navigation -----------
 
+const Header = lazy(() => import('../navigation/Header'));
+// import Header from '../navigation/Header';
+const Footer = lazy(() => import('../navigation/Footer'));
+// import Footer from '../navigation/Footer';
+const BottomNav = lazy(() => import('../navigation/BottomNav'));
+// import BottomNav from '../navigation/BottomNav';
+const Logout = lazy(() => import('../navigation/Logout'));
+// import Logout from '../navigation/Logout';
+const FloatingNav = lazy(() => import('../navigation/FloatingNav'));
+// import FloatingNav from '../navigation/FloatingNav';
+
+// ------------ Pages -----------
+
+const Details = lazy(() => import('./Details'));
+// import Details from './Details';
+const ChooseHome = lazy(() => import('./ChooseHome'));
+// import ChooseHome from './ChooseHome';
+const LoadingUserInfo = lazy(() => import('./LoadingUserInfo'));
+// import LoadingUserInfo from './LoadingUserInfo';
+
+const AddWizard = lazy(() => import('./addWizard/AddWizard'));
+// import AddWizard from './addWizard/AddWizard';
+const RegisterWizard = lazy(() => import('./registerWizard/RegisterWizard'));
+// import RegisterWizard from './registerWizard/RegisterWizard';
+const LoginWizard = lazy(() => import('./loginWizard/LoginWizard'));
+// import LoginWizard from './loginWizard/LoginWizard';
+const Typography = lazy(() => import('./utils/Typography'));
+// import Typography from './utils/Typography';
+const AddFromBarcode = lazy(() => import('./AddFromBarcode'));
+// import AddFromBarcode from './AddFromBarcode';
+
+
+const About = lazy(() => import('./About'));
+// import About from './About';
+const MainPageContent = lazy(() => import('./MainPageContent'));
+// import MainPageContent from './MainPageContent';
+const Dashboard = lazy(() => import('./Dashboard'));
+// import Dashboard from './Dashboard';
 
 
 //
@@ -125,6 +145,7 @@ const App = ({autologin, classes, ...props}) => {
                   here, it's either "" (dev) or "." (prod)
                */}
               <Router basename={process.env.PUBLIC_URL}>
+              <Suspense fallback={<div>Loading...</div>}>
 
                 <div className={classes.divStyle}>
 
@@ -212,6 +233,7 @@ const App = ({autologin, classes, ...props}) => {
                     <FloatingNav /> }                              
 
                 </div>
+              </Suspense>
               </Router>
             </>
           </IntlProvider>              
