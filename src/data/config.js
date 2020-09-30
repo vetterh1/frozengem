@@ -6,9 +6,12 @@ const locationWithoutPort =
   + "//"
   + window.location.hostname;
 
+console.log("NODE_ENV=", process.env.NODE_ENV);
+console.log("REACT_APP_FORCE_NODE_ENV=", process.env.REACT_APP_FORCE_NODE_ENV);
+
 const config = {
   all: {
-    env: process.env.NODE_ENV || 'development',
+    env: process.env.REACT_APP_FORCE_NODE_ENV || process.env.NODE_ENV || 'development',
     masterKey: 'S9EqDPByR2z5mnCMaRFk7b552RWaFcnn',
     version: process.env.REACT_APP_VERSION,
     details_use_clickable_tiles: true,

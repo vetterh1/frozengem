@@ -17,46 +17,61 @@ import { NavigationStyle } from '../navigation/configNavigation'
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
+
+
+
+
 // ------------ Navigation -----------
 
-const Header = lazy(() => import('../navigation/Header'));
-// import Header from '../navigation/Header';
-const Footer = lazy(() => import('../navigation/Footer'));
-// import Footer from '../navigation/Footer';
-const BottomNav = lazy(() => import('../navigation/BottomNav'));
-// import BottomNav from '../navigation/BottomNav';
-const Logout = lazy(() => import('../navigation/Logout'));
-// import Logout from '../navigation/Logout';
-const FloatingNav = lazy(() => import('../navigation/FloatingNav'));
-// import FloatingNav from '../navigation/FloatingNav';
+// const Header = lazy(() => import('../navigation/Header'));
+import Header from '../navigation/Header';
+// const Footer = lazy(() => import('../navigation/Footer'));
+import Footer from '../navigation/Footer';
+// const BottomNav = lazy(() => import('../navigation/BottomNav'));
+import BottomNav from '../navigation/BottomNav';
+// const Logout = lazy(() => import('../navigation/Logout'));
+import Logout from '../navigation/Logout';
+// const FloatingNav = lazy(() => import('../navigation/FloatingNav'));
+import FloatingNav from '../navigation/FloatingNav';
 
-// ------------ Pages -----------
 
-const Details = lazy(() => import('./Details'));
-// import Details from './Details';
-const ChooseHome = lazy(() => import('./ChooseHome'));
-// import ChooseHome from './ChooseHome';
-const LoadingUserInfo = lazy(() => import('./LoadingUserInfo'));
-// import LoadingUserInfo from './LoadingUserInfo';
+// ------------ Main Pages -----------
 
+// const Details = lazy(() => import('./Details'));
+import Details from './Details';
+// const LoadingUserInfo = lazy(() => import('./LoadingUserInfo'));
+import LoadingUserInfo from './LoadingUserInfo';
+// const MainPageContent = lazy(() => import('./MainPageContent'));
+import MainPageContent from './MainPageContent';
+
+
+// ------------ Main Pages - Lazy loading -----------
+
+const Dashboard = lazy(() => import('./Dashboard'));
+// import Dashboard from './Dashboard';
 const AddWizard = lazy(() => import('./addWizard/AddWizard'));
 // import AddWizard from './addWizard/AddWizard';
-const RegisterWizard = lazy(() => import('./registerWizard/RegisterWizard'));
-// import RegisterWizard from './registerWizard/RegisterWizard';
-const LoginForm = lazy(() => import('./LoginForm'));
-// import LoginForm from './LoginForm';
-const Typography = lazy(() => import('./utils/Typography'));
-// import Typography from './utils/Typography';
 const AddFromBarcode = lazy(() => import('./AddFromBarcode'));
 // import AddFromBarcode from './AddFromBarcode';
 
 
+// ------------ Login / Register Pages - Lazy loading -----------
+
+const LoginForm = lazy(() => import('./LoginForm'));
+// import LoginForm from './LoginForm';
+const ChooseHome = lazy(() => import('./ChooseHome'));
+// import ChooseHome from './ChooseHome';
+const RegisterWizard = lazy(() => import('./registerWizard/RegisterWizard'));
+// import RegisterWizard from './registerWizard/RegisterWizard';
+
+
+// ------------ Misc Pages - Lazy loading -----------
+
+const Typography = lazy(() => import('./utils/Typography'));
+// import Typography from './utils/Typography';
 const About = lazy(() => import('./About'));
 // import About from './About';
-const MainPageContent = lazy(() => import('./MainPageContent'));
-// import MainPageContent from './MainPageContent';
-const Dashboard = lazy(() => import('./Dashboard'));
-// import Dashboard from './Dashboard';
+
 
 
 //
