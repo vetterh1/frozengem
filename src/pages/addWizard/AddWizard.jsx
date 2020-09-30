@@ -86,9 +86,9 @@ const AddWizard = ({
 
   if (returnHome) {
     console.debug(
-      "[>>> Add #expirationDate ------>>>----- / >>>] Reason: back from Details not allowed!"
+      "[>>> Add #expirationDate ------>>>----- /dashboard >>>] Reason: back from Details not allowed!"
     );
-    return <Redirect to="/" />;
+    return <Redirect to="/dashboard" />;
   }
 
   const _handleChangeWithServerSave = async updates => {

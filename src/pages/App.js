@@ -172,7 +172,11 @@ const App = ({autologin, classes, ...props}) => {
                   <Container maxWidth="md"  className={classes.containerStyle}>
 
                     <Switch>
-                    <Route
+                      <Route
+                        exact path="/dashboard"
+                        component={Dashboard}
+                      />
+                      <Route
                         exact path="/details/:id"
                         component={Details}
                       />
@@ -229,7 +233,9 @@ const App = ({autologin, classes, ...props}) => {
                             if(!props.name) return <LoadingUserInfo /> ;
                             
                             // Authenticated users see their dashboard:
-                            return <Dashboard />;
+                            // return <Dashboard />;
+                            return <Redirect to='/dashboard'/>
+
 
                           } else {
                             // Non logged users see generic page:

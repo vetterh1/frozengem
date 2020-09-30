@@ -50,7 +50,7 @@ export const WizPageTitle = ({message, classes}) => (
 
 
 export const CancelButton = () => (
-  <Button color="primary" component={Link} to="/">
+  <Button color="primary" component={Link} to="/dashboard">
     <FormattedMessage id="button.cancel" />
   </Button>
 );

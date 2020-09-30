@@ -74,10 +74,10 @@ class LoginWizard extends React.Component {
 
   render() {
 
-    // Once we are logged-in, let's redirect to main page!
+    // Once we are logged-in, let's redirect to the dashboard!
     if (this.props.isAuthenticated) { 
-      console.debug('[>>> LoginWizard ------>>>----- / >>>] Reason: authenticated');
-      return <Redirect to='/' />
+      console.debug('[>>> LoginWizard ------>>>----- /dashboard >>>] Reason: authenticated');
+      return <Redirect to='/dashboard' />
     };
 
     const { classes } = this.props;

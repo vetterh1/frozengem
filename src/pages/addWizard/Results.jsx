@@ -89,7 +89,7 @@ const Results = ({item, onResetState, handleAddPicture, isActive, firstStep, int
         <Button variant="contained" color="secondary" onClick={_handleAddNew} className={classes.button}>
           <FormattedMessage id="button.addnew" />
         </Button> 
-        <Button variant="contained" color="primary" component={Link} to="/" className={classes.button}>
+        <Button variant="contained" color="primary" component={Link} to="/dashboard" className={classes.button}>
           <FormattedMessage id="button.backhome" />
         </Button>   
       </div>

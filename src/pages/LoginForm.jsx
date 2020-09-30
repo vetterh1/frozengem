@@ -41,16 +41,15 @@ const LoginForm = props => {
     values,
     touched,
     errors,
-    isSubmitting,
     handleChange,
     handleBlur,
     handleSubmit,
   } = props;
 
-  // Once we are logged-in, let's redirect to main page!
+  // Once we are logged-in, let's redirect to the dashboard!
   if (isAuthenticated) { 
-    console.debug('[>>> LoginWizard ------>>>----- / >>>] Reason: authenticated');
-    return <Redirect to='/' />
+    console.debug('[>>> LoginWizard ------>>>----- /dashboard >>>] Reason: authenticated');
+    return <Redirect to='/dashboard' />
   };
     
   return (

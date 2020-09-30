@@ -82,8 +82,8 @@ class RegisterWizard extends React.Component {
         console.debug('[>>> RegisterWizard ------>>>----- /choosehome >>>] Reason: choose home');
         return <Redirect to='/choosehome' /> 
       } else {
-        console.debug('[>>> RegisterWizard ------>>>----- / >>>] Reason: already logged in');
-        return <Redirect to='/' /> 
+        console.debug('[>>> RegisterWizard ------>>>----- /dashboard >>>] Reason: already logged in');
+        return <Redirect to='/dashboard' /> 
       }
     };
 

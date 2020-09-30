@@ -138,9 +138,7 @@ const Details = ({
   const [displayProgress, setDisplayProgress] = React.useState(false);
 
   if (!loggedIn || !characteristics) {
-    console.debug(
-      "[>>> Details ------>>>----- / >>>] Reason: not logged in or empty characteristics"
-    );
+    console.debug("[>>> Details ------>>>----- / >>>] Reason: not logged in or empty characteristics");
     return <Redirect to="/" />;
   }
   const createNewItem = item ? false : true;
@@ -429,7 +427,7 @@ const Details = ({
         <Button
           color="primary"
           component={Link}
-          to="/"
+          to="/dashboard"
           className={classes.details_image_close}
         >
           &lt; &nbsp; <FormattedMessage id="button.backtolist" />

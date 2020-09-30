@@ -40,7 +40,7 @@ const BottomNav = ({location, intl}) => {
 
   return (
     <BottomNavigation value={value} onChange={handleChange} className={classes.root} showLabels>
-      <BottomNavigationAction disabled={location.pathname === '/'} label={intl.formatMessage({id: "action.list"})} value="/" icon={<ViewList />} component={Link} to="/" className={classes.root} />
+      <BottomNavigationAction disabled={location.pathname === '/dashboard'} label={intl.formatMessage({id: "action.list"})} value="/dashboard" icon={<ViewList />} component={Link} to="/dashboard" className={classes.root} />
       <BottomNavigationAction disabled={location.pathname === '/add'} label={intl.formatMessage({id: "action.add"})} value="/add" icon={<SaveAlt />} component={Link} to="/add" className={classes.root} />
       <BottomNavigationAction disabled={location.pathname === '/addFromBarcode'} label={intl.formatMessage({id: "action.addFromBarcode"})} value="/addFromBarcode" icon={<CropFreeIcon />} component={Link} to="/addFromBarcode" className={classes.root} />
       <BottomNavigationAction disabled={location.pathname === '/search'} label={intl.formatMessage({id: "action.search"})} value="/search" icon={<SearchIcon />} component={Link} to="/search" className={classes.root} />
