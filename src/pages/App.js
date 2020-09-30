@@ -43,12 +43,16 @@ import Details from './Details';
 import LoadingUserInfo from './LoadingUserInfo';
 // const MainPageContent = lazy(() => import('./MainPageContent'));
 import MainPageContent from './MainPageContent';
+// const Dashboard = lazy(() => import('./Dashboard'));
+import Dashboard from './Dashboard';
+
+
+
+import Typography from './utils/Typography';
 
 
 // ------------ Main Pages - Lazy loading -----------
 
-const Dashboard = lazy(() => import('./Dashboard'));
-// import Dashboard from './Dashboard';
 const AddWizard = lazy(() => import('./addWizard/AddWizard'));
 // import AddWizard from './addWizard/AddWizard';
 const AddFromBarcode = lazy(() => import('./AddFromBarcode'));
@@ -67,7 +71,7 @@ const RegisterWizard = lazy(() => import('./registerWizard/RegisterWizard'));
 
 // ------------ Misc Pages - Lazy loading -----------
 
-const Typography = lazy(() => import('./utils/Typography'));
+// const Typography = lazy(() => import('./utils/Typography'));
 // import Typography from './utils/Typography';
 const About = lazy(() => import('./About'));
 // import About from './About';
