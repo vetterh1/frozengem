@@ -43,8 +43,8 @@ const AddWizard = lazy(() => import('./addWizard/AddWizard'));
 // import AddWizard from './addWizard/AddWizard';
 const RegisterWizard = lazy(() => import('./registerWizard/RegisterWizard'));
 // import RegisterWizard from './registerWizard/RegisterWizard';
-const LoginWizard = lazy(() => import('./loginWizard/LoginWizard'));
-// import LoginWizard from './loginWizard/LoginWizard';
+const LoginForm = lazy(() => import('./LoginForm'));
+// import LoginForm from './LoginForm';
 const Typography = lazy(() => import('./utils/Typography'));
 // import Typography from './utils/Typography';
 const AddFromBarcode = lazy(() => import('./AddFromBarcode'));
@@ -183,7 +183,7 @@ const App = ({autologin, classes, ...props}) => {
                       />                      
                       <Route
                         exact path="/login"
-                        component={LoginWizard}
+                        component={LoginForm}
                       />
                       <Route
                         exact path="/logout"

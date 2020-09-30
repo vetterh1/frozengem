@@ -10,6 +10,15 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import { FormattedMessage } from "react-intl";
 import Button from "@material-ui/core/Button";
+import { withStyles } from "@material-ui/core/styles";
+
+
+const DialogContentWithoutPadding = withStyles(() => ({
+  root: {
+    paddingLeft: "0px",
+    paddingRight: "0px",
+  },
+}))(DialogContent);
 
 const DateSelection = ({
   id,
@@ -34,6 +43,11 @@ const DateSelection = ({
     await handleOk({ [name]: value });
   };
 
+  
+  const _handleMonthThenOk = async dateAsObject => {
+    await handleOk({ [name]: dateAsObject.getTime() });
+  };
+
   const sixMonthsAgo = new Date();
   sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6, 1);
 
@@ -45,27 +59,28 @@ const DateSelection = ({
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
     >
-      <DialogContent>
+      <DialogContentWithoutPadding>
         <div className={"flex-normal-height flex-direction-column"}>
-          <WizPageTitle message={title} />
+          <WizPageTitle message={title} classes="margin-left" />
           <FormControl
             className={
-              "flex-normal-height flex-direction-column margin-top margin-down"
+              "flex-normal-height flex-direction-column big-margin-top margin-down"
             }
           >
             <DatePicker
               views={["year", "month"]}
               value={value}
               onChange={_handleDateChange}
+              onMonthChange={_handleMonthThenOk}
               // renderInput={props => <TextField {...props} />}
               // label={help}
               minDate={sixMonthsAgo}
-              autoOk
-              clearable
+              variant="static"
+              // autoOk
             />
           </FormControl>
         </div>
-      </DialogContent>
+      </DialogContentWithoutPadding>
       <DialogActions>
         <Button onClick={handleClose} color="primary">
           <FormattedMessage id="button.cancel" />
