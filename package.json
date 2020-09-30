@@ -1,6 +1,6 @@
 {
   "name": "frozen-gem",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "private": true,
   "homepage": ".",
   "homepage-guithub": "https://vetterh1.github.io/frozengem/",
@@ -36,7 +36,9 @@
   "scripts": {
     "start": "cross-env REACT_APP_VERSION=$npm_package_version react-scripts start",
     "build": "cross-env REACT_APP_VERSION=$npm_package_version react-scripts build",
-    "startprod": "cross-env REACT_APP_VERSION=$npm_package_version /usr/local/bin/http-server ./build -p 8060 --cors --proxy http://localhost:8060?",
+    "buildlocal": "cross-env REACT_APP_FORCE_NODE_ENV=development REACT_APP_VERSION=$npm_package_version react-scripts build",
+    "prodlocal": "/usr/local/bin/http-server ./build -p 3000 --cors  --gzip -c31536000",
+    "startprod": "/usr/local/bin/http-server ./build -p 8060 --cors  --gzip -c31536000",
     "startprod:old": "serve -s build",
     "test": "cross-env CI=true react-scripts test",
     "test:coverage": "npm test -- --coverage",
