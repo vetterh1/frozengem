@@ -7,11 +7,13 @@ dbBackupFolder=~/frozengem_db_backup
 echo " "
 echo "*******************************************************************"
 echo " "
-echo "----------------------------------"
-echo "1 - Stop & delete server (in pm2)"
-echo " "
-pm2 stop foFrozen
-pm2 delete foFrozen
+# OLD - when FO queries where served by http-server or nodejs
+# NEW - Served directly by nginx (need to restart nginx at the end of this script)
+# echo "----------------------------------"
+# echo "1 - Stop & delete server (in pm2)"
+# echo " "
+# pm2 stop foFrozen
+# pm2 delete foFrozen
 
 echo " "
 echo "----------------------------------"
@@ -48,12 +50,14 @@ npm run build
 
 echo " "
 echo "----------------------------------"
-echo "6 - Restart the server by adding it to pm2"
+echo "6 - Restart nginx (webserver for FrozenGem FO)"
 echo " "
-# don't use proxy anymore to redirect all to / as it does not work with details page
-# pm2 start /usr/local/bin/http-server --name foFrozen  -- ./build -p 8060 --cors  --proxy http://localhost:8060? --gzip -c31536000
-# instead, added a 404 page with redirect
-pm2 start /usr/local/bin/http-server --name foFrozen  -- ./build -p 8060 --cors  --gzip -c31536000
+systemctl restart nginx
+
+# OLD - when FO queries where served by http-server or nodejs
+# echo "6 - Restart the server by adding it to pm2"
+# echo " "
+# pm2 start /usr/local/bin/http-server --name foFrozen  -- ./build -p 8060 --cors  --gzip -c31536000
 
 echo " "
 echo "----------------------------------"

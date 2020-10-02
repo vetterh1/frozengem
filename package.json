@@ -2,7 +2,7 @@
   "name": "frozen-gem",
   "version": "0.8.0",
   "private": true,
-  "homepage": ".",
+  "homepage": "",
   "homepage-guithub": "https://vetterh1.github.io/frozengem/",
   "dependencies": {
     "@date-io/date-fns": "^1.3.13",
