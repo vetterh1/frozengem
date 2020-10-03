@@ -104,11 +104,9 @@ const ButtonToModal = ({
   //   <Edit style={{ fontSize: "14px" }} />
   // );
 
-  const buttonClassName = btnClassName
-    ? btnClassName
-    : btnLabelId && !isFAB
-    ? classes.buttonWithText
-    : classes.buttonWithoutText;
+  const buttonClassName = 
+    btnClassName ? btnClassName : btnLabelId && 
+    !isFAB ? classes.buttonWithText : classes.buttonWithoutText;
   const iconClassName =
     btnLabelId && !isFAB
       ? classes.leftIconWithText

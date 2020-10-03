@@ -42,7 +42,8 @@ const BorderLinearProgress = withStyles((theme) => ({
 
 const styles = (theme) => ({
   card: {
-    backgroundColor: theme.transparency ? "transparent" : fade(theme.palette.primary.light, 0.4),
+    backgroundColor: theme.transparency ? "transparent" : theme.palette.detailsCard.backgroundColor,
+    // backgroundColor: theme.transparency ? "transparent" : fade(theme.palette.primary.light, 0.4),
     backdropFilter: theme.transparency ? "blur(10px) contrast(0.2) brightness(1.8)" : null,
     borderRadius: "10px",
   },

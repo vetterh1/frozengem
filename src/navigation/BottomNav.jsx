@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
     position: '-webkit-sticky', /* Safari */  
     position: 'sticky', 
     bottom: 0,
-    backgroundColor: theme.transparency ? "transparent" : theme.palette.primary.light,
+    backgroundColor: theme.transparency ? "transparent" : theme.palette.bottomNavigation.backgroundColor,
     backdropFilter: theme.transparency ? "blur(10px) contrast(0.2) brightness(1.8)" : null,
     color: theme.palette.text.primary,
     zIndex: 10,

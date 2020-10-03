@@ -19,7 +19,9 @@ import { fade } from "@material-ui/core/styles/colorManipulator";
 
 const styles = theme => ({
   appBar: {
-    backgroundColor: fade( theme.palette.primary.dark, 0.8),
+    color: theme.palette.header.color,
+    backgroundColor: theme.palette.header.backgroundColor,
+    // backgroundColor: fade( theme.palette.primary.dark, 0.8),
     backdropFilter: theme.transparency ? "blur(8px) contrast(0.4) brightness(1.0)" : null,
   },
   toolbar: {
