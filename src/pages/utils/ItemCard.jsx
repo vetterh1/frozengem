@@ -4,41 +4,58 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router";
 import { withStyles } from "@material-ui/core/styles";
-import { fade } from "@material-ui/core/styles/colorManipulator";
+import { injectIntl } from "react-intl";
+// import { fade } from "@material-ui/core/styles/colorManipulator";
 import { Card, Typography } from "@material-ui/core";
 import ItemImage from "./ItemImage";
+import theme from "../../theme";
 
-const styles = (theme) => ({
+
+const sizeThumbnails = `${75+theme.density*25}px`;
+
+const stylesItemCard = (theme) => ({
   card: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
 
     // zIndex: 10,
 
     [theme.breakpoints.down("xs")]: {
-      minWidth: "100%",
-      maxWidth: "100%",
+      minWidth: sizeThumbnails,
+      maxWidth: sizeThumbnails,
     },
     [theme.breakpoints.up("sm")]: {
-      minWidth: 350,
-      maxWidth: 350,
+      minWidth: sizeThumbnails+150,
+      maxWidth: sizeThumbnails+150,
     },
 
     borderRadius: "10px",
 
     marginBottom: theme.spacing(2),
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+
+
+    backgroundColor: props => theme.transparency ? "transparent" : (props.index%2 === 0 ? theme.palette.itemCard.backgroundColor : theme.palette.itemCard.backgroundColorAlternate),
+    backdropFilter: theme.transparency ? "blur(8px) contrast(0.4) brightness(1.5)" : null,
+    boxShadow: "none",
   },
 
-  cardLeft: {
+  cardPicture: {
     display: "flex",
     flexGrow: 0,
     justifyContent: "center",
-    width: "100px",
+    [theme.breakpoints.down("xs")]: {
+      width: sizeThumbnails,
+    },
+    [theme.breakpoints.up("sm")]: {
+      width: sizeThumbnails+150,
+    },
     alignSelf: "center",
     textAlign: "center",
   },
 
-  cardCenter: {
+  cardText: {
     display: "flex",
     flexDirection: "column",
     flexGrow: 1,
@@ -82,17 +99,9 @@ const styles = (theme) => ({
   },
 });
 
-const TranlucidCard = withStyles((theme) => ({
-  root: {
-    backgroundColor: theme.transparency ? "transparent" : theme.palette.itemCard.backgroundColor,
-    backdropFilter: theme.transparency ? "blur(8px) contrast(0.4) brightness(1.5)" : null,
-    boxShadow: "none"
-  },
-}))(Card);
-
-const intItemCard = ({ item, classes, theme }) => {
+const intItemCard = ({ item, classes, intl, index, theme}) => {
   console.debug(
-    `[--- FC ---] Functional component: ItemCard - item=${item.id}`
+    `[--- FC ---] Functional component: ItemCard - item=${item.id}`, index
   );
 
   const [toDetails, setToDetails] = React.useState(false);
@@ -108,25 +117,24 @@ const intItemCard = ({ item, classes, theme }) => {
   }
 
   return (
-    <TranlucidCard className={classes.card}>
-      <div className={classes.cardLeft}>
+    <Card className={classes.card} index={index}>
+      <div className={classes.cardPicture}>
         <ItemImage
           item={item}
           forceThumbnail={true}
           style={{
-            height: "100px",
-            width: "100px",
+            height: sizeThumbnails,
+            width: sizeThumbnails,
             zIndex: "auto",
             opacity: "0.8",
           }}
         />
       </div>
-      <div className={classes.cardCenter} onClick={handleClickForDetails}>
+      <div className={classes.cardText} onClick={handleClickForDetails}>
         <div className={classes.cardMain}>
-          <Typography variant="h6">
-            {item.__descriptionOrCategory}
-          </Typography>
+          <Typography variant="h6">{item.__descriptionOrCategory}</Typography>
           <Typography color="textSecondary">{item.__sizeInText}</Typography>
+          {intl.formatMessage(item.__expirationText)}
         </div>
         <Typography
           className={classes.details_image_code}
@@ -137,7 +145,7 @@ const intItemCard = ({ item, classes, theme }) => {
         </Typography>
       </div>
 
-      <div
+      {/* <div
         className={classes.cardRight}
         style={{
           backgroundColor: fade(
@@ -155,8 +163,8 @@ const intItemCard = ({ item, classes, theme }) => {
         <Typography component="div" gutterBottom>
           {item.__yearExpiration}
         </Typography>
-      </div>
-    </TranlucidCard>
+      </div> */}
+    </Card>
   );
 };
 
@@ -169,4 +177,4 @@ intItemCard.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(intItemCard);
+export default injectIntl(withStyles(stylesItemCard, { withTheme: true })(intItemCard));

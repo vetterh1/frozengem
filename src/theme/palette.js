@@ -28,7 +28,8 @@ const chosenColors =  {
   backgroundColor: {
     superlight: grey[50],
     light: grey[100],
-    main: grey[200],
+    medium: grey[200],
+    main: grey[300],
     dark: grey[500]
   },
 }
@@ -65,6 +66,7 @@ const palette =  {
   },
   itemCard: {
     backgroundColor: chosenColors.backgroundColor.main,
+    backgroundColorAlternate: chosenColors.backgroundColor.medium,
     avatarBackgroundColor: {
       expired: red["A700"],
       next_30_days: red[500],

@@ -27,7 +27,7 @@ import ScrollToTop from "./utils/ScrollToTop";
 import ItemImage from "./utils/ItemImage";
 import Joyride, { STATUS } from "react-joyride";
 // import { it } from "date-fns/esm/locale";
-import { fade } from "@material-ui/core/styles/colorManipulator";
+// import { fade } from "@material-ui/core/styles/colorManipulator";
 
 const BorderLinearProgress = withStyles((theme) => ({
   root: {

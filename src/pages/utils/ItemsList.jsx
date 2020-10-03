@@ -33,8 +33,8 @@ const intItemsList = ({ list, classes }) => {
     <>
       {/* <div className={classes.fixedBackground}></div> */}
       <div className={classes.layout}>
-        {list.map((item) => (
-          <ItemCard key={item.id} item={item} />
+        {list.map((item, index) => (
+          <ItemCard key={item.id} item={item} index={index} />
         ))}
       </div>
     </>
