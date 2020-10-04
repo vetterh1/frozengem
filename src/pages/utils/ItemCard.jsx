@@ -11,7 +11,8 @@ import ItemImage from "./ItemImage";
 import theme from "../../theme";
 
 
-const sizeThumbnails = `${75+theme.density*25}px`;
+
+
 
 const stylesItemCard = (theme) => ({
   card: {
@@ -20,14 +21,14 @@ const stylesItemCard = (theme) => ({
 
     // zIndex: 10,
 
-    [theme.breakpoints.down("xs")]: {
-      minWidth: sizeThumbnails,
-      maxWidth: sizeThumbnails,
-    },
-    [theme.breakpoints.up("sm")]: {
-      minWidth: sizeThumbnails+150,
-      maxWidth: sizeThumbnails+150,
-    },
+    // [theme.breakpoints.down("xs")]: {
+    //   minWidth: `${sizeThumbnails}px`,
+    //   maxWidth: `${sizeThumbnails}px`,
+    // },
+    // [theme.breakpoints.up("sm")]: {
+    //   minWidth: `${sizeThumbnails+(theme.density-1)*100}px`,
+    //   maxWidth: `${sizeThumbnails+(theme.density-1)*100}px`,
+    // },
 
     borderRadius: "10px",
 
@@ -45,12 +46,12 @@ const stylesItemCard = (theme) => ({
     display: "flex",
     flexGrow: 0,
     justifyContent: "center",
-    [theme.breakpoints.down("xs")]: {
-      width: sizeThumbnails,
-    },
-    [theme.breakpoints.up("sm")]: {
-      width: sizeThumbnails+150,
-    },
+    // [theme.breakpoints.down("xs")]: {
+    //   width: `${sizeThumbnails}px`,
+    // },
+    // [theme.breakpoints.up("sm")]: {
+    //   width: `${sizeThumbnails+(theme.density-1)*100}px`,
+    // },
     alignSelf: "center",
     textAlign: "center",
   },
@@ -106,6 +107,10 @@ const intItemCard = ({ item, classes, intl, index, theme}) => {
 
   const [toDetails, setToDetails] = React.useState(false);
 
+
+  const sizeThumbnails = 225+theme.density*25;
+
+
   const handleClickForDetails = (e) => {
     setToDetails(true);
     e.stopPropagation();
@@ -123,8 +128,8 @@ const intItemCard = ({ item, classes, intl, index, theme}) => {
           item={item}
           forceThumbnail={true}
           style={{
-            height: sizeThumbnails,
-            width: sizeThumbnails,
+            height: `${sizeThumbnails+(theme.density-1)*100}px`,
+            width: `${sizeThumbnails+(theme.density-1)*100}px`,
             zIndex: "auto",
             opacity: "0.8",
           }}
