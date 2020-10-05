@@ -55,6 +55,9 @@ function Footer(props) {
     <footer className={classes.footer}>
       <Container maxWidth="md" className={classes.footerContainer}>
         {onMainPage && <WhyFrozenGem />}
+        {/* <!-- CookiePro Cookies Settings button start --> */}
+        <button id="ot-sdk-btn" class="ot-sdk-show-settings">Cookie Settings</button>
+        {/* <!-- CookiePro Cookies Settings button end --> */}
         <MadeWithLove />
         {/* <!-- CookiePro Cookies List start --> */}
         <div id="ot-sdk-cookie-policy"></div>
