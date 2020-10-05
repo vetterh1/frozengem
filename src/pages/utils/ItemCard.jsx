@@ -8,7 +8,8 @@ import { injectIntl } from "react-intl";
 // import { fade } from "@material-ui/core/styles/colorManipulator";
 import { Card, Typography } from "@material-ui/core";
 import ItemImage from "./ItemImage";
-import theme from "../../theme";
+// import theme from "../../theme";
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 
 
@@ -18,24 +19,13 @@ const stylesItemCard = (theme) => ({
   card: {
     display: "flex",
     flexDirection: "column",
-
     // zIndex: 10,
-
-    // [theme.breakpoints.down("xs")]: {
-    //   minWidth: `${sizeThumbnails}px`,
-    //   maxWidth: `${sizeThumbnails}px`,
-    // },
-    // [theme.breakpoints.up("sm")]: {
-    //   minWidth: `${sizeThumbnails+(theme.density-1)*100}px`,
-    //   maxWidth: `${sizeThumbnails+(theme.density-1)*100}px`,
-    // },
 
     borderRadius: "10px",
 
     marginBottom: theme.spacing(2),
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2),
-
+    // marginLeft: theme.spacing(1),
+    // marginRight: theme.spacing(1),
 
     backgroundColor: props => theme.transparency ? "transparent" : (props.index%2 === 0 ? theme.palette.itemCard.backgroundColor : theme.palette.itemCard.backgroundColorAlternate),
     backdropFilter: theme.transparency ? "blur(8px) contrast(0.4) brightness(1.5)" : null,
@@ -46,12 +36,6 @@ const stylesItemCard = (theme) => ({
     display: "flex",
     flexGrow: 0,
     justifyContent: "center",
-    // [theme.breakpoints.down("xs")]: {
-    //   width: `${sizeThumbnails}px`,
-    // },
-    // [theme.breakpoints.up("sm")]: {
-    //   width: `${sizeThumbnails+(theme.density-1)*100}px`,
-    // },
     alignSelf: "center",
     textAlign: "center",
   },
@@ -106,10 +90,32 @@ const intItemCard = ({ item, classes, intl, index, theme}) => {
   );
 
   const [toDetails, setToDetails] = React.useState(false);
+  const regularMobilePortrait = useMediaQuery('(min-width:374px)');
 
+  const small = useMediaQuery(theme => theme.breakpoints.down('xs'));
+  const large = useMediaQuery(theme => theme.breakpoints.up('lg'));
 
-  const sizeThumbnails = 225+theme.density*25;
+  // density: 1=compact, 2=default, 3=comfortable
 
+  const sizeThumbnailsInPx = 200+theme.density*50;
+  // let widthThumbnails = `45vh`;
+  let widthThumbnails = `${100/(4-theme.density)}vw`;
+  let heightThumbnails = `${sizeThumbnailsInPx}px`;
+
+  // classes.card.minWidth = widthThumbnails;
+  // classes.card.maxWidth = widthThumbnails;
+
+  if( small ){
+    console.log("media query: small", regularMobilePortrait)
+    switch (theme.density) {
+      case 1: widthThumbnails = `45vw`; break;
+      case 2: widthThumbnails = `45vw`; break;
+      default: widthThumbnails = `100vw`; break;
+    }
+  }
+  // if( large ){
+  //   widthThumbnails = `28vw`;
+  // }
 
   const handleClickForDetails = (e) => {
     setToDetails(true);
@@ -122,14 +128,16 @@ const intItemCard = ({ item, classes, intl, index, theme}) => {
   }
 
   return (
-    <Card className={classes.card} index={index}>
+    <Card className={classes.card} style={{width: widthThumbnails}} index={index}>
       <div className={classes.cardPicture}>
         <ItemImage
           item={item}
           forceThumbnail={true}
           style={{
-            height: `${sizeThumbnails+(theme.density-1)*100}px`,
-            width: `${sizeThumbnails+(theme.density-1)*100}px`,
+            // height: `${sizeThumbnails+(theme.density-1)*100}px`,
+            // width: `${sizeThumbnails+(theme.density-1)*100}px`,
+            height: heightThumbnails,
+            width: widthThumbnails,
             zIndex: "auto",
             opacity: "0.8",
           }}

@@ -16,6 +16,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import ButtonWithValidation from '../pages/utils/ButtonWithValidation'
 import { NavigationStyle } from "./configNavigation";
+import Select from '@material-ui/core/Select';
 
 
 const useStyles = makeStyles(theme => ({
@@ -26,10 +27,17 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     textTransform: 'none',
   },
+  root: {
+    paddingLeft: theme.spacing(4),
+    color: '#F00',
+  },
+  select: {
+    padding: theme.spacing(1),
+  }
 }));
 
 
-const intMenuProfile = ({homeCode, language, navigationStyle, setLanguage, setNavigationStyle, leaveHome, addIntlNotifier, intl}) => {
+const intMenuProfile = ({homeCode, language, density, navigationStyle, setLanguage, setDensity, setNavigationStyle, leaveHome, addIntlNotifier, intl}) => {
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -76,6 +84,23 @@ const intMenuProfile = ({homeCode, language, navigationStyle, setLanguage, setNa
         open={open}
         onClose={handleClose}
       >
+        <MenuItem>
+          <FormattedMessage id="menu_profile.density" />
+          <Select
+            native
+            variant='outlined'
+            // className="classes.select"
+            classes={{select: classes.select, root: classes.root}}
+            value={density}
+            onChange={(event) => { setDensity(event.target.value); handleClose()}}
+          >
+          <option value={1}>{intl.formatMessage({id: 'menu_profile.density.1'})}</option>
+          <option value={2}>{intl.formatMessage({id: 'menu_profile.density.2'})}</option>
+          <option value={3}>{intl.formatMessage({id: 'menu_profile.density.3'})}</option>
+        </Select>
+        </MenuItem>
+
+
         {homeCode && <MenuItem onClick={handleClose}>
           <FormattedMessage id="menu_profile.your_code" />
           <CopyToClipboard
@@ -124,10 +149,11 @@ const intMenuProfile = ({homeCode, language, navigationStyle, setLanguage, setNa
 
 
 function mapStateToProps(state) {
-  const { user: { home, language, navigationStyle } } = state;
+  const { user: { home, language, density, navigationStyle } } = state;
   return {
     homeCode: home,
     language,
+    density,
     navigationStyle
   };
 }
@@ -135,6 +161,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   setLanguage: userActions.setLanguage,
+  setDensity: userActions.setDensity,
   setNavigationStyle: userActions.setNavigationStyle,
   leaveHome: userActions.leaveHome,
   login: userActions.login,

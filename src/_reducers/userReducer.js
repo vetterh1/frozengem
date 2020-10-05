@@ -3,6 +3,7 @@ import * as ACTIONS from "../_constants/action-types";
 const initialState = {
   loggedIn: false,
   language: "en",
+  density: 2,
   detailsHelpCompleted: false
 };
 
@@ -49,6 +50,12 @@ export function user(state = initialState, action) {
         language: action.language
       };
 
+    case ACTIONS.SET_DENSITY:
+      return {
+        ...state,
+        density: action.density
+      };
+  
     case ACTIONS.SET_NAVIGATION_STYLE:
       return {
         ...state,

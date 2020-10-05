@@ -13,6 +13,7 @@ export const userActions = {
   joinHome,
   joinNewHome,
   setLanguage,
+  setDensity,
   setNavigationStyle,
   setDetailsHelpCompleted
 };
@@ -27,6 +28,20 @@ function setLanguage(language) {
       dispatch(itemsActions.updateAllItemsUtilityFields());
     } catch (error) {
       console.error("setLanguage failed", language);
+    }
+  };
+}
+
+function setDensity(density) {
+  return async dispatch => {
+    try {
+      await userServices.setDensity(density);
+      dispatch({ type: ACTIONS.SET_DENSITY, density });
+
+      // Change items density
+      dispatch(itemsActions.updateAllItemsUtilityFields());
+    } catch (error) {
+      console.error("setDensity failed", density);
     }
   };
 }

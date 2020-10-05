@@ -6,6 +6,7 @@ import config from "../data/config";
 export const userServices = {
   isAuthenticated,
   setLanguage,
+  setDensity,
   setNavigationStyle,
   setDetailsHelpCompleted,
   login,
@@ -60,6 +61,13 @@ async function _updateServer(key, value) {
 
 async function setLanguage(language) {
   await _updateServer("language", language);
+}
+
+// Save the density passed in parameter in the user record on the server
+// Returns: null
+
+async function setDensity(density) {
+  await _updateServer("density", density);
 }
 
 // Save the navigation style passed in parameter in the user record on the server

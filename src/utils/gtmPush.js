@@ -1,6 +1,6 @@
 import TagManager from 'react-gtm-module'
 
-const enableGtm = false;
+const enableGtm = true;
 
 export function gtmInit (args) {
   const tagManagerArgs = { gtmId: "GTM-TFF4FK9", ...args };
