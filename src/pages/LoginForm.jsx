@@ -102,7 +102,7 @@ const LoginForm = props => {
           </div>
 
           <div className={"flex-normal-height flex-direction-row-reverse flex-justify-between big-margin-down big-margin-top"}>
-            <Button variant="contained" color="primary" disabled={Boolean(errors.email)} type="submit">
+            <Button variant="contained" color="primary" disabled={Boolean(errors.email)} type="submit" name="submit">
               <FormattedMessage id={"button.ok"} />
             </Button>
           </div>
