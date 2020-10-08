@@ -58,7 +58,6 @@ const intMenuProfile = ({homeCode, language, density, navigationStyle, setLangua
   function onCopy(code) {
     addIntlNotifier('menu_profile.home_clipboard', 'info', {code: code});
   }
-  console.log("density:", density); 
 
   return (
 

@@ -84,7 +84,7 @@ const stylesItemCard = (theme) => ({
   },
 });
 
-const intItemCard = ({ item, classes, intl, index, theme}) => {
+const intItemCard = ({ item, classes, intl, index, theme, density = 2 }) => {
   console.debug(
     `[--- FC ---] Functional component: ItemCard - item=${item.id}`, index
   );
@@ -97,9 +97,9 @@ const intItemCard = ({ item, classes, intl, index, theme}) => {
 
   // density: 1=compact, 2=default, 3=comfortable
 
-  const sizeThumbnailsInPx = 200+theme.density*50;
+  const sizeThumbnailsInPx = 200+density*50;
   // let widthThumbnails = `45vh`;
-  let widthThumbnails = `${100/(4-theme.density)}vw`;
+  let widthThumbnails = `${100/(4-density)}vw`;
   let heightThumbnails = `${sizeThumbnailsInPx}px`;
 
   // classes.card.minWidth = widthThumbnails;
@@ -107,7 +107,7 @@ const intItemCard = ({ item, classes, intl, index, theme}) => {
 
   if( small ){
     console.log("media query: small", regularMobilePortrait)
-    switch (theme.density) {
+    switch (density) {
       case 1: widthThumbnails = `45vw`; break;
       case 2: widthThumbnails = `45vw`; break;
       default: widthThumbnails = `100vw`; break;
@@ -134,8 +134,8 @@ const intItemCard = ({ item, classes, intl, index, theme}) => {
           item={item}
           forceThumbnail={true}
           style={{
-            // height: `${sizeThumbnails+(theme.density-1)*100}px`,
-            // width: `${sizeThumbnails+(theme.density-1)*100}px`,
+            // height: `${sizeThumbnails+(density-1)*100}px`,
+            // width: `${sizeThumbnails+(density-1)*100}px`,
             height: heightThumbnails,
             width: widthThumbnails,
             zIndex: "auto",

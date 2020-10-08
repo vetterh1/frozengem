@@ -17,7 +17,7 @@ const styles = (theme) => ({
   },
 });
 
-const intItemsList = ({ list, classes }) => {
+const intItemsList = ({ list, classes, density }) => {
   console.debug("[--- FC Render ---] ItemsList -  list: ", list);
 
   if (!list || list.length <= 0)
@@ -34,7 +34,7 @@ const intItemsList = ({ list, classes }) => {
       {/* <div className={classes.fixedBackground}></div> */}
       <div className={classes.layout}>
         {list.map((item, index) => (
-          <ItemCard key={item.id} item={item} index={index} />
+          <ItemCard key={item.id} item={item} index={index} density={density} />
         ))}
       </div>
     </>
@@ -44,6 +44,7 @@ const intItemsList = ({ list, classes }) => {
 function mapStateToProps(state) {
   return {
     list: getVisibleItems(state),
+    density: state?.user?.density,
   };
 }
 

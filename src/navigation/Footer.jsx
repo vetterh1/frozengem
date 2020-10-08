@@ -57,7 +57,7 @@ function Footer(props) {
         {onMainPage && <WhyFrozenGem />}
         <MadeWithLove />
         {/* <!-- CookiePro Cookies Settings button start --> */}
-        <button id="ot-sdk-btn" class="ot-sdk-show-settings">Cookie Settings</button>
+        <button id="ot-sdk-btn" className="ot-sdk-show-settings">Cookie Settings</button>
         {/* <!-- CookiePro Cookies Settings button end --> */}
       </Container>
     </footer>
