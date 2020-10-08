@@ -93,7 +93,7 @@ const intItemCard = ({ item, classes, intl, index, theme}) => {
   const regularMobilePortrait = useMediaQuery('(min-width:374px)');
 
   const small = useMediaQuery(theme => theme.breakpoints.down('xs'));
-  const large = useMediaQuery(theme => theme.breakpoints.up('lg'));
+  // const large = useMediaQuery(theme => theme.breakpoints.up('lg'));
 
   // density: 1=compact, 2=default, 3=comfortable
 

@@ -15,7 +15,7 @@ import LoginInBar from "../navigation/LoginInBar";
 import MenuNav from "./MenuNav";
 import { NavigationStyle } from "./configNavigation";
 // import HelpIcon from "@material-ui/icons/Help";
-import { fade } from "@material-ui/core/styles/colorManipulator";
+// import { fade } from "@material-ui/core/styles/colorManipulator";
 
 const styles = theme => ({
   appBar: {

@@ -6,7 +6,7 @@ import typography from './typography';
 
 const theme = createMuiTheme({
   spacing: 8,
-  density: 1, // 1=compact, 2=default, 3=comfortable
+  density: 2, // 1=compact, 2=default, 3=comfortable
   transparency: false,
   image: "url(bg-snow.jpg)",
   palette,

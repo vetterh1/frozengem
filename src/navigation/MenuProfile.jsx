@@ -16,8 +16,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import ButtonWithValidation from '../pages/utils/ButtonWithValidation'
 import { NavigationStyle } from "./configNavigation";
-import Select from '@material-ui/core/Select';
-
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import ViewComfyIcon from '@material-ui/icons/ViewComfy';
+import ViewModuleIcon from '@material-ui/icons/ViewModule';
+import ViewStreamIcon from '@material-ui/icons/ViewStream';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -27,12 +30,12 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     textTransform: 'none',
   },
-  root: {
-    paddingLeft: theme.spacing(4),
-    color: '#F00',
+  rootToggle: {
+    paddingLeft: theme.spacing(1),
   },
-  select: {
-    padding: theme.spacing(1),
+  buttonToggle: {
+    color: theme.palette.text.primary,
+    padding: theme.spacing(1)
   }
 }));
 
@@ -55,7 +58,7 @@ const intMenuProfile = ({homeCode, language, density, navigationStyle, setLangua
   function onCopy(code) {
     addIntlNotifier('menu_profile.home_clipboard', 'info', {code: code});
   }
-
+  console.log("density:", density); 
 
   return (
 
@@ -86,18 +89,27 @@ const intMenuProfile = ({homeCode, language, density, navigationStyle, setLangua
       >
         <MenuItem>
           <FormattedMessage id="menu_profile.density" />
-          <Select
-            native
-            variant='outlined'
+
+          <ToggleButtonGroup
+            value={density.toString()}
+            exclusive
+            size="small" 
+            onChange={(event, density) => { setDensity(density); handleClose()}}
             // className="classes.select"
-            classes={{select: classes.select, root: classes.root}}
-            value={density}
-            onChange={(event) => { setDensity(event.target.value); handleClose()}}
+            classes={{grouped: classes.buttonToggle, root: classes.rootToggle}}
           >
-          <option value={1}>{intl.formatMessage({id: 'menu_profile.density.1'})}</option>
-          <option value={2}>{intl.formatMessage({id: 'menu_profile.density.2'})}</option>
-          <option value={3}>{intl.formatMessage({id: 'menu_profile.density.3'})}</option>
-        </Select>
+            <ToggleButton value="1" aria-label="left aligned"            >
+              <ViewComfyIcon fontSize="small" />
+            </ToggleButton>
+            <ToggleButton value="2" aria-label="centered">
+              <ViewModuleIcon fontSize="small" />
+            </ToggleButton>
+            <ToggleButton value="3" aria-label="right aligned">
+              <ViewStreamIcon fontSize="small" />
+            </ToggleButton>
+
+          </ToggleButtonGroup>
+
         </MenuItem>
 
 
