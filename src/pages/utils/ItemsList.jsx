@@ -9,10 +9,10 @@ import ItemCard from "./ItemCard";
 const styles = (theme) => ({
   layout: {
     display: "flex",
-    flexDirection: "row",
+    // flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-around",
-    width: "auto",
+    // justifyContent: "space-around",
+    width: "100%",
     padding: `${theme.spacing(2)}px 0`,
   },
 });

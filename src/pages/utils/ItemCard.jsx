@@ -6,7 +6,8 @@ import { Redirect } from "react-router";
 import { withStyles } from "@material-ui/core/styles";
 import { injectIntl } from "react-intl";
 // import { fade } from "@material-ui/core/styles/colorManipulator";
-import { Card, Typography } from "@material-ui/core";
+// import { Card, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import ItemImage from "./ItemImage";
 // import theme from "../../theme";
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -18,17 +19,20 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 const stylesItemCard = (theme) => ({
   card: {
     display: "flex",
+    flexBasis: "calc(33.33% - 20px)",
+    --widthpic: "calc(33.33% - 20px)",
+
     flexDirection: "column",
     // zIndex: 10,
 
-    borderRadius: "10px",
+    // borderRadius: "10px",
 
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(4),
     // marginLeft: theme.spacing(1),
     // marginRight: theme.spacing(1),
 
-    backgroundColor: props => theme.transparency ? "transparent" : (props.index%2 === 0 ? theme.palette.itemCard.backgroundColor : theme.palette.itemCard.backgroundColorAlternate),
-    backdropFilter: theme.transparency ? "blur(8px) contrast(0.4) brightness(1.5)" : null,
+    // backgroundColor: props => theme.transparency ? "transparent" : (props.index%2 === 0 ? theme.palette.itemCard.backgroundColor : theme.palette.itemCard.backgroundColorAlternate),
+    // backdropFilter: theme.transparency ? "blur(8px) contrast(0.4) brightness(1.5)" : null,
     boxShadow: "none",
   },
 
@@ -38,6 +42,8 @@ const stylesItemCard = (theme) => ({
     justifyContent: "center",
     alignSelf: "center",
     textAlign: "center",
+    width: "var(--widthpic)",
+    height: "var(--widthpic)",
   },
 
   cardText: {
@@ -93,26 +99,30 @@ const intItemCard = ({ item, classes, intl, index, theme, density = 2 }) => {
   const regularMobilePortrait = useMediaQuery('(min-width:374px)');
 
   const small = useMediaQuery(theme => theme.breakpoints.down('xs'));
+  // let widthThumbnails = `${100/(4-density)}vw`;
+  let widthThumbnails = 'var(--width)';
+  
+
   // const large = useMediaQuery(theme => theme.breakpoints.up('lg'));
 
   // density: 1=compact, 2=default, 3=comfortable
 
-  const sizeThumbnailsInPx = 200+density*50;
+  // const sizeThumbnailsInPx = 200+density*50;
   // let widthThumbnails = `45vh`;
-  let widthThumbnails = `${100/(4-density)}vw`;
-  let heightThumbnails = `${sizeThumbnailsInPx}px`;
+  // let widthThumbnails = `${100/(4-density)}vw`;
+  // let heightThumbnails = `${sizeThumbnailsInPx}px`;
 
   // classes.card.minWidth = widthThumbnails;
   // classes.card.maxWidth = widthThumbnails;
 
-  if( small ){
-    console.log("media query: small", regularMobilePortrait)
-    switch (density) {
-      case 1: widthThumbnails = `45vw`; break;
-      case 2: widthThumbnails = `45vw`; break;
-      default: widthThumbnails = `100vw`; break;
-    }
-  }
+  // if( small ){
+  //   console.log("media query: small", regularMobilePortrait)
+  //   switch (density) {
+  //     case 1: widthThumbnails = `45vw`; break;
+  //     case 2: widthThumbnails = `45vw`; break;
+  //     default: widthThumbnails = `100vw`; break;
+  //   }
+  // }
   // if( large ){
   //   widthThumbnails = `28vw`;
   // }
@@ -128,7 +138,7 @@ const intItemCard = ({ item, classes, intl, index, theme, density = 2 }) => {
   }
 
   return (
-    <Card className={classes.card} style={{width: widthThumbnails}} index={index}>
+    <div className={classes.card} style={{width: widthThumbnails}} index={index}>
       <div className={classes.cardPicture}>
         <ItemImage
           item={item}
@@ -136,8 +146,8 @@ const intItemCard = ({ item, classes, intl, index, theme, density = 2 }) => {
           style={{
             // height: `${sizeThumbnails+(density-1)*100}px`,
             // width: `${sizeThumbnails+(density-1)*100}px`,
-            height: heightThumbnails,
-            width: widthThumbnails,
+            // height: widthThumbnails,
+            // width: widthThumbnails,
             zIndex: "auto",
             opacity: "0.8",
           }}
@@ -177,7 +187,7 @@ const intItemCard = ({ item, classes, intl, index, theme, density = 2 }) => {
           {item.__yearExpiration}
         </Typography>
       </div> */}
-    </Card>
+    </div>
   );
 };
 

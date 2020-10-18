@@ -8,7 +8,9 @@ import config from "../../data/config";
 import { getIconComponent } from "../../data/Icons";
 
 const useStyles = makeStyles({
-  media: { borderRadius: "3px" }, // a style rule
+  media: {
+    // borderRadius: "3px", // a style rule
+  },
 
   details_image_close: {
     position: "fixed",
