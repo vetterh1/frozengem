@@ -30,7 +30,7 @@ const ItemImage = ({ item, forceThumbnail = false, style = null }) => {
       width: "150px"
     };
 
-  const imageExists = item.pictureName || item.thumbnailName;
+  const imageExists = item.pictureName;
 
   // No image, display the category icon instead!
   if (!imageExists) {

@@ -50,7 +50,7 @@ const Results = ({item, onResetState, handleAddPicture, isActive, firstStep, int
     firstStep();
   }
 
-  const imageExists = item.pictureName || item.thumbnailName;
+  const imageExists = item.pictureName;
 
   return (
     <div className={"flex-normal-height flex-direction-column"}>
