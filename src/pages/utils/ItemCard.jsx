@@ -20,7 +20,7 @@ const stylesItemCard = (theme) => ({
   card: {
     display: "flex",
     flexBasis: "calc(33.33% - 20px)",
-    --widthpic: "calc(33.33% - 20px)",
+    // --widthpic: "calc(33.33% - 20px)",
 
     flexDirection: "column",
     // zIndex: 10,

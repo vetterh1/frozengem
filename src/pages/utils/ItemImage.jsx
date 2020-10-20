@@ -24,6 +24,11 @@ const useStyles = makeStyles({
 });
 
 const ItemImage = ({ item, forceThumbnail = false, style = null }) => {
+
+
+  const thumbnailWidth = "220";
+  const thumbnailHeight = "220";
+
   if (!style)
     style = {
       height: "150px",
@@ -54,8 +59,13 @@ const ItemImage = ({ item, forceThumbnail = false, style = null }) => {
     // window.scrollTo(0, 0);
     setExpanded(prev => !prev);
   };
-  // const thumbnailsOrPictures = expanded ? item.pictureName : item.thumbnailName;
-  const thumbnailsOrPictures = expanded || !forceThumbnail ? item.pictureName : item.thumbnailName;
+  const isThumbnail = forceThumbnail || !expanded;
+  const url = isThumbnail ? 
+    `${config.staticUrl}/custom-size-image/${item.pictureName}?type=item&width=${thumbnailWidth}&height=${thumbnailHeight}`
+  :
+    `${config.staticUrl}/static/pictures/items/${item.pictureName}`;
+
+
 
   if (expanded) {
     style = {
@@ -75,7 +85,7 @@ const ItemImage = ({ item, forceThumbnail = false, style = null }) => {
       <CardMedia
         onClick={handleExpanded}
         style={style}
-        image={`${config.staticUrl}/static/pictures/items/${thumbnailsOrPictures}`}
+        image={url}
         title={item.description}
         className={classes.media}
       />
