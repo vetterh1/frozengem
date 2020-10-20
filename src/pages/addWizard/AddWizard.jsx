@@ -66,7 +66,6 @@ const AddWizard = ({
     expirationDate: null,
     expirationInMonth: 0,
     pictureName: null,
-    thumbnailName: null,
     code: null
   };
 
@@ -292,17 +291,15 @@ const AddWizard = ({
 
   // Set the received value in the state
   // (replacing any existing one)
-  // const _savePicture = async (pictureData, thumbnailData) => {
+  // const _savePicture = async (pictureData) => {
   //   try {
   //     const itemUpdated = await savePicture(
   //       item.id,
-  //       pictureData,
-  //       thumbnailData
+  //       pictureData
   //     );
   //     handleChange(
   //       {
   //         pictureName: itemUpdated.pictureName,
-  //         thumbnailName: itemUpdated.thumbnailName
   //       },
   //       false
   //     );

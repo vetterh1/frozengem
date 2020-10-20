@@ -196,8 +196,8 @@ const Details = ({
     return null;
   };
 
-  const _handleSavePicture = (pictureData, thumbnailData) => {
-    savePicture(item.id, pictureData, thumbnailData);
+  const _handleSavePicture = (pictureData) => {
+    savePicture(item.id, pictureData);
     setShowHugeCameraBtn(false);
   };
 
