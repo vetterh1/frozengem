@@ -11,7 +11,7 @@ import Notifier from './utils/Notifier';
 import translations from '../i18n/locales';
 import withMyTheme from '../theme/withMyTheme';
 import { withStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+// import Container from '@material-ui/core/Container';
 import { NavigationStyle } from '../navigation/configNavigation'
 // Date util library (moment like) & date picker:
 import DateFnsUtils from '@date-io/date-fns';
@@ -170,7 +170,8 @@ const App = ({autologin, classes, ...props}) => {
                 <div className={classes.divStyle}>
 
                   <Header {...props}/>
-                  <Container maxWidth="md"  className={classes.containerStyle}>
+                  {/* <Container maxWidth="md"  className={classes.containerStyle}> */}
+                  <div className={classes.containerStyle}>
 
                     <Switch>
                       <Route
@@ -250,7 +251,8 @@ const App = ({autologin, classes, ...props}) => {
                       
                       />
                     </Switch>          
-                  </Container>
+                  {/* </Container> */}
+                  </div>
 
                   { !props.loggedIn && <Footer location={props.location} />}
                   { props.loggedIn && props.navigationStyle === NavigationStyle.NAVIGATION_BOTTOMNAV && 

@@ -16,10 +16,11 @@ const FilterTabs = withStyles(theme => ({
   root: {
     backgroundColor: theme.transparency ? "transparent" : theme.palette.main.backgroundColor,
     backdropFilter: theme.transparency ? "blur(8px) contrast(0.3) brightness(1.5)" : null,
+    borderBottom: '1px solid #eee',
 
-    marginTop: -theme.spacing(2),
-    marginLeft: -theme.spacing(2),
-    marginRight: -theme.spacing(2),
+    // marginTop: -theme.spacing(2),
+    // marginLeft: -theme.spacing(2),
+    // marginRight: -theme.spacing(2),
   },
   indicator: {
     backgroundColor: theme.palette.primary.dark,
@@ -33,6 +34,9 @@ const FilterTab = withStyles(theme => ({
       minWidth: "75px"
     },
     [theme.breakpoints.up("sm")]: {
+      minWidth: "100px"
+    },
+    [theme.breakpoints.up("lg")]: {
       minWidth: "150px"
     },
     textTransform: "none",
@@ -58,6 +62,10 @@ const StyledCountBadge = withStyles(theme => ({
       top: 16
     },
     [theme.breakpoints.up("sm")]: {
+      right: 25,
+      top: 16
+    },
+    [theme.breakpoints.up("lg")]: {
       right: 50,
       top: 16
     }

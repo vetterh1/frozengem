@@ -1,5 +1,5 @@
 import React from 'react';
-// import Container from '@material-ui/core/Container';
+import Container from '@material-ui/core/Container';
 import { withStyles } from '@material-ui/core/styles';
 import ItemsList from './utils/ItemsList'
 import Filters from './Filters'
@@ -13,8 +13,8 @@ const styles = theme => ({
     width: 'auto',
   },
   container: {
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(1),
+    // paddingLeft: theme.spacing(2),
+    // paddingRight: theme.spacing(2),
   },
 });
 
@@ -26,9 +26,9 @@ const Dashboard = ({ classes }) => {
   return (
     <div className={classes.layout}>
       <Filters />
-      {/* <Container maxWidth="md" className={classes.container}> */}
+      <Container maxWidth="lg" className={classes.container}>
         <ItemsList />
-      {/* </Container> */}
+      </Container>
     </div>          
   );
 }

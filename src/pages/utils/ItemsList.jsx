@@ -12,8 +12,9 @@ const styles = (theme) => ({
     // flexDirection: "row",
     flexWrap: "wrap",
     // justifyContent: "space-around",
-    width: "100%",
+    // width: "100%",
     padding: `${theme.spacing(2)}px 0`,
+    marginRight: `-${theme.spacing(2)}px`,
   },
 });
 
@@ -34,7 +35,7 @@ const intItemsList = ({ list, classes, density }) => {
       {/* <div className={classes.fixedBackground}></div> */}
       <div className={classes.layout}>
         {list.map((item, index) => (
-          <ItemCard key={item.id} item={item} index={index} density={density} />
+          <ItemCard key={item.id} item={item} index={index} last={index === list.length + 1} density={density} />
         ))}
       </div>
     </>

@@ -7,8 +7,11 @@ import { withStyles } from "@material-ui/core/styles";
 import { injectIntl } from "react-intl";
 // import { fade } from "@material-ui/core/styles/colorManipulator";
 // import { Card, Typography } from "@material-ui/core";
-import { Typography } from "@material-ui/core";
+import { Card, CardMedia, Typography } from "@material-ui/core";
+import config from "../../data/config";
+
 import ItemImage from "./ItemImage";
+import Picture from "./Picture";
 // import theme from "../../theme";
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
@@ -17,33 +20,73 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 
 const stylesItemCard = (theme) => ({
-  card: {
+
+  cardPlusSeparation: {
     display: "flex",
-    flexBasis: "calc(33.33% - 20px)",
-    // --widthpic: "calc(33.33% - 20px)",
-
     flexDirection: "column",
-    // zIndex: 10,
 
-    // borderRadius: "10px",
+    [theme.breakpoints.down('xs')]: {
+      flexBasis: `calc(100% - ${theme.spacing(2)}px)`,
+    },
+    [theme.breakpoints.up('sm')]: {
+      flexBasis: `calc(50% - ${theme.spacing(2)}px)`,
+    },
+    [theme.breakpoints.up('md')]: {
+      flexBasis: `calc(33.33% - ${theme.spacing(2)}px)`,
+    },
+    [theme.breakpoints.up('lg')]: {
+      flexBasis: `calc(25% - ${theme.spacing(2)}px)`,
+    },
 
-    marginBottom: theme.spacing(4),
-    // marginLeft: theme.spacing(1),
-    // marginRight: theme.spacing(1),
-
-    // backgroundColor: props => theme.transparency ? "transparent" : (props.index%2 === 0 ? theme.palette.itemCard.backgroundColor : theme.palette.itemCard.backgroundColorAlternate),
-    // backdropFilter: theme.transparency ? "blur(8px) contrast(0.4) brightness(1.5)" : null,
-    boxShadow: "none",
+    marginRight: theme.spacing(2),
+    // marginBottom: theme.spacing(2),
+    height: "100%",
   },
 
+  card: {
+    display: "flex",
+    flexDirection: "column",
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: "row",
+    },
+  },
+
+
+
+  cardImage: {
+    [theme.breakpoints.down('xs')]: {
+      flexBasis: `calc(50% - ${theme.spacing(1)}px)`,
+      marginRight: theme.spacing(2),
+    },
+    marginBottom: theme.spacing(2),
+  },
+
+  separation: {
+    [theme.breakpoints.up('sm')]: {
+      display: "none",
+    },    
+    width: "100%",
+    height: "2px",
+    backgroundColor: "#dfe7e7",
+    marginRight: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+  },
+
+
+
+
+
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
+  },
   cardPicture: {
     display: "flex",
     flexGrow: 0,
     justifyContent: "center",
     alignSelf: "center",
     textAlign: "center",
-    width: "var(--widthpic)",
-    height: "var(--widthpic)",
+    width: "100%",
   },
 
   cardText: {
@@ -51,8 +94,10 @@ const stylesItemCard = (theme) => ({
     flexDirection: "column",
     flexGrow: 1,
 
+    [theme.breakpoints.down('xs')]: {
+      flexBasis: `calc(50% - ${theme.spacing(1)}px)`,
+    },
     padding: 0,
-    margin: `${theme.spacing(1)}px`,
   },
 
   cardMain: {
@@ -90,7 +135,7 @@ const stylesItemCard = (theme) => ({
   },
 });
 
-const intItemCard = ({ item, classes, intl, index, theme, density = 2 }) => {
+const intItemCard = ({ item, classes, intl, index, last, theme, density = 2 }) => {
   console.debug(
     `[--- FC ---] Functional component: ItemCard - item=${item.id}`, index
   );
@@ -99,8 +144,7 @@ const intItemCard = ({ item, classes, intl, index, theme, density = 2 }) => {
   const regularMobilePortrait = useMediaQuery('(min-width:374px)');
 
   const small = useMediaQuery(theme => theme.breakpoints.down('xs'));
-  // let widthThumbnails = `${100/(4-density)}vw`;
-  let widthThumbnails = 'var(--width)';
+  let widthThumbnails = `${100/(4-density)}vw`;
   
 
   // const large = useMediaQuery(theme => theme.breakpoints.up('lg'));
@@ -137,56 +181,33 @@ const intItemCard = ({ item, classes, intl, index, theme, density = 2 }) => {
     return <Redirect push to={`/details/${item.id}`} />;
   }
 
-  return (
-    <div className={classes.card} style={{width: widthThumbnails}} index={index}>
-      <div className={classes.cardPicture}>
-        <ItemImage
-          item={item}
-          forceThumbnail={true}
-          style={{
-            // height: `${sizeThumbnails+(density-1)*100}px`,
-            // width: `${sizeThumbnails+(density-1)*100}px`,
-            // height: widthThumbnails,
-            // width: widthThumbnails,
-            zIndex: "auto",
-            opacity: "0.8",
-          }}
-        />
-      </div>
-      <div className={classes.cardText} onClick={handleClickForDetails}>
-        <div className={classes.cardMain}>
-          <Typography variant="h6">{item.__descriptionOrCategory}</Typography>
-          <Typography color="textSecondary">{item.__sizeInText}</Typography>
-          {intl.formatMessage(item.__expirationText)}
-        </div>
-        <Typography
-          className={classes.details_image_code}
-          color="textSecondary"
-          component="p"
-        >
-          {item ? item.code : "-"}
-        </Typography>
-      </div>
 
-      {/* <div
-        className={classes.cardRight}
-        style={{
-          backgroundColor: fade(
-            theme.palette.itemCard.cardBackgroundColor[
-              item.__cardBackgroundColor
-            ],
-            0.6
-          ),
-        }}
-        onClick={handleClickForDetails}
-      >
-        <Typography variant="h4" component="div">
-          {item.__monthExpirationAsText}
-        </Typography>
-        <Typography component="div" gutterBottom>
-          {item.__yearExpiration}
-        </Typography>
-      </div> */}
+  return (
+    <div className={classes.cardPlusSeparation}>
+      <div className={classes.card}>
+        <Picture
+          imageUrl={`${config.staticUrl}/custom-size-image/${item.pictureName}`}
+          imageAlt={item.__descriptionOrCategory}
+          className={classes.cardImage}
+          aspectRatio
+          maxResolution={400}
+        />      
+        <div className={classes.cardText} onClick={handleClickForDetails}>
+          <div className={classes.cardMain}>
+            <Typography gutterBottom variant="h4">{item.__descriptionOrCategory}</Typography>
+            <Typography gutterBottom color="textSecondary">{item.__sizeInText}</Typography>
+            {intl.formatMessage(item.__expirationText)}
+          </div>
+          <Typography
+            className={classes.details_image_code}
+            color="textSecondary"
+            component="p"
+          >
+            {item ? item.code : "-"}
+          </Typography>
+        </div>      
+      </div>
+      {!last && <div className={classes.separation} />}
     </div>
   );
 };
@@ -194,6 +215,7 @@ const intItemCard = ({ item, classes, intl, index, theme, density = 2 }) => {
 intItemCard.propTypes = {
   // Props from caller
   item: PropTypes.object.isRequired,
+  last: PropTypes.bool,
 
   // Props from other HOC
   classes: PropTypes.object.isRequired,
