@@ -28,7 +28,7 @@ const Dashboard = ({ classes }) => {
   return (
     <div className={classes.layout}>
       <Filters />
-      <Container maxWidth="lg" className={classes.container}>
+      <Container maxWidth="xl" className={classes.container}>
         <ItemsList />
       </Container>
     </div>          

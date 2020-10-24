@@ -9,12 +9,18 @@ import ItemCard from "./ItemCard";
 const styles = (theme) => ({
   layout: {
     display: "flex",
-    // flexDirection: "row",
     flexWrap: "wrap",
-    // justifyContent: "space-around",
-    // width: "100%",
-    padding: `${theme.spacing(3)}px 0`,
     marginRight: `-${theme.spacing(2)}px`,
+    
+    [theme.breakpoints.down('xs')]: {
+      padding: `${theme.spacing(3)}px 0`,
+    },
+    [theme.breakpoints.up('sm')]: {
+      padding: `${theme.spacing(5)}px 0`,
+    },
+
+
+
   },
 });
 

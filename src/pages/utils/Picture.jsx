@@ -1,13 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import classnames from 'classnames';
-// import './Picture.scss';
+import { getIconComponent } from "../../data/Icons";
 
-const Picture = ({ className, imageUrl, imageAlt, type = "item", aspectRatio, maxResolution }) => {
-    // const pictureClass = classnames(
-    //     'picture', className, { 'picture--aspect-ratio': aspectRatio }
-    //   );
-    const pictureClass = className;      
+
+const Picture = ({ className, imageUrl, itemCategory, imageAlt, type = "item", maxResolution }) => {
+
+
+  // No image, display the category icon instead!
+  if (!imageUrl) {
+    const styleIcon = {
+      justifyContent: "center",
+      display: "flex",
+      alignItems: "center"
+    };
+
+    const IconCategory = getIconComponent("category" + itemCategory);
+    return (
+      <div style={styleIcon} className={className}>
+        <IconCategory style={{ fontSize: 200 }}  />
+      </div>
+    );
+  }
+
+
 
   const mobileImageSrc = prepareImageUrl(imageUrl, type, 576);
   const smallImageSrc = prepareImageUrl(imageUrl, type, 768);
@@ -17,7 +32,7 @@ const Picture = ({ className, imageUrl, imageAlt, type = "item", aspectRatio, ma
   const maxResImageUrl = maxResolution && prepareImageUrl(imageUrl, type, maxResolution);
 
   return (
-    <picture className={pictureClass}>
+    <picture className={className}>
       {!maxResolution &&
         <React.Fragment>
           <source srcSet={hdImageSrc} media="(min-width: 1920px)" />
@@ -35,7 +50,6 @@ Picture.propTypes = {
   imageUrl: PropTypes.string.isRequired,
   type: PropTypes.string,
   imageAlt: PropTypes.string,
-  aspectRatio: PropTypes.bool,
   maxResolution: PropTypes.number
 };
 
