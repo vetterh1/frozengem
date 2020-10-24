@@ -13,7 +13,7 @@ const styles = (theme) => ({
     flexWrap: "wrap",
     // justifyContent: "space-around",
     // width: "100%",
-    padding: `${theme.spacing(2)}px 0`,
+    padding: `${theme.spacing(3)}px 0`,
     marginRight: `-${theme.spacing(2)}px`,
   },
 });

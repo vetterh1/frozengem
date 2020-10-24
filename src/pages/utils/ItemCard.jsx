@@ -39,7 +39,11 @@ const stylesItemCard = (theme) => ({
     },
 
     marginRight: theme.spacing(2),
-    // marginBottom: theme.spacing(2),
+
+    [theme.breakpoints.up('sm')]: {
+      marginBottom: theme.spacing(5),
+    },
+
     height: "100%",
   },
 
@@ -58,7 +62,7 @@ const stylesItemCard = (theme) => ({
       flexBasis: `calc(50% - ${theme.spacing(1)}px)`,
       marginRight: theme.spacing(2),
     },
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(3),
   },
 
   separation: {
@@ -66,10 +70,10 @@ const stylesItemCard = (theme) => ({
       display: "none",
     },    
     width: "100%",
-    height: "2px",
+    height: "1px",
     backgroundColor: "#dfe7e7",
     marginRight: theme.spacing(2),
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(3),
   },
 
 
