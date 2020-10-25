@@ -1,7 +1,7 @@
 import TagManager from 'react-gtm-module'
 
 const enableGtmString = localStorage.getItem('enableGtm');
-const enableGtm = enableGtmString === "1";
+const enableGtm = !enableGtmString || enableGtmString === "1";
 console.debug("enableGtm (from local storage):", enableGtm);
 
 export function gtmInit (args) {

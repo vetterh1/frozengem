@@ -57,7 +57,7 @@ const intMenuProfile = ({homeCode, language, density, navigationStyle, setLangua
   }
 
   const enableGtmString = localStorage.getItem('enableGtm');
-  const enableGtm = enableGtmString === "1";
+  const enableGtm = !enableGtmString || enableGtmString === "1";
 
   return (
 
