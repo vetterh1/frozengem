@@ -156,7 +156,7 @@ const Details = ({
     item ? item : "N/A"
   );
 
-  const handleClose = () => {
+  const _handleClose = () => {
     console.debug("[<<< Details ------<<<----- / <<<] Reason: close details");
 
     gtmPush({
@@ -174,7 +174,7 @@ const Details = ({
 
   const _handleRemove = async () => {
     removeItem(item.id, 0);
-    handleClose();
+    _handleClose();
   };
 
   // const _simulatePictureClick = async () => {
@@ -189,7 +189,7 @@ const Details = ({
 
   const _handleUpdateQuantity = async ({ size }) => {
     removeItem(item.id, size);
-    if (size === "0") handleClose();
+    if (size === "0") _handleClose();
   };
 
   const _handleUpdateCharacteristic = async (update) => {
@@ -429,8 +429,7 @@ const Details = ({
         )}
         <Button
           color="primary"
-          component={Link}
-          to="/dashboard"
+          onClick={_handleClose}
           className={classes.details_image_close}
         >
           &lt; &nbsp; <FormattedMessage id="button.backtolist" />
