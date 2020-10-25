@@ -48,7 +48,7 @@ const Picture = ({
           <source srcSet={smallImageSrc} media="(min-width: 576px)" />
         </React.Fragment>
       }
-      <img src={maxResolution ? maxResImageUrl : mobileImageSrc} alt={imageAlt}  style={{width:"100%"}} />
+      <img src={maxResolution ? maxResImageUrl : mobileImageSrc} alt={imageAlt}  style={{width:"100%", height:"100%"}} />
     </picture>
   );
 };
