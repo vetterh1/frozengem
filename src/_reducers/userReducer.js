@@ -4,7 +4,6 @@ const initialState = {
   loggedIn: false,
   language: "en",
   density: 2,
-  enableGtm: 1,
   detailsHelpCompleted: false
 };
 
@@ -51,18 +50,12 @@ export function user(state = initialState, action) {
         language: action.language
       };
 
-      case ACTIONS.SET_DENSITY:
-        return {
-          ...state,
-          density: action.density
-        };
-
-      case ACTIONS.SET_ENABLE_GTM:
-        return {
-          ...state,
-          enableGtm: action.enableGtm
-        };
-        
+    case ACTIONS.SET_DENSITY:
+      return {
+        ...state,
+        density: action.density
+      };
+  
     case ACTIONS.SET_NAVIGATION_STYLE:
       return {
         ...state,

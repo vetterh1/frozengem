@@ -7,7 +7,6 @@ export const userServices = {
   isAuthenticated,
   setLanguage,
   setDensity,
-  setEnableGtm,
   setNavigationStyle,
   setDetailsHelpCompleted,
   login,
@@ -69,14 +68,6 @@ async function setLanguage(language) {
 
 async function setDensity(density) {
   await _updateServer("density", density);
-}
-
-// Save the enableGtm passed in parameter in the user record on the server
-// Returns: null
-
-async function setEnableGtm(enableGtm) {
-  await _updateServer("enableGtm", enableGtm);
-  localStorage.setItem("enableGtm", enableGtm);
 }
 
 // Save the navigation style passed in parameter in the user record on the server
