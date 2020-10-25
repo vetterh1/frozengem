@@ -1,6 +1,7 @@
 import TagManager from 'react-gtm-module'
 
-const enableGtm = true;
+const enableGtm = localStorage.getItem('enableGtm') || true;
+console.debug("enableGtm (from local storage):", enableGtm);
 
 export function gtmInit (args) {
   const tagManagerArgs = { gtmId: "GTM-TFF4FK9", ...args };

@@ -137,6 +137,7 @@
   "menu_profile.density.1": "Compact",
   "menu_profile.density.2": "Regular",
   "menu_profile.density.3": "Spaced",
+  "menu_profile.enableGtm": "Enable GTM:",
   "menu_profile.home_clipboard": "{code} copied to clipboard",
   "menu_profile.login": "Connection",
   "menu_profile.leavehome": "Leave current home",

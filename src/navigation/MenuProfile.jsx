@@ -10,6 +10,7 @@ import { injectIntl, FormattedMessage } from "react-intl";
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import Switch from '@material-ui/core/Switch';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -40,7 +41,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const intMenuProfile = ({homeCode, language, density, navigationStyle, setLanguage, setDensity, setNavigationStyle, leaveHome, addIntlNotifier, intl}) => {
+const intMenuProfile = ({homeCode, language, density, enableGtm, navigationStyle, setLanguage, setDensity, setEnableGtm, setNavigationStyle, leaveHome, addIntlNotifier, intl}) => {
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -111,6 +112,14 @@ const intMenuProfile = ({homeCode, language, density, navigationStyle, setLangua
 
         </MenuItem>
 
+        <MenuItem>
+          <FormattedMessage id="menu_profile.enableGtm" />
+          <Switch
+            checked={enableGtm === 1}
+            onChange={(event) => { console.log(event.target.checked); setEnableGtm(event.target.checked ? 1 : 0); handleClose()}}
+          />
+        </MenuItem>
+
 
         {homeCode && <MenuItem onClick={handleClose}>
           <FormattedMessage id="menu_profile.your_code" />
@@ -160,11 +169,12 @@ const intMenuProfile = ({homeCode, language, density, navigationStyle, setLangua
 
 
 function mapStateToProps(state) {
-  const { user: { home, language, density, navigationStyle } } = state;
+  const { user: { home, language, density, enableGtm, navigationStyle } } = state;
   return {
     homeCode: home,
     language,
     density,
+    enableGtm,
     navigationStyle
   };
 }
@@ -173,6 +183,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   setLanguage: userActions.setLanguage,
   setDensity: userActions.setDensity,
+  setEnableGtm: userActions.setEnableGtm,
   setNavigationStyle: userActions.setNavigationStyle,
   leaveHome: userActions.leaveHome,
   login: userActions.login,

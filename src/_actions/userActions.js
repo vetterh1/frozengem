@@ -14,6 +14,7 @@ export const userActions = {
   joinNewHome,
   setLanguage,
   setDensity,
+  setEnableGtm,
   setNavigationStyle,
   setDetailsHelpCompleted
 };
@@ -42,6 +43,21 @@ function setDensity(density) {
       dispatch(itemsActions.updateAllItemsUtilityFields());
     } catch (error) {
       console.error("setDensity failed", density);
+    }
+  };
+}
+
+
+function setEnableGtm(enableGtm) {
+  return async dispatch => {
+    try {
+      await userServices.setEnableGtm(enableGtm);
+      dispatch({ type: ACTIONS.SET_ENABLE_GTM, enableGtm });
+
+      // Change enable GTM
+      dispatch(itemsActions.updateAllItemsUtilityFields());
+    } catch (error) {
+      console.error("setEnableGTM failed", enableGtm);
     }
   };
 }
