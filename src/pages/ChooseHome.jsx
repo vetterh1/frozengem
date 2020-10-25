@@ -57,12 +57,12 @@ class ChooseHome extends React.Component {
   render() {
     const { classes } = this.props;
     
-    if (!this.props.isAuthenticated) { 
+    if (!this.props.loggedIn) { 
       console.debug('[>>> ChooseHome ------>>>----- / >>>] Reason: not logged in');
       return <Redirect to='/' />
     };
 
-    if (this.props.isAuthenticated && this.props.home) {
+    if (this.props.loggedIn && this.props.home) {
         console.debug('[>>> ChooseHome ------>>>----- / >>>] Reason: house was chosen');
         return <Redirect to='/' /> 
     }    
@@ -138,7 +138,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.user.loggedIn,
+  loggedIn: state.user.loggedIn,
   home: state.user.home
 });
 const connectedChooseHome = connect(mapStateToProps, mapDispatchToProps)(ChooseHome);

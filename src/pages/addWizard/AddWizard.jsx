@@ -39,12 +39,14 @@ const styles = theme => ({
 });
 
 const AddWizard = ({
+  // From Redux:
   addItem,
   savePicture,
   addIntlNotifier,
   loggedIn,
   language,
   characteristics,
+  // From other HOC:
   intl,
   classes,
   history
@@ -462,6 +464,4 @@ const connectedAddWizard = connect(
   mapDispatchToProps
 )(AddWizard);
 
-export default withRouter(
-  injectIntl(withStyles(styles, { withTheme: true })(connectedAddWizard))
-);
+export default withRouter(injectIntl(withStyles(styles, { withTheme: true })(connectedAddWizard)));

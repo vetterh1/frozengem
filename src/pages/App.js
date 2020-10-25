@@ -236,6 +236,7 @@ const App = ({autologin, classes, ...props}) => {
                             
                             // Authenticated users see their dashboard:
                             // return <Dashboard />;
+                            console.debug('[>>> App ------>>>----- dashboard >>>] Reason: Authenticated user');
                             return <Redirect to='/dashboard'/>
 
 

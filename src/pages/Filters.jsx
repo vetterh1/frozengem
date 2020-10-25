@@ -78,11 +78,13 @@ const StyledCountBadge = withStyles(theme => ({
 }))(props => <Badge {...props} />);
 
 function intFilters({
+  // From Redux:
   language,
   filter,
   categories,
   filterItems,
   counts,
+  // From other HOC:
   intl
 }) {
   const [sortedCategories] = useState(

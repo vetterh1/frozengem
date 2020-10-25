@@ -17,11 +17,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import ButtonWithValidation from '../pages/utils/ButtonWithValidation'
 import { NavigationStyle } from "./configNavigation";
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import ViewComfyIcon from '@material-ui/icons/ViewComfy';
-import ViewModuleIcon from '@material-ui/icons/ViewModule';
-import ViewStreamIcon from '@material-ui/icons/ViewStream';
+
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -41,7 +37,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const intMenuProfile = ({homeCode, language, density, enableGtm, navigationStyle, setLanguage, setDensity, setEnableGtm, setNavigationStyle, leaveHome, addIntlNotifier, intl}) => {
+const intMenuProfile = ({homeCode, language, density, navigationStyle, setLanguage, setDensity, setNavigationStyle, leaveHome, addIntlNotifier, intl}) => {
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -59,6 +55,9 @@ const intMenuProfile = ({homeCode, language, density, enableGtm, navigationStyle
   function onCopy(code) {
     addIntlNotifier('menu_profile.home_clipboard', 'info', {code: code});
   }
+
+  const enableGtmString = localStorage.getItem('enableGtm');
+  const enableGtm = enableGtmString === "1";
 
   return (
 
@@ -87,6 +86,72 @@ const intMenuProfile = ({homeCode, language, density, enableGtm, navigationStyle
         open={open}
         onClose={handleClose}
       >
+
+
+        {homeCode && <MenuItem onClick={handleClose}>
+          <FormattedMessage id="menu_profile.your_code" />
+          <CopyToClipboard
+            text={homeCode}
+            onCopy={() => onCopy(homeCode)}
+          >
+            <Button variant="outlined" component="span" size="small"  className={classes.buttonNoUppercaseChange} >
+            {homeCode}
+            </Button>
+          </CopyToClipboard>
+        </MenuItem>}  
+
+        {language === "fr" && 
+          <MenuItem onClick={() => { setLanguage("en"); handleClose()}}>Switch to English</MenuItem>
+        }
+        {language === "en" &&
+          <MenuItem onClick={() => { setLanguage("fr"); handleClose()}}>Afficher en Français</MenuItem>
+        }     
+
+    
+
+        {homeCode && <MenuItem>
+          <ButtonWithValidation 
+            btnLabel={intl.formatMessage({id: 'menu_profile.leavehome'})}
+            modalTitle={intl.formatMessage({id: 'menu_profile.leavehome'})}
+            modalText={intl.formatMessage({id: 'menu_profile.leaveMessage'})}
+            okLabel={intl.formatMessage({id: 'menu_profile.leaveOkLabel'})}
+            cancelLabel={intl.formatMessage({id: 'button.cancel'})}
+            onOk={leaveHome}
+          />
+        </MenuItem>}
+
+        <MenuItem component={Link} to="/logout"><FormattedMessage id="menu_profile.logout" /></MenuItem>
+
+
+        <MenuItem disabled={true}>&nbsp;</MenuItem>
+        <MenuItem disabled={true}><FormattedMessage id="menu_profile.developer" /></MenuItem>
+
+        <MenuItem>
+          <FormattedMessage id="menu_profile.enableGtm" />
+          <Switch
+            checked={enableGtm}
+            onChange={(event) => {localStorage.setItem("enableGtm", event.target.checked ? 1 : 0); handleClose()}}
+          />
+        </MenuItem>
+
+        {navigationStyle === NavigationStyle.NAVIGATION_TOOLBAR && 
+          <MenuItem onClick={() => {setNavigationStyle(NavigationStyle.NAVIGATION_BOTTOMNAV); handleClose()}}>Switch to bottom navigation</MenuItem>
+        }
+        {navigationStyle === NavigationStyle.NAVIGATION_BOTTOMNAV &&
+          <MenuItem onClick={() => {setNavigationStyle(NavigationStyle.NAVIGATION_TOOLBAR); handleClose()}}>Switch to top navigation</MenuItem>
+        }    
+      </Menu>
+    </div>
+  );
+}
+
+        /* Ex of grouped button
+              
+        // import ToggleButton from '@material-ui/lab/ToggleButton';
+        // import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+        // import ViewComfyIcon from '@material-ui/icons/ViewComfy';
+        // import ViewModuleIcon from '@material-ui/icons/ViewModule';
+        // import ViewStreamIcon from '@material-ui/icons/ViewStream';        
         <MenuItem>
           <FormattedMessage id="menu_profile.density" />
 
@@ -110,71 +175,16 @@ const intMenuProfile = ({homeCode, language, density, enableGtm, navigationStyle
 
           </ToggleButtonGroup>
 
-        </MenuItem>
-
-        <MenuItem>
-          <FormattedMessage id="menu_profile.enableGtm" />
-          <Switch
-            checked={enableGtm === 1}
-            onChange={(event) => { console.log(event.target.checked); setEnableGtm(event.target.checked ? 1 : 0); handleClose()}}
-          />
-        </MenuItem>
-
-
-        {homeCode && <MenuItem onClick={handleClose}>
-          <FormattedMessage id="menu_profile.your_code" />
-          <CopyToClipboard
-            text={homeCode}
-            onCopy={() => onCopy(homeCode)}
-          >
-            <Button variant="outlined" component="span" size="small"  className={classes.buttonNoUppercaseChange} >
-            {homeCode}
-            </Button>
-          </CopyToClipboard>
-        </MenuItem>}  
-
-        {language === "fr" && 
-          <MenuItem onClick={() => { setLanguage("en"); handleClose()}}>Switch to English</MenuItem>
-        }
-        {language === "en" &&
-          <MenuItem onClick={() => { setLanguage("fr"); handleClose()}}>Afficher en Français</MenuItem>
-        }     
-
-        {navigationStyle === NavigationStyle.NAVIGATION_TOOLBAR && 
-          <MenuItem onClick={() => {setNavigationStyle(NavigationStyle.NAVIGATION_BOTTOMNAV); handleClose()}}>Switch to bottom navigation</MenuItem>
-        }
-        {navigationStyle === NavigationStyle.NAVIGATION_BOTTOMNAV &&
-          <MenuItem onClick={() => {setNavigationStyle(NavigationStyle.NAVIGATION_TOOLBAR); handleClose()}}>Switch to top navigation</MenuItem>
-        }        
-
-        {homeCode && <MenuItem>
-          <ButtonWithValidation 
-            btnLabel={intl.formatMessage({id: 'menu_profile.leavehome'})}
-            modalTitle={intl.formatMessage({id: 'menu_profile.leavehome'})}
-            modalText={intl.formatMessage({id: 'menu_profile.leaveMessage'})}
-            okLabel={intl.formatMessage({id: 'menu_profile.leaveOkLabel'})}
-            cancelLabel={intl.formatMessage({id: 'button.cancel'})}
-            onOk={leaveHome}
-          />
-        </MenuItem>}
-
-        <MenuItem component={Link} to="/logout"><FormattedMessage id="menu_profile.logout" /></MenuItem>
-      </Menu>
-    </div>
-  );
-}
-
-
+        </MenuItem> */
 
 
 
 function mapStateToProps(state) {
-  const { user: { home, language, density, enableGtm, navigationStyle } } = state;
+  const { user: { home, language, density, navigationStyle } } = state;
   return {
     homeCode: home,
     language,
     density,
-    enableGtm,
     navigationStyle
   };
 }
@@ -183,7 +193,6 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   setLanguage: userActions.setLanguage,
   setDensity: userActions.setDensity,
-  setEnableGtm: userActions.setEnableGtm,
   setNavigationStyle: userActions.setNavigationStyle,
   leaveHome: userActions.leaveHome,
   login: userActions.login,

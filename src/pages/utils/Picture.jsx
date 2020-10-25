@@ -3,7 +3,15 @@ import PropTypes from 'prop-types';
 import { getIconComponent } from "../../data/Icons";
 
 
-const Picture = ({ className, imageUrl, itemCategory, imageAlt, type = "item", maxResolution }) => {
+const Picture = ({ 
+  // From caller
+  className, 
+  imageUrl, 
+  itemCategory, 
+  imageAlt, 
+  type = "item", 
+  maxResolution 
+}) => {
 
 
   // No image, display the category icon instead!
@@ -46,8 +54,9 @@ const Picture = ({ className, imageUrl, itemCategory, imageAlt, type = "item", m
 };
 
 Picture.propTypes = {
+  // From caller
   className: PropTypes.string,
-  imageUrl: PropTypes.string.isRequired,
+  imageUrl: PropTypes.string,
   type: PropTypes.string,
   imageAlt: PropTypes.string,
   maxResolution: PropTypes.number

@@ -31,11 +31,13 @@ const styles = theme => ({
 });
 
 const AddFromBarcode = ({
+  // From Redux:
   characteristics,
   classes,
+  loggedIn
+  // From other HOC:  
 //   intl,
 //   history,
-  loggedIn
 }) => {
 
   const [scanning, setScanning] = React.useState(true);

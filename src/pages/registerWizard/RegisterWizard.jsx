@@ -75,7 +75,7 @@ class RegisterWizard extends React.Component {
   render() {
     const { classes } = this.props;
 
-    if (this.props.isAuthenticated) { 
+    if (this.props.loggedIn) { 
 
       if(!this.props.home) {
         // navigate to the choose home page
@@ -100,7 +100,7 @@ class RegisterWizard extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.user.loggedIn,
+  loggedIn: state.user.loggedIn,
   home: state.user.home
 });
 

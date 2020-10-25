@@ -113,19 +113,21 @@ const styles = (theme) => ({
 });
 
 const Details = ({
+  // From Redux:
   isNew = false,
   item,
   characteristics,
+  loggedIn,
+  detailsHelpCompleted,
   removeItem,
   updateItem,
   duplicateItem,
   savePicture,
+  setDetailsHelpCompleted,
+  // From other HOC:  
   classes,
   intl,
   history,
-  loggedIn,
-  detailsHelpCompleted,
-  setDetailsHelpCompleted,
 }) => {
   const [showHugeCameraBtn, setShowHugeCameraBtn] = React.useState(false);
   useEffect(() => {

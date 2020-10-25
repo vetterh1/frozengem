@@ -34,7 +34,7 @@ const LoginForm = props => {
   const {
     // From React: 
     classes,
-    isAuthenticated,
+    loggedIn,
     // From intl:
     intl,
     // From Formik: 
@@ -47,7 +47,7 @@ const LoginForm = props => {
   } = props;
 
   // Once we are logged-in, let's redirect to the dashboard!
-  if (isAuthenticated) { 
+  if (loggedIn) { 
     console.debug('[>>> LoginWizard ------>>>----- /dashboard >>>] Reason: authenticated');
     return <Redirect to='/dashboard' />
   };
@@ -152,7 +152,7 @@ const formikLoginForm = withFormik({
   }
 })(LoginForm);
 
-const mapStateToProps = state => ({isAuthenticated: state.user.loggedIn});
+const mapStateToProps = state => ({loggedIn: state.user.loggedIn});
 const connectedFormikLoginForm = connect(
   mapStateToProps, 
   dispatch => bindActionCreators(userActions, dispatch)

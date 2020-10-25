@@ -104,7 +104,13 @@ const stylesItemCard = (theme) => ({
 
 });
 
-const intItemCard = ({ item, classes, intl }) => {
+const intItemCard = ({ 
+  // From caller
+  item, 
+  // From other HOC
+  classes, 
+  intl 
+}) => {
   // console.debug(`[--- FC ---] Functional component: ItemCard - item=${item.id}`);
 
   const [toDetails, setToDetails] = React.useState(false);
@@ -147,7 +153,7 @@ const intItemCard = ({ item, classes, intl }) => {
 
 intItemCard.propTypes = {
   // Props from caller
-  item: PropTypes.object.isRequired,
+  item: PropTypes.object,
 
   // Props from other HOC
   classes: PropTypes.object.isRequired,
