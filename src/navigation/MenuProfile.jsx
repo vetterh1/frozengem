@@ -17,6 +17,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import ButtonWithValidation from '../pages/utils/ButtonWithValidation'
 import { NavigationStyle } from "./configNavigation";
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import ViewComfyIcon from '@material-ui/icons/ViewComfy';
+import ViewModuleIcon from '@material-ui/icons/ViewModule';
+import ViewStreamIcon from '@material-ui/icons/ViewStream';        
 
 
 const useStyles = makeStyles(theme => ({
@@ -107,6 +112,33 @@ const intMenuProfile = ({homeCode, language, density, navigationStyle, setLangua
           <MenuItem onClick={() => { setLanguage("fr"); handleClose()}}>Afficher en Français</MenuItem>
         }     
 
+
+
+           
+        <MenuItem>
+          <FormattedMessage id="menu_profile.density" />
+
+          <ToggleButtonGroup
+            value={density.toString()}
+            exclusive
+            size="small" 
+            onChange={(event, density) => { setDensity(parseInt(density)); handleClose()}}
+            // className="classes.select"
+            classes={{grouped: classes.buttonToggle, root: classes.rootToggle}}
+          >
+            <ToggleButton value="1" aria-label="left aligned"            >
+              <ViewComfyIcon fontSize="small" />
+            </ToggleButton>
+            <ToggleButton value="2" aria-label="centered">
+              <ViewModuleIcon fontSize="small" />
+            </ToggleButton>
+            <ToggleButton value="3" aria-label="right aligned">
+              <ViewStreamIcon fontSize="small" />
+            </ToggleButton>
+
+          </ToggleButtonGroup>
+
+        </MenuItem>
     
 
         {homeCode && <MenuItem>
@@ -145,37 +177,6 @@ const intMenuProfile = ({homeCode, language, density, navigationStyle, setLangua
   );
 }
 
-        /* Ex of grouped button
-              
-        // import ToggleButton from '@material-ui/lab/ToggleButton';
-        // import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-        // import ViewComfyIcon from '@material-ui/icons/ViewComfy';
-        // import ViewModuleIcon from '@material-ui/icons/ViewModule';
-        // import ViewStreamIcon from '@material-ui/icons/ViewStream';        
-        <MenuItem>
-          <FormattedMessage id="menu_profile.density" />
-
-          <ToggleButtonGroup
-            value={density.toString()}
-            exclusive
-            size="small" 
-            onChange={(event, density) => { setDensity(density); handleClose()}}
-            // className="classes.select"
-            classes={{grouped: classes.buttonToggle, root: classes.rootToggle}}
-          >
-            <ToggleButton value="1" aria-label="left aligned"            >
-              <ViewComfyIcon fontSize="small" />
-            </ToggleButton>
-            <ToggleButton value="2" aria-label="centered">
-              <ViewModuleIcon fontSize="small" />
-            </ToggleButton>
-            <ToggleButton value="3" aria-label="right aligned">
-              <ViewStreamIcon fontSize="small" />
-            </ToggleButton>
-
-          </ToggleButtonGroup>
-
-        </MenuItem> */
 
 
 

@@ -2,6 +2,7 @@
 
 import React from "react";
 import PropTypes from "prop-types";
+import clsx from "clsx";
 import { Redirect } from "react-router";
 import { withStyles } from "@material-ui/core/styles";
 import { injectIntl } from "react-intl";
@@ -13,10 +14,36 @@ import Picture from "./Picture";
 
 const stylesItemCard = (theme) => ({
 
-  cardPlusSeparation: {
+  cardAndSeparation: {
     display: "flex",
     flexDirection: "column",
+    height: "100%",
+  },
 
+  cardAndSeparationDensity1: {
+    [theme.breakpoints.down('xs')]: {
+      flexBasis: `calc(100% - ${theme.spacing(1)}px)`,
+      // Mobile / xs: No margin bottom, separation instead
+    },
+    [theme.breakpoints.up('sm')]: {
+      flexBasis: `calc(33.33% - ${theme.spacing(1)}px)`,
+      marginBottom: theme.spacing(3),
+    },
+    [theme.breakpoints.up('md')]: {
+      flexBasis: `calc(25% - ${theme.spacing(1)}px)`,
+      marginBottom: theme.spacing(3),
+    },
+    [theme.breakpoints.up('lg')]: {
+      flexBasis: `calc(20% - ${theme.spacing(1)}px)`,
+      marginBottom: theme.spacing(3),
+    },
+
+    marginRight: theme.spacing(1),
+  },
+
+
+
+  cardAndSeparationDensity2: {
     [theme.breakpoints.down('xs')]: {
       flexBasis: `calc(100% - ${theme.spacing(2)}px)`,
       // Mobile / xs: No margin bottom, separation instead
@@ -35,9 +62,32 @@ const stylesItemCard = (theme) => ({
     },
 
     marginRight: theme.spacing(2),
-
-    height: "100%",
   },
+
+
+  cardAndSeparationDensity3: {
+    [theme.breakpoints.down('xs')]: {
+      flexBasis: `calc(100% - ${theme.spacing(2)}px)`,
+      // Mobile / xs: No margin bottom, separation instead
+    },
+    [theme.breakpoints.up('sm')]: {
+      flexBasis: `calc(50% - ${theme.spacing(2)}px)`,
+      marginBottom: theme.spacing(5),
+    },
+    [theme.breakpoints.up('lg')]: {
+      flexBasis: `calc(33.33% - ${theme.spacing(2)}px)`,
+      marginBottom: theme.spacing(5),
+    },
+    [theme.breakpoints.up('xl')]: {
+      flexBasis: `calc(25% - ${theme.spacing(2)}px)`,
+      marginBottom: theme.spacing(5),
+    },
+
+    marginRight: theme.spacing(2),
+  },
+
+
+
 
 
   card: {
@@ -51,6 +101,26 @@ const stylesItemCard = (theme) => ({
 
 
   cardImage: {
+  },
+
+  cardImageDensity1: {
+    [theme.breakpoints.down('xs')]: {
+      // Mobile / xs : image on the left (smaller), text on the right (larger)
+      flexBasis: `calc(40% - ${theme.spacing(1)}px)`,
+      marginRight: theme.spacing(1),
+    },
+    marginBottom: theme.spacing(1),
+  },
+  cardImageDensity2: {
+    [theme.breakpoints.down('xs')]: {
+      // Mobile / xs : image on the left, text on the right
+      flexBasis: `calc(50% - ${theme.spacing(1)}px)`,
+      marginRight: theme.spacing(2),
+    },
+    marginBottom: theme.spacing(2),
+  },
+
+  cardImageDensity3: {
     [theme.breakpoints.down('xs')]: {
       // Mobile / xs : image on the left, text on the right
       flexBasis: `calc(50% - ${theme.spacing(1)}px)`,
@@ -65,12 +135,31 @@ const stylesItemCard = (theme) => ({
     display: "flex",
     flexDirection: "column",
     // flexGrow: 1,
+  },
 
+  cardTextDensity1: {
+    [theme.breakpoints.down('xs')]: {
+      // Mobile / xs : image on the left (smaller), text on the right (larger)
+      flexBasis: `calc(60% - ${theme.spacing(1)}px)`,
+    },
+  },
+
+  cardTextDensity2: {
     [theme.breakpoints.down('xs')]: {
       // Mobile / xs : image on the left, text on the right
       flexBasis: `calc(50% - ${theme.spacing(1)}px)`,
     },
   },
+
+  cardTextDensity3: {
+    [theme.breakpoints.down('xs')]: {
+      // Mobile / xs : image on the left, text on the right
+      flexBasis: `calc(50% - ${theme.spacing(2)}px)`,
+    },
+  },
+
+
+
 
   cardMain: {
     display: "flex",
@@ -98,15 +187,30 @@ const stylesItemCard = (theme) => ({
     width: "100%",
     height: "1px",
     backgroundColor: "#dfe7e7",
+  },
+
+  separationDensity1: {
+    marginRight: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },  
+
+  separationDensity2: {
+    marginRight: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+  },  
+
+  separationDensity3: {
     marginRight: theme.spacing(2),
     marginBottom: theme.spacing(3),
-  },
+  },  
 
 });
 
 const intItemCard = ({ 
   // From caller
   item, 
+  density,
+
   // From other HOC
   classes, 
   intl 
@@ -128,16 +232,31 @@ const intItemCard = ({
 
 
   return (
-    <div className={classes.cardPlusSeparation}>
+    <div className={clsx(
+      classes.cardAndSeparation, 
+      density === 1 && classes.cardAndSeparationDensity1,
+      density === 2 && classes.cardAndSeparationDensity2,
+      density === 3 && classes.cardAndSeparationDensity3,
+    )}>
       <div className={classes.card} onClick={handleClickForDetails}>
         <Picture
           imageUrl={item.pictureName ?`${config.staticUrl}/custom-size-image/${item.pictureName}` : null}
           imageAlt={item.__descriptionOrCategory}
           itemCategory={item.category}
-          className={classes.cardImage}
+          className={clsx(
+            classes.cardImage, 
+            density === 1 && classes.cardImageDensity1,
+            density === 2 && classes.cardImageDensity2,
+            density === 3 && classes.cardImageDensity3,
+        )}
           maxResolution={250}
         />      
-        <div className={classes.cardText}>
+        <div className={clsx(
+            classes.cardText, 
+            density === 1 && classes.cardTextDensity1,
+            density === 2 && classes.cardTextDensity2,
+            density === 3 && classes.cardTextDensity3,
+        )}>
           <div className={classes.cardMain}>
             <Typography gutterBottom variant="h4">{item.__descriptionOrCategory}</Typography>
             <Typography gutterBottom color="textSecondary">{item.__sizeInText}</Typography>
@@ -146,7 +265,12 @@ const intItemCard = ({
           <Typography className={classes.details_image_code} color="textSecondary" component="p" >{item ? item.code : "-"}</Typography>
         </div>      
       </div>
-      <div className={classes.separation} />
+      <div className={clsx(
+            classes.separation, 
+            density === 1 && classes.separationDensity1,
+            density === 2 && classes.separationDensity2,
+            density === 3 && classes.separationDensity3,
+      )} />
     </div>
   );
 };
@@ -154,6 +278,7 @@ const intItemCard = ({
 intItemCard.propTypes = {
   // Props from caller
   item: PropTypes.object,
+  density: PropTypes.oneOf([1, 2, 3]),
 
   // Props from other HOC
   classes: PropTypes.object.isRequired,

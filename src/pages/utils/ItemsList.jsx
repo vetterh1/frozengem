@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import clsx from "clsx";
 import { getVisibleItems } from "../../_selectors/itemsSelector";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -7,21 +8,43 @@ import { FormattedMessage } from "react-intl";
 import ItemCard from "./ItemCard";
 
 const styles = (theme) => ({
+
   layout: {
     display: "flex",
     flexWrap: "wrap",
+  },
+
+  layoutDensity1: {
+    marginRight: `-${theme.spacing(1)}px`,
+    [theme.breakpoints.down('xs')]: {
+      padding: `${theme.spacing(2)}px 0`,
+    },
+    [theme.breakpoints.up('sm')]: {
+      padding: `${theme.spacing(3)}px 0`,
+    },
+  },
+
+  layoutDensity2: {
     marginRight: `-${theme.spacing(2)}px`,
-    
     [theme.breakpoints.down('xs')]: {
       padding: `${theme.spacing(3)}px 0`,
     },
     [theme.breakpoints.up('sm')]: {
       padding: `${theme.spacing(5)}px 0`,
     },
-
-
-
   },
+
+  layoutDensity3: {
+    marginRight: `-${theme.spacing(2)}px`,
+    [theme.breakpoints.down('xs')]: {
+      padding: `${theme.spacing(3)}px 0`,
+    },
+    [theme.breakpoints.up('sm')]: {
+      padding: `${theme.spacing(5)}px 0`,
+    },
+  },
+
+
 });
 
 const intItemsList = ({ list, classes, density }) => {
@@ -39,7 +62,12 @@ const intItemsList = ({ list, classes, density }) => {
   return (
     <>
       {/* <div className={classes.fixedBackground}></div> */}
-      <div className={classes.layout}>
+      <div className={clsx(
+            classes.layout, 
+            density === 1 && classes.layoutDensity1,
+            density === 2 && classes.layoutDensity2,
+            density === 3 && classes.layoutDensity3,
+      )}>
         {list.map((item, index) => (
           <ItemCard key={item.id} item={item} index={index} last={index === list.length + 1} density={density} />
         ))}

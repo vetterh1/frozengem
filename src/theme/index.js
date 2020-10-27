@@ -15,7 +15,6 @@ const theme = createMuiTheme({
       xl: 1280,
     },
   },  
-  density: 2, // 1=compact, 2=default, 3=comfortable
   transparency: false,
   image: "url(bg-snow.jpg)",
   palette,
