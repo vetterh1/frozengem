@@ -21,6 +21,7 @@ const styles = theme => ({
   appBar: {
     color: theme.palette.header.color,
     backgroundColor: theme.palette.header.backgroundColor,
+    borderBottom: `1px solid ${theme.palette.divider}`,
     // backgroundColor: fade( theme.palette.primary.dark, 0.8),
     backdropFilter: theme.transparency ? "blur(8px) contrast(0.4) brightness(1.0)" : null,
   },
@@ -43,8 +44,6 @@ const Header = ({
   language,
   navigationStyle,
   setLanguage
-  // detailsHelpCompleted,
-  // setDetailsHelpCompleted
 }) => {
   let location = useLocation();
   console.log("header - location=", location);
@@ -64,8 +63,7 @@ const Header = ({
 
   return (
     <AppBar
-      position="static"
-      color="primary"
+      position="sticky"
       elevation={0}
       className={classes.appBar}
     >

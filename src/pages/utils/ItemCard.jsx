@@ -186,7 +186,7 @@ const stylesItemCard = (theme) => ({
     },    
     width: "100%",
     height: "1px",
-    backgroundColor: "#dfe7e7",
+    backgroundColor: theme.palette.divider,
   },
 
   separationDensity1: {

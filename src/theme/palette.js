@@ -31,7 +31,7 @@ const chosenColors =  {
     medium: grey[200],
     main: grey[300],
     dark: grey[500]
-  },
+  }
 }
 
 
@@ -56,7 +56,7 @@ const palette =  {
   },
   header: {
     color: chosenColors.primary.dark,
-    backgroundColor: chosenColors.primary.medium
+    backgroundColor: chosenColors.backgroundColor.light
   },
   bottomNavigation: {
     backgroundColor: chosenColors.backgroundColor.main
@@ -78,7 +78,7 @@ const palette =  {
       next_30_days: red[50],
       within_3_months: orange[50],
       later: green[50]
-    }
+    },
   },
   matrixCard: {
     selected: amber[100]
@@ -87,8 +87,8 @@ const palette =  {
     primary: blueGrey[900],
     secondary: blueGrey[600],
     link: blue[600]
-  }
-  // divider: grey[200]
+  },
+  divider: chosenColors.backgroundColor.main
 };
 
 

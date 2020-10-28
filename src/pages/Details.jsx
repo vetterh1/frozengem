@@ -16,6 +16,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Person from "@material-ui/icons/Person";
 import PersonOutline from "@material-ui/icons/PersonOutline";
 import HelpIcon from "@material-ui/icons/Help";
+import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import PictureSelection from "./utils/PictureSelection";
 import CategoryButton from "./utils/CategoryButton";
 import RemoveButton from "./utils/RemoveButton";

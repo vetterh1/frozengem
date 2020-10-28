@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */ 
 import React, { useEffect, Suspense, lazy } from 'react';
-// import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import clsx from "clsx";
 import { Redirect } from 'react-router'
 import { connect, useDispatch } from 'react-redux';
 import { userActions } from '../_actions/userActions';
@@ -11,7 +11,6 @@ import Notifier from './utils/Notifier';
 import translations from '../i18n/locales';
 import withMyTheme from '../theme/withMyTheme';
 import { withStyles } from '@material-ui/core/styles';
-// import Container from '@material-ui/core/Container';
 import { NavigationStyle } from '../navigation/configNavigation'
 // Date util library (moment like) & date picker:
 import DateFnsUtils from '@date-io/date-fns';
@@ -97,9 +96,36 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "column",
     flexGrow: 1,
-    paddingTop: theme.spacing(2),
     paddingBottom: 0,
   },
+
+  containerStyleDensity1: {
+    [theme.breakpoints.down('xs')]: {
+      paddingTop: theme.spacing(1),
+    },
+    [theme.breakpoints.up('sm')]: {
+      paddingTop: theme.spacing(1),
+    },
+  },
+
+  containerStyleDensity2: {
+    [theme.breakpoints.down('xs')]: {
+      paddingTop: theme.spacing(2),
+    },
+    [theme.breakpoints.up('sm')]: {
+      paddingTop: theme.spacing(2),
+    },
+  },
+
+  containerStyleDensity3: {
+    [theme.breakpoints.down('xs')]: {
+      paddingTop: theme.spacing(3),
+    },
+    [theme.breakpoints.up('sm')]: {
+      paddingTop: theme.spacing(3),
+    },
+  },
+
   stickToBottom: {
   },
 
@@ -124,7 +150,17 @@ const styles = theme => ({
 
 
 
-const App = ({autologin, classes, ...props}) => {
+const App = ({
+  autologin,
+  classes,
+  name,
+  language,
+  home,
+  loggedIn,
+  location,
+  density,
+  navigationStyle
+}) => {
 
 
 
@@ -140,9 +176,9 @@ const App = ({autologin, classes, ...props}) => {
     [dispatch, autologin] // ==> generates a warning on the console, but only way found to have it executed only once!
   );
   
-  if(!props.language){ console.log('app.js - no language');  return null; }
+  if(!language){ console.log('app.js - no language');  return null; }
 
-  console.debug("App 0 - props:", props, ", loggedIn:", props.loggedIn, ", home: ", props.home, ", language: ", props.language);
+  console.debug("App 0: loggedIn:", loggedIn, ", home: ", home, ", language: ", language);
 
   return (
     <SnackbarProvider 
@@ -151,15 +187,14 @@ const App = ({autologin, classes, ...props}) => {
     >
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <IntlProvider
-            locale={props.language}
+            locale={language}
             defaultLocale="en"
-            key={props.language}
-            messages={translations[props.language]}
+            key={language}
+            messages={translations[language]}
           >     
             <> 
-            <div className={classes.fixedBackground}></div>
-
-            <Notifier />
+              <div className={classes.fixedBackground} />
+              <Notifier />
 
               {/* process.env.PUBLIC_URL is defined in package.json / homepage.
                   here, it's either "" (dev) or "." (prod)
@@ -169,10 +204,20 @@ const App = ({autologin, classes, ...props}) => {
 
                 <div className={classes.divStyle}>
 
-                  <Header {...props}/>
+                  <Header 
+                    classes
+                    loggedIn 
+                    language 
+                    navigationStyle 
+                    setLanguage
+                  />
                   {/* <Container maxWidth="md"  className={classes.containerStyle}> */}
-                  <div className={classes.containerStyle}>
-
+                  <div className={clsx(
+                    classes.containerStyle, 
+                    density === 1 && classes.containerStyleDensity1,
+                    density === 2 && classes.containerStyleDensity2,
+                    density === 3 && classes.containerStyleDensity3,
+                  )}>
                     <Switch>
                       <Route
                         exact path="/dashboard"
@@ -221,18 +266,18 @@ const App = ({autologin, classes, ...props}) => {
                       <Route
                         exact path="/"
                         render={() => { 
-                          console.debug("App route / - props:", props, ", loggedIn:", props.loggedIn, ", home: ", props.home, ", language: ", props.language);
-                          if(props.loggedIn) {
+                          console.debug("App route / - loggedIn:", loggedIn, ", home: ", home, ", language: ", language);
+                          if(loggedIn) {
 
                             // User exists but has not chosen his home yet: ask him to choose!
-                            // if(!props.home) return <Container><ChooseHome /></Container>;
-                            if(!props.home){
+                            // if(!home) return <Container><ChooseHome /></Container>;
+                            if(!home){
                               console.debug('[>>> App ------>>>----- choosehome >>>] Reason: no home defined');
                               return <Redirect to='/choosehome'/>
                             }
 
                             // Token exists, but no name --> in userinfo loading process:
-                            if(!props.name) return <LoadingUserInfo /> ;
+                            if(!name) return <LoadingUserInfo /> ;
                             
                             // Authenticated users see their dashboard:
                             // return <Dashboard />;
@@ -255,10 +300,10 @@ const App = ({autologin, classes, ...props}) => {
                   {/* </Container> */}
                   </div>
 
-                  { !props.loggedIn && <Footer location={props.location} />}
-                  { props.loggedIn && props.navigationStyle === NavigationStyle.NAVIGATION_BOTTOMNAV && 
+                  { !loggedIn && <Footer location={location} />}
+                  { loggedIn && navigationStyle === NavigationStyle.NAVIGATION_BOTTOMNAV && 
                     <BottomNav className={classes.stickToBottom} /> }
-                  { props.loggedIn && props.navigationStyle === NavigationStyle.NAVIGATION_FLOATING && 
+                  { loggedIn && navigationStyle === NavigationStyle.NAVIGATION_FLOATING && 
                     <FloatingNav /> }                              
 
                 </div>
@@ -280,6 +325,7 @@ function mapStateToProps(state) {
       name: null,
       home: null,
       navigationStyle: null,
+      density: 2,
     };
   return {
     loggedIn: state.user.loggedIn,
@@ -287,6 +333,7 @@ function mapStateToProps(state) {
     name: state.user.name,
     home: state.user.home,
     navigationStyle: state.user.navigationStyle,
+    density: state.user.density,
   };
 }
 
