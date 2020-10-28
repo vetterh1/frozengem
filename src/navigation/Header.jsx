@@ -39,11 +39,14 @@ const styles = theme => ({
 });
 
 const Header = ({
-  classes,
+  // From Redux:
   loggedIn,
   language,
   navigationStyle,
-  setLanguage
+  setLanguage,
+
+  // From other HOC
+  classes,
 }) => {
   let location = useLocation();
   console.log("header - location=", location);

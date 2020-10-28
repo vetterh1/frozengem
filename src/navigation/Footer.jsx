@@ -47,9 +47,12 @@ const useStyles = makeStyles(theme => ({
 
 
 
-function Footer(props) {
+function Footer({
+  // From other HOC
+  location,
+}) {
   const classes = useStyles();
-  const onMainPage = props.location.pathname === '/';
+  const onMainPage = location.pathname === '/';
 
   return (
     <footer className={classes.footer}>
@@ -63,5 +66,4 @@ function Footer(props) {
     </footer>
   );
 }
-
 export default withRouter(Footer);

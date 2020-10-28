@@ -43,10 +43,8 @@ const BorderLinearProgress = withStyles((theme) => ({
 
 const styles = (theme) => ({
   card: {
-    backgroundColor: theme.transparency ? "transparent" : theme.palette.detailsCard.backgroundColor,
-    // backgroundColor: theme.transparency ? "transparent" : fade(theme.palette.primary.light, 0.4),
+    backgroundColor: theme.transparency ? "transparent" : null,
     backdropFilter: theme.transparency ? "blur(10px) contrast(0.2) brightness(1.8)" : null,
-    borderRadius: "10px",
   },
 
   details_image_section: {
@@ -119,6 +117,7 @@ const Details = ({
   item,
   characteristics,
   loggedIn,
+  density,
   detailsHelpCompleted,
   removeItem,
   updateItem,
@@ -706,6 +705,7 @@ function mapStateToProps(state, ownProps) {
     item: id ? state.items.list.find((item) => item.id === id) : null,
     characteristics: state.characteristics,
     loggedIn: state.user.loggedIn,
+    density: state.user.density,
     detailsHelpCompleted: state.user.detailsHelpCompleted,
   };
 }

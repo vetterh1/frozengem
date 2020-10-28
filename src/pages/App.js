@@ -9,6 +9,7 @@ import { IntlProvider } from "react-intl";
 import { SnackbarProvider } from 'notistack';
 import Notifier from './utils/Notifier';
 import translations from '../i18n/locales';
+import { useTheme } from '@material-ui/core/styles';
 import withMyTheme from '../theme/withMyTheme';
 import { withStyles } from '@material-ui/core/styles';
 import { NavigationStyle } from '../navigation/configNavigation'
@@ -91,6 +92,7 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "column",
     minHeight: "100vh",
+    backgroundColor: theme.transparency ? null : theme.palette.main.backgroundColor,
   },
   containerStyle: {
     display: "flex",
@@ -130,7 +132,7 @@ const styles = theme => ({
   },
 
 
-  fixedBackground: {
+  transparentFixedBackground: {
     zIndex: -1,
     position: "fixed",
     left: 0,
@@ -139,27 +141,31 @@ const styles = theme => ({
     height: "100%",
     pointerEvents: "none",
 
-    backgroundImage: theme.transparency ? "url(bg-snow.jpg)" : null,
-    backgroundSize: theme.transparency ? "cover" : null,
-    backgroundPosition: theme.transparency ? "center center" : null,
-    backgroundColor: theme.transparency ? null : theme.palette.main.backgroundColor,
-    // backgroundColor: theme.transparency ? null : theme.palette.primary.light,
+    backgroundImage: "url(bg-snow.jpg)",
+    backgroundSize: "cover",
+    backgroundPosition: "center center",
+    backgroundColor: null,
   },
 });
 
 
 
 
+
+
+
 const App = ({
+  // From Redux:
   autologin,
-  classes,
   name,
   language,
   home,
   loggedIn,
-  location,
   density,
-  navigationStyle
+  navigationStyle,
+
+  // From other HOC
+  classes,
 }) => {
 
 
@@ -178,6 +184,8 @@ const App = ({
   
   if(!language){ console.log('app.js - no language');  return null; }
 
+  const theme = useTheme();
+
   console.debug("App 0: loggedIn:", loggedIn, ", home: ", home, ", language: ", language);
 
   return (
@@ -193,7 +201,7 @@ const App = ({
             messages={translations[language]}
           >     
             <> 
-              <div className={classes.fixedBackground} />
+              {theme.transparency && <div className={classes.transparentFixedBackground} />}
               <Notifier />
 
               {/* process.env.PUBLIC_URL is defined in package.json / homepage.
@@ -204,14 +212,7 @@ const App = ({
 
                 <div className={classes.divStyle}>
 
-                  <Header 
-                    classes
-                    loggedIn 
-                    language 
-                    navigationStyle 
-                    setLanguage
-                  />
-                  {/* <Container maxWidth="md"  className={classes.containerStyle}> */}
+                  <Header />
                   <div className={clsx(
                     classes.containerStyle, 
                     density === 1 && classes.containerStyleDensity1,
@@ -300,7 +301,7 @@ const App = ({
                   {/* </Container> */}
                   </div>
 
-                  { !loggedIn && <Footer location={location} />}
+                  { !loggedIn && <Footer />}
                   { loggedIn && navigationStyle === NavigationStyle.NAVIGATION_BOTTOMNAV && 
                     <BottomNav className={classes.stickToBottom} /> }
                   { loggedIn && navigationStyle === NavigationStyle.NAVIGATION_FLOATING && 
