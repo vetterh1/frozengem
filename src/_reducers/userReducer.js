@@ -4,7 +4,8 @@ const initialState = {
   loggedIn: false,
   language: "en",
   density: 2,
-  detailsHelpCompleted: false
+  helpMessageSeen: false,
+  showHelpDetails: false
 };
 
 export function user(state = initialState, action) {
@@ -15,6 +16,7 @@ export function user(state = initialState, action) {
 
     case ACTIONS.LOGIN_REQUEST:
       return {
+        ...state,
         loggedIn: false,
         language: state.language
       };
@@ -23,6 +25,7 @@ export function user(state = initialState, action) {
       console.debug("ACTIONS.LOGIN_SUCCESS - action:", action);
 
       return {
+        ...state,
         loggedIn: true,
         ...action.user,
         language: action.user.language
@@ -30,12 +33,14 @@ export function user(state = initialState, action) {
 
     case ACTIONS.LOGIN_FAILURE:
       return {
+        ...state,
         loggedIn: false,
         language: state.language
       };
 
     case ACTIONS.LOGOUT:
       return {
+        ...state,
         loggedIn: false,
         language: state.language
       };
@@ -62,12 +67,18 @@ export function user(state = initialState, action) {
         navigationStyle: action.navigationStyle
       };
 
-    case ACTIONS.SET_DETAILS_HELP_COMPLETED:
+    case ACTIONS.SET_HELP_MESSAGE_SEEN:
       return {
         ...state,
-        detailsHelpCompleted: action.detailsHelpCompleted
+        helpMessageSeen: action.helpMessageSeen
       };
 
+    case ACTIONS.SET_SHOW_HELP_DETAILS:
+      return {
+        ...state,
+        showHelpDetails: action.showHelpDetails
+      };
+  
     default:
       return state;
   }

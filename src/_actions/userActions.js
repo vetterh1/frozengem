@@ -15,7 +15,8 @@ export const userActions = {
   setLanguage,
   setDensity,
   setNavigationStyle,
-  setDetailsHelpCompleted
+  setHelpMessageSeen,
+  setShowHelpDetails,
 };
 
 function setLanguage(language) {
@@ -57,19 +58,35 @@ function setNavigationStyle(navigationStyle) {
   };
 }
 
-function setDetailsHelpCompleted(detailsHelpCompleted) {
+function setHelpMessageSeen(helpMessageSeen) {
   return async dispatch => {
     try {
-      await userServices.setDetailsHelpCompleted(detailsHelpCompleted);
+      await userServices.setHelpMessageSeen(helpMessageSeen);
       dispatch({
-        type: ACTIONS.SET_DETAILS_HELP_COMPLETED,
-        detailsHelpCompleted
+        type: ACTIONS.SET_HELP_MESSAGE_SEEN,
+        helpMessageSeen
       });
     } catch (error) {
-      console.error("setDetailsHelpCompleted failed", detailsHelpCompleted);
+      console.error("setHelpMessageSeen failed", helpMessageSeen);
     }
   };
 }
+
+
+function setShowHelpDetails(showHelpDetails) {
+  return async dispatch => {
+    try {
+      // NO server save, just local for this session
+      dispatch({
+        type: ACTIONS.SET_SHOW_HELP_DETAILS,
+        showHelpDetails
+      });
+    } catch (error) {
+      console.error("setShowHelpDetails failed", showHelpDetails);
+    }
+  };
+}
+
 
 function afterLoginOrRegister(isRegister, user, dispatch, displayNotifier) {
   // Add user info to redux store

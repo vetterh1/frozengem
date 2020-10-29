@@ -12,11 +12,9 @@ import { injectIntl, FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 import { Button, Divider, Typography } from "@material-ui/core";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import IconButton from "@material-ui/core/IconButton";
 import Person from "@material-ui/icons/Person";
 import PersonOutline from "@material-ui/icons/PersonOutline";
-import HelpIcon from "@material-ui/icons/Help";
-import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
+// import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import PictureSelection from "./utils/PictureSelection";
 import CategoryButton from "./utils/CategoryButton";
 import RemoveButton from "./utils/RemoveButton";
@@ -26,9 +24,8 @@ import { gtmPush } from "../utils/gtmPush";
 import SectionBlock from "./utils/SectionBlock";
 import ScrollToTop from "./utils/ScrollToTop";
 import ItemImage from "./utils/ItemImage";
-import Joyride, { STATUS } from "react-joyride";
-// import { it } from "date-fns/esm/locale";
-// import { fade } from "@material-ui/core/styles/colorManipulator";
+import Joyride, { ACTIONS } from "react-joyride";
+
 
 const BorderLinearProgress = withStyles((theme) => ({
   root: {
@@ -118,12 +115,12 @@ const Details = ({
   characteristics,
   loggedIn,
   density,
-  detailsHelpCompleted,
+  showHelpDetails,
   removeItem,
   updateItem,
   duplicateItem,
   savePicture,
-  setDetailsHelpCompleted,
+  setShowHelpDetails,
   // From other HOC:  
   classes,
   intl,
@@ -149,12 +146,7 @@ const Details = ({
   // const theme = useTheme();
   // const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  console.debug(
-    "[--- FC ---] Functional component: Details - createNewItem = ",
-    createNewItem,
-    " - item = ",
-    item ? item : "N/A"
-  );
+  console.debug("[--- FC ---] Functional component: Details - createNewItem = ", createNewItem, " - item = ", item ? item : "N/A");
 
   const _handleClose = () => {
     console.debug("[<<< Details ------<<<----- / <<<] Reason: close details");
@@ -193,7 +185,7 @@ const Details = ({
   };
 
   const _handleUpdateCharacteristic = async (update) => {
-    console.debug("Details._handleUpdateCharacteristic: ", item.id, update);
+    // console.debug("Details._handleUpdateCharacteristic: ", item.id, update);
     if (update) updateItem(item.id, update);
     return null;
   };
@@ -278,101 +270,58 @@ const Details = ({
       target: "body",
       title: intl.formatMessage({ id: "action.edit" }),
       content: intl.formatMessage({ id: "help.details.edit" }),
-      // disableBeacon: true,
-      // disableOverlayClose: true,
-      // hideCloseButton: true,
       placement: "center",
     },
     {
       target: ".cam_icon",
       title: intl.formatMessage({ id: "action.edit" }),
       content: intl.formatMessage({ id: "help.details.camera" }),
-      // disableBeacon: true,
-      // disableOverlayClose: true,
-      // hideCloseButton: true
-    },
+   },
     {
       target: "#tile_details_update_description",
       title: intl.formatMessage({ id: "action.edit" }),
       content: intl.formatMessage({ id: "help.details.description" }),
-      // disableBeacon: true,
-      // disableOverlayClose: true,
-      // hideCloseButton: true
-    },
+   },
     {
       target: "#tile_details_update_details",
       title: intl.formatMessage({ id: "action.edit" }),
       content: intl.formatMessage({ id: "help.details.details" }),
-      // disableBeacon: true,
-      // disableOverlayClose: true,
-      // hideCloseButton: true
-    },
+   },
     {
       target: "#tile_details_update_location",
       title: intl.formatMessage({ id: "action.edit" }),
       content: intl.formatMessage({ id: "help.details.location" }),
-      // disableBeacon: true,
-      // disableOverlayClose: true,
-      // hideCloseButton: true
-    },
-    // {
-    //   target: "#tile_details_update_container",
-    //   content: intl.formatMessage({ id: "help.details.incomplete" }),
-    //   // disableBeacon: true,
-    //   // disableOverlayClose: true,
-    // hideCloseButton: true,
-    // },
+   },
     {
       target: ".MuiCardMedia-root ",
       title: intl.formatMessage({ id: "help.details.image.title" }),
       content: intl.formatMessage({ id: "help.details.image" }),
-      // disableBeacon: true,
-      // disableOverlayClose: true,
-      // hideCloseButton: true
-    },
+   },
     {
       target: ".code_id",
       title: intl.formatMessage({ id: "help.details.important" }),
       content: intl.formatMessage({ id: "help.details.code" }),
-      // disableBeacon: true,
-      // disableOverlayClose: true,
-      // hideCloseButton: true
-    },
+   },
     {
       target: "#tile_details_update_size",
       title: intl.formatMessage({ id: "help.details.important" }),
       content: intl.formatMessage({ id: "help.details.quantity" }),
-      // disableBeacon: true,
-      // disableOverlayClose: true,
-      // hideCloseButton: true
-    },
+   },
     {
       target: "#btn_details_remove_item",
       title: intl.formatMessage({ id: "help.details.important" }),
       content: intl.formatMessage({ id: "help.details.remove" }),
-      // disableBeacon: true,
-      // disableOverlayClose: true,
-      // hideCloseButton: true
-    },
+   },
     {
-      target: ".help_btn",
+      target: ".help_icon",
       title: intl.formatMessage({ id: "action.help" }),
       content: intl.formatMessage({ id: "help.details.help" }),
-      // disableBeacon: true,
-      // disableOverlayClose: true,
-      // hideCloseButton: true,
     },
   ];
   const handleJoyrideCallback = (data) => {
-    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
-      console.debug("handleJoyrideCallback: detailsHelpCompleted --> true!");
-      setDetailsHelpCompleted(true);
+    if ([ACTIONS.STOP, ACTIONS.CLOSE, ACTIONS.SKIP].includes(data.action)) {
+      setShowHelpDetails(false);
     }
-  };
-  const _handleHelp = async () => {
-    console.debug("handleJoyrideCallback: detailsHelpCompleted --> true!");
-    setDetailsHelpCompleted(!detailsHelpCompleted);
-    return null;
   };
 
   //
@@ -382,12 +331,11 @@ const Details = ({
   return (
     <div className={classes.card}>
       <ScrollToTop />
-      {!detailsHelpCompleted && (
         <Joyride
           steps={helpSteps}
           callback={handleJoyrideCallback}
-          disableScrolling={true}
-          debug={true}
+          // disableScrolling={true}
+          // debug={true}
           continuous={true}
           showProgress={true}
           scrollToFirstStep={true}
@@ -398,14 +346,13 @@ const Details = ({
             next: intl.formatMessage({ id: "button.continue" }),
             skip: intl.formatMessage({ id: "button.skip" }),
           }}
-          run={true}
+          run={showHelpDetails}
           styles={{
             options: {
               primaryColor: "#303f9f",
             },
           }}
         />
-      )}
       {/*
       ********************************************************************
                 Picture section with Return and Picture buttons
@@ -477,16 +424,6 @@ const Details = ({
             open={showHugeCameraBtn}
           />
         }
-
-        <IconButton
-          component="span"
-          color="primary"
-          aria-label="Help"
-          className={clsx(classes.details_help, "help_btn")}
-          onClick={_handleHelp}
-        >
-          <HelpIcon />
-        </IconButton>
       </section>
       <div className={"medium-padding"}>
         {/*
@@ -692,12 +629,7 @@ const Details = ({
 // }
 
 function mapStateToProps(state, ownProps) {
-  console.debug(
-    "Details.mapStateToProps - ownProps, match, params=",
-    ownProps,
-    ownProps.match,
-    ownProps.match.params
-  );
+  // console.debug("Details.mapStateToProps - ownProps, match, params=", ownProps, ownProps.match, ownProps.match.params );
   const id = ownProps.match.params.id;
   const isNew = ownProps.match.path.startsWith("/new/");
   return {
@@ -706,7 +638,7 @@ function mapStateToProps(state, ownProps) {
     characteristics: state.characteristics,
     loggedIn: state.user.loggedIn,
     density: state.user.density,
-    detailsHelpCompleted: state.user.detailsHelpCompleted,
+    showHelpDetails: state.user.showHelpDetails,
   };
 }
 
@@ -715,7 +647,7 @@ const mapDispatchToProps = {
   removeItem: itemsActions.removeItem,
   savePicture: itemsActions.savePicture,
   duplicateItem: itemsActions.duplicateItem,
-  setDetailsHelpCompleted: userActions.setDetailsHelpCompleted,
+  setShowHelpDetails: userActions.setShowHelpDetails,
 };
 
 const connectedDetails = withRouter(

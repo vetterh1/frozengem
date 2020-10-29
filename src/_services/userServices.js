@@ -8,7 +8,7 @@ export const userServices = {
   setLanguage,
   setDensity,
   setNavigationStyle,
-  setDetailsHelpCompleted,
+  setHelpMessageSeen,
   login,
   autologin,
   logout,
@@ -80,8 +80,8 @@ async function setNavigationStyle(navigationStyle) {
 // Save the navigation style passed in parameter in the user record on the server
 // Returns: null
 
-async function setDetailsHelpCompleted(detailsHelpCompleted) {
-  await _updateServer("detailsHelpCompleted", detailsHelpCompleted);
+async function setHelpMessageSeen(helpMessageSeen) {
+  await _updateServer("helpMessageSeen", helpMessageSeen);
 }
 
 // Retreive the user record from the server

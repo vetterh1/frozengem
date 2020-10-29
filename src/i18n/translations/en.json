@@ -84,6 +84,8 @@
   "footer.why": "Why?",
   "footer.whyanswer": "We all discard food because we forgot about it. We all have times where we don't know what to cook and what we have. Take control of your freezer and rediscover your homemade leftovers before it's too late!",
   "header.title": "Frozen Gem",
+  "help.title": "Get some help",
+  "help.description": "Get some help by clicking the '?' icon",
   "help.details.camera": "including the picture...",
   "help.details.code": "Write this code on your container to identify it easily later",
   "help.details.date": "the expiration date...",

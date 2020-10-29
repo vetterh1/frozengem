@@ -22,6 +22,7 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 import ViewModuleIcon from '@material-ui/icons/ViewModule';
 import ViewStreamIcon from '@material-ui/icons/ViewStream';        
+import Divider from '@material-ui/core/Divider';
 
 
 const useStyles = makeStyles(theme => ({
@@ -42,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const intMenuProfile = ({homeCode, language, density, navigationStyle, setLanguage, setDensity, setNavigationStyle, leaveHome, addIntlNotifier, intl}) => {
+const intMenuProfile = ({name, homeCode, language, density, navigationStyle, setLanguage, setDensity, setNavigationStyle, leaveHome, addIntlNotifier, intl}) => {
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -91,6 +92,15 @@ const intMenuProfile = ({homeCode, language, density, navigationStyle, setLangua
         open={open}
         onClose={handleClose}
       >
+
+        <MenuItem>
+          <b className={"flex-direction-row flex-justify-between full-width"}>
+            <div className={""}>{name}</div>
+            <div className={""} onClick={() => { handleClose()}}>X</div>
+          </b>
+        </MenuItem>
+
+        <Divider />
 
 
         {homeCode && <MenuItem onClick={handleClose}>
@@ -155,7 +165,7 @@ const intMenuProfile = ({homeCode, language, density, navigationStyle, setLangua
         <MenuItem component={Link} to="/logout"><FormattedMessage id="menu_profile.logout" /></MenuItem>
 
 
-        <MenuItem disabled={true}>&nbsp;</MenuItem>
+        <Divider />
         <MenuItem disabled={true}><FormattedMessage id="menu_profile.developer" /></MenuItem>
 
         <MenuItem>
@@ -181,8 +191,9 @@ const intMenuProfile = ({homeCode, language, density, navigationStyle, setLangua
 
 
 function mapStateToProps(state) {
-  const { user: { home, language, density, navigationStyle } } = state;
+  const { user: { name, home, language, density, navigationStyle } } = state;
   return {
+    name,
     homeCode: home,
     language,
     density,
