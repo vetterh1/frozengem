@@ -32,10 +32,6 @@ const styles = theme => ({
     flexWrap: "wrap",
     flexDirection: "row",
   },
-  toolbar: {
-    flexWrap: "wrap",
-    flexDirection: "row",
-  },
   toolbarTitle: {
     flexGrow: 1,
     justifyContent: "flex-start"
@@ -44,7 +40,7 @@ const styles = theme => ({
     margin: theme.spacing(1, 1.5)
   },
   isHidden: {
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       transform: "translateY(-100%)",
     },    
   }  
