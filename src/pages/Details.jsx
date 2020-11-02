@@ -334,8 +334,6 @@ const Details = ({
         <Joyride
           steps={helpSteps}
           callback={handleJoyrideCallback}
-          // disableScrolling={true}
-          // debug={true}
           continuous={true}
           showProgress={true}
           scrollToFirstStep={true}

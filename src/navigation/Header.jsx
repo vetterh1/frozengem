@@ -1,9 +1,9 @@
 /* eslint-disable react/prefer-stateless-function */
 
-import React from "react";
+import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
 import { userActions } from "../_actions/userActions";
-
+import clsx from "clsx";
 import { Link, useLocation } from "react-router-dom";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
@@ -17,6 +17,7 @@ import { NavigationStyle } from "./configNavigation";
 import Joyride, {STATUS} from "react-joyride";
 import HelpIcon from "@material-ui/icons/Help";
 // import { fade } from "@material-ui/core/styles/colorManipulator";
+import throttle from "../utils/throttle"
 
 const styles = theme => ({
   appBar: {
@@ -25,6 +26,11 @@ const styles = theme => ({
     borderBottom: `1px solid ${theme.palette.divider}`,
     // backgroundColor: fade( theme.palette.primary.dark, 0.8),
     backdropFilter: theme.transparency ? "blur(8px) contrast(0.4) brightness(1.0)" : null,
+    transition: "transform 0.3s",
+  },
+  toolbar: {
+    flexWrap: "wrap",
+    flexDirection: "row",
   },
   toolbar: {
     flexWrap: "wrap",
@@ -36,7 +42,12 @@ const styles = theme => ({
   },
   margin: {
     margin: theme.spacing(1, 1.5)
-  }
+  },
+  isHidden: {
+    [theme.breakpoints.down('xs')]: {
+      transform: "translateY(-100%)",
+    },    
+  }  
 });
 
 const Header = ({
@@ -56,6 +67,28 @@ const Header = ({
 }) => {
   let location = useLocation();
   console.log("header - location=", location);
+
+  const [navBarVisible, setNavBarVisible] = useState(true);
+  // const navBarClass = classnames('navigation__container', { 'is-hidden': !navBarVisible });
+
+  useEffect(() => {
+    let prevScrollPos = window.scrollY;
+
+    const handleScroll = throttle(() => {
+      const currentScrollPos = window.scrollY;
+      const visible = prevScrollPos > currentScrollPos;
+
+      prevScrollPos = currentScrollPos;
+
+      setNavBarVisible(visible);
+    }, 150);
+
+    window.addEventListener('scroll', handleScroll);
+
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [])
+
 
   // OLD : header was hidden in details page
   // if (
@@ -125,7 +158,7 @@ const Header = ({
       <AppBar
         position="sticky"
         elevation={0}
-        className={classes.appBar}
+        className={clsx(classes.appBar, !navBarVisible && classes.isHidden)}
       >
         <Toolbar className={classes.toolbar} disableGutters>
           <Button
