@@ -65,14 +65,15 @@ const Header = ({
   console.log("header - location=", location);
 
   const [navBarVisible, setNavBarVisible] = useState(true);
-  // const navBarClass = classnames('navigation__container', { 'is-hidden': !navBarVisible });
 
   useEffect(() => {
-    let prevScrollPos = window.scrollY;
+    let prevScrollPos = window.scrollY < 0 ? 0 : window.scrollY;
 
     const handleScroll = throttle(() => {
-      const currentScrollPos = window.scrollY;
-      const visible = prevScrollPos > currentScrollPos;
+
+      const currentScrollPos = window.scrollY < 0 ? 0 : window.scrollY;
+      // console.debug("scroll before, after: ", prevScrollPos, currentScrollPos)
+      const visible = prevScrollPos >= currentScrollPos;
 
       prevScrollPos = currentScrollPos;
 
