@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Redirect } from "react-router";
 import { withStyles } from "@material-ui/core/styles";
+import combineStyles from "../../theme/combineStyles";
+import { commonStyles } from "../../theme/commonStyles";
 import { injectIntl } from "react-intl";
 import { Typography } from "@material-ui/core";
 import config from "../../data/config";
@@ -37,8 +39,6 @@ const stylesItemCard = (theme) => ({
       flexBasis: `calc(20% - ${theme.spacing(1)}px)`,
       marginBottom: theme.spacing(3),
     },
-
-    marginRight: theme.spacing(1),
   },
 
 
@@ -60,8 +60,6 @@ const stylesItemCard = (theme) => ({
       flexBasis: `calc(25% - ${theme.spacing(2)}px)`,
       marginBottom: theme.spacing(5),
     },
-
-    marginRight: theme.spacing(2),
   },
 
 
@@ -82,8 +80,6 @@ const stylesItemCard = (theme) => ({
       flexBasis: `calc(25% - ${theme.spacing(2)}px)`,
       marginBottom: theme.spacing(5),
     },
-
-    marginRight: theme.spacing(2),
   },
 
 
@@ -189,20 +185,6 @@ const stylesItemCard = (theme) => ({
     backgroundColor: theme.palette.divider,
   },
 
-  separationDensity1: {
-    marginRight: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-  },  
-
-  separationDensity2: {
-    marginRight: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },  
-
-  separationDensity3: {
-    marginRight: theme.spacing(2),
-    marginBottom: theme.spacing(3),
-  },  
 
 });
 
@@ -237,6 +219,9 @@ const intItemCard = ({
       density === 1 && classes.cardAndSeparationDensity1,
       density === 2 && classes.cardAndSeparationDensity2,
       density === 3 && classes.cardAndSeparationDensity3,
+      density === 1 && classes.marginRightDensity1,
+      density === 2 && classes.marginRightDensity2,
+      density === 3 && classes.marginRightDensity3,      
     )}>
       <div className={classes.card} onClick={handleClickForDetails}>
         <Picture
@@ -267,9 +252,12 @@ const intItemCard = ({
       </div>
       <div className={clsx(
             classes.separation, 
-            density === 1 && classes.separationDensity1,
-            density === 2 && classes.separationDensity2,
-            density === 3 && classes.separationDensity3,
+            density === 1 && classes.marginBottomDensity1,
+            density === 2 && classes.marginBottomDensity2,
+            density === 3 && classes.marginBottomDensity3,
+            density === 1 && classes.marginRightDensity1,
+            density === 2 && classes.marginRightDensity2,
+            density === 3 && classes.marginRightDensity3,
       )} />
     </div>
   );
@@ -285,4 +273,6 @@ intItemCard.propTypes = {
   intl: PropTypes.object.isRequired,
 };
 
-export default injectIntl(withStyles(stylesItemCard, { withTheme: true })(intItemCard));
+const combinedStyles = combineStyles(commonStyles, stylesItemCard);
+
+export default injectIntl(withStyles(combinedStyles, { withTheme: true })(intItemCard));

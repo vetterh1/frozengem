@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 // import React from "react";
 import clsx from "clsx";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from 'react-router-dom';
 import { withRouter } from "react-router";
 import config from "../data/config";
 import { itemsActions } from "../_actions/itemsActions";
@@ -10,11 +10,13 @@ import { userActions } from "../_actions/userActions";
 import { Redirect } from "react-router";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
+import combineStyles from "../theme/combineStyles";
+import { commonStyles } from "../theme/commonStyles";
 import { Button, Divider, Typography } from "@material-ui/core";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Person from "@material-ui/icons/Person";
 import PersonOutline from "@material-ui/icons/PersonOutline";
-// import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
+import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import PictureSelection from "./utils/PictureSelection";
 import CategoryButton from "./utils/CategoryButton";
 import RemoveButton from "./utils/RemoveButton";
@@ -25,6 +27,7 @@ import SectionBlock from "./utils/SectionBlock";
 import ScrollToTop from "./utils/ScrollToTop";
 import ItemImage from "./utils/ItemImage";
 import Joyride, { ACTIONS } from "react-joyride";
+import Link from '@material-ui/core/Link';
 
 
 const BorderLinearProgress = withStyles((theme) => ({
@@ -106,6 +109,15 @@ const styles = (theme) => ({
     right: "-8px",
     zLayer: "2000",
   },
+
+  back_link: {
+    display: 'flex',
+  },
+  back_icon: {
+    width: 24,
+    height: 24,
+  },  
+
 });
 
 const Details = ({
@@ -351,6 +363,17 @@ const Details = ({
             },
           }}
         />
+
+        <Link variant="h4" onClick={_handleClose} className={clsx(
+          classes.back_link,
+          density === 1 && classes.marginBottomDensity1,
+          density === 2 && classes.marginBottomDensity2,
+          density === 3 && classes.marginBottomDensity3,
+        )}>
+          <NavigateBeforeIcon className={classes.back_icon} />
+          <FormattedMessage id="button.backtolist" />
+        </Link>
+        
       {/*
       ********************************************************************
                 Picture section with Return and Picture buttons
@@ -372,13 +395,6 @@ const Details = ({
             }}
           />
         )}
-        <Button
-          color="primary"
-          onClick={_handleClose}
-          className={classes.details_image_close}
-        >
-          &lt; &nbsp; <FormattedMessage id="button.backtolist" />
-        </Button>
         {item && (
           <Typography
             className={clsx(classes.details_image_code, "code_id")}
@@ -569,7 +585,7 @@ const Details = ({
               <Button
                 variant="contained"
                 color="secondary"
-                component={Link}
+                component={RouterLink}
                 to="/add"
                 className={
                   "flex-direction-column  flex-align-center text-center flex-basis-48 small-padding-top small-padding-bottom"
@@ -652,6 +668,8 @@ const connectedDetails = withRouter(
   connect(mapStateToProps, mapDispatchToProps)(Details)
 );
 
+const combinedStyles = combineStyles(commonStyles, styles);
+
 export default injectIntl(
-  withStyles(styles, { withTheme: true })(connectedDetails)
+  withStyles(combinedStyles, { withTheme: true })(connectedDetails)
 );
