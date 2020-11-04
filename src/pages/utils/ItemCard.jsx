@@ -105,7 +105,6 @@ const stylesItemCard = (theme) => ({
       flexBasis: `calc(40% - ${theme.spacing(1)}px)`,
       marginRight: theme.spacing(1),
     },
-    marginBottom: theme.spacing(1),
   },
   cardImageDensity2: {
     [theme.breakpoints.down('xs')]: {
@@ -113,7 +112,6 @@ const stylesItemCard = (theme) => ({
       flexBasis: `calc(50% - ${theme.spacing(1)}px)`,
       marginRight: theme.spacing(2),
     },
-    marginBottom: theme.spacing(2),
   },
 
   cardImageDensity3: {
@@ -122,7 +120,6 @@ const stylesItemCard = (theme) => ({
       flexBasis: `calc(50% - ${theme.spacing(1)}px)`,
       marginRight: theme.spacing(2),
     },
-    marginBottom: theme.spacing(3),
   },
 
 
@@ -233,7 +230,10 @@ const intItemCard = ({
             density === 1 && classes.cardImageDensity1,
             density === 2 && classes.cardImageDensity2,
             density === 3 && classes.cardImageDensity3,
-        )}
+            density === 1 && classes.marginBottomDensity1,
+            density === 2 && classes.marginBottomDensity2,
+            density === 3 && classes.marginBottomDensity3,
+          )}
           maxResolution={250}
         />      
         <div className={clsx(
