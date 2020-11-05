@@ -2,7 +2,7 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import { WizPageTitle } from "./WizUtilComponents";
+import { WizPageTitle } from "pages/utils/WizUtilComponents";
 import FormControl from "@material-ui/core/FormControl";
 import { DatePicker } from "@material-ui/pickers";
 import Dialog from "@material-ui/core/Dialog";

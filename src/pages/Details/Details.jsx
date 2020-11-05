@@ -28,13 +28,13 @@ import BorderLinearProgress from "pages/utils/BorderLinearProgress";
 // Utilities
 import clsx from "clsx";
 import combineStyles from "theme/combineStyles";
-import { gtmPush } from "utils/gtmPush";
+import gtmPush from "utils/gtmPush";
 // Configuration
 import config from "data/config";
-import getHelpSteps from "./helpSteps";
+import getHelpSteps from "./helpStepsDetails";
 // Styles
 import commonStyles from "theme/commonStyles";
-import styles from "./styles";
+import styles from "./stylesDetails";
 import SizeInIcons from "pages/utils/SizeInIcons";
 
 

@@ -1,7 +1,7 @@
-// import stringifyOnce from '../utils/stringifyOnce.js'
+// import stringifyOnce from "utils/stringifyOnce"
 import qs from "qs";
 import axios from "axios";
-import config from "../data/config";
+import config from "data/config";
 
 export const userServices = {
   isAuthenticated,

@@ -2,6 +2,9 @@
 // Create Size icon array
 //
 
+// React
+import React from "react";
+// MUI
 import Person from "@material-ui/icons/Person";
 import PersonOutline from "@material-ui/icons/PersonOutline";
 

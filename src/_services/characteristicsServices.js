@@ -1,6 +1,6 @@
 import qs from 'qs';
 import axios from 'axios';
-import config from '../data/config'
+import config from 'data/config'
 
 
 export const characteristicsServices = {

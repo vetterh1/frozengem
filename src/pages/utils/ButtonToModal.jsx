@@ -5,7 +5,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Fab from "@material-ui/core/Fab";
 // import Edit from "@material-ui/icons/Edit";
-import { gtmPush } from "../../utils/gtmPush";
+import gtmPush from "utils/gtmPush";
 
 const styles = theme => ({
   buttonWithText: {

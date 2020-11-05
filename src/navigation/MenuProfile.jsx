@@ -1,28 +1,34 @@
 /* eslint-disable react-hooks/rules-of-hooks */ 
-import React from 'react';
-
-import { connect } from 'react-redux';
-import { userActions } from '../_actions/userActions';
-import { notifierActions } from '../_actions/notifierActions';
-
+// React
+import React from "react";
 import { Link } from 'react-router-dom';
+// Redux
+import { connect } from "react-redux";
+import { userActions } from '_actions/userActions';
+import { notifierActions } from '_actions/notifierActions';
+// HOC
 import { injectIntl, FormattedMessage } from "react-intl";
-import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { makeStyles } from '@material-ui/core/styles';
+// MUI
 import Button from '@material-ui/core/Button';
 import Switch from '@material-ui/core/Switch';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import ButtonWithValidation from '../pages/utils/ButtonWithValidation'
-import { NavigationStyle } from "./configNavigation";
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 import ViewModuleIcon from '@material-ui/icons/ViewModule';
 import ViewStreamIcon from '@material-ui/icons/ViewStream';        
 import Divider from '@material-ui/core/Divider';
+// Components
+import ButtonWithValidation from 'pages/utils/ButtonWithValidation'
+import { NavigationStyle } from "navigation/configNavigation";
+// Utilities
+import {CopyToClipboard} from 'react-copy-to-clipboard';
+// Configuration
+// Styles
 
 
 const useStyles = makeStyles(theme => ({

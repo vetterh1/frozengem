@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getIconComponent } from "../../data/Icons";
+import { getIconComponent } from "data/Icons";
 
 
 const Picture = ({ 

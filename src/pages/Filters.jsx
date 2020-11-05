@@ -1,16 +1,16 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { itemsFilterActions } from "../_actions/itemsFilterActions";
-import { filterCounts } from "../_selectors/itemsSelector";
+import { itemsFilterActions } from "_actions/itemsFilterActions";
+import { filterCounts } from "_selectors/itemsSelector";
 import { injectIntl } from "react-intl";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Badge from "@material-ui/core/Badge";
 
-import { getIconComponent } from "../data/Icons";
+import { getIconComponent } from "data/Icons";
 import { withStyles } from "@material-ui/core/styles";
-import { gtmPush } from "../utils/gtmPush";
+import gtmPush from "utils/gtmPush";
 
 const FilterTabs = withStyles(theme => ({
   root: {

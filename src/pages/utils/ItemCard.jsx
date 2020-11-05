@@ -10,11 +10,11 @@ import { withStyles } from "@material-ui/core/styles";
 // MUI
 import { Typography } from "@material-ui/core";
 // Components
-import Picture from "./Picture";
+import Picture from "pages/utils/Picture";
 // Utilities
 import clsx from "clsx";
 // Configuration
-import config from "../../data/config";
+import config from "data/config";
 
 
 

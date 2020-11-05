@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { injectIntl } from "react-intl";
 import { withSnackbar } from 'notistack';
-import { notifierActions } from '../../_actions/notifierActions';
+import { notifierActions } from '_actions/notifierActions';
 
 class Notifier extends Component {
     displayed = [];

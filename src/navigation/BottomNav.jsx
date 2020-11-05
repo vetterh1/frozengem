@@ -56,6 +56,6 @@ export default withRouter(injectIntl(BottomNav));
 // import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 // import SearchIcon from '@material-ui/icons/Search';
 // import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline';
-// import { getIcon } from "../data/Icons";
+// import { getIcon } from "data/Icons";
 // <BottomNavigationAction label={intl.formatMessage(messages.remove)} value="/remove" icon={getIcon("remove")} component={Link} to="/remove" />
 // <BottomNavigationAction label={intl.formatMessage(messages.search)} value="/search" icon={<SearchIcon />} component={Link} to="/search" />

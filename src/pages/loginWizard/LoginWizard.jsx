@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router'
 import { connect } from 'react-redux';
-import { userActions } from '../../_actions/userActions';
+import { userActions } from '_actions/userActions';
 import { withStyles } from '@material-ui/core/styles';
 import StepWizard from 'react-step-wizard';
 import EmailForm from './EmailForm';

@@ -1,8 +1,8 @@
 import React from "react";
-import CharacteristicsSelection from "./CharacteristicsSelection";
+import CharacteristicsSelection from "pages/utils/CharacteristicsSelection";
 
-import ButtonToModal from "./ButtonToModal";
-import { getIconComponent } from "../../data/Icons";
+import ButtonToModal from "pages/utils/ButtonToModal";
+import { getIconComponent } from "data/Icons";
 
 const CategoryButton = ({
   categoryText,

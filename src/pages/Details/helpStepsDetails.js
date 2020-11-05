@@ -1,6 +1,6 @@
  //
-  // Help setup
-  //
+// Help setup
+//
 
 const getHelpSteps = (intl) => [
     {

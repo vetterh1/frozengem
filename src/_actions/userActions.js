@@ -1,9 +1,9 @@
-import * as ACTIONS from "../_constants/action-types";
-import { userServices } from "../_services/userServices";
-import { characteristicsActions } from "./characteristicsActions";
-import { itemsActions } from "./itemsActions";
-import { notifierActions } from "./notifierActions";
-import { gtmPush } from "../utils/gtmPush";
+import * as ACTIONS from "_constants/action-types";
+import { userServices } from "_services/userServices";
+import { characteristicsActions } from "_actions/characteristicsActions";
+import { itemsActions } from "_actions/itemsActions";
+import { notifierActions } from "_actions/notifierActions";
+import gtmPush from "utils/gtmPush";
 
 export const userActions = {
   login,

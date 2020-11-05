@@ -4,8 +4,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, CardMedia } from "@material-ui/core";
-import config from "../../data/config";
-import { getIconComponent } from "../../data/Icons";
+import config from "data/config";
+import { getIconComponent } from "data/Icons";
 
 const useStyles = makeStyles({
   media: {

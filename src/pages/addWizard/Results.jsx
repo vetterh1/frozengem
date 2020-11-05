@@ -5,8 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { injectIntl, FormattedMessage } from "react-intl";
-import PictureSelection from '../utils/PictureSelection';
-import ItemImage from '../utils/ItemImage';
+import PictureSelection from 'pages/utils/PictureSelection';
+import ItemImage from 'pages/utils/ItemImage';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 

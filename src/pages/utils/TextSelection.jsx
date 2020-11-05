@@ -2,7 +2,7 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import { WizPageTitle } from "./WizUtilComponents";
+import { WizPageTitle } from "pages/utils/WizUtilComponents";
 import FormControl from "@material-ui/core/FormControl";
 //import FormHelperText from "@material-ui/core/FormHelperText";
 import Input from "@material-ui/core/Input";

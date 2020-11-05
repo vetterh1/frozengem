@@ -1,11 +1,18 @@
+// React
 import React from "react";
+// Redux
 import { connect } from "react-redux";
-import clsx from "clsx";
-import { getVisibleItems } from "../../_selectors/itemsSelector";
+import { getVisibleItems } from "_selectors/itemsSelector";
+// HOC
 import { withStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
 import { FormattedMessage } from "react-intl";
-import ItemCard from "./ItemCard";
+// MUI
+import Typography from "@material-ui/core/Typography";
+// Components
+import ItemCard from "pages/utils/ItemCard";
+// Utilities
+import clsx from "clsx";
+
 
 const styles = (theme) => ({
 

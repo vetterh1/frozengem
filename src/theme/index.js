@@ -1,8 +1,8 @@
 import { createMuiTheme } from '@material-ui/core';
 
-import palette from './palette';
-import typography from './typography';
-// import overrides from './overrides';
+import palette from 'theme/palette';
+import typography from 'theme/typography';
+// import overrides from 'theme/overrides';
 
 const theme = createMuiTheme({
   spacing: 10,

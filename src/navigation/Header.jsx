@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
-import { userActions } from "../_actions/userActions";
+import { userActions } from "_actions/userActions";
 import clsx from "clsx";
 import { Link, useLocation } from "react-router-dom";
 import { injectIntl, FormattedMessage } from "react-intl";
@@ -11,13 +11,13 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import LoginInBar from "../navigation/LoginInBar";
-import MenuNav from "./MenuNav";
-import { NavigationStyle } from "./configNavigation";
+import LoginInBar from "navigation/LoginInBar";
+import MenuNav from "navigation/MenuNav";
+import { NavigationStyle } from "navigation/configNavigation";
 import Joyride, {STATUS} from "react-joyride";
 import HelpIcon from "@material-ui/icons/Help";
 // import { fade } from "@material-ui/core/styles/colorManipulator";
-import throttle from "../utils/throttle"
+import throttle from "utils/throttle"
 
 const styles = theme => ({
   appBar: {

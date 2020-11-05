@@ -4,13 +4,13 @@ import { withStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
-import readAsDataURLAsync from "../../utils/readAsDataURLAsync";
-// import stringifyOnce from '../../utils/stringifyOnce.js'
-import canvasToBlobAsync from "../../utils/canvasToBlobAsync.js";
-import createImageAsync from "../../utils/createImageAsync.js";
-// import sizeInMB from '../../utils/sizeInMB'
-import getExifTagsAsync from "../../utils/getExifTagsAsync";
-import gtmPush from "../../utils/gtmPush";
+import readAsDataURLAsync from "utils/readAsDataURLAsync";
+// import stringifyOnce from 'utils/stringifyOnce'
+import canvasToBlobAsync from "utils/canvasToBlobAsync.js";
+import createImageAsync from "utils/createImageAsync.js";
+// import sizeInMB from 'utils/sizeInMB'
+import getExifTagsAsync from "utils/getExifTagsAsync";
+import gtmPush from "utils/gtmPush";
 
 const styles = (theme) => ({
   button: {

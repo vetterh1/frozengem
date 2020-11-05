@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { userActions } from '../../_actions/userActions';
+import { userActions } from '_actions/userActions';
 import { Redirect } from 'react-router'
 import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from "react-intl";
@@ -8,7 +8,7 @@ import NameForm from './NameForm';
 import StepWizard from 'react-step-wizard';
 import EmailForm from './EmailForm';
 import PasswordForm from './PasswordForm';
-// import stringifyOnce from '../../utils/stringifyOnce.js'
+// import stringifyOnce from 'utils/stringifyOnce'
 
 const styles = theme => ({
   button: {

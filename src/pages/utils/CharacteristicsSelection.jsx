@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { WizPageTitle } from "./WizUtilComponents";
-import SelectFromMatrix from "./SelectFromMatrix";
+import { WizPageTitle } from "pages/utils/WizUtilComponents";
+import SelectFromMatrix from "pages/utils/SelectFromMatrix";
 import FormControl from "@material-ui/core/FormControl";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";

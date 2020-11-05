@@ -2,8 +2,8 @@ import React from 'react';
 import { Redirect } from 'react-router'
 import { TextField } from '@material-ui/core';
 import { injectIntl } from "react-intl";
-import { WizNavBar, WizPageTitle} from "../utils/WizUtilComponents";
-import validateEmail from "../../utils/validateEmail";
+import { WizNavBar, WizPageTitle} from "pages/utils/WizUtilComponents";
+import validateEmail from "utils/validateEmail";
 
 
 class EmailForm extends React.Component {

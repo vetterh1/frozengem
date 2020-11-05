@@ -1,6 +1,6 @@
-import * as ACTIONS from "../_constants/action-types";
-import { itemsServices } from '../_services/itemsServices';
-import { notifierActions } from './notifierActions';
+import * as ACTIONS from "_constants/action-types";
+import { itemsServices } from '_services/itemsServices';
+import { notifierActions } from '_actions/notifierActions';
 
 export const itemsActions = {
   fetchItems,

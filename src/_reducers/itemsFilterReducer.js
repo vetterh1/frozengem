@@ -1,4 +1,4 @@
-import * as ACTIONS from "../_constants/action-types";
+import * as ACTIONS from "_constants/action-types";
 
 const initialState = { // define initial state - an empty items list
   filter: 'all',

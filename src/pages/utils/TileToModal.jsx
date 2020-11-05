@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 // import Button from "@material-ui/core/Button";
 // import Edit from "@material-ui/icons/Edit";
-import { gtmPush } from "../../utils/gtmPush";
+import gtmPush from "utils/gtmPush";
 
 const styles = theme => ({
   tile: {

@@ -4,8 +4,8 @@ import { Redirect } from "react-router";
 import clsx from "clsx";
 import Container from '@material-ui/core/Container';
 import { withStyles } from '@material-ui/core/styles';
-import ItemsList from './utils/ItemsList'
-import Filters from './Filters'
+import ItemsList from 'pages/utils/ItemsList'
+import Filters from 'pages/Filters'
 
 
 

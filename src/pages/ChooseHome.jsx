@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router'
-import { userActions } from '../_actions/userActions';
+import { userActions } from '_actions/userActions';
 import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -9,7 +9,7 @@ import Create from '@material-ui/icons/Create';
 import Add from '@material-ui/icons/Add';
 import { injectIntl, FormattedMessage } from "react-intl";
 import { withStyles } from '@material-ui/core/styles';
-import ButtonWithOneInputModal from './utils/ButtonWithOneInputModal';
+import ButtonWithOneInputModal from 'pages/utils/ButtonWithOneInputModal';
 
 const styles = theme => ({
   layout: {

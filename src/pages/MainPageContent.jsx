@@ -11,7 +11,7 @@ import AccessTime from '@material-ui/icons/AccessTime';
 import NoteAdd from '@material-ui/icons/NoteAdd';
 import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
 // import Container from '@material-ui/core/Container';
-// import Header from '../navigation/Header';
+// import Header from 'navigation/Header';
 
 const styles = theme => ({
   layout: {

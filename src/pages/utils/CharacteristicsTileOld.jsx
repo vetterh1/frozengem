@@ -1,8 +1,8 @@
 import React from "react";
-import CharacteristicsSelection from "./CharacteristicsSelection";
-import DateSelection from "./DateSelection";
-import TextSelection from "./TextSelection";
-import { gtmPush } from "../../utils/gtmPush";
+import CharacteristicsSelection from "pages/utils/CharacteristicsSelection";
+import DateSelection from "pages/utils/DateSelection";
+import TextSelection from "pages/utils/TextSelection";
+import gtmPush from "utils/gtmPush";
 
 const CharacteristicsTile = ({
   characteristicName,

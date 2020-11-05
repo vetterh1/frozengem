@@ -1,4 +1,5 @@
 const styles = (theme) => ({
+  
     card: {
       backgroundColor: theme.transparency ? "transparent" : null,
       backdropFilter: theme.transparency ? "blur(10px) contrast(0.2) brightness(1.8)" : null,
