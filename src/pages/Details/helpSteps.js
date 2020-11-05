@@ -2,7 +2,7 @@
   // Help setup
   //
 
-export const getHelpSteps = (intl) => [
+const getHelpSteps = (intl) => [
     {
         target: "body",
         title: intl.formatMessage({ id: "action.edit" }),
@@ -64,3 +64,5 @@ export const getHelpSteps = (intl) => [
         content: intl.formatMessage({ id: "help.details.help" }),
     },
   ];
+
+  export default getHelpSteps;

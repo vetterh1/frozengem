@@ -1,5 +1,5 @@
 
-export const commonStyles = (theme) => ({
+const commonStyles = (theme) => ({
 
 
 
@@ -29,3 +29,5 @@ export const commonStyles = (theme) => ({
   
   
 });
+
+export default commonStyles;

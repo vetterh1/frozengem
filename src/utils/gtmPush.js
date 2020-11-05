@@ -12,10 +12,13 @@ export function gtmInit (args) {
   }
 };
 
-export function gtmPush (args) {
+function gtmPush (args) {
   const tagManagerArgs = { dataLayer: { ...args }};
   if(enableGtm){
     console.debug("gtmPush", tagManagerArgs);
     TagManager.dataLayer(tagManagerArgs);
   }
 };
+
+export default gtmPush;
+

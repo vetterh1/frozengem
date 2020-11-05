@@ -10,7 +10,7 @@ import canvasToBlobAsync from "../../utils/canvasToBlobAsync.js";
 import createImageAsync from "../../utils/createImageAsync.js";
 // import sizeInMB from '../../utils/sizeInMB'
 import getExifTagsAsync from "../../utils/getExifTagsAsync";
-import { gtmPush } from "../../utils/gtmPush";
+import gtmPush from "../../utils/gtmPush";
 
 const styles = (theme) => ({
   button: {

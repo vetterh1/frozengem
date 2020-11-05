@@ -11,9 +11,6 @@ import { injectIntl, FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 // MUI
 import { Button, Divider, Typography } from "@material-ui/core";
-import LinearProgress from "@material-ui/core/LinearProgress";
-import Person from "@material-ui/icons/Person";
-import PersonOutline from "@material-ui/icons/PersonOutline";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import Link from '@material-ui/core/Link';
 // Components
@@ -27,29 +24,19 @@ import SectionBlock from "pages/utils/SectionBlock";
 import ScrollToTop from "pages/utils/ScrollToTop";
 import ItemImage from "pages/utils/ItemImage";
 import Picture from "pages/utils/Picture";
+import BorderLinearProgress from "pages/utils/BorderLinearProgress";
 // Utilities
 import clsx from "clsx";
 import combineStyles from "theme/combineStyles";
 import { gtmPush } from "utils/gtmPush";
 // Configuration
 import config from "data/config";
-import { getHelpSteps } from "./helpSteps";
+import getHelpSteps from "./helpSteps";
 // Styles
-import { commonStyles } from "theme/commonStyles";
-import { styles } from "./styles";
+import commonStyles from "theme/commonStyles";
+import styles from "./styles";
+import SizeInIcons from "pages/utils/SizeInIcons";
 
-
-
-const BorderLinearProgress = withStyles((theme) => ({
-  root: {
-    height: 15,
-    backgroundColor: theme.palette.primary.light,
-  },
-  bar: {
-    borderRadius: 3,
-    backgroundColor: theme.palette.primary.main,
-  },
-}))(LinearProgress);
 
 
 const Details = ({
@@ -113,15 +100,6 @@ const Details = ({
     _handleClose();
   };
 
-  // const _simulatePictureClick = async () => {
-  //   await new Promise(resolve => setTimeout(resolve, 5000));
-
-  //   const idInput = `button-for-input-${item.id}`;
-  //   // const idInput = `tile_details_update_name`;
-  //   const input = document.getElementById(idInput)
-  //   input.click();
-  //   console.debug("simulate click on ", idInput, input);
-  // }
 
   const _handleUpdateQuantity = async ({ size }) => {
     removeItem(item.id, size);
@@ -129,7 +107,6 @@ const Details = ({
   };
 
   const _handleUpdateCharacteristic = async (update) => {
-    // console.debug("Details._handleUpdateCharacteristic: ", item.id, update);
     if (update) updateItem(item.id, update);
     return null;
   };
@@ -153,20 +130,8 @@ const Details = ({
     setDisplayProgress(false);
   };
 
-  //
   // Create Size icon array
-  //
-
-  const sizeInIcons = [];
-  if (item) {
-    for (let i = 0; i < item.size; i++) {
-      sizeInIcons.push(<Person style={{ fontSize: 20 }} key={i.toString()} />);
-    }
-    if (item.size > 1)
-      sizeInIcons.push(
-        <PersonOutline style={{ fontSize: 20 }} key={item.size.toString()} />
-      );
-  }
+  const sizeInIcons = SizeInIcons(item?.size);
 
   //
   // Add "remove / 0" option to the quantity list
