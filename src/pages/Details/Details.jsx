@@ -1,33 +1,43 @@
+// React
 import React, { useEffect } from "react";
-// import React from "react";
-import clsx from "clsx";
-import { connect } from "react-redux";
 import { Link as RouterLink } from 'react-router-dom';
-import { withRouter } from "react-router";
-import config from "../data/config";
-import { itemsActions } from "../_actions/itemsActions";
-import { userActions } from "../_actions/userActions";
-import { Redirect } from "react-router";
+import { withRouter, Redirect } from "react-router";
+// Redux
+import { connect } from "react-redux";
+import { itemsActions } from "_actions/itemsActions";
+import { userActions } from "_actions/userActions";
+// HOC
 import { injectIntl, FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
-import combineStyles from "../theme/combineStyles";
-import { commonStyles } from "../theme/commonStyles";
+// MUI
 import { Button, Divider, Typography } from "@material-ui/core";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Person from "@material-ui/icons/Person";
 import PersonOutline from "@material-ui/icons/PersonOutline";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
-import PictureSelection from "./utils/PictureSelection";
-import CategoryButton from "./utils/CategoryButton";
-import RemoveButton from "./utils/RemoveButton";
-import PictureModalSelection from "./utils/PictureModalSelection";
-import DuplicateButton from "./utils/DuplicateButton";
-import { gtmPush } from "../utils/gtmPush";
-import SectionBlock from "./utils/SectionBlock";
-import ScrollToTop from "./utils/ScrollToTop";
-import ItemImage from "./utils/ItemImage";
-import Joyride, { ACTIONS } from "react-joyride";
 import Link from '@material-ui/core/Link';
+// Components
+import Joyride, { ACTIONS } from "react-joyride";
+import PictureSelection from "pages/utils/PictureSelection";
+import CategoryButton from "pages/utils/CategoryButton";
+import RemoveButton from "pages/utils/RemoveButton";
+import PictureModalSelection from "pages/utils/PictureModalSelection";
+import DuplicateButton from "pages/utils/DuplicateButton";
+import SectionBlock from "pages/utils/SectionBlock";
+import ScrollToTop from "pages/utils/ScrollToTop";
+import ItemImage from "pages/utils/ItemImage";
+import Picture from "pages/utils/Picture";
+// Utilities
+import clsx from "clsx";
+import combineStyles from "theme/combineStyles";
+import { gtmPush } from "utils/gtmPush";
+// Configuration
+import config from "data/config";
+import { getHelpSteps } from "./helpSteps";
+// Styles
+import { commonStyles } from "theme/commonStyles";
+import { styles } from "./styles";
+
 
 
 const BorderLinearProgress = withStyles((theme) => ({
@@ -41,84 +51,6 @@ const BorderLinearProgress = withStyles((theme) => ({
   },
 }))(LinearProgress);
 
-const styles = (theme) => ({
-  card: {
-    backgroundColor: theme.transparency ? "transparent" : null,
-    backdropFilter: theme.transparency ? "blur(10px) contrast(0.2) brightness(1.8)" : null,
-  },
-
-  details_image_section: {
-    display: "flex",
-    position: "relative",
-    flexDirection: "column",
-  },
-  details_image_media: {
-    height: "25vh",
-  },
-  details_image_close: {
-    position: "absolute",
-    top: "10px",
-    left: "10px",
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
-    padding: "5px 10px",
-    color: "white",
-  },
-  details_image_code: {
-    position: "absolute",
-    right: "30px",
-    top: "10px",
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
-    borderRadius: "4px",
-    padding: "10px",
-    color: "white",
-  },
-  details_image_camera: {
-    position: "absolute",
-    bottom: "10px",
-    right: "10px",
-    backgroundColor: "rgba(0, 0, 0, 0.8)",
-    padding: "10px",
-    color: "white",
-  },
-  huge_image_camera: {
-    position: "absolute",
-    top: "50px",
-    right: "50px",
-    backgroundColor: "rgba(0, 0, 0, 0.8)",
-    padding: "10px",
-    color: "white",
-  },
-  details_image_category: {
-    position: "absolute",
-    bottom: "10px",
-    left: "10px",
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
-    padding: "5px 10px",
-    color: "white",
-  },
-  details_remove: {
-    position: "absolute",
-    top: "-12px",
-    left: "-8px",
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
-    color: "white",
-  },
-  details_help: {
-    position: "absolute",
-    top: "-8px",
-    right: "-8px",
-    zLayer: "2000",
-  },
-
-  back_link: {
-    display: 'flex',
-  },
-  back_icon: {
-    width: 24,
-    height: 24,
-  },  
-
-});
 
 const Details = ({
   // From Redux:
@@ -268,68 +200,7 @@ const Details = ({
   // Help setup
   //
 
-  const helpSteps = [
-    {
-      target: "body",
-      title: intl.formatMessage({ id: "action.edit" }),
-      content: intl.formatMessage({ id: "help.details.welcome" }),
-      disableBeacon: true,
-      disableOverlayClose: true,
-      hideCloseButton: true,
-      placement: "center",
-    },
-    {
-      target: "body",
-      title: intl.formatMessage({ id: "action.edit" }),
-      content: intl.formatMessage({ id: "help.details.edit" }),
-      placement: "center",
-    },
-    {
-      target: ".cam_icon",
-      title: intl.formatMessage({ id: "action.edit" }),
-      content: intl.formatMessage({ id: "help.details.camera" }),
-   },
-    {
-      target: "#tile_details_update_description",
-      title: intl.formatMessage({ id: "action.edit" }),
-      content: intl.formatMessage({ id: "help.details.description" }),
-   },
-    {
-      target: "#tile_details_update_details",
-      title: intl.formatMessage({ id: "action.edit" }),
-      content: intl.formatMessage({ id: "help.details.details" }),
-   },
-    {
-      target: "#tile_details_update_location",
-      title: intl.formatMessage({ id: "action.edit" }),
-      content: intl.formatMessage({ id: "help.details.location" }),
-   },
-    {
-      target: ".MuiCardMedia-root ",
-      title: intl.formatMessage({ id: "help.details.image.title" }),
-      content: intl.formatMessage({ id: "help.details.image" }),
-   },
-    {
-      target: ".code_id",
-      title: intl.formatMessage({ id: "help.details.important" }),
-      content: intl.formatMessage({ id: "help.details.code" }),
-   },
-    {
-      target: "#tile_details_update_size",
-      title: intl.formatMessage({ id: "help.details.important" }),
-      content: intl.formatMessage({ id: "help.details.quantity" }),
-   },
-    {
-      target: "#btn_details_remove_item",
-      title: intl.formatMessage({ id: "help.details.important" }),
-      content: intl.formatMessage({ id: "help.details.remove" }),
-   },
-    {
-      target: ".help_icon",
-      title: intl.formatMessage({ id: "action.help" }),
-      content: intl.formatMessage({ id: "help.details.help" }),
-    },
-  ];
+  const helpSteps = getHelpSteps(intl);
   const handleJoyrideCallback = (data) => {
     if ([ACTIONS.STOP, ACTIONS.CLOSE, ACTIONS.SKIP].includes(data.action)) {
       setShowHelpDetails(false);
@@ -343,37 +214,57 @@ const Details = ({
   return (
     <div className={classes.card}>
       <ScrollToTop />
-        <Joyride
-          steps={helpSteps}
-          callback={handleJoyrideCallback}
-          continuous={true}
-          showProgress={true}
-          scrollToFirstStep={true}
-          locale={{
-            back: intl.formatMessage({ id: "button.previous" }),
-            close: intl.formatMessage({ id: "button.close" }),
-            last: intl.formatMessage({ id: "button.end" }),
-            next: intl.formatMessage({ id: "button.continue" }),
-            skip: intl.formatMessage({ id: "button.skip" }),
-          }}
-          run={showHelpDetails}
-          styles={{
-            options: {
-              primaryColor: "#303f9f",
-            },
-          }}
-        />
+      <Joyride
+        steps={helpSteps}
+        callback={handleJoyrideCallback}
+        continuous={true}
+        showProgress={true}
+        scrollToFirstStep={true}
+        locale={{
+          back: intl.formatMessage({ id: "button.previous" }),
+          close: intl.formatMessage({ id: "button.close" }),
+          last: intl.formatMessage({ id: "button.end" }),
+          next: intl.formatMessage({ id: "button.continue" }),
+          skip: intl.formatMessage({ id: "button.skip" }),
+        }}
+        run={showHelpDetails}
+        styles={{
+          options: {
+            primaryColor: "#303f9f",
+          },
+        }}
+      />
 
-        <Link variant="h4" onClick={_handleClose} className={clsx(
-          classes.back_link,
-          density === 1 && classes.marginBottomDensity1,
-          density === 2 && classes.marginBottomDensity2,
-          density === 3 && classes.marginBottomDensity3,
-        )}>
-          <NavigateBeforeIcon className={classes.back_icon} />
-          <FormattedMessage id="button.backtolist" />
-        </Link>
+      <Link variant="h4" onClick={_handleClose} className={clsx(
+        classes.back_link,
+        density === 1 && classes.marginBottomDensity1,
+        density === 2 && classes.marginBottomDensity2,
+        density === 3 && classes.marginBottomDensity3,
+      )}>
+        <NavigateBeforeIcon className={classes.back_icon} />
+        <FormattedMessage id="button.backtolist" />
+      </Link>
         
+      <div className={clsx(
+        classes.detailsUpperSection,
+        density === 1 && classes.detailsUpperSectionDensity1,
+        density === 2 && classes.detailsUpperSectionDensity2,
+        density === 3 && classes.detailsUpperSectionDensity3,
+      )}>
+        <Picture
+            imageUrl={item?.pictureName ?`${config.staticUrl}/custom-size-image/${item.pictureName}` : null}
+            imageAlt={item?.__descriptionOrCategory}
+            itemCategory={item?.category}
+            maxResolution={250}
+            className={clsx(
+              classes.detailsImage, 
+              density === 1 && classes.detailsImageDensity1,
+              density === 2 && classes.detailsImageDensity2,
+              density === 3 && classes.detailsImageDensity3,
+        )}/>
+        <div>test</div>
+      </div>
+
       {/*
       ********************************************************************
                 Picture section with Return and Picture buttons

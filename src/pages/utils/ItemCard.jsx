@@ -1,14 +1,21 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
+// React
 import React from "react";
 import PropTypes from "prop-types";
-import clsx from "clsx";
 import { Redirect } from "react-router";
-import { withStyles } from "@material-ui/core/styles";
+// HOC
 import { injectIntl } from "react-intl";
+import { withStyles } from "@material-ui/core/styles";
+// MUI
 import { Typography } from "@material-ui/core";
-import config from "../../data/config";
+// Components
 import Picture from "./Picture";
+// Utilities
+import clsx from "clsx";
+// Configuration
+import config from "../../data/config";
+
 
 
 
@@ -243,14 +250,13 @@ const intItemCard = ({
           imageUrl={item.pictureName ?`${config.staticUrl}/custom-size-image/${item.pictureName}` : null}
           imageAlt={item.__descriptionOrCategory}
           itemCategory={item.category}
+          maxResolution={250}
           className={clsx(
             classes.cardImage, 
             density === 1 && classes.cardImageDensity1,
             density === 2 && classes.cardImageDensity2,
             density === 3 && classes.cardImageDensity3,
-        )}
-          maxResolution={250}
-        />      
+        )}/>
         <div className={clsx(
             classes.cardText, 
             density === 1 && classes.cardTextDensity1,
