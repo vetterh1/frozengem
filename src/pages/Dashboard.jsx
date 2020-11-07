@@ -10,8 +10,7 @@ import Container from '@material-ui/core/Container';
 // Components
 import ItemsList from 'pages/utils/ItemsList'
 import Filters from 'pages/Filters'
-// Utilities
-import clsx from "clsx";
+
 
 
 
