@@ -1,44 +1,38 @@
+// React
 import React from 'react';
-import { connect } from 'react-redux';
 import { Redirect } from "react-router";
-import clsx from "clsx";
+// Redux
+import { connect } from 'react-redux';
+// HOC
+import { makeStyles } from '@material-ui/core/styles';
+// MUI
 import Container from '@material-ui/core/Container';
-import { withStyles } from '@material-ui/core/styles';
+// Components
 import ItemsList from 'pages/utils/ItemsList'
 import Filters from 'pages/Filters'
+// Utilities
+import clsx from "clsx";
 
 
 
-const styles = theme => ({
-  layout: {
-    display: "flex",
-    flexDirection: "column",
-    width: 'auto',
-  },
-  container: {
-  },
+const useStyles = makeStyles(theme => {
+  return {
 
-  containerDensity1: {
-    [theme.breakpoints.up('sm')]: {
-      paddingLeft: theme.spacing(1),
-      paddingRight: theme.spacing(1),
+    layout: {
+      display: "flex",
+      flexDirection: "column",
+      width: 'auto',
     },
-  },
 
-  containerDensity2: {
-    [theme.breakpoints.up('sm')]: {
-      paddingLeft: theme.spacing(3),
-      paddingRight: theme.spacing(3),
+    container: {
+      paddingLeft: (density) => theme.spacing(density === 1 ? 1 : (density === 2 ? 3 : 5)),
+      paddingRight: (density) => theme.spacing(density === 1 ? 1 : (density === 2 ? 3 : 5)),
+      [theme.breakpoints.down('xs')]: {
+        paddingLeft: "0px !important",
+        paddingRight: "0px !important",
+      },
     },
-  },
-
-  containerDensity3: {
-    [theme.breakpoints.up('sm')]: {
-      paddingLeft: theme.spacing(5),
-      paddingRight: theme.spacing(5),
-    },
-  },
-
+  }
 });
 
 
@@ -46,10 +40,10 @@ const Dashboard = ({
   // From Redux:
   loggedIn,
   density,
-  // From other HOC:
-    classes
 }) => {
   console.debug('[--- FC ---] Functional component: Dashboard');
+
+  const classes = useStyles(density);
 
   if (!loggedIn) {
     console.debug("[>>> Dashboard ------>>>----- / >>>] Reason: not logged in");
@@ -59,12 +53,7 @@ const Dashboard = ({
   return (
     <div className={classes.layout}>
       <Filters />
-      <Container maxWidth="xl" className={clsx(
-            classes.container, 
-            density === 1 && classes.containerDensity1,
-            density === 2 && classes.containerDensity2,
-            density === 3 && classes.containerDensity3,
-      )}>
+      <Container maxWidth="xl" className={classes.container}>
         <ItemsList />
       </Container>
     </div>          
@@ -79,4 +68,4 @@ const mapStateToProps = state => ({
 });
 const connectedDashboard = connect(mapStateToProps, null)(Dashboard);
 
-export default withStyles(styles)(connectedDashboard);
+export default connectedDashboard;

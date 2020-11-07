@@ -1,10 +1,14 @@
-const styles = (theme) => ({
-  
+import { makeStyles } from '@material-ui/core/styles';
+
+
+const useStyles = makeStyles(theme => {
+  return {
+
     card: {
       backgroundColor: theme.transparency ? "transparent" : null,
       backdropFilter: theme.transparency ? "blur(10px) contrast(0.2) brightness(1.8)" : null,
     },
-  
+
     details_image_section: {
       display: "flex",
       position: "relative",
@@ -67,25 +71,29 @@ const styles = (theme) => ({
       right: "-8px",
       zLayer: "2000",
     },
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
     back_link: {
       display: 'flex',
+      marginBottom: (density) => theme.spacing(density),
+      marginRight: (density) => theme.spacing(density === 1 ? 1 : 2),
     },
+
+
     back_icon: {
       width: 24,
       height: 24,
     },  
-  
-  
-  
-  
-  
+
+
+
+
+
     // Mobile / smalls (depends on density) : image full width
     // larger : image on the left (smaller), text on the right (larger)
           
@@ -93,54 +101,43 @@ const styles = (theme) => ({
       display: "flex",
       flexDirection: "column",
     },
-  
+
     detailsUpperSectionDensity1: {
       [theme.breakpoints.up('xs')]: {
         flexDirection: "row",
       },
     },
-  
-    detailsUpperSectionDensity2: {
+
+    detailsUpperSectionDensity23: {
       [theme.breakpoints.up('sm')]: {
         flexDirection: "row",
       },
     },
-  
-    detailsUpperSectionDensity3: {
-      [theme.breakpoints.up('sm')]: {
-        flexDirection: "row",
-      },
-    },
-  
-  
+
+
+
     // Mobile / smalls (depends on density) : image full width
     // larger : image on the left (smaller), text on the right (larger)
     detailsImage: {
+      marginBottom: (density) => theme.spacing(density),
     },
-  
+
     detailsImageDensity1: {
       [theme.breakpoints.up('xs')]: {
         flexBasis: `calc(40% - ${theme.spacing(1)}px)`,
         marginRight: theme.spacing(1),
       },
-      marginBottom: theme.spacing(1),
     },
-    detailsImageDensity2: {
+    
+    detailsImageDensity23: {
       [theme.breakpoints.up('sm')]: {
         flexBasis: `calc(50% - ${theme.spacing(1)}px)`,
         marginRight: theme.spacing(2),
       },
-      marginBottom: theme.spacing(2),
     },
-  
-    detailsImageDensity3: {
-      [theme.breakpoints.up('sm')]: {
-        flexBasis: `calc(50% - ${theme.spacing(1)}px)`,
-        marginRight: theme.spacing(2),
-      },
-      marginBottom: theme.spacing(3),
-    },
-  
-  });
-  
-  export default styles;
+
+  }
+});
+
+
+export default useStyles;

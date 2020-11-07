@@ -8,7 +8,6 @@ import { itemsActions } from "_actions/itemsActions";
 import { userActions } from "_actions/userActions";
 // HOC
 import { injectIntl, FormattedMessage } from "react-intl";
-import { withStyles } from "@material-ui/core/styles";
 // MUI
 import { Button, Divider, Typography } from "@material-ui/core";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
@@ -27,16 +26,13 @@ import Picture from "pages/utils/Picture";
 import BorderLinearProgress from "pages/utils/BorderLinearProgress";
 // Utilities
 import clsx from "clsx";
-import combineStyles from "theme/combineStyles";
 import gtmPush from "utils/gtmPush";
 // Configuration
 import config from "data/config";
 import getHelpSteps from "./helpStepsDetails";
 // Styles
-import commonStyles from "theme/commonStyles";
-import styles from "./stylesDetails";
+import useStyles from "./stylesDetails";
 import SizeInIcons from "pages/utils/SizeInIcons";
-
 
 
 const Details = ({
@@ -53,10 +49,10 @@ const Details = ({
   savePicture,
   setShowHelpDetails,
   // From other HOC:  
-  classes,
   intl,
   history,
 }) => {
+
   const [showHugeCameraBtn, setShowHugeCameraBtn] = React.useState(false);
   useEffect(() => {
     // if (isNew && item) {
@@ -68,14 +64,13 @@ const Details = ({
 
   const [displayProgress, setDisplayProgress] = React.useState(false);
 
+  const classes = useStyles(density);
+
   if (!loggedIn || !characteristics) {
     console.debug("[>>> Details ------>>>----- / >>>] Reason: not logged in or empty characteristics");
     return <Redirect to="/" />;
   }
   const createNewItem = item ? false : true;
-
-  // const theme = useTheme();
-  // const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   console.debug("[--- FC ---] Functional component: Details - createNewItem = ", createNewItem, " - item = ", item ? item : "N/A");
 
@@ -200,12 +195,7 @@ const Details = ({
         }}
       />
 
-      <Link variant="h4" onClick={_handleClose} className={clsx(
-        classes.back_link,
-        density === 1 && classes.marginBottomDensity1,
-        density === 2 && classes.marginBottomDensity2,
-        density === 3 && classes.marginBottomDensity3,
-      )}>
+      <Link variant="h4" onClick={_handleClose} className={classes.back_link}>
         <NavigateBeforeIcon className={classes.back_icon} />
         <FormattedMessage id="button.backtolist" />
       </Link>
@@ -213,8 +203,7 @@ const Details = ({
       <div className={clsx(
         classes.detailsUpperSection,
         density === 1 && classes.detailsUpperSectionDensity1,
-        density === 2 && classes.detailsUpperSectionDensity2,
-        density === 3 && classes.detailsUpperSectionDensity3,
+        density >= 2 && classes.detailsUpperSectionDensity23,
       )}>
         <Picture
             imageUrl={item?.pictureName ?`${config.staticUrl}/custom-size-image/${item.pictureName}` : null}
@@ -224,8 +213,7 @@ const Details = ({
             className={clsx(
               classes.detailsImage, 
               density === 1 && classes.detailsImageDensity1,
-              density === 2 && classes.detailsImageDensity2,
-              density === 3 && classes.detailsImageDensity3,
+              density >= 2 && classes.detailsImageDensity23,
         )}/>
         <div>test</div>
       </div>
@@ -524,8 +512,4 @@ const connectedDetails = withRouter(
   connect(mapStateToProps, mapDispatchToProps)(Details)
 );
 
-const combinedStyles = combineStyles(commonStyles, styles);
-
-export default injectIntl(
-  withStyles(combinedStyles, { withTheme: true })(connectedDetails)
-);
+export default injectIntl(connectedDetails);
