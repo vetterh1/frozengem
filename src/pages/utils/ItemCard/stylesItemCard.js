@@ -3,79 +3,35 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => {
   return {
-
-
-
     cardAndSeparation: {
       display: "flex",
       flexDirection: "column",
       height: "100%",
-    },
 
-    cardAndSeparationDensity1: {
+      marginBottom: (density) => theme.spacing(density === 1 ? 3 : 5),
+      marginRight: (density) => theme.spacing(density === 1 ? 1 : 2),
+
       [theme.breakpoints.down('xs')]: {
-        flexBasis: `calc(100% - ${theme.spacing(1)}px)`,
+        flexBasis: (density) => `calc(100% - ${theme.spacing(density === 1 ? 1 : 2)}px)`,
         // Mobile / xs: No margin bottom, separation instead
+        marginBottom: "0 !important",
       },
+
       [theme.breakpoints.up('sm')]: {
-        flexBasis: `calc(33.33% - ${theme.spacing(1)}px)`,
-        marginBottom: theme.spacing(3),
-      },
+        flexBasis: (density) => `calc(${density === 1 ? "33.33%" : "50%"} - ${theme.spacing(density === 1 ? 1 : 2)}px)`,
+      },      
+
       [theme.breakpoints.up('md')]: {
-        flexBasis: `calc(25% - ${theme.spacing(1)}px)`,
-        marginBottom: theme.spacing(3),
-      },
+        flexBasis: (density) => `calc(${density === 1 ? "25%" : (density === 2 ? "33.33%" : "50%")} - ${theme.spacing(density === 1 ? 1 : 2)}px)`,
+      },      
+
       [theme.breakpoints.up('lg')]: {
-        flexBasis: `calc(20% - ${theme.spacing(1)}px)`,
-        marginBottom: theme.spacing(3),
-      },
+        flexBasis: (density) => `calc(${density === 1 ? "20%" : (density === 2 ? "25%" : "33.33%")} - ${theme.spacing(density === 1 ? 1 : 2)}px)`,
+      },      
 
-      marginRight: theme.spacing(1),
-    },
-
-
-
-    cardAndSeparationDensity2: {
-      [theme.breakpoints.down('xs')]: {
-        flexBasis: `calc(100% - ${theme.spacing(2)}px)`,
-        // Mobile / xs: No margin bottom, separation instead
-      },
-      [theme.breakpoints.up('sm')]: {
-        flexBasis: `calc(50% - ${theme.spacing(2)}px)`,
-        marginBottom: theme.spacing(5),
-      },
-      [theme.breakpoints.up('md')]: {
-        flexBasis: `calc(33.33% - ${theme.spacing(2)}px)`,
-        marginBottom: theme.spacing(5),
-      },
-      [theme.breakpoints.up('lg')]: {
-        flexBasis: `calc(25% - ${theme.spacing(2)}px)`,
-        marginBottom: theme.spacing(5),
-      },
-
-      marginRight: theme.spacing(2),
-    },
-
-
-    cardAndSeparationDensity3: {
-      [theme.breakpoints.down('xs')]: {
-        flexBasis: `calc(100% - ${theme.spacing(2)}px)`,
-        // Mobile / xs: No margin bottom, separation instead
-      },
-      [theme.breakpoints.up('sm')]: {
-        flexBasis: `calc(50% - ${theme.spacing(2)}px)`,
-        marginBottom: theme.spacing(5),
-      },
-      [theme.breakpoints.up('lg')]: {
-        flexBasis: `calc(33.33% - ${theme.spacing(2)}px)`,
-        marginBottom: theme.spacing(5),
-      },
       [theme.breakpoints.up('xl')]: {
-        flexBasis: `calc(25% - ${theme.spacing(2)}px)`,
-        marginBottom: theme.spacing(5),
-      },
-
-      marginRight: theme.spacing(2),
+        flexBasis: (density) => `calc(${density === 1 ? "20%" : "25%"} - ${theme.spacing(density === 1 ? 1 : 2)}px)`,
+      },      
     },
 
 
@@ -85,68 +41,33 @@ const useStyles = makeStyles(theme => {
     card: {
       display: "flex",
       flexDirection: "column",
+
+      // Mobile / xs : image on the left, text on the right
       [theme.breakpoints.down('xs')]: {
-        // Mobile / xs : image on the left, text on the right
         flexDirection: "row",
       },
     },
 
 
     cardImage: {
-    },
+      marginBottom: (density) => theme.spacing(density),
 
-    cardImageDensity1: {
+      // Mobile / xs : image on the left (smaller), text on the right (larger)
       [theme.breakpoints.down('xs')]: {
-        // Mobile / xs : image on the left (smaller), text on the right (larger)
-        flexBasis: `calc(40% - ${theme.spacing(1)}px)`,
-        marginRight: theme.spacing(1),
+        flexBasis: (density) => `calc(${density === 1 ? "40%" : "50%"} - ${theme.spacing(1)}px)`,
+        marginRight: (density) => theme.spacing(density),
       },
-      marginBottom: theme.spacing(1),
     },
-    cardImageDensity2: {
-      [theme.breakpoints.down('xs')]: {
-        // Mobile / xs : image on the left, text on the right
-        flexBasis: `calc(50% - ${theme.spacing(1)}px)`,
-        marginRight: theme.spacing(2),
-      },
-      marginBottom: theme.spacing(2),
-    },
-
-    cardImageDensity3: {
-      [theme.breakpoints.down('xs')]: {
-        // Mobile / xs : image on the left, text on the right
-        flexBasis: `calc(50% - ${theme.spacing(1)}px)`,
-        marginRight: theme.spacing(2),
-      },
-      marginBottom: theme.spacing(3),
-    },
-
 
 
     cardText: {
       display: "flex",
       flexDirection: "column",
       // flexGrow: 1,
-    },
 
-    cardTextDensity1: {
+      // Mobile / xs : image on the left (smaller), text on the right (larger)
       [theme.breakpoints.down('xs')]: {
-        // Mobile / xs : image on the left (smaller), text on the right (larger)
-        flexBasis: `calc(60% - ${theme.spacing(1)}px)`,
-      },
-    },
-
-    cardTextDensity2: {
-      [theme.breakpoints.down('xs')]: {
-        // Mobile / xs : image on the left, text on the right
-        flexBasis: `calc(50% - ${theme.spacing(1)}px)`,
-      },
-    },
-
-    cardTextDensity3: {
-      [theme.breakpoints.down('xs')]: {
-        // Mobile / xs : image on the left, text on the right
-        flexBasis: `calc(50% - ${theme.spacing(2)}px)`,
+        flexBasis: (density) => `calc(${density === 1 ? "60%" : "50%"} - ${theme.spacing(1)}px)`,
       },
     },
 
@@ -179,22 +100,9 @@ const useStyles = makeStyles(theme => {
       width: "100%",
       height: "1px",
       backgroundColor: theme.palette.divider,
+      marginBottom: (density) => theme.spacing(density),
+      marginRight: (density) => theme.spacing(density === 1 ? 1 : 2),      
     },
-
-    separationDensity1: {
-      marginRight: theme.spacing(1),
-      marginBottom: theme.spacing(1),
-    },  
-
-    separationDensity2: {
-      marginRight: theme.spacing(2),
-      marginBottom: theme.spacing(2),
-    },  
-
-    separationDensity3: {
-      marginRight: theme.spacing(2),
-      marginBottom: theme.spacing(3),
-    },  
 
   }
 });

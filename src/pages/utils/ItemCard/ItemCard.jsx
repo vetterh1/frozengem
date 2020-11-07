@@ -10,12 +10,12 @@ import { injectIntl } from "react-intl";
 import { Typography } from "@material-ui/core";
 // Components
 import Picture from "pages/utils/Picture";
-// Utilities
-import clsx from "clsx";
 // Configuration
 import config from "data/config";
 // Styles
 import useStyles from "./stylesItemCard";
+
+
 
 const intItemCard = ({ 
   // From caller
@@ -43,30 +43,15 @@ const intItemCard = ({
 
 
   return (
-    <div className={clsx(
-      classes.cardAndSeparation, 
-      density === 1 && classes.cardAndSeparationDensity1,
-      density === 2 && classes.cardAndSeparationDensity2,
-      density === 3 && classes.cardAndSeparationDensity3,
-    )}>
+    <div className={classes.cardAndSeparation}>
       <div className={classes.card} onClick={handleClickForDetails}>
         <Picture
           imageUrl={item.pictureName ?`${config.staticUrl}/custom-size-image/${item.pictureName}` : null}
           imageAlt={item.__descriptionOrCategory}
           itemCategory={item.category}
           maxResolution={250}
-          className={clsx(
-            classes.cardImage, 
-            density === 1 && classes.cardImageDensity1,
-            density === 2 && classes.cardImageDensity2,
-            density === 3 && classes.cardImageDensity3,
-        )}/>
-        <div className={clsx(
-            classes.cardText, 
-            density === 1 && classes.cardTextDensity1,
-            density === 2 && classes.cardTextDensity2,
-            density === 3 && classes.cardTextDensity3,
-        )}>
+          className={classes.cardImage}/>
+        <div className={classes.cardText}>
           <div className={classes.cardMain}>
             <Typography gutterBottom variant="h4">{item.__descriptionOrCategory}</Typography>
             <Typography gutterBottom color="textSecondary">{item.__sizeInText}</Typography>
@@ -75,15 +60,12 @@ const intItemCard = ({
           <Typography className={classes.details_image_code} color="textSecondary" component="p" >{item ? item.code : "-"}</Typography>
         </div>      
       </div>
-      <div className={clsx(
-            classes.separation, 
-            density === 1 && classes.separationDensity1,
-            density === 2 && classes.separationDensity2,
-            density === 3 && classes.separationDensity3,
-      )} />
+      <div className={classes.separation} />
     </div>
   );
 };
+
+
 
 intItemCard.propTypes = {
   // Props from caller
