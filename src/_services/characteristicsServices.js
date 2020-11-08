@@ -32,11 +32,11 @@ async function fetchCharacteristics() {
 
   try {
     const response = await axios(options);
-    console.debug('fetchCharacteristics response: ' , response.data);
+    console.debug('[CharacteristicsServices] Fetch characteristics response: ' , response.data);
     return response.data;
   }
   catch(error) {
-    console.error('fetchCharacteristics error: ' , error);
+    console.error('[CharacteristicsServices] Fetch characteristics error: ' , error);
     throw error;
   }
 }
@@ -104,7 +104,7 @@ function getCharacteristicsUtilityFields(rawFields, language, characteristics) {
           // console.debug('getDefaultExpirationInMonths: intVariation=', intVariation, " - expirationInMonth=", expirationInMonth);
       }
     });
-    console.debug("getDefaultExpirationInMonths=" + expirationInMonth);
+    console.debug("[CharacteristicsServices] getDefaultExpirationInMonths=" + expirationInMonth);
     computatedFields.expirationInMonth = expirationInMonth;
   }
 
@@ -113,8 +113,8 @@ function getCharacteristicsUtilityFields(rawFields, language, characteristics) {
 
 
 function getDefaultExpirationInMonths(category, detailsArray, characteristics) {
-  console.debug('getDefaultExpirationInMonths: category=', category, " - detailsArray=", detailsArray);
-  console.debug('getDefaultExpirationInMonths: this.state=', this.state);
+  console.debug('[CharacteristicsServices] getDefaultExpirationInMonths: category=', category, " - detailsArray=", detailsArray);
+  console.debug('[CharacteristicsServices] getDefaultExpirationInMonths: this.state=', this.state);
   if(!category || !detailsArray) return null;
 
   // const { categories, detailsArray } = characteristics;
@@ -139,6 +139,6 @@ function getDefaultExpirationInMonths(category, detailsArray, characteristics) {
     }
   });
 
-  console.debug("getDefaultExpirationInMonths=" + expirationInMonth);
+  console.debug("[CharacteristicsServices] getDefaultExpirationInMonths=" + expirationInMonth);
   return expirationInMonth;
 }

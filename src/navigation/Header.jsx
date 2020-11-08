@@ -62,7 +62,7 @@ const Header = ({
   intl,
 }) => {
   let location = useLocation();
-  console.log("header - location=", location);
+  console.debug("[Header] location=", location);
 
   const [navBarVisible, setNavBarVisible] = useState(true);
 

@@ -185,11 +185,11 @@ const App = ({
     [dispatch, autologin] // ==> generates a warning on the console, but only way found to have it executed only once!
   );
   
-  if(!language){ console.log('app.js - no language');  return null; }
+  if(!language){ console.log('[App] No language!');  return null; }
 
   const theme = useTheme();
 
-  console.debug("App 0: loggedIn:", loggedIn, ", home: ", home, ", language: ", language);
+  console.debug("[App] 0: loggedIn:", loggedIn, ", home: ", home, ", language: ", language);
 
   return (
     <SnackbarProvider 
@@ -270,7 +270,7 @@ const App = ({
                       <Route
                         exact path="/"
                         render={() => { 
-                          console.debug("App route / - loggedIn:", loggedIn, ", home: ", home, ", language: ", language);
+                          console.debug("[App] Route / - loggedIn:", loggedIn, ", home: ", home, ", language: ", language);
                           if(loggedIn) {
 
                             // User exists but has not chosen his home yet: ask him to choose!

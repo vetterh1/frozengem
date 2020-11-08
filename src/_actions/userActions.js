@@ -149,7 +149,7 @@ function login(email, password) {
 
 function autologin() {
   return dispatch => {
-    console.debug("***************** autologin() - should run only once! ***************** ");
+    console.debug("[UserActions] Auto login (should run only once!)");
 
     userServices.autologin().then(
       user => {

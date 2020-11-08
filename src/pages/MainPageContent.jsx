@@ -36,7 +36,7 @@ class MainPageContent extends React.Component {
 
   render() {
     const { classes } = this.props;
-    console.debug("MainPageContent - props=", this.props);
+    console.debug("[MainPageContent] props: ", this.props);
 
     return (
       <>

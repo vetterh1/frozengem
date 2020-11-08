@@ -96,7 +96,7 @@ function intFilters({
 
   // Restore tab used in previous session:
   useLayoutEffect(() => {
-    console.log("Filters.useEffect() - should run only once!");
+    console.debug("[Filters] useLayoutEffect (should run only once!)");
 
     if (!selectedCategory) {
       let sel = localStorage.getItem("selectedCategory");
@@ -111,7 +111,9 @@ function intFilters({
         value: sel
       });
     }
-  }, [sortedCategories, filterItems]);
+  }, 
+  // eslint-disable-next-line
+  [sortedCategories, filterItems]);
 
   if (!categories) return null;
 

@@ -1,5 +1,5 @@
 // React
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Link as RouterLink } from 'react-router-dom';
 import { withRouter, Redirect } from "react-router";
 // Redux
@@ -24,6 +24,7 @@ import ScrollToTop from "pages/utils/ScrollToTop";
 import ItemImage from "pages/utils/ItemImage";
 import Picture from "pages/utils/Picture";
 import BorderLinearProgress from "pages/utils/BorderLinearProgress";
+import SizeInIcons from "pages/utils/SizeInIcons";
 // Utilities
 import clsx from "clsx";
 import gtmPush from "utils/gtmPush";
@@ -32,7 +33,6 @@ import config from "data/config";
 import getHelpSteps from "./helpStepsDetails";
 // Styles
 import useStyles from "./stylesDetails";
-import SizeInIcons from "pages/utils/SizeInIcons";
 
 
 const Details = ({
@@ -63,6 +63,9 @@ const Details = ({
   }, []);
 
   const [displayProgress, setDisplayProgress] = React.useState(false);
+
+  // Create Size icon array
+  const sizeInIcons = useMemo(() => {console.debug( "[Details] Memo sizeInIcons: ", item?.size ); return SizeInIcons(item?.size)}, [item?.size]);
 
   const classes = useStyles(density);
 
@@ -125,8 +128,6 @@ const Details = ({
     setDisplayProgress(false);
   };
 
-  // Create Size icon array
-  const sizeInIcons = SizeInIcons(item?.size);
 
   //
   // Add "remove / 0" option to the quantity list
