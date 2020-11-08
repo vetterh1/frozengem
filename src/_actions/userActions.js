@@ -149,9 +149,7 @@ function login(email, password) {
 
 function autologin() {
   return dispatch => {
-    console.debug(
-      "***************** autologin() - should run only once! ***************** "
-    );
+    console.debug("***************** autologin() - should run only once! ***************** ");
 
     userServices.autologin().then(
       user => {
@@ -163,7 +161,7 @@ function autologin() {
 
         return afterLoginOrRegister(false, user, dispatch, false);
       },
-      error => {
+      () => {
         // No error message ==> autologin is silent!
 
         gtmPush({

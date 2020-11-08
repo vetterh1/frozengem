@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import { connect } from "react-redux";
 import { itemsFilterActions } from "_actions/itemsFilterActions";
 import { filterCounts } from "_selectors/itemsSelector";
@@ -95,7 +95,7 @@ function intFilters({
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   // Restore tab used in previous session:
-  useEffect(() => {
+  useLayoutEffect(() => {
     console.log("Filters.useEffect() - should run only once!");
 
     if (!selectedCategory) {
@@ -111,7 +111,7 @@ function intFilters({
         value: sel
       });
     }
-  }, [selectedCategory, sortedCategories, filterItems]);
+  }, [sortedCategories, filterItems]);
 
   if (!categories) return null;
 
