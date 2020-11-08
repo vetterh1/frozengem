@@ -200,7 +200,9 @@ const Details = ({
         <NavigateBeforeIcon className={classes.back_icon} />
         <FormattedMessage id="button.backtolist" />
       </Link>
-        
+
+      {displayProgress && <BorderLinearProgress />}
+
       <div className={clsx(
         classes.detailsUpperSection,
         density === 1 && classes.detailsUpperSectionDensity1,
@@ -216,14 +218,53 @@ const Details = ({
               density === 1 && classes.detailsImageDensity1,
               density >= 2 && classes.detailsImageDensity23,
         )}/>
-        <div>test</div>
+        <div>
+          {/*
+          ********************************************************************
+                          Description section
+          ********************************************************************
+          */}
+          <section className={"flex-direction-column"}>
+            <SectionBlock
+              characteristicName="description"
+              isText={true}
+              main={item ? item.description : "-"}
+              mainTypography="h2"
+              secondary={null}
+              dialogTitle={intl.formatMessage({
+                id: "characteristics.description",
+              })}
+              dialogHelp={dialogHelpName}
+              dialogPreselectedItems={item ? item.description : null}
+              onOk={_handleUpdateCharacteristic}
+              showOkBtn={true}
+            />
+            <Divider className={dividerClassName}></Divider>
+            {/*
+            ********************************************************************
+                            Details section
+            ********************************************************************
+            */}
+            <SectionBlock
+              characteristicName="details"
+              main={item ? item.__detailsNames : "-"}
+              dialogTitle={intl.formatMessage({ id: "characteristics.details" })}
+              dialogItems={characteristics.details}
+              dialogPreselectedItems={item ? item.__detailsArray : null}
+              multiselection={true}
+              dialogDefaultIconName={item ? "category" + item.category : null}
+              onOk={_handleUpdateCharacteristic}
+            />
+          </section>
+          <Divider className={dividerClassName}></Divider>
+        </div>
       </div>
 
       {/*
       ********************************************************************
                 Picture section with Return and Picture buttons
       ********************************************************************
-      */}
+
       <section
         className={clsx(
           classes.details_image_section,
@@ -284,46 +325,8 @@ const Details = ({
           />
         }
       </section>
+      */}      
       <div className={"medium-padding"}>
-        {/*
-        ********************************************************************
-                        Description section
-        ********************************************************************
-        */}
-        <section className={"flex-direction-column"}>
-          {displayProgress && <BorderLinearProgress />}
-          <SectionBlock
-            characteristicName="description"
-            isText={true}
-            main={item ? item.description : "-"}
-            mainTypography="h2"
-            secondary={null}
-            dialogTitle={intl.formatMessage({
-              id: "characteristics.description",
-            })}
-            dialogHelp={dialogHelpName}
-            dialogPreselectedItems={item ? item.description : null}
-            onOk={_handleUpdateCharacteristic}
-            showOkBtn={true}
-          />
-          <Divider className={dividerClassName}></Divider>
-          {/*
-          ********************************************************************
-                          Details section
-          ********************************************************************
-          */}
-          <SectionBlock
-            characteristicName="details"
-            main={item ? item.__detailsNames : "-"}
-            dialogTitle={intl.formatMessage({ id: "characteristics.details" })}
-            dialogItems={characteristics.details}
-            dialogPreselectedItems={item ? item.__detailsArray : null}
-            multiselection={true}
-            dialogDefaultIconName={item ? "category" + item.category : null}
-            onOk={_handleUpdateCharacteristic}
-          />
-        </section>
-        <Divider className={dividerClassName}></Divider>
         {/*
         ********************************************************************
                         Quantity and Date section
