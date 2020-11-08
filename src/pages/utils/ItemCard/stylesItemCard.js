@@ -82,16 +82,27 @@ const useStyles = makeStyles(theme => {
     },
 
 
-    details_image_code: {
+    cardCode: {
       display: "flex",
       alignSelf: "flex-start",
       backgroundColor: "rgba(0, 0, 0, 0.3)",
-      borderRadius: "3px",
-      padding: "0px 4px",
+      padding: "2px 6px",
       color: "white",
     },
 
     
+    cardExpiration: {
+      display: "flex",
+      alignSelf: "flex-start",
+    },
+
+
+    cardExpirationText: {
+      marginLeft: theme.spacing(1),
+    },
+
+
+
     // Mobile / xs: display separation between cards
     separation: {
       [theme.breakpoints.up('sm')]: {
