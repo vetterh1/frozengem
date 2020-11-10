@@ -62,9 +62,9 @@ const Header = ({
   intl,
 }) => {
   let location = useLocation();
-  console.debug("[Header] location=", location);
-
   const [navBarVisible, setNavBarVisible] = useState(true);
+
+  console.debug("[Header] location, navBarVisible: ", location, navBarVisible);
 
   useEffect(() => {
     let prevScrollPos = window.scrollY < 0 ? 0 : window.scrollY;
@@ -73,18 +73,20 @@ const Header = ({
 
       const currentScrollPos = window.scrollY < 0 ? 0 : window.scrollY;
       // console.debug("scroll before, after: ", prevScrollPos, currentScrollPos)
-      const visible = prevScrollPos >= currentScrollPos;
+      const visible = currentScrollPos <= 0 ||
+        (prevScrollPos > currentScrollPos);
 
       prevScrollPos = currentScrollPos;
 
-      setNavBarVisible(visible);
+      if(visible !== navBarVisible)
+        setNavBarVisible(visible);
     }, 150);
 
     window.addEventListener('scroll', handleScroll);
 
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [])
+  }, [navBarVisible])
 
 
   // OLD : header was hidden in details page

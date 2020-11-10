@@ -39,7 +39,8 @@ const PictureSelection = ({
   iconStyle = {},
   labelUnderIcon = false,
   onPicture,
-  className,
+  btnClassName,
+  rootClassName,
   classes,
 }) => {
 
@@ -195,7 +196,11 @@ const PictureSelection = ({
         type="file"
         onChange={onInputChange}
       />
-      <label htmlFor={idInput} id={`label-for-${idInput}`}>
+      <label
+        htmlFor={idInput} 
+        id={`label-for-${idInput}`}
+        className={rootClassName}
+      >
         <>
           {!iconOnlyButton && (
             <Button
@@ -203,7 +208,7 @@ const PictureSelection = ({
               component="span"
               size="small"
               color="primary"
-              className={classes.button}
+              className={clsx(classes.button, btnClassName)}
               classes={specialClasses}
               onClick={_handleClickOpen}
             >
@@ -217,7 +222,7 @@ const PictureSelection = ({
               component="span"
               color="primary"
               aria-label={label}
-              className={clsx(classes.buttonIconOnly, className)}
+              className={clsx(classes.buttonIconOnly, btnClassName)}
               onClick={_handleClickOpen}
             >
               <PhotoCameraIcon style={iconStyle} />

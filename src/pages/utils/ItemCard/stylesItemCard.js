@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => {
   return {
+
     cardAndSeparation: {
       display: "flex",
       flexDirection: "column",
@@ -12,9 +13,11 @@ const useStyles = makeStyles(theme => {
       marginRight: (density) => theme.spacing(density === 1 ? 1 : 2),
 
       [theme.breakpoints.down('xs')]: {
-        flexBasis: (density) => `calc(100% - ${theme.spacing(density === 1 ? 1 : 2)}px)`,
+        flexBasis: "100%",
         // Mobile / xs: No margin bottom, separation instead
         marginBottom: "0 !important",
+        // Mobile / xs: Add a margin left
+        marginLeft: (density) => theme.spacing(density === 1 ? 1 : 2),
       },
 
       [theme.breakpoints.up('sm')]: {
@@ -32,6 +35,7 @@ const useStyles = makeStyles(theme => {
       [theme.breakpoints.up('xl')]: {
         flexBasis: (density) => `calc(${density === 1 ? "20%" : "25%"} - ${theme.spacing(density === 1 ? 1 : 2)}px)`,
       },      
+  
     },
 
 
@@ -113,6 +117,10 @@ const useStyles = makeStyles(theme => {
       backgroundColor: theme.palette.divider,
       marginBottom: (density) => theme.spacing(density),
       marginRight: (density) => theme.spacing(density === 1 ? 1 : 2),      
+      [theme.breakpoints.down('xs')]: {
+        // Mobile / xs: No margin right
+        marginRight: "0 !important",
+      },      
     },
 
   }

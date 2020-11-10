@@ -49,7 +49,7 @@ const PictureModalSelection = ({
       button={
         <PictureSelection
           onPicture={onPicture}
-          className={classes.button}
+          btnClassName={classes.button}
           iconStyle={{ fontSize: 72 }}
         />  
       }

@@ -9,19 +9,19 @@ import { userActions } from "_actions/userActions";
 // HOC
 import { injectIntl, FormattedMessage } from "react-intl";
 // MUI
-import { Button, Divider, Typography } from "@material-ui/core";
+import { Button, Divider } from "@material-ui/core";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import Link from '@material-ui/core/Link';
 // Components
 import Joyride, { ACTIONS } from "react-joyride";
 import PictureSelection from "pages/utils/PictureSelection";
-import CategoryButton from "pages/utils/CategoryButton";
+// import CategoryButton from "pages/utils/CategoryButton";
 import RemoveButton from "pages/utils/RemoveButton";
 import PictureModalSelection from "pages/utils/PictureModalSelection";
 import DuplicateButton from "pages/utils/DuplicateButton";
 import SectionBlock from "pages/utils/SectionBlock";
 import ScrollToTop from "pages/utils/ScrollToTop";
-import ItemImage from "pages/utils/ItemImage";
+// import ItemImage from "pages/utils/ItemImage";
 import Picture from "pages/utils/Picture";
 import BorderLinearProgress from "pages/utils/BorderLinearProgress";
 import SizeInIcons from "pages/utils/SizeInIcons";
@@ -123,7 +123,7 @@ const Details = ({
     const duplicatedItem = await duplicateItem(item.id);
 
     // Then go to the new item!
-    history.push(`/details/${duplicatedItem.id}`);
+    history.replace(`/details/${duplicatedItem.id}`);
 
     setDisplayProgress(false);
   };
@@ -208,16 +208,44 @@ const Details = ({
         density === 1 && classes.detailsUpperSectionDensity1,
         density >= 2 && classes.detailsUpperSectionDensity23,
       )}>
-        <Picture
-            imageUrl={item?.pictureName ?`${config.staticUrl}/custom-size-image/${item.pictureName}` : null}
-            imageAlt={item?.__descriptionOrCategory}
-            itemCategory={item?.category}
-            maxResolution={250}
-            className={clsx(
-              classes.detailsImage, 
-              density === 1 && classes.detailsImageDensity1,
-              density >= 2 && classes.detailsImageDensity23,
-        )}/>
+        <div className={clsx(
+          classes.detailsImageBlock,
+          density === 1 && classes.detailsImageBlockDensity1,
+          density >= 2 && classes.detailsImageBlockDensity23,
+        )}>
+          <Picture
+              imageUrl={item?.pictureName ?`${config.staticUrl}/custom-size-image/${item.pictureName}` : null}
+              imageAlt={item?.__descriptionOrCategory}
+              itemCategory={item?.category}
+              maxResolution={250}
+          />
+          <PictureSelection
+            btnClassName={clsx(
+              classes.detailsPictureSelectionButton,
+              density === 1 && classes.detailsPictureSelectionButtonDensity1,
+              density >= 2 && classes.detailsPictureSelectionButtonDensity23,
+              (!item || !item.pictureName) && "stitched",
+              "cam_icon"
+            )}
+            rootClassName={classes.detailsPictureSelection}
+            iconStyle={{ fontSize: 16, marginRight: 6 }}
+            itemId={item ? item.id : null}
+            iconOnlyButton={false}
+            onPicture={_handleSavePicture}
+            label={intl.formatMessage({
+              id: item && item.__imageExists ? "camera.replace" : "camera.add",
+            })}
+          />
+
+          {
+            //  isNew && item &&
+            <PictureModalSelection
+              onPicture={_handleSavePicture}
+              onCancel={() => setShowHugeCameraBtn(false)}
+              open={showHugeCameraBtn}
+            />
+          }     
+        </div>
         <div>
           {/*
           ********************************************************************
@@ -239,7 +267,7 @@ const Details = ({
               onOk={_handleUpdateCharacteristic}
               showOkBtn={true}
             />
-            <Divider className={dividerClassName}></Divider>
+            {/* <Divider className={dividerClassName}></Divider> */}
             {/*
             ********************************************************************
                             Details section
@@ -256,7 +284,7 @@ const Details = ({
               onOk={_handleUpdateCharacteristic}
             />
           </section>
-          <Divider className={dividerClassName}></Divider>
+          {/* <Divider className={dividerClassName}></Divider> */}
         </div>
       </div>
 
@@ -303,7 +331,7 @@ const Details = ({
           )}
         />
         <PictureSelection
-          className={clsx(
+          btnClassName={clsx(
             classes.details_image_camera,
             (!item || !item.pictureName) && "stitched",
             "cam_icon"
@@ -435,6 +463,7 @@ const Details = ({
                 color="secondary"
                 component={RouterLink}
                 to="/add"
+                replace
                 className={
                   "flex-direction-column  flex-align-center text-center flex-basis-48 small-padding-top small-padding-bottom"
                 }

@@ -118,23 +118,47 @@ const useStyles = makeStyles(theme => {
 
     // Mobile / smalls (depends on density) : image full width
     // larger : image on the left (smaller), text on the right (larger)
-    detailsImage: {
+    detailsImageBlock: {
+      display: "flex",
+      flexDirection: "column",
       marginBottom: (density) => theme.spacing(density),
     },
 
-    detailsImageDensity1: {
+    detailsImageBlockDensity1: {
       [theme.breakpoints.up('xs')]: {
         flexBasis: `calc(40% - ${theme.spacing(1)}px)`,
         marginRight: theme.spacing(1),
       },
     },
     
-    detailsImageDensity23: {
+    detailsImageBlockDensity23: {
       [theme.breakpoints.up('sm')]: {
         flexBasis: `calc(50% - ${theme.spacing(1)}px)`,
         marginRight: theme.spacing(2),
       },
     },
+
+
+    // "Camera block" aligned on the right, under the picture
+    detailsPictureSelection: {
+      alignSelf: "flex-end",
+    },
+
+    // "Camera block": button level
+    // (No right margin on mobile)
+    detailsPictureSelectionButton: {
+      paddingTop: 0,
+      paddingBottom: 0,
+      paddingLeft: 0,
+      paddingRight: theme.spacing(1),
+      textTransform: "none"
+    },
+    detailsPictureSelectionButtonDensity23: {
+      [theme.breakpoints.up('sm')]: {
+        paddingRight: 0
+      },
+    },
+    
 
   }
 });
