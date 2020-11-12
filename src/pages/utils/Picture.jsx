@@ -13,22 +13,25 @@ const Picture = ({
   maxResolution 
 }) => {
 
+  const [imageLoaded, setImageLoaded] = React.useState(false);
+
+  const IconCategory = getIconComponent("category" + itemCategory);
+  const styleIcon = {
+    justifyContent: "center",
+    display: "flex",
+    alignItems: "center",
+    padding: "25px",
+    fontSize: "100px",
+    backgroundColor: "rgba(0, 0, 0, 0.1)",
+  };  
+  const ImagePlaceholder =  () => (
+    <div style={styleIcon} className={className}>
+      <IconCategory fontSize="inherit" />
+    </div>
+  );
 
   // No image, display the category icon instead!
-  if (!imageUrl) {
-    const styleIcon = {
-      justifyContent: "center",
-      display: "flex",
-      alignItems: "center"
-    };
-
-    const IconCategory = getIconComponent("category" + itemCategory);
-    return (
-      <div style={styleIcon} className={className}>
-        <IconCategory style={{ fontSize: 200 }}  />
-      </div>
-    );
-  }
+  if (!imageUrl) return <ImagePlaceholder />;
 
 
 
@@ -39,17 +42,23 @@ const Picture = ({
 
   const maxResImageUrl = maxResolution && prepareImageUrl(imageUrl, type, maxResolution);
 
+  const imageStyle = !imageLoaded ? { display: "none" } : {};
+
   return (
-    <picture className={className}>
-      {!maxResolution &&
-        <React.Fragment>
-          <source srcSet={hdImageSrc} media="(min-width: 1920px)" />
-          <source srcSet={mediumImageSrc} media="(min-width: 768px)" />
-          <source srcSet={smallImageSrc} media="(min-width: 576px)" />
-        </React.Fragment>
-      }
-      <img src={maxResolution ? maxResImageUrl : mobileImageSrc} alt={imageAlt}  style={{width:"100%", height:"100%"}} />
-    </picture>
+    // <ImagePlaceholder />
+    <>
+      {!imageLoaded && <ImagePlaceholder />}
+      <picture className={className} onLoad={() => setImageLoaded(true)}  style={imageStyle} >
+        {!maxResolution &&
+          <React.Fragment>
+            <source srcSet={hdImageSrc} media="(min-width: 1920px)" />
+            <source srcSet={mediumImageSrc} media="(min-width: 768px)" />
+            <source srcSet={smallImageSrc} media="(min-width: 576px)" />
+          </React.Fragment>
+        }
+        <img src={maxResolution ? maxResImageUrl : mobileImageSrc} alt={imageAlt}  style={{width:"100%", height:"100%", display: imageLoaded ? "block" : "none"}} />
+      </picture>
+    </>
   );
 };
 

@@ -170,5 +170,7 @@
   "register.registered.title": "Finalize your registration...",
   "register.retype.help": "Please re-enter your password",
   "register.success": "Congratulations, you are now registered!",
-  "unauthorized": "Sorry you don't have the right to perform this action"
+  "unauthorized": "Sorry you don't have the right to perform this action",
+  "wait.title": "Please wait...",
+  "wait.subtitle": "We are carefully storing your data"
 }

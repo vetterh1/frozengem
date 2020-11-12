@@ -415,6 +415,7 @@ function IconCategoryBread(props) {
 
 
 function IconCategoryVegetable(props) {
+    console.log('IconCategoryVegetable ', props)
     return (
         <SvgIcon 
             {...props} 
