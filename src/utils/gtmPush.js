@@ -1,17 +1,24 @@
 import TagManager from 'react-gtm-module'
 
-const enableGtm = false;
+const enableGtmString = localStorage.getItem('enableGtm');
+const enableGtm = !enableGtmString || enableGtmString === "1";
+console.debug("[GTM] enableGtm (from local storage):", enableGtm);
 
 export function gtmInit (args) {
   const tagManagerArgs = { gtmId: "GTM-TFF4FK9", ...args };
-  if(enableGtm)
+  if(enableGtm){
+    console.debug("[GTM] gtmInit", tagManagerArgs);
     TagManager.initialize(tagManagerArgs);
+  }
 };
 
-export function gtmPush (args) {
+function gtmPush (args) {
   const tagManagerArgs = { dataLayer: { ...args }};
   if(enableGtm){
-    console.debug("gtmPush", tagManagerArgs);
+    console.debug("[GTM] gtmPush", tagManagerArgs);
     TagManager.dataLayer(tagManagerArgs);
   }
 };
+
+export default gtmPush;
+

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { WizNavBar, WizPageTitle } from "./WizUtilComponents";
-import SelectFromMatrix from "./SelectFromMatrix";
+import { WizNavBar, WizPageTitle } from "pages/utils/WizUtilComponents";
+import SelectFromMatrix from "pages/utils/SelectFromMatrix";
 
 //
 // (!) handleBack & handleNext & handleChange are async (!)

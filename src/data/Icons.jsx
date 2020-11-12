@@ -17,6 +17,12 @@ import RemoveCircleOutline from '@material-ui/icons/RemoveCircleOutline';
 import WarningIcon from '@material-ui/icons/Warning';
 import HelpIcon from '@material-ui/icons/Help';
 
+import PanToolIcon from '@material-ui/icons/PanTool';
+import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
+import TimerIcon from '@material-ui/icons/Timer';
+import DoneIcon from '@material-ui/icons/Done';
+
+
 
 export const getIconComponent = (iconName) => iconComponents[iconName];
 
@@ -88,6 +94,11 @@ const iconComponents = {
     "locationT": ExpandLess,
     "locationM": Remove,
     "locationB": ExpandMore,
+
+    "expirationLevel0": PanToolIcon,
+    "expirationLevel1": PriorityHighIcon,
+    "expirationLevel2": TimerIcon,
+    "expirationLevel3": DoneIcon,
 }
 
 

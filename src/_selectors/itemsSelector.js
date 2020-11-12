@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-// import {countFilteredArray} from '../utils/countFilteredArray'
+// import {countFilteredArray} from 'utils/countFilteredArray'
 
 //
 // Get required data from redux state

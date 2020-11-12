@@ -1,4 +1,4 @@
-import * as ACTIONS from "../_constants/action-types";
+import * as ACTIONS from "_constants/action-types";
 
 
 export const itemsFilterActions = {

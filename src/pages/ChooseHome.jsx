@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router'
-import { userActions } from '../_actions/userActions';
+import { userActions } from '_actions/userActions';
 import Box from '@material-ui/core/Box'; // ! must be at the end of the material-ui imports !
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -9,7 +9,7 @@ import Create from '@material-ui/icons/Create';
 import Add from '@material-ui/icons/Add';
 import { injectIntl, FormattedMessage } from "react-intl";
 import { withStyles } from '@material-ui/core/styles';
-import ButtonWithOneInputModal from './utils/ButtonWithOneInputModal';
+import ButtonWithOneInputModal from 'pages/utils/ButtonWithOneInputModal';
 
 const styles = theme => ({
   layout: {
@@ -57,12 +57,12 @@ class ChooseHome extends React.Component {
   render() {
     const { classes } = this.props;
     
-    if (!this.props.isAuthenticated) { 
+    if (!this.props.loggedIn) { 
       console.debug('[>>> ChooseHome ------>>>----- / >>>] Reason: not logged in');
       return <Redirect to='/' />
     };
 
-    if (this.props.isAuthenticated && this.props.home) {
+    if (this.props.loggedIn && this.props.home) {
         console.debug('[>>> ChooseHome ------>>>----- / >>>] Reason: house was chosen');
         return <Redirect to='/' /> 
     }    
@@ -138,7 +138,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.user.loggedIn,
+  loggedIn: state.user.loggedIn,
   home: state.user.home
 });
 const connectedChooseHome = connect(mapStateToProps, mapDispatchToProps)(ChooseHome);

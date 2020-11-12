@@ -1,25 +1,26 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import { connect } from "react-redux";
-import { itemsFilterActions } from "../_actions/itemsFilterActions";
-import { filterCounts } from "../_selectors/itemsSelector";
+import { itemsFilterActions } from "_actions/itemsFilterActions";
+import { filterCounts } from "_selectors/itemsSelector";
 import { injectIntl } from "react-intl";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Badge from "@material-ui/core/Badge";
 
-import { getIconComponent } from "../data/Icons";
+import { getIconComponent } from "data/Icons";
 import { withStyles } from "@material-ui/core/styles";
-import { gtmPush } from "../utils/gtmPush";
+import gtmPush from "utils/gtmPush";
 
 const FilterTabs = withStyles(theme => ({
   root: {
     backgroundColor: theme.transparency ? "transparent" : theme.palette.main.backgroundColor,
     backdropFilter: theme.transparency ? "blur(8px) contrast(0.3) brightness(1.5)" : null,
+    borderBottom: '1px solid #eee',
 
-    marginTop: -theme.spacing(2),
-    marginLeft: -theme.spacing(2),
-    marginRight: -theme.spacing(2),
+    // marginTop: -theme.spacing(2),
+    // marginLeft: -theme.spacing(2),
+    // marginRight: -theme.spacing(2),
   },
   indicator: {
     backgroundColor: theme.palette.primary.dark,
@@ -33,6 +34,9 @@ const FilterTab = withStyles(theme => ({
       minWidth: "75px"
     },
     [theme.breakpoints.up("sm")]: {
+      minWidth: "100px"
+    },
+    [theme.breakpoints.up("lg")]: {
       minWidth: "150px"
     },
     textTransform: "none",
@@ -58,6 +62,10 @@ const StyledCountBadge = withStyles(theme => ({
       top: 16
     },
     [theme.breakpoints.up("sm")]: {
+      right: 25,
+      top: 16
+    },
+    [theme.breakpoints.up("lg")]: {
       right: 50,
       top: 16
     }
@@ -70,11 +78,13 @@ const StyledCountBadge = withStyles(theme => ({
 }))(props => <Badge {...props} />);
 
 function intFilters({
+  // From Redux:
   language,
   filter,
   categories,
   filterItems,
   counts,
+  // From other HOC:
   intl
 }) {
   const [sortedCategories] = useState(
@@ -85,8 +95,8 @@ function intFilters({
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   // Restore tab used in previous session:
-  useEffect(() => {
-    console.log("Filters.useEffect() - should run only once!");
+  useLayoutEffect(() => {
+    console.debug("[Filters] useLayoutEffect (should run only once!)");
 
     if (!selectedCategory) {
       let sel = localStorage.getItem("selectedCategory");
@@ -101,7 +111,9 @@ function intFilters({
         value: sel
       });
     }
-  }, [selectedCategory, sortedCategories, filterItems]);
+  }, 
+  // eslint-disable-next-line
+  [sortedCategories, filterItems]);
 
   if (!categories) return null;
 

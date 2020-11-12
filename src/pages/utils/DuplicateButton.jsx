@@ -1,6 +1,6 @@
 import React from "react";
-import DialogMinimal from "./DialogMinimal";
-import ButtonToModal from "./ButtonToModal";
+import DialogMinimal from "pages/utils/DialogMinimal";
+import ButtonToModal from "pages/utils/ButtonToModal";
 
 const DuplicateButton = ({
   onOk,

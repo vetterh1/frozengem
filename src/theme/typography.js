@@ -1,6 +1,6 @@
-import palette from './palette';
+import palette from 'theme/palette';
 
-export default {
+const typography = {
   h1: {
     color: palette.text.primary,
     fontWeight: 500,
@@ -25,9 +25,9 @@ export default {
   h4: {
     color: palette.text.primary,
     fontWeight: 500,
-    fontSize: '20px',
+    fontSize: '18px',
     letterSpacing: '-0.06px',
-    lineHeight: '24px'
+    lineHeight: '22px'
   },
   h5: {
     color: palette.text.primary,
@@ -87,3 +87,5 @@ export default {
     textTransform: 'uppercase'
   }
 };
+
+export default typography;

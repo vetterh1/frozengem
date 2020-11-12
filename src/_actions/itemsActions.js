@@ -1,6 +1,6 @@
-import * as ACTIONS from "../_constants/action-types";
-import { itemsServices } from '../_services/itemsServices';
-import { notifierActions } from './notifierActions';
+import * as ACTIONS from "_constants/action-types";
+import { itemsServices } from '_services/itemsServices';
+import { notifierActions } from '_actions/notifierActions';
 
 export const itemsActions = {
   fetchItems,
@@ -204,7 +204,7 @@ function removeItem(id, size) {
 
 
 
-function savePicture (id, pictureData, thumbnailData) {
+function savePicture (id, pictureData) {
     return async (dispatch, getState) => {
         try {
             dispatch({ type: ACTIONS.ADD_OR_UPDATE_ITEM_REQUEST });
@@ -212,7 +212,7 @@ function savePicture (id, pictureData, thumbnailData) {
             const user = getState().user;
             const characteristics = getState().characteristics;
 
-            let item = await itemsServices.updatePictureItemToServer(id, pictureData, thumbnailData, user);
+            let item = await itemsServices.updatePictureItemToServer(id, pictureData, user);
 
             // Update fields
             itemsServices.computeItemUtilityFields(item, user.language, characteristics);

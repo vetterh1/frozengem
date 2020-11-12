@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import { characteristics } from './characteristicsReducer';
-import { items } from './itemsReducer';
-import { itemsFilter } from './itemsFilterReducer';
-import { user } from './userReducer';
-import { notifier } from './notifierReducer';
+import { characteristics } from '_reducers/characteristicsReducer';
+import { items } from '_reducers/itemsReducer';
+import { itemsFilter } from '_reducers/itemsFilterReducer';
+import { user } from '_reducers/userReducer';
+import { notifier } from '_reducers/notifierReducer';
 
 const combinedReducer = combineReducers({
   // languageInfo: languageInfoReducer,

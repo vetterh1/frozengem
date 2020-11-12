@@ -1,21 +1,34 @@
 /* eslint-disable react-hooks/rules-of-hooks */ 
-import React from 'react';
-
-import { connect } from 'react-redux';
-import { userActions } from '../_actions/userActions';
-import { notifierActions } from '../_actions/notifierActions';
-
+// React
+import React from "react";
 import { Link } from 'react-router-dom';
+// Redux
+import { connect } from "react-redux";
+import { userActions } from '_actions/userActions';
+import { notifierActions } from '_actions/notifierActions';
+// HOC
 import { injectIntl, FormattedMessage } from "react-intl";
-import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { makeStyles } from '@material-ui/core/styles';
+// MUI
 import Button from '@material-ui/core/Button';
+import Switch from '@material-ui/core/Switch';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import ButtonWithValidation from '../pages/utils/ButtonWithValidation'
-import { NavigationStyle } from "./configNavigation";
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import ViewComfyIcon from '@material-ui/icons/ViewComfy';
+import ViewModuleIcon from '@material-ui/icons/ViewModule';
+import ViewStreamIcon from '@material-ui/icons/ViewStream';        
+import Divider from '@material-ui/core/Divider';
+// Components
+import ButtonWithValidation from 'pages/utils/ButtonWithValidation'
+import { NavigationStyle } from "navigation/configNavigation";
+// Utilities
+import {CopyToClipboard} from 'react-copy-to-clipboard';
+// Configuration
+// Styles
 
 
 const useStyles = makeStyles(theme => ({
@@ -26,10 +39,17 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     textTransform: 'none',
   },
+  rootToggle: {
+    paddingLeft: theme.spacing(1),
+  },
+  buttonToggle: {
+    color: theme.palette.text.primary,
+    padding: theme.spacing(1)
+  }
 }));
 
 
-const intMenuProfile = ({homeCode, language, navigationStyle, setLanguage, setNavigationStyle, leaveHome, addIntlNotifier, intl}) => {
+const intMenuProfile = ({name, homeCode, language, density, navigationStyle, setLanguage, setDensity, setNavigationStyle, leaveHome, addIntlNotifier, intl}) => {
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -48,6 +68,8 @@ const intMenuProfile = ({homeCode, language, navigationStyle, setLanguage, setNa
     addIntlNotifier('menu_profile.home_clipboard', 'info', {code: code});
   }
 
+  const enableGtmString = localStorage.getItem('enableGtm');
+  const enableGtm = !enableGtmString || enableGtmString === "1";
 
   return (
 
@@ -76,6 +98,17 @@ const intMenuProfile = ({homeCode, language, navigationStyle, setLanguage, setNa
         open={open}
         onClose={handleClose}
       >
+
+        <MenuItem>
+          <b className={"flex-direction-row flex-justify-between full-width"}>
+            <div className={""}>{name}</div>
+            <div className={""} onClick={() => { handleClose()}}>X</div>
+          </b>
+        </MenuItem>
+
+        <Divider />
+
+
         {homeCode && <MenuItem onClick={handleClose}>
           <FormattedMessage id="menu_profile.your_code" />
           <CopyToClipboard
@@ -95,12 +128,34 @@ const intMenuProfile = ({homeCode, language, navigationStyle, setLanguage, setNa
           <MenuItem onClick={() => { setLanguage("fr"); handleClose()}}>Afficher en Français</MenuItem>
         }     
 
-        {navigationStyle === NavigationStyle.NAVIGATION_TOOLBAR && 
-          <MenuItem onClick={() => {setNavigationStyle(NavigationStyle.NAVIGATION_BOTTOMNAV); handleClose()}}>Switch to bottom navigation</MenuItem>
-        }
-        {navigationStyle === NavigationStyle.NAVIGATION_BOTTOMNAV &&
-          <MenuItem onClick={() => {setNavigationStyle(NavigationStyle.NAVIGATION_TOOLBAR); handleClose()}}>Switch to top navigation</MenuItem>
-        }        
+
+
+           
+        <MenuItem>
+          <FormattedMessage id="menu_profile.density" />
+
+          <ToggleButtonGroup
+            value={density.toString()}
+            exclusive
+            size="small" 
+            onChange={(event, density) => { setDensity(parseInt(density)); handleClose()}}
+            // className="classes.select"
+            classes={{grouped: classes.buttonToggle, root: classes.rootToggle}}
+          >
+            <ToggleButton value="1" aria-label="left aligned"            >
+              <ViewComfyIcon fontSize="small" />
+            </ToggleButton>
+            <ToggleButton value="2" aria-label="centered">
+              <ViewModuleIcon fontSize="small" />
+            </ToggleButton>
+            <ToggleButton value="3" aria-label="right aligned">
+              <ViewStreamIcon fontSize="small" />
+            </ToggleButton>
+
+          </ToggleButtonGroup>
+
+        </MenuItem>
+    
 
         {homeCode && <MenuItem>
           <ButtonWithValidation 
@@ -114,6 +169,25 @@ const intMenuProfile = ({homeCode, language, navigationStyle, setLanguage, setNa
         </MenuItem>}
 
         <MenuItem component={Link} to="/logout"><FormattedMessage id="menu_profile.logout" /></MenuItem>
+
+
+        <Divider />
+        <MenuItem disabled={true}><FormattedMessage id="menu_profile.developer" /></MenuItem>
+
+        <MenuItem>
+          <FormattedMessage id="menu_profile.enableGtm" />
+          <Switch
+            checked={enableGtm}
+            onChange={(event) => {localStorage.setItem("enableGtm", event.target.checked ? 1 : 0); handleClose()}}
+          />
+        </MenuItem>
+
+        {navigationStyle === NavigationStyle.NAVIGATION_TOOLBAR && 
+          <MenuItem onClick={() => {setNavigationStyle(NavigationStyle.NAVIGATION_BOTTOMNAV); handleClose()}}>Switch to bottom navigation</MenuItem>
+        }
+        {navigationStyle === NavigationStyle.NAVIGATION_BOTTOMNAV &&
+          <MenuItem onClick={() => {setNavigationStyle(NavigationStyle.NAVIGATION_TOOLBAR); handleClose()}}>Switch to top navigation</MenuItem>
+        }    
       </Menu>
     </div>
   );
@@ -122,12 +196,13 @@ const intMenuProfile = ({homeCode, language, navigationStyle, setLanguage, setNa
 
 
 
-
 function mapStateToProps(state) {
-  const { user: { home, language, navigationStyle } } = state;
+  const { user: { name, home, language, density, navigationStyle } } = state;
   return {
+    name,
     homeCode: home,
     language,
+    density,
     navigationStyle
   };
 }
@@ -135,6 +210,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   setLanguage: userActions.setLanguage,
+  setDensity: userActions.setDensity,
   setNavigationStyle: userActions.setNavigationStyle,
   leaveHome: userActions.leaveHome,
   login: userActions.login,

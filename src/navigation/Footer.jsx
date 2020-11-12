@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
-import config from '../data/config'
+import config from 'data/config'
 
 function WhyFrozenGem() {
   return (
@@ -47,18 +47,23 @@ const useStyles = makeStyles(theme => ({
 
 
 
-function Footer(props) {
+function Footer({
+  // From other HOC
+  location,
+}) {
   const classes = useStyles();
-  const onMainPage = props.location.pathname === '/';
+  const onMainPage = location.pathname === '/';
 
   return (
     <footer className={classes.footer}>
       <Container maxWidth="md" className={classes.footerContainer}>
         {onMainPage && <WhyFrozenGem />}
         <MadeWithLove />
+        {/* <!-- CookiePro Cookies Settings button start --> */}
+        <button id="ot-sdk-btn" className="ot-sdk-show-settings">Cookie Settings</button>
+        {/* <!-- CookiePro Cookies Settings button end --> */}
       </Container>
     </footer>
   );
 }
-
 export default withRouter(Footer);

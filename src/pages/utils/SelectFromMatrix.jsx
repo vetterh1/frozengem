@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import MatrixCard from "./MatrixCard";
-import { getIconComponent } from "../../data/Icons";
+import MatrixCard from "pages/utils/MatrixCard";
+import { getIconComponent } from "data/Icons";
 
 const styles = theme => ({
   layout: {

@@ -4,13 +4,13 @@ import { withStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
-import readAsDataURLAsync from "../../utils/readAsDataURLAsync";
-// import stringifyOnce from '../../utils/stringifyOnce.js'
-import canvasToBlobAsync from "../../utils/canvasToBlobAsync.js";
-import createImageAsync from "../../utils/createImageAsync.js";
-// import sizeInMB from '../../utils/sizeInMB'
-import getExifTagsAsync from "../../utils/getExifTagsAsync";
-import { gtmPush } from "../../utils/gtmPush";
+import readAsDataURLAsync from "utils/readAsDataURLAsync";
+// import stringifyOnce from 'utils/stringifyOnce'
+import canvasToBlobAsync from "utils/canvasToBlobAsync.js";
+import createImageAsync from "utils/createImageAsync.js";
+// import sizeInMB from 'utils/sizeInMB'
+import getExifTagsAsync from "utils/getExifTagsAsync";
+import gtmPush from "utils/gtmPush";
 
 const styles = (theme) => ({
   button: {
@@ -39,89 +39,10 @@ const PictureSelection = ({
   iconStyle = {},
   labelUnderIcon = false,
   onPicture,
-  className,
+  btnClassName,
+  rootClassName,
   classes,
 }) => {
-
-  console.debug("PictureSelection.init: itemId, className, iconOnlyButton = ", itemId, className, iconOnlyButton);
-
-/*
-  const resizePicture = async (img, quality = 0.7, MAX_WIDTH = 1200, MAX_HEIGHT = 1200) => {
-    var canvas = document.createElement("canvas");
-
-    const exifTags = await getExifTagsAsync(img);
-    // alert(`resizePicture: w=${img.width} h=${img.height} exifTags=${stringifyOnce(exifTags)}`);
-
-    // ----- S9 & iPad -----
-    // 000°: 6 (portrait std)
-    // 090°: 3 (landscape left)
-    // 180°: 8 (portrait upside down)
-    // 270°: 1 (landscape right)
-    
-    
-    const orientation = exifTags.Orientation;
-    let turn = [5, 6, 7, 8].indexOf(orientation) > -1;
-    let w = img.width;
-    let h = img.height;
-    if (turn) {
-      w = img.height;
-      h = img.width;
-    }
-
-    if (w > h) {
-      if (w > MAX_WIDTH) {
-        h *= MAX_WIDTH / w;
-        w = MAX_WIDTH;
-      }
-    } else {
-      if (h > MAX_HEIGHT) {
-        w *= MAX_HEIGHT / h;
-        h = MAX_HEIGHT;
-      }
-    }
-
-    canvas.width = w;
-    canvas.height = h;
-
-    // const msg2 = `resizePicture: to... w=${w}, h=${h}, o=${orientation}`;
-    // console.log(msg2);
-    // alert(msg2);
-
-    var ctx = canvas.getContext("2d");
-
-    switch (orientation) {
-      case 2:
-        ctx.transform(-1, 0, 0, 1, canvas.width, 0);
-        break;
-      case 3:
-        ctx.transform(-1, 0, 0, -1, canvas.width, canvas.height);
-        break;
-      case 4:
-        ctx.transform(1, 0, 0, -1, 0, canvas.height);
-        break;
-      case 5:
-        ctx.transform(0, 1, 1, 0, 0, 0);
-        break;
-      case 6:
-        ctx.transform(0, 1, -1, 0, canvas.width, 0);
-        break;
-      case 7:
-        ctx.transform(0, -1, -1, 0, canvas.height, canvas.width);
-        break;
-      case 8:
-        ctx.transform(0, -1, 1, 0, 0, canvas.width);
-        break;
-      default:
-        ctx.transform(1, 0, 0, 1, 0, 0);
-    }
-
-    ctx.drawImage(img, 0, 0, turn ? h : w, turn ? w : h);
-
-    return await canvasToBlobAsync(canvas, quality);
-  };
-*/
-
-
 
   const resizePicture2 = async (img, quality = 0.7, MAX_WIDTH = 1000, MAX_HEIGHT = 1000) => {
     var canvas = document.createElement("canvas");
@@ -241,16 +162,11 @@ const PictureSelection = ({
 
     // Resize the image and get is as binary data
     // const resizedPictureBlob = await resizePicture(img, 0.85);
-    const resizedPictureBlob = await resizePicture2(img, 0.80);
+    const resizedPictureBlob = await resizePicture2(img, 0.85);
     // console.log(`after resize: length: ${sizeInMB(resizedPictureBlob.size)}`);
 
-    // Resize again for thumbnail and get is as binary data
-    // const resizedThumbnailBlob = await resizePicture(img, 0.45, 600, 600);
-    const resizedThumbnailBlob = await resizePicture2(img, 0.45, 600, 600);
-    // console.log(`thumbnail after resize: length: ${sizeInMB(resizedThumbnailBlob.size)}`);
-
     // Call the props when it's done for saving
-    onPicture(resizedPictureBlob, resizedThumbnailBlob);
+    onPicture(resizedPictureBlob);
 
     gtmPush({
       event: "Details",
@@ -280,7 +196,11 @@ const PictureSelection = ({
         type="file"
         onChange={onInputChange}
       />
-      <label htmlFor={idInput} id={`label-for-${idInput}`}>
+      <label
+        htmlFor={idInput} 
+        id={`label-for-${idInput}`}
+        className={rootClassName}
+      >
         <>
           {!iconOnlyButton && (
             <Button
@@ -288,7 +208,7 @@ const PictureSelection = ({
               component="span"
               size="small"
               color="primary"
-              className={classes.button}
+              className={clsx(classes.button, btnClassName)}
               classes={specialClasses}
               onClick={_handleClickOpen}
             >
@@ -302,7 +222,7 @@ const PictureSelection = ({
               component="span"
               color="primary"
               aria-label={label}
-              className={clsx(classes.buttonIconOnly, className)}
+              className={clsx(classes.buttonIconOnly, btnClassName)}
               onClick={_handleClickOpen}
             >
               <PhotoCameraIcon style={iconStyle} />

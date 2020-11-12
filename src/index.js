@@ -8,13 +8,13 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
 // import { createLogger } from 'redux-logger';
 import thunk from "redux-thunk";
-import combinedReducer from "./_reducers/combinedReducer";
+import combinedReducer from "_reducers/combinedReducer";
 
-import { gtmInit } from "./utils/gtmPush";
+import { gtmInit } from "utils/gtmPush";
 
-import "./index.css";
-import App from "./pages/App";
-import * as serviceWorker from "./serviceWorker";
+import "index.css";
+import App from "pages/App";
+import * as serviceWorker from "serviceWorker";
 
 //
 // --------------- Init Redux actions & reducers ---------------
@@ -24,7 +24,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 // const reduxMiddleware = applyMiddleware(thunk, createLogger());
 const reduxMiddleware = applyMiddleware(thunk);
 
-console.debug("index init store");
+console.debug("[Index] Init store");
 
 const store = createStore(combinedReducer, composeEnhancers(reduxMiddleware));
 

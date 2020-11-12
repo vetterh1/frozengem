@@ -1,13 +1,14 @@
-// import stringifyOnce from '../utils/stringifyOnce.js'
+// import stringifyOnce from "utils/stringifyOnce"
 import qs from "qs";
 import axios from "axios";
-import config from "../data/config";
+import config from "data/config";
 
 export const userServices = {
   isAuthenticated,
   setLanguage,
+  setDensity,
   setNavigationStyle,
-  setDetailsHelpCompleted,
+  setHelpMessageSeen,
   login,
   autologin,
   logout,
@@ -24,11 +25,7 @@ function isAuthenticated() {
 }
 
 async function _updateServer(key, value) {
-  console.debug(
-    "|--- SERVER CALL ---|--- POST ---| userServices._updateServer: ",
-    key,
-    value
-  );
+  console.debug("|--- SERVER CALL ---|--- POST ---| userServices._updateServer: ",key,  value);
 
   // don't save if not authenticated
   if (!isAuthenticated()) return null;
@@ -50,7 +47,7 @@ async function _updateServer(key, value) {
     await axios(options);
     return null;
   } catch (error) {
-    console.error("_updateServer error: ", error);
+    console.error("[UserServices] _updateServer error: ", error);
     throw error;
   }
 }
@@ -60,6 +57,13 @@ async function _updateServer(key, value) {
 
 async function setLanguage(language) {
   await _updateServer("language", language);
+}
+
+// Save the density passed in parameter in the user record on the server
+// Returns: null
+
+async function setDensity(density) {
+  await _updateServer("density", density);
 }
 
 // Save the navigation style passed in parameter in the user record on the server
@@ -72,8 +76,8 @@ async function setNavigationStyle(navigationStyle) {
 // Save the navigation style passed in parameter in the user record on the server
 // Returns: null
 
-async function setDetailsHelpCompleted(detailsHelpCompleted) {
-  await _updateServer("detailsHelpCompleted", detailsHelpCompleted);
+async function setHelpMessageSeen(helpMessageSeen) {
+  await _updateServer("helpMessageSeen", helpMessageSeen);
 }
 
 // Retreive the user record from the server
@@ -104,7 +108,7 @@ async function login(email, password) {
   try {
     const response = await axios(options);
     const { user, token } = response.data;
-    console.debug("login OK: ", response, user, token);
+    console.debug("[UserServices] Login OK: ", response, user, token);
     localStorage.setItem("accessToken", token);
     localStorage.setItem("id", user.id);
     localStorage.setItem("user", JSON.stringify(user));
@@ -112,7 +116,7 @@ async function login(email, password) {
     user.accessToken = token;
     return user;
   } catch (error) {
-    console.error("login error: ", error);
+    console.error("[UserServices] login error: ", error);
     throw error;
   }
 }
@@ -140,14 +144,14 @@ async function autologin() {
   try {
     const response = await axios(options);
     const { user } = response.data;
-    console.debug("autologin response: ", response);
+    console.debug("[UserServices] Autologin response: ", response);
     localStorage.setItem("id", user.id);
     localStorage.setItem("user", JSON.stringify(user));
     // Add token to user
     user.accessToken = token;
     return user;
   } catch (error) {
-    console.error("autologin error: ", error);
+    console.error("[UserServices] autologin error: ", error);
     throw error;
   }
 }
@@ -186,7 +190,7 @@ async function register(email, password, name, language) {
   try {
     const response = await axios(options);
     const { user, token } = response.data;
-    console.debug("register OK: ", response, user, token);
+    console.debug("[UserServices] Register OK: ", response, user, token);
     localStorage.setItem("accessToken", token);
     localStorage.setItem("id", user.id);
     localStorage.setItem("user", JSON.stringify(user));
@@ -194,22 +198,22 @@ async function register(email, password, name, language) {
     user.accessToken = token;
     return user;
   } catch (error) {
-    console.error("register error: ", error);
+    console.error("[UserServices] register error: ", error);
 
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
-      console.error("data: ", error.response.data);
-      console.error("status: ", error.response.status);
-      console.error("headers: ", error.response.headers);
+      console.error("[UserServices] data: ", error.response.data);
+      console.error("[UserServices] status: ", error.response.status);
+      console.error("[UserServices] headers: ", error.response.headers);
     } else if (error.request) {
       // The request was made but no response was received
       // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
       // http.ClientRequest in node.js
-      console.error("request: ", error.request);
+      console.error("[UserServices] request: ", error.request);
     } else {
       // Something happened in setting up the request that triggered an Error
-      console.error("unknown: ", error.message);
+      console.error("[UserServices] unknown: ", error.message);
     }
 
     throw error;
@@ -237,10 +241,10 @@ async function joinHome(home) {
   try {
     const response = await axios(options);
     const { user } = response.data;
-    console.debug("Join home response: ", response);
+    console.debug("[UserServices] Join home response: ", response);
     return user;
   } catch (error) {
-    console.error("register error: ", error);
+    console.error("[UserServices] register error: ", error);
     throw error;
   }
 }
@@ -262,10 +266,10 @@ async function leaveHome() {
 
   try {
     const response = await axios(options);
-    console.debug("leave home response: ", response);
+    console.debug("[UserServices] Leave home response: ", response);
     return null;
   } catch (error) {
-    console.error("register error: ", error);
+    console.error("[UserServices] register error: ", error);
     throw error;
   }
 }
@@ -295,14 +299,14 @@ async function joinNewHome(name, label) {
   try {
     const response = await axios(options);
     const { user } = response.data;
-    console.debug("Join new home response: ", response);
+    console.debug("[UserServices] Join new home response: ", response);
 
     // const {home, homeOrder} = user;
     // this.setState({home: home, homeOrder: homeOrder});
 
     return user;
   } catch (error) {
-    console.error("register error: ", error);
+    console.error("[UserServices] register error: ", error);
     throw error;
   }
 }

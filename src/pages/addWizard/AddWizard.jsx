@@ -5,16 +5,15 @@ import { useEffect } from "react";
 
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
-import { itemsActions } from "../../_actions/itemsActions";
-import { notifierActions } from "../../_actions/notifierActions";
-import { characteristicsServices } from "../../_services/characteristicsServices";
+import { itemsActions } from "_actions/itemsActions";
+import { notifierActions } from "_actions/notifierActions";
+import { characteristicsServices } from "_services/characteristicsServices";
 import { Redirect } from "react-router";
 import { injectIntl } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
-import WizCharacteristicsSelection from "../utils/WizCharacteristicsSelection";
-import WizTextOrDateSelection from "../utils/WizTextOrDateSelection";
-import Stepper from "../utils/Stepper";
-// import Results from "./Results";
+import WizCharacteristicsSelection from "pages/utils/WizCharacteristicsSelection";
+import WizTextOrDateSelection from "pages/utils/WizTextOrDateSelection";
+import Stepper from "pages/utils/Stepper";
 import StepWizard from "react-step-wizard";
 
 const styles = theme => ({
@@ -39,12 +38,14 @@ const styles = theme => ({
 });
 
 const AddWizard = ({
+  // From Redux:
   addItem,
   savePicture,
   addIntlNotifier,
   loggedIn,
   language,
   characteristics,
+  // From other HOC:
   intl,
   classes,
   history
@@ -66,7 +67,6 @@ const AddWizard = ({
     expirationDate: null,
     expirationInMonth: 0,
     pictureName: null,
-    thumbnailName: null,
     code: null
   };
 
@@ -292,17 +292,15 @@ const AddWizard = ({
 
   // Set the received value in the state
   // (replacing any existing one)
-  // const _savePicture = async (pictureData, thumbnailData) => {
+  // const _savePicture = async (pictureData) => {
   //   try {
   //     const itemUpdated = await savePicture(
   //       item.id,
-  //       pictureData,
-  //       thumbnailData
+  //       pictureData
   //     );
   //     handleChange(
   //       {
   //         pictureName: itemUpdated.pictureName,
-  //         thumbnailName: itemUpdated.thumbnailName
   //       },
   //       false
   //     );
@@ -465,6 +463,4 @@ const connectedAddWizard = connect(
   mapDispatchToProps
 )(AddWizard);
 
-export default withRouter(
-  injectIntl(withStyles(styles, { withTheme: true })(connectedAddWizard))
-);
+export default withRouter(injectIntl(withStyles(styles, { withTheme: true })(connectedAddWizard)));

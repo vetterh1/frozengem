@@ -1,8 +1,8 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
-import CharacteristicsTile from "./CharacteristicsTile";
-import CharacteristicsButton from "./CharacteristicsButton";
-import config from '../../data/config'
+import CharacteristicsTile from "pages/utils/CharacteristicsTile";
+import CharacteristicsButton from "pages/utils/CharacteristicsButton";
+import config from "data/config"
 
 const SectionBlock = ({
   characteristicName,

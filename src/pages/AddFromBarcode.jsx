@@ -1,25 +1,23 @@
+// React
 import React from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router";
-import { itemsActions } from "../_actions/itemsActions";
 import { Redirect } from "react-router";
+// Redux
+import { connect } from "react-redux";
+import { itemsActions } from "_actions/itemsActions";
+// HOC
 import { injectIntl } from "react-intl";
-// import { injectIntl, FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
-// import { Button, Divider, Typography } from "@material-ui/core";
-// import Person from "@material-ui/icons/Person";
-// import PersonOutline from "@material-ui/icons/PersonOutline";
-// import PictureSelection from "./utils/PictureSelection";
-// import CategoryButton from "./utils/CategoryButton";
-// import RemoveButton from "./utils/RemoveButton";
-// import { gtmPush } from "../utils/gtmPush";
-// import SectionBlock from "./utils/SectionBlock";
-import ScrollToTop from './utils/ScrollToTop';
-// import ItemImage from "./utils/ItemImage";
-// import clsx from "clsx";
+import { withRouter } from "react-router";
+// MUI
+// Components
+import ScrollToTop from 'pages/utils/ScrollToTop';
+import Scanner from 'pages/utils/Scanner';
+// Utilities
+import { openfoodfactsServices } from '_services/openfoodfactsServices';
+// Configuration
+// Styles
 
-import Scanner from './utils/Scanner';
-import { openfoodfactsServices } from '../_services/openfoodfactsServices';
+
 
 
 const styles = theme => ({
@@ -31,11 +29,13 @@ const styles = theme => ({
 });
 
 const AddFromBarcode = ({
+  // From Redux:
   characteristics,
   classes,
+  loggedIn
+  // From other HOC:  
 //   intl,
 //   history,
-  loggedIn
 }) => {
 
   const [scanning, setScanning] = React.useState(true);

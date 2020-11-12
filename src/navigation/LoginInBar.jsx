@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from "react-intl";
 import Button from '@material-ui/core/Button';
-import { MenuProfile } from './MenuProfile';
+import { MenuProfile } from 'navigation/MenuProfile';
 
 class LoginInBar extends React.Component {
 

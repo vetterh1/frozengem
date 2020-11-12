@@ -4,8 +4,8 @@ import { TextField, Button } from '@material-ui/core';
 import { injectIntl } from "react-intl";
 import { bindActionCreators } from 'redux';
 import { connect  } from 'react-redux';
-import { userActions } from '../_actions/userActions';
-import { WizPageTitle} from "./utils/WizUtilComponents";
+import { userActions } from '_actions/userActions';
+import { WizPageTitle} from "pages/utils/WizUtilComponents";
 import { withStyles } from '@material-ui/core/styles';
 import { FormattedMessage } from "react-intl";
 import { withFormik } from "formik";
@@ -34,7 +34,7 @@ const LoginForm = props => {
   const {
     // From React: 
     classes,
-    isAuthenticated,
+    loggedIn,
     // From intl:
     intl,
     // From Formik: 
@@ -47,8 +47,8 @@ const LoginForm = props => {
   } = props;
 
   // Once we are logged-in, let's redirect to the dashboard!
-  if (isAuthenticated) { 
-    console.debug('[>>> LoginWizard ------>>>----- /dashboard >>>] Reason: authenticated');
+  if (loggedIn) { 
+    console.debug('[>>> LoginForm ------>>>----- /dashboard >>>] Reason: authenticated');
     return <Redirect to='/dashboard' />
   };
     
@@ -102,7 +102,7 @@ const LoginForm = props => {
           </div>
 
           <div className={"flex-normal-height flex-direction-row-reverse flex-justify-between big-margin-down big-margin-top"}>
-            <Button variant="contained" color="primary" disabled={Boolean(errors.email)} type="submit">
+            <Button variant="contained" color="primary" disabled={Boolean(errors.email)} type="submit" name="submit">
               <FormattedMessage id={"button.ok"} />
             </Button>
           </div>
@@ -152,7 +152,7 @@ const formikLoginForm = withFormik({
   }
 })(LoginForm);
 
-const mapStateToProps = state => ({isAuthenticated: state.user.loggedIn});
+const mapStateToProps = state => ({loggedIn: state.user.loggedIn});
 const connectedFormikLoginForm = connect(
   mapStateToProps, 
   dispatch => bindActionCreators(userActions, dispatch)

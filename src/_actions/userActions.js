@@ -1,9 +1,9 @@
-import * as ACTIONS from "../_constants/action-types";
-import { userServices } from "../_services/userServices";
-import { characteristicsActions } from "./characteristicsActions";
-import { itemsActions } from "./itemsActions";
-import { notifierActions } from "./notifierActions";
-import { gtmPush } from "../utils/gtmPush";
+import * as ACTIONS from "_constants/action-types";
+import { userServices } from "_services/userServices";
+import { characteristicsActions } from "_actions/characteristicsActions";
+import { itemsActions } from "_actions/itemsActions";
+import { notifierActions } from "_actions/notifierActions";
+import gtmPush from "utils/gtmPush";
 
 export const userActions = {
   login,
@@ -13,8 +13,10 @@ export const userActions = {
   joinHome,
   joinNewHome,
   setLanguage,
+  setDensity,
   setNavigationStyle,
-  setDetailsHelpCompleted
+  setHelpMessageSeen,
+  setShowHelpDetails,
 };
 
 function setLanguage(language) {
@@ -31,6 +33,20 @@ function setLanguage(language) {
   };
 }
 
+function setDensity(density) {
+  return async dispatch => {
+    try {
+      await userServices.setDensity(density);
+      dispatch({ type: ACTIONS.SET_DENSITY, density });
+
+      // Change items density
+      dispatch(itemsActions.updateAllItemsUtilityFields());
+    } catch (error) {
+      console.error("setDensity failed", density);
+    }
+  };
+}
+
 function setNavigationStyle(navigationStyle) {
   return async dispatch => {
     try {
@@ -42,19 +58,35 @@ function setNavigationStyle(navigationStyle) {
   };
 }
 
-function setDetailsHelpCompleted(detailsHelpCompleted) {
+function setHelpMessageSeen(helpMessageSeen) {
   return async dispatch => {
     try {
-      await userServices.setDetailsHelpCompleted(detailsHelpCompleted);
+      await userServices.setHelpMessageSeen(helpMessageSeen);
       dispatch({
-        type: ACTIONS.SET_DETAILS_HELP_COMPLETED,
-        detailsHelpCompleted
+        type: ACTIONS.SET_HELP_MESSAGE_SEEN,
+        helpMessageSeen
       });
     } catch (error) {
-      console.error("setDetailsHelpCompleted failed", detailsHelpCompleted);
+      console.error("setHelpMessageSeen failed", helpMessageSeen);
     }
   };
 }
+
+
+function setShowHelpDetails(showHelpDetails) {
+  return async dispatch => {
+    try {
+      // NO server save, just local for this session
+      dispatch({
+        type: ACTIONS.SET_SHOW_HELP_DETAILS,
+        showHelpDetails
+      });
+    } catch (error) {
+      console.error("setShowHelpDetails failed", showHelpDetails);
+    }
+  };
+}
+
 
 function afterLoginOrRegister(isRegister, user, dispatch, displayNotifier) {
   // Add user info to redux store
@@ -117,9 +149,7 @@ function login(email, password) {
 
 function autologin() {
   return dispatch => {
-    console.debug(
-      "***************** autologin() - should run only once! ***************** "
-    );
+    console.debug("[UserActions] Auto login (should run only once!)");
 
     userServices.autologin().then(
       user => {
@@ -131,7 +161,7 @@ function autologin() {
 
         return afterLoginOrRegister(false, user, dispatch, false);
       },
-      error => {
+      () => {
         // No error message ==> autologin is silent!
 
         gtmPush({

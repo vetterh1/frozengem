@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { userActions } from '../../_actions/userActions';
+import { userActions } from '_actions/userActions';
 import { Redirect } from 'react-router'
 import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from "react-intl";
@@ -8,7 +8,7 @@ import NameForm from './NameForm';
 import StepWizard from 'react-step-wizard';
 import EmailForm from './EmailForm';
 import PasswordForm from './PasswordForm';
-// import stringifyOnce from '../../utils/stringifyOnce.js'
+// import stringifyOnce from 'utils/stringifyOnce'
 
 const styles = theme => ({
   button: {
@@ -75,7 +75,7 @@ class RegisterWizard extends React.Component {
   render() {
     const { classes } = this.props;
 
-    if (this.props.isAuthenticated) { 
+    if (this.props.loggedIn) { 
 
       if(!this.props.home) {
         // navigate to the choose home page
@@ -100,7 +100,7 @@ class RegisterWizard extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.user.loggedIn,
+  loggedIn: state.user.loggedIn,
   home: state.user.home
 });
 

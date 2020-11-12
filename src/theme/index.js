@@ -1,11 +1,20 @@
 import { createMuiTheme } from '@material-ui/core';
 
-import palette from './palette';
-import typography from './typography';
-// import overrides from './overrides';
+import palette from 'theme/palette';
+import typography from 'theme/typography';
+// import overrides from 'theme/overrides';
 
 const theme = createMuiTheme({
-  spacing: 8,
+  spacing: 10,
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 575,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+    },
+  },  
   transparency: false,
   image: "url(bg-snow.jpg)",
   palette,

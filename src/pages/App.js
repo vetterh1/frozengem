@@ -1,80 +1,83 @@
 /* eslint-disable react-hooks/rules-of-hooks */ 
+
+// React
 import React, { useEffect, Suspense, lazy } from 'react';
-// import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Redirect } from 'react-router'
+// Redux
 import { connect, useDispatch } from 'react-redux';
-import { userActions } from '../_actions/userActions';
+import { userActions } from '_actions/userActions';
+// HOC
 import { IntlProvider } from "react-intl";
-import { SnackbarProvider } from 'notistack';
-import Notifier from './utils/Notifier';
-import translations from '../i18n/locales';
-import withMyTheme from '../theme/withMyTheme';
-import { withStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import { NavigationStyle } from '../navigation/configNavigation'
-// Date util library (moment like) & date picker:
-import DateFnsUtils from '@date-io/date-fns';
+import { withStyles } from "@material-ui/core/styles";
+import { useTheme } from '@material-ui/core/styles';
+import withMyTheme from 'theme/withMyTheme';
+// MUI
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-
-
+// Components
+import { NavigationStyle } from 'navigation/configNavigation'
+import { SnackbarProvider } from 'notistack';
+import Notifier from 'pages/utils/Notifier';
+// Utilities
+import clsx from "clsx";
+import DateFnsUtils from '@date-io/date-fns'; // Date util library (moment like) & date picker
+// Configuration
+import translations from 'i18n/locales';
 
 
 
 // ------------ Navigation -----------
 
-// const Header = lazy(() => import('../navigation/Header'));
-import Header from '../navigation/Header';
-// const Footer = lazy(() => import('../navigation/Footer'));
-import Footer from '../navigation/Footer';
-// const BottomNav = lazy(() => import('../navigation/BottomNav'));
-import BottomNav from '../navigation/BottomNav';
-// const Logout = lazy(() => import('../navigation/Logout'));
-import Logout from '../navigation/Logout';
-// const FloatingNav = lazy(() => import('../navigation/FloatingNav'));
-import FloatingNav from '../navigation/FloatingNav';
+// const Header = lazy(() => import('navigation/Header'));
+import Header from 'navigation/Header';
+// const Footer = lazy(() => import('navigation/Footer'));
+import Footer from 'navigation/Footer';
+// const BottomNav = lazy(() => import('navigation/BottomNav'));
+import BottomNav from 'navigation/BottomNav';
+// const Logout = lazy(() => import('navigation/Logout'));
+import Logout from 'navigation/Logout';
+// const FloatingNav = lazy(() => import('navigation/FloatingNav'));
+import FloatingNav from 'navigation/FloatingNav';
 
 
 // ------------ Main Pages -----------
 
-// const Details = lazy(() => import('./Details'));
-import Details from './Details';
-// const LoadingUserInfo = lazy(() => import('./LoadingUserInfo'));
-import LoadingUserInfo from './LoadingUserInfo';
-// const MainPageContent = lazy(() => import('./MainPageContent'));
-import MainPageContent from './MainPageContent';
-// const Dashboard = lazy(() => import('./Dashboard'));
-import Dashboard from './Dashboard';
+// const Details = lazy(() => import('pages/Details'));
+import Details from 'pages/Details';
+// const LoadingUserInfo = lazy(() => import('pages/LoadingUserInfo'));
+import LoadingUserInfo from 'pages/LoadingUserInfo';
+// const MainPageContent = lazy(() => import('pages/MainPageContent'));
+import MainPageContent from 'pages/MainPageContent';
+// const Dashboard = lazy(() => import('pages/Dashboard'));
+import Dashboard from 'pages/Dashboard';
 
 
 
-import Typography from './utils/Typography';
+import Typography from 'pages/utils/Typography';
 
 
 // ------------ Main Pages - Lazy loading -----------
 
-const AddWizard = lazy(() => import('./addWizard/AddWizard'));
-// import AddWizard from './addWizard/AddWizard';
-const AddFromBarcode = lazy(() => import('./AddFromBarcode'));
-// import AddFromBarcode from './AddFromBarcode';
+const AddWizard = lazy(() => import('pages/addWizard/AddWizard'));
+// import AddWizard from 'pages/addWizard/AddWizard';
+const AddFromBarcode = lazy(() => import('pages/AddFromBarcode'));
+// import AddFromBarcode from 'pages/AddFromBarcode';
 
 
 // ------------ Login / Register Pages - Lazy loading -----------
 
-const LoginForm = lazy(() => import('./LoginForm'));
-// import LoginForm from './LoginForm';
-const ChooseHome = lazy(() => import('./ChooseHome'));
-// import ChooseHome from './ChooseHome';
-const RegisterWizard = lazy(() => import('./registerWizard/RegisterWizard'));
-// import RegisterWizard from './registerWizard/RegisterWizard';
+const LoginForm = lazy(() => import('pages/LoginForm'));
+// import LoginForm from 'pages/LoginForm';
+const ChooseHome = lazy(() => import('pages/ChooseHome'));
+// import ChooseHome from 'pages/ChooseHome';
+const RegisterWizard = lazy(() => import('pages/registerWizard/RegisterWizard'));
+// import RegisterWizard from 'pages/registerWizard/RegisterWizard';
 
 
 // ------------ Misc Pages - Lazy loading -----------
 
-// const Typography = lazy(() => import('./utils/Typography'));
-// import Typography from './utils/Typography';
-const About = lazy(() => import('./About'));
-// import About from './About';
+const About = lazy(() => import('pages/About'));
+// import About from 'pages/About';
 
 
 
@@ -92,19 +95,47 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "column",
     minHeight: "100vh",
+    backgroundColor: theme.transparency ? null : theme.palette.main.backgroundColor,
   },
   containerStyle: {
     display: "flex",
     flexDirection: "column",
     flexGrow: 1,
-    paddingTop: theme.spacing(2),
     paddingBottom: 0,
   },
+
+  containerStyleDensity1: {
+    [theme.breakpoints.down('xs')]: {
+      paddingTop: theme.spacing(1),
+    },
+    [theme.breakpoints.up('sm')]: {
+      paddingTop: theme.spacing(1),
+    },
+  },
+
+  containerStyleDensity2: {
+    [theme.breakpoints.down('xs')]: {
+      paddingTop: theme.spacing(2),
+    },
+    [theme.breakpoints.up('sm')]: {
+      paddingTop: theme.spacing(2),
+    },
+  },
+
+  containerStyleDensity3: {
+    [theme.breakpoints.down('xs')]: {
+      paddingTop: theme.spacing(3),
+    },
+    [theme.breakpoints.up('sm')]: {
+      paddingTop: theme.spacing(3),
+    },
+  },
+
   stickToBottom: {
   },
 
 
-  fixedBackground: {
+  transparentFixedBackground: {
     zIndex: -1,
     position: "fixed",
     left: 0,
@@ -113,18 +144,32 @@ const styles = theme => ({
     height: "100%",
     pointerEvents: "none",
 
-    backgroundImage: theme.transparency ? "url(bg-snow.jpg)" : null,
-    backgroundSize: theme.transparency ? "cover" : null,
-    backgroundPosition: theme.transparency ? "center center" : null,
-    backgroundColor: theme.transparency ? null : theme.palette.main.backgroundColor,
-    // backgroundColor: theme.transparency ? null : theme.palette.primary.light,
+    backgroundImage: "url(bg-snow.jpg)",
+    backgroundSize: "cover",
+    backgroundPosition: "center center",
+    backgroundColor: null,
   },
 });
 
 
 
 
-const App = ({autologin, classes, ...props}) => {
+
+
+
+const App = ({
+  // From Redux:
+  autologin,
+  name,
+  language,
+  home,
+  loggedIn,
+  density,
+  navigationStyle,
+
+  // From other HOC
+  classes,
+}) => {
 
 
 
@@ -140,9 +185,11 @@ const App = ({autologin, classes, ...props}) => {
     [dispatch, autologin] // ==> generates a warning on the console, but only way found to have it executed only once!
   );
   
-  if(!props.language){ console.log('app.js - no language');  return null; }
+  if(!language){ console.log('[App] No language!');  return null; }
 
-  console.debug("App 0 - props:", props, ", loggedIn:", props.loggedIn, ", home: ", props.home, ", language: ", props.language);
+  const theme = useTheme();
+
+  console.debug("[App] 0: loggedIn:", loggedIn, ", home: ", home, ", language: ", language);
 
   return (
     <SnackbarProvider 
@@ -151,15 +198,14 @@ const App = ({autologin, classes, ...props}) => {
     >
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <IntlProvider
-            locale={props.language}
+            locale={language}
             defaultLocale="en"
-            key={props.language}
-            messages={translations[props.language]}
+            key={language}
+            messages={translations[language]}
           >     
             <> 
-            <div className={classes.fixedBackground}></div>
-
-            <Notifier />
+              {theme.transparency && <div className={classes.transparentFixedBackground} />}
+              <Notifier />
 
               {/* process.env.PUBLIC_URL is defined in package.json / homepage.
                   here, it's either "" (dev) or "." (prod)
@@ -169,9 +215,13 @@ const App = ({autologin, classes, ...props}) => {
 
                 <div className={classes.divStyle}>
 
-                  <Header {...props}/>
-                  <Container maxWidth="md"  className={classes.containerStyle}>
-
+                  <Header />
+                  <div className={clsx(
+                    classes.containerStyle, 
+                    density === 1 && classes.containerStyleDensity1,
+                    density === 2 && classes.containerStyleDensity2,
+                    density === 3 && classes.containerStyleDensity3,
+                  )}>
                     <Switch>
                       <Route
                         exact path="/dashboard"
@@ -220,21 +270,22 @@ const App = ({autologin, classes, ...props}) => {
                       <Route
                         exact path="/"
                         render={() => { 
-                          console.debug("App route / - props:", props, ", loggedIn:", props.loggedIn, ", home: ", props.home, ", language: ", props.language);
-                          if(props.loggedIn) {
+                          console.debug("[App] Route / - loggedIn:", loggedIn, ", home: ", home, ", language: ", language);
+                          if(loggedIn) {
 
                             // User exists but has not chosen his home yet: ask him to choose!
-                            // if(!props.home) return <Container><ChooseHome /></Container>;
-                            if(!props.home){
+                            // if(!home) return <Container><ChooseHome /></Container>;
+                            if(!home){
                               console.debug('[>>> App ------>>>----- choosehome >>>] Reason: no home defined');
                               return <Redirect to='/choosehome'/>
                             }
 
                             // Token exists, but no name --> in userinfo loading process:
-                            if(!props.name) return <LoadingUserInfo /> ;
+                            if(!name) return <LoadingUserInfo /> ;
                             
                             // Authenticated users see their dashboard:
                             // return <Dashboard />;
+                            console.debug('[>>> App ------>>>----- dashboard >>>] Reason: Authenticated user');
                             return <Redirect to='/dashboard'/>
 
 
@@ -250,12 +301,13 @@ const App = ({autologin, classes, ...props}) => {
                       
                       />
                     </Switch>          
-                  </Container>
+                  {/* </Container> */}
+                  </div>
 
-                  { !props.loggedIn && <Footer location={props.location} />}
-                  { props.loggedIn && props.navigationStyle === NavigationStyle.NAVIGATION_BOTTOMNAV && 
+                  { !loggedIn && <Footer />}
+                  { loggedIn && navigationStyle === NavigationStyle.NAVIGATION_BOTTOMNAV && 
                     <BottomNav className={classes.stickToBottom} /> }
-                  { props.loggedIn && props.navigationStyle === NavigationStyle.NAVIGATION_FLOATING && 
+                  { loggedIn && navigationStyle === NavigationStyle.NAVIGATION_FLOATING && 
                     <FloatingNav /> }                              
 
                 </div>
@@ -277,6 +329,7 @@ function mapStateToProps(state) {
       name: null,
       home: null,
       navigationStyle: null,
+      density: 2,
     };
   return {
     loggedIn: state.user.loggedIn,
@@ -284,6 +337,7 @@ function mapStateToProps(state) {
     name: state.user.name,
     home: state.user.home,
     navigationStyle: state.user.navigationStyle,
+    density: state.user.density,
   };
 }
 

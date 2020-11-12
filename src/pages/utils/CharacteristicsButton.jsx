@@ -1,8 +1,8 @@
 import React from "react";
-import CharacteristicsSelection from "./CharacteristicsSelection";
-import DateSelection from "./DateSelection";
-import TextSelection from "./TextSelection";
-import ButtonToModal from "./ButtonToModal";
+import CharacteristicsSelection from "pages/utils/CharacteristicsSelection";
+import DateSelection from "pages/utils/DateSelection";
+import TextSelection from "pages/utils/TextSelection";
+import ButtonToModal from "pages/utils/ButtonToModal";
 
 const CharacteristicsButton = ({
   characteristicName,

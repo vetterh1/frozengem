@@ -19,7 +19,7 @@ const DialogMinimalHugeMiddleBtn = ({
   btnIcon = null,
   button = null,
 }) => {
-  console.debug("DialogMinimalHugeMiddleBtn.init: idTitle = ", idTitle);
+  console.debug("[DialogMinimalHugeMiddleBtn] Init: idTitle = ", idTitle);
 
 
   const _handleButtonClick = async () => {

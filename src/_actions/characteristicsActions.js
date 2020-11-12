@@ -1,7 +1,6 @@
-import * as ACTIONS from "../_constants/action-types";
-import { characteristicsServices } from '../_services/characteristicsServices';
-// import { user } from './userReducer';
-import { notifierActions } from './notifierActions';
+import * as ACTIONS from "_constants/action-types";
+import { characteristicsServices } from '_services/characteristicsServices';
+import { notifierActions } from '_actions/notifierActions';
 
 export const characteristicsActions = {
   fetchCharacteristics,

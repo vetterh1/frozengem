@@ -4,11 +4,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, CardMedia } from "@material-ui/core";
-import config from "../../data/config";
-import { getIconComponent } from "../../data/Icons";
+import config from "data/config";
+import { getIconComponent } from "data/Icons";
 
 const useStyles = makeStyles({
-  media: { borderRadius: "3px" }, // a style rule
+  media: {
+    // borderRadius: "3px", // a style rule
+  },
 
   details_image_close: {
     position: "fixed",
@@ -22,13 +24,18 @@ const useStyles = makeStyles({
 });
 
 const ItemImage = ({ item, forceThumbnail = false, style = null }) => {
+
+
+  const thumbnailWidth = "220";
+  const thumbnailHeight = "220";
+
   if (!style)
     style = {
       height: "150px",
       width: "150px"
     };
 
-  const imageExists = item.pictureName || item.thumbnailName;
+  const imageExists = item.pictureName;
 
   // No image, display the category icon instead!
   if (!imageExists) {
@@ -52,8 +59,13 @@ const ItemImage = ({ item, forceThumbnail = false, style = null }) => {
     // window.scrollTo(0, 0);
     setExpanded(prev => !prev);
   };
-  // const thumbnailsOrPictures = expanded ? item.pictureName : item.thumbnailName;
-  const thumbnailsOrPictures = expanded || !forceThumbnail ? item.pictureName : item.thumbnailName;
+  const isThumbnail = forceThumbnail || !expanded;
+  const url = isThumbnail ? 
+    `${config.staticUrl}/custom-size-image/${item.pictureName}?type=item&width=${thumbnailWidth}&height=${thumbnailHeight}`
+  :
+    `${config.staticUrl}/static/pictures/items/${item.pictureName}`;
+
+
 
   if (expanded) {
     style = {
@@ -73,7 +85,7 @@ const ItemImage = ({ item, forceThumbnail = false, style = null }) => {
       <CardMedia
         onClick={handleExpanded}
         style={style}
-        image={`${config.staticUrl}/static/pictures/items/${thumbnailsOrPictures}`}
+        image={url}
         title={item.description}
         className={classes.media}
       />

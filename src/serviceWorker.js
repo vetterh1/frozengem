@@ -36,7 +36,7 @@ const messages = {
 }
 
 
-console.log("Browser language: ", navigator.language);
+console.debug("[ServiceWorker] Browser language: ", navigator.language);
 const lg = navigator.language && navigator.language.includes("fr") ? "fr" : "en";
 
 

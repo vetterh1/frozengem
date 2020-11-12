@@ -1,4 +1,4 @@
-import { ADD_NOTIFIER, ADD_INTL_NOTIFIER, CLOSE_NOTIFIER, REMOVE_NOTIFIER } from "../_constants/action-types";
+import { ADD_NOTIFIER, ADD_INTL_NOTIFIER, CLOSE_NOTIFIER, REMOVE_NOTIFIER } from "_constants/action-types";
 
 const initialState = { notifications: [] };
 

@@ -1,36 +1,70 @@
+// React
 import React from 'react';
-// import Container from '@material-ui/core/Container';
-import { withStyles } from '@material-ui/core/styles';
-import ItemsList from './utils/ItemsList'
-import Filters from './Filters'
+import { Redirect } from "react-router";
+// Redux
+import { connect } from 'react-redux';
+// HOC
+import { makeStyles } from '@material-ui/core/styles';
+// MUI
+import Container from '@material-ui/core/Container';
+// Components
+import ItemsList from 'pages/utils/ItemsList'
+import Filters from 'pages/Filters'
 
 
 
-const styles = theme => ({
-  layout: {
-    display: "flex",
-    flexDirection: "column",
-    width: 'auto',
-  },
-  container: {
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(1),
-  },
+
+const useStyles = makeStyles(theme => {
+  return {
+
+    layout: {
+      display: "flex",
+      flexDirection: "column",
+      width: 'auto',
+    },
+
+    container: {
+      paddingLeft: (density) => theme.spacing(density === 1 ? 1 : (density === 2 ? 3 : 5)),
+      paddingRight: (density) => theme.spacing(density === 1 ? 1 : (density === 2 ? 3 : 5)),
+      [theme.breakpoints.down('xs')]: {
+        paddingLeft: (density) => theme.spacing(density === 1 ? 1 : 2),
+        paddingRight: (density) => theme.spacing(density === 1 ? 1 : 2),
+      },
+    },
+  }
 });
 
 
-const Dashboard = ({ classes }) => {
-
+const Dashboard = ({ 
+  // From Redux:
+  loggedIn,
+  density,
+}) => {
   console.debug('[--- FC ---] Functional component: Dashboard');
+
+  const classes = useStyles(density);
+
+  if (!loggedIn) {
+    console.debug("[>>> Dashboard ------>>>----- / >>>] Reason: not logged in");
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className={classes.layout}>
       <Filters />
-      {/* <Container maxWidth="md" className={classes.container}> */}
+      <Container maxWidth="xl" className={classes.container}>
         <ItemsList />
-      {/* </Container> */}
+      </Container>
     </div>          
   );
 }
 
-export default withStyles(styles)(Dashboard);
+
+
+const mapStateToProps = state => ({
+  loggedIn: state?.user?.loggedIn,
+  density: state?.user?.density,
+});
+const connectedDashboard = connect(mapStateToProps, null)(Dashboard);
+
+export default connectedDashboard;

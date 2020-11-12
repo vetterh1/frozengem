@@ -1,11 +1,11 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
-import DialogMinimalHugeMiddleBtn from "./DialogMinimalHugeMiddleBtn";
-import PictureSelection from "./PictureSelection";
-import { gtmPush } from "../../utils/gtmPush";
+import DialogMinimalHugeMiddleBtn from "pages/utils/DialogMinimalHugeMiddleBtn";
+import PictureSelection from "pages/utils/PictureSelection";
+import gtmPush from "utils/gtmPush";
 // import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
-// import ButtonToModal from "./ButtonToModal";
-// import { IconRemove } from "../../data/Icons";
+// import ButtonToModal from "pages/utils/ButtonToModal";
+// import { IconRemove } from "data/Icons";
 
 
 
@@ -49,7 +49,7 @@ const PictureModalSelection = ({
       button={
         <PictureSelection
           onPicture={onPicture}
-          className={classes.button}
+          btnClassName={classes.button}
           iconStyle={{ fontSize: 72 }}
         />  
       }

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router'
 import { connect } from 'react-redux';
-import { userActions } from '../_actions/userActions';
-import { notifierActions } from '../_actions/notifierActions';
+import { userActions } from '_actions/userActions';
+import { notifierActions } from '_actions/notifierActions';
 
 class Logout extends Component {
 

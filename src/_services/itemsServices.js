@@ -1,8 +1,8 @@
 import qs from "qs";
 import axios from "axios";
-import config from "../data/config";
-import { Months } from "../i18n/i18nDates";
-import { characteristicsServices } from "./characteristicsServices";
+import config from "data/config";
+import { Months } from "i18n/i18nDates";
+import { characteristicsServices } from "_services/characteristicsServices";
 
 const ExpirationLevel = {
   EXPIRATION_PASSED: 0,
@@ -123,7 +123,7 @@ function computeItemUtilityFields(item, language, characteristics) {
   item.__sizeInText = item.removed ? "-" : characteristicsUtilityFields.size;
   const detailsNamesArray = characteristicsUtilityFields.detailsArray;
   item.__detailsNames = detailsNamesArray ? detailsNamesArray.join(", ") : null;
-  item.__imageExists = item.pictureName || item.thumbnailName;
+  item.__imageExists = item.pictureName;
 
   const expirationAsDate = new Date(item.expirationDate);
   item.__yearExpiration = expirationAsDate.getFullYear();
@@ -208,7 +208,6 @@ async function addItemToServer(item, user) {
 async function duplicateItemOnServer(id, user) {
   const data = { access_token: user.accessToken,
     duplicated_picture_name: `${id}-picture-${Date.now()}.jpg`,
-    duplicated_thumbnail_name: `${id}-thumbnail-${Date.now()}.jpg`,
  };
   const options = {
     method: "PUT",
@@ -254,7 +253,7 @@ async function updateItemToServer(id, updates, user) {
   }
 }
 
-async function updatePictureItemToServer(id, picture, thumbnail, user) {
+async function updatePictureItemToServer(id, picture, user) {
   console.debug(
     "|--- SERVER CALL ---|--- PUT ---| Items.updatePictureItemToServer: ",
     id
@@ -262,7 +261,7 @@ async function updatePictureItemToServer(id, picture, thumbnail, user) {
 
   //
   // Prepare the multipart parameters for the form-data
-  // with the id, the token and the 2 images (picture and thumbnail)
+  // with the id, the token and the image
   //
   // (!) the name of the images MUST be setup here and will be used as filename
   // on the server side
@@ -271,7 +270,6 @@ async function updatePictureItemToServer(id, picture, thumbnail, user) {
   formData.set("id", id);
   formData.set("access_token", user.accessToken);
   formData.append("picture", picture, `${id}-picture-${Date.now()}.jpg`);
-  formData.append("picture", thumbnail, `${id}-thumbnail-${Date.now()}.jpg`);
 
   const options = {
     method: "POST",

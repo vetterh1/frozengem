@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
 import { injectIntl } from "react-intl";
 // import { defineMessages } from 'react-intl.macro';
-import { WizNavBar, WizPageTitle} from "../utils/WizUtilComponents";
+import { WizNavBar, WizPageTitle} from "pages/utils/WizUtilComponents";
 
 
 

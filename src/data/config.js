@@ -6,8 +6,8 @@ const locationWithoutPort =
   + "//"
   + window.location.hostname;
 
-console.log("NODE_ENV=", process.env.NODE_ENV);
-console.log("REACT_APP_FORCE_NODE_ENV=", process.env.REACT_APP_FORCE_NODE_ENV);
+console.debug("[Config] NODE_ENV=", process.env.NODE_ENV);
+console.debug("[Config] REACT_APP_FORCE_NODE_ENV=", process.env.REACT_APP_FORCE_NODE_ENV);
 
 const config = {
   all: {
@@ -28,5 +28,5 @@ const config = {
 }
 
 const merged = merge(config.all, config[config.all.env])
-console.debug("merged:", merged);
+console.debug("[Config] merged config:", merged);
 export default merged;
