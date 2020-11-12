@@ -9,31 +9,35 @@ const useStyles = makeStyles(theme => {
       flexDirection: "column",
       height: "100%",
 
-      marginBottom: (density) => theme.spacing(density === 1 ? 3 : 5),
-      marginRight: (density) => theme.spacing(density === 1 ? 1 : 2),
-
+      
       [theme.breakpoints.down('xs')]: {
         flexBasis: "100%",
         // Mobile / xs: No margin bottom, separation instead
-        marginBottom: "0 !important",
-        // Mobile / xs: Add a margin left
-        marginLeft: (density) => theme.spacing(density === 1 ? 1 : 2),
+        marginBottom: 0,
+        // Mobile / xs: No gutter on the right
+        marginRight: 0,
+
       },
 
       [theme.breakpoints.up('sm')]: {
-        flexBasis: (density) => `calc(${density === 1 ? "33.33%" : "50%"} - ${theme.spacing(density === 1 ? 1 : 2)}px)`,
+        // NOT mobile: add some margin!
+        marginBottom: (density) => theme.spacing(density === 1 ? 3 : 5),
+        // Gutter on the right of the element:
+        marginRight: (density) => theme.spacing(density),
+
+        flexBasis: (density) => `calc(${density === 1 ? "33.33%" : "50%"} - ${theme.spacing(density)}px)`,
       },      
 
       [theme.breakpoints.up('md')]: {
-        flexBasis: (density) => `calc(${density === 1 ? "25%" : (density === 2 ? "33.33%" : "50%")} - ${theme.spacing(density === 1 ? 1 : 2)}px)`,
+        flexBasis: (density) => `calc(${density === 1 ? "25%" : (density === 2 ? "33.33%" : "50%")} - ${theme.spacing(density)}px)`,
       },      
 
       [theme.breakpoints.up('lg')]: {
-        flexBasis: (density) => `calc(${density === 1 ? "20%" : (density === 2 ? "25%" : "33.33%")} - ${theme.spacing(density === 1 ? 1 : 2)}px)`,
+        flexBasis: (density) => `calc(${density === 1 ? "20%" : (density === 2 ? "25%" : "33.33%")} - ${theme.spacing(density)}px)`,
       },      
 
       [theme.breakpoints.up('xl')]: {
-        flexBasis: (density) => `calc(${density === 1 ? "20%" : "25%"} - ${theme.spacing(density === 1 ? 1 : 2)}px)`,
+        flexBasis: (density) => `calc(${density === 1 ? "20%" : "25%"} - ${theme.spacing(density)}px)`,
       },      
   
     },

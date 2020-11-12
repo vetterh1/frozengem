@@ -27,8 +27,8 @@ const useStyles = makeStyles(theme => {
       paddingLeft: (density) => theme.spacing(density === 1 ? 1 : (density === 2 ? 3 : 5)),
       paddingRight: (density) => theme.spacing(density === 1 ? 1 : (density === 2 ? 3 : 5)),
       [theme.breakpoints.down('xs')]: {
-        paddingLeft: "0px !important",
-        paddingRight: "0px !important",
+        paddingLeft: (density) => theme.spacing(density === 1 ? 1 : 2),
+        paddingRight: (density) => theme.spacing(density === 1 ? 1 : 2),
       },
     },
   }

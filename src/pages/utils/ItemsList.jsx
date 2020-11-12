@@ -26,6 +26,7 @@ const useStyles = makeStyles(theme => {
         padding: (density) => `${theme.spacing(density === 1 ? 2 : 3)}px 0`,
       },
       [theme.breakpoints.up('sm')]: {
+        marginRight: (density) => `-${theme.spacing(density)}px`,
         padding: (density) => `${theme.spacing(density === 1 ? 3 : 5)}px 0`,
       },
     },
