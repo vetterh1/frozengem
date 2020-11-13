@@ -20,7 +20,8 @@ const Picture = ({
     justifyContent: "center",
     display: "flex",
     alignItems: "center",
-    padding: "25px",
+    paddingTop: "calc(50% - 50px)",
+    paddingBottom: "calc(50% - 50px)",
     fontSize: "100px",
     backgroundColor: "rgba(0, 0, 0, 0.1)",
   };  

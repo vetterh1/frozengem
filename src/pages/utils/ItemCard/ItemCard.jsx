@@ -51,15 +51,18 @@ const intItemCard = ({
   return (
     <div className={classes.cardAndSeparation}>
       <div className={classes.card} onClick={handleClickForDetails}>
-        <Picture
-          imageUrl={item?.pictureName ?`${config.staticUrl}/custom-size-image/${item?.pictureName}` : null}
-          imageAlt={item?.__descriptionOrCategory}
-          itemCategory={item?.category}
-          maxResolution={250}
-          className={classes.cardImage}/>
+        <div className={classes.cardImageArea}>
+          <Picture
+            imageUrl={item?.pictureName ?`${config.staticUrl}/custom-size-image/${item?.pictureName}` : null}
+            imageAlt={item?.__descriptionOrCategory}
+            itemCategory={item?.category}
+            maxResolution={250}
+            className={classes.cardImage}
+          />
+        </div>
         <div className={classes.cardText}>
           <div className={classes.cardMain}>
-            <Typography gutterBottom variant="h4">{item?.__descriptionOrCategory}</Typography>
+            <Typography gutterBottom variant="h4" noWrap style={{width: "100%"}}>{item?.__descriptionOrCategory}</Typography>
             <Typography gutterBottom color="textSecondary">{sizeInIcons}</Typography>
             <div className={classes.cardExpiration}>
               <ExpirationLevelIcon fontSize="default"/>
