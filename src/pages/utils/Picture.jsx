@@ -5,6 +5,7 @@ import { getIconComponent } from "data/Icons";
 
 const Picture = ({ 
   // From caller
+  isSkeleton,
   className, 
   imageUrl, 
   itemCategory, 
@@ -15,7 +16,8 @@ const Picture = ({
 
   const [imageLoaded, setImageLoaded] = React.useState(false);
 
-  const IconCategory = getIconComponent("category" + itemCategory);
+  const IconCategory = getIconComponent(`category${isSkeleton ? "" : itemCategory}`);
+
   const styleIcon = {
     justifyContent: "center",
     display: "flex",
@@ -32,7 +34,7 @@ const Picture = ({
   );
 
   // No image, display the category icon instead!
-  if (!imageUrl) return <ImagePlaceholder />;
+  if (!imageUrl || isSkeleton) return <ImagePlaceholder />;
 
 
 
@@ -65,6 +67,7 @@ const Picture = ({
 
 Picture.propTypes = {
   // From caller
+  isSkeleton: PropTypes.bool.isRequired,
   className: PropTypes.string,
   imageUrl: PropTypes.string,
   type: PropTypes.string,

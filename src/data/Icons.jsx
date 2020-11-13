@@ -38,6 +38,8 @@ const iconComponents = {
     "remove": IconRemove,
     "edit": Edit,
 
+    // "category": used in placeholder / skeleton
+    "category": Fastfood,
     "categoryB": IconCategoryBread,
     "categoryV": IconCategoryVegetable,
     "categoryF": IconCategoryFruit,
@@ -415,7 +417,6 @@ function IconCategoryBread(props) {
 
 
 function IconCategoryVegetable(props) {
-    console.log('IconCategoryVegetable ', props)
     return (
         <SvgIcon 
             {...props} 

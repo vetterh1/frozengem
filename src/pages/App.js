@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */ 
 
 // React
-import React, { useEffect, Suspense, lazy } from 'react';
+import React, { useEffect, lazy } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Redirect } from 'react-router'
 // Redux
@@ -211,10 +211,7 @@ const App = ({
                   here, it's either "" (dev) or "." (prod)
                */}
               <Router basename={process.env.PUBLIC_URL}>
-              <Suspense fallback={<div>Loading...</div>}>
-
                 <div className={classes.divStyle}>
-
                   <Header />
                   <div className={clsx(
                     classes.containerStyle, 
@@ -311,7 +308,6 @@ const App = ({
                     <FloatingNav /> }                              
 
                 </div>
-              </Suspense>
               </Router>
             </>
           </IntlProvider>              

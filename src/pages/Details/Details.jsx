@@ -220,6 +220,7 @@ const Details = ({
           density >= 2 && classes.detailsImageBlockDensity23,
         )}>
           <Picture
+              isSkeleton={false}
               imageUrl={item?.pictureName ?`${config.staticUrl}/custom-size-image/${item.pictureName}` : null}
               imageAlt={item?.__descriptionOrCategory}
               itemCategory={item?.category}
