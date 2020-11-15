@@ -170,5 +170,7 @@
   "register.registered.title": "Finalisez votre enregistrement...",
   "register.retype.help": "Veuillez re-saisir votre mot de passe",
   "register.success": "Félicitations, vous êtes enregistré !",
-  "unauthorized": "Désolé, vous n'avez pas le droit d'effectuer cette opération"
+  "unauthorized": "Désolé, vous n'avez pas le droit d'effectuer cette opération",
+  "wait.title": "Veuillez patienter...",
+  "wait.subtitle": "Nous stockons vos données avec délicatesse"
 }

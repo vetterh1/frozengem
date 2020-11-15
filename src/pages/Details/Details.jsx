@@ -23,8 +23,8 @@ import SectionBlock from "pages/utils/SectionBlock";
 import ScrollToTop from "pages/utils/ScrollToTop";
 // import ItemImage from "pages/utils/ItemImage";
 import Picture from "pages/utils/Picture";
-import BorderLinearProgress from "pages/utils/BorderLinearProgress";
 import SizeInIcons from "pages/utils/SizeInIcons";
+import DialogWait from "pages/utils/DialogWait";
 // Utilities
 import clsx from "clsx";
 import gtmPush from "utils/gtmPush";
@@ -54,15 +54,13 @@ const Details = ({
 }) => {
 
   const [showHugeCameraBtn, setShowHugeCameraBtn] = React.useState(false);
+  const [busy, setBusy] = React.useState(false);
   useEffect(() => {
-    // if (isNew && item) {
     if (isNew || (item && !item.__imageExists)) {
       setShowHugeCameraBtn(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const [displayProgress, setDisplayProgress] = React.useState(false);
 
   // Create Size icon array
   const sizeInIcons = useMemo(() => {console.debug( "[Details] Memo sizeInIcons: ", item?.size ); return SizeInIcons(item?.size)}, [item?.size]);
@@ -109,15 +107,18 @@ const Details = ({
     return null;
   };
 
-  const _handleSavePicture = (pictureData) => {
-    savePicture(item.id, pictureData);
+  const _handleSavePicture = async (pictureData) => {
+    setBusy(true);
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    await savePicture(item.id, pictureData);
+    setBusy(false);
     setShowHugeCameraBtn(false);
   };
 
   const _handleDuplicate = async () => {
     // Simulate a wait for 3 seconds of progress indicator
-    setDisplayProgress(true);
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    setBusy(true);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     // Duplicate the current item
     const duplicatedItem = await duplicateItem(item.id);
@@ -125,7 +126,7 @@ const Details = ({
     // Then go to the new item!
     history.replace(`/details/${duplicatedItem.id}`);
 
-    setDisplayProgress(false);
+    setBusy(false);
   };
 
 
@@ -201,7 +202,12 @@ const Details = ({
         <FormattedMessage id="button.backtolist" />
       </Link>
 
-      {displayProgress && <BorderLinearProgress />}
+      <DialogWait
+        id="details_busy"
+        idTitle="wait.title"
+        idSubtitle="wait.subtitle"
+        open={busy}
+      />
 
       <div className={clsx(
         classes.detailsUpperSection,
@@ -214,6 +220,7 @@ const Details = ({
           density >= 2 && classes.detailsImageBlockDensity23,
         )}>
           <Picture
+              isSkeleton={false}
               imageUrl={item?.pictureName ?`${config.staticUrl}/custom-size-image/${item.pictureName}` : null}
               imageAlt={item?.__descriptionOrCategory}
               itemCategory={item?.category}

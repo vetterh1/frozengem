@@ -38,6 +38,8 @@ const iconComponents = {
     "remove": IconRemove,
     "edit": Edit,
 
+    // "category": used in placeholder / skeleton
+    "category": Fastfood,
     "categoryB": IconCategoryBread,
     "categoryV": IconCategoryVegetable,
     "categoryF": IconCategoryFruit,

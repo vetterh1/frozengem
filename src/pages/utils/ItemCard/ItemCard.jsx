@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
 // React
-import React, { useMemo } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router";
 // HOC
 import { injectIntl } from "react-intl";
 // MUI
+import Skeleton from '@material-ui/lab/Skeleton';
 import { Typography } from "@material-ui/core";
 // Components
 import Picture from "pages/utils/Picture";
@@ -31,9 +32,14 @@ const intItemCard = ({
 
   const [toDetails, setToDetails] = React.useState(false);
 
+  // // No item --> display a skeleton!
+  // if(!item) {
+
+  // }
+
   // Create Size icon array
-  const sizeInIcons = useMemo(() => SizeInIcons(item?.size), [item?.size]);
-  const ExpirationLevelIcon = useMemo(() => getIconComponent(`expirationLevel${item?.__expirationLevel}`), [item?.__expirationLevel]);
+  const sizeInIcons = item ? SizeInIcons(item?.size) : null;
+  const ExpirationLevelIcon = item ? getIconComponent(`expirationLevel${item?.__expirationLevel}`) : null;
 
   const classes = useStyles(density);
 
@@ -51,22 +57,26 @@ const intItemCard = ({
   return (
     <div className={classes.cardAndSeparation}>
       <div className={classes.card} onClick={handleClickForDetails}>
-        <Picture
-          imageUrl={item?.pictureName ?`${config.staticUrl}/custom-size-image/${item?.pictureName}` : null}
-          imageAlt={item?.__descriptionOrCategory}
-          itemCategory={item?.category}
-          maxResolution={250}
-          className={classes.cardImage}/>
+        <div className={classes.cardImageArea}>
+          <Picture
+            isSkeleton={!item}
+            imageUrl={item?.pictureName ?`${config.staticUrl}/custom-size-image/${item?.pictureName}` : null}
+            imageAlt={item?.__descriptionOrCategory}
+            itemCategory={item?.category}
+            maxResolution={250}
+            className={classes.cardImage}
+          />
+        </div>
         <div className={classes.cardText}>
           <div className={classes.cardMain}>
-            <Typography gutterBottom variant="h4">{item?.__descriptionOrCategory}</Typography>
-            <Typography gutterBottom color="textSecondary">{sizeInIcons}</Typography>
+            {<Typography gutterBottom variant="h4" noWrap style={{width: "100%"}}>{item ? item.__descriptionOrCategory : <Skeleton variant="text" width={150} /> }</Typography> }
+            <Typography gutterBottom color="textSecondary">{item ? sizeInIcons : <Skeleton variant="text" width={100} />}</Typography>
             <div className={classes.cardExpiration}>
-              <ExpirationLevelIcon fontSize="default"/>
-              <Typography gutterBottom color="textSecondary" className={classes.cardExpirationText}>{intl.formatMessage(item?.__expirationText)}</Typography>
+              {item ? <ExpirationLevelIcon fontSize="default"/> : <Skeleton variant="circle" width={30} height={30} />}
+              <Typography gutterBottom color="textSecondary" className={classes.cardExpirationText}>{item ? intl.formatMessage(item?.__expirationText) : <Skeleton variant="text" width={100} />}</Typography>
             </div>
           </div>
-          <Typography className={classes.cardCode} color="textSecondary" component="p" >{item ? item?.code : "-"}</Typography>
+          {item ? <Typography className={classes.cardCode} color="textSecondary" component="p" >{item?.code}</Typography> : <Skeleton variant="text" width={50} height={40} />}
         </div>      
       </div>
       <div className={classes.separation} />
@@ -78,7 +88,7 @@ const intItemCard = ({
 
 intItemCard.propTypes = {
   // Props from caller
-  item: PropTypes.object.isRequired,
+  item: PropTypes.object,
   density: PropTypes.oneOf([1, 2, 3]),
 
   // Props from other HOC

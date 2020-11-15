@@ -7,11 +7,11 @@ const useStyles = makeStyles(theme => {
     cardAndSeparation: {
       display: "flex",
       flexDirection: "column",
-      height: "100%",
+
 
       
       [theme.breakpoints.down('xs')]: {
-        flexBasis: "100%",
+        width: "100%",
         // Mobile / xs: No margin bottom, separation instead
         marginBottom: 0,
         // Mobile / xs: No gutter on the right
@@ -25,19 +25,19 @@ const useStyles = makeStyles(theme => {
         // Gutter on the right of the element:
         marginRight: (density) => theme.spacing(density),
 
-        flexBasis: (density) => `calc(${density === 1 ? "33.33%" : "50%"} - ${theme.spacing(density)}px)`,
+        width: (density) => `calc(${density === 1 ? "33.33%" : "50%"} - ${theme.spacing(density)}px)`,
       },      
 
       [theme.breakpoints.up('md')]: {
-        flexBasis: (density) => `calc(${density === 1 ? "25%" : (density === 2 ? "33.33%" : "50%")} - ${theme.spacing(density)}px)`,
+        width: (density) => `calc(${density === 1 ? "25%" : (density === 2 ? "33.33%" : "50%")} - ${theme.spacing(density)}px)`,
       },      
 
       [theme.breakpoints.up('lg')]: {
-        flexBasis: (density) => `calc(${density === 1 ? "20%" : (density === 2 ? "25%" : "33.33%")} - ${theme.spacing(density)}px)`,
+        width: (density) => `calc(${density === 1 ? "20%" : (density === 2 ? "25%" : "33.33%")} - ${theme.spacing(density)}px)`,
       },      
 
       [theme.breakpoints.up('xl')]: {
-        flexBasis: (density) => `calc(${density === 1 ? "20%" : "25%"} - ${theme.spacing(density)}px)`,
+        width: (density) => `calc(${density === 1 ? "20%" : "25%"} - ${theme.spacing(density)}px)`,
       },      
   
     },
@@ -49,6 +49,7 @@ const useStyles = makeStyles(theme => {
     card: {
       display: "flex",
       flexDirection: "column",
+      flexGrow: 1,
 
       // Mobile / xs : image on the left, text on the right
       [theme.breakpoints.down('xs')]: {
@@ -56,15 +57,19 @@ const useStyles = makeStyles(theme => {
       },
     },
 
-
-    cardImage: {
+    cardImageArea: {
+      flexGrow: 1,
       marginBottom: (density) => theme.spacing(density),
 
       // Mobile / xs : image on the left (smaller), text on the right (larger)
       [theme.breakpoints.down('xs')]: {
-        flexBasis: (density) => `calc(${density === 1 ? "40%" : "50%"} - ${theme.spacing(1)}px)`,
+        width: (density) => `calc(${density === 1 ? "40%" : "50%"} - ${theme.spacing(1)}px)`,
         marginRight: (density) => theme.spacing(density),
       },
+    },
+
+    cardImage: {
+      flexGrow: 1,
     },
 
 
@@ -75,7 +80,7 @@ const useStyles = makeStyles(theme => {
 
       // Mobile / xs : image on the left (smaller), text on the right (larger)
       [theme.breakpoints.down('xs')]: {
-        flexBasis: (density) => `calc(${density === 1 ? "60%" : "50%"} - ${theme.spacing(1)}px)`,
+        width: (density) => `calc(${density === 1 ? "60%" : "50%"} - ${theme.spacing(1)}px)`,
       },
     },
 

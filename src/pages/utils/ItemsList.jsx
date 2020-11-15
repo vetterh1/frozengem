@@ -35,14 +35,15 @@ const useStyles = makeStyles(theme => {
 
 const ItemsList = ({ 
   // From Redux:
-  list, 
+  list,
+  isFetching,
   density
 }) => {
-  console.debug("[--- FC Render ---] ItemsList -  list: ", list);
+  console.debug("[--- FC Render ---] ItemsList -  list: ", list, isFetching);
 
   const classes = useStyles(density);
 
-  if (!list || list.length <= 0)
+  if (!isFetching && list?.length <= 0)
     return (
       <div className="huge-margin-top">
         <Typography color="primary" align="center">
@@ -50,6 +51,9 @@ const ItemsList = ({
         </Typography>
       </div>
     );
+    
+  if(isFetching)
+  list = Array(9).fill();  
 
   return (
     <>
@@ -61,7 +65,7 @@ const ItemsList = ({
             density === 3 && classes.layoutDensity3,
       )}>
         {list.map((item, index) => (
-          <ItemCard key={item.id} item={item} index={index} last={index === list.length + 1} density={density} />
+          <ItemCard key={item?item.id:index} item={item} index={index} last={index === list.length + 1} density={density} />
         ))}
       </div>
     </>
@@ -80,6 +84,7 @@ ItemsList.propTypes = {
 function mapStateToProps(state) {
   return {
     list: getVisibleItems(state),
+    isFetching: state?.items?.isFetching,
     density: state?.user?.density,
   };
 }
