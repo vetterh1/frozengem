@@ -1,85 +1,155 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+
+// React
 import React, { useState, useLayoutEffect } from "react";
-import { connect } from "react-redux";
+// Redux
+import { connect } from 'react-redux';
 import { itemsFilterActions } from "_actions/itemsFilterActions";
-import { filterCounts } from "_selectors/itemsSelector";
+// HOC
+import { makeStyles } from '@material-ui/core/styles';
 import { injectIntl } from "react-intl";
+// MUI
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Badge from "@material-ui/core/Badge";
-
-import { getIconComponent } from "data/Icons";
-import { withStyles } from "@material-ui/core/styles";
+// Utilities
+import { filterCounts } from "_selectors/itemsSelector";
 import gtmPush from "utils/gtmPush";
+// Styles
+import { getIconComponent } from "data/Icons";
 
-const FilterTabs = withStyles(theme => ({
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const useTabsStyles = makeStyles(theme => ({
   root: {
-    backgroundColor: theme.transparency ? "transparent" : theme.palette.main.backgroundColor,
-    backdropFilter: theme.transparency ? "blur(8px) contrast(0.3) brightness(1.5)" : null,
-    borderBottom: '1px solid #eee',
-
-    // marginTop: -theme.spacing(2),
-    // marginLeft: -theme.spacing(2),
-    // marginRight: -theme.spacing(2),
+    borderBottom: `1px solid ${theme.palette.divider}`,
   },
   indicator: {
-    backgroundColor: theme.palette.primary.dark,
-    height: "3px"
-  }
-}))(Tabs);
-
-const FilterTab = withStyles(theme => ({
-  root: {
+    backgroundColor: theme.palette.filters.indicator.backgroundColor,
+  },
+  scrollButtons: {
     [theme.breakpoints.down("xs")]: {
-      minWidth: "75px"
+      width: (density) => `${(density * 5) + 20}px`,
     },
     [theme.breakpoints.up("sm")]: {
-      minWidth: "100px"
+      width: (density) => `${(density * 8) + 25}px`,
     },
     [theme.breakpoints.up("lg")]: {
-      minWidth: "150px"
-    },
-    textTransform: "none",
-    color: theme.palette.text.primary,
-    "&:hover": {
-      color: theme.palette.primary.dark
-    },
-    "&$selected": {
-      color: theme.palette.primary.dark
-    },
-    "&:focus": {
-      color: theme.palette.primary.dark
-    }
-  },
-  selected: {}
-}))(props => <Tab {...props} />);
-
-const StyledCountBadge = withStyles(theme => ({
-  root: {
-    position: "absolute",
-    [theme.breakpoints.down("xs")]: {
-      right: 20,
-      top: 16
-    },
-    [theme.breakpoints.up("sm")]: {
-      right: 25,
-      top: 16
-    },
-    [theme.breakpoints.up("lg")]: {
-      right: 50,
-      top: 16
-    }
-  },
-  badge: {
-    backgroundColor: "rgba(0, 0, 0, 0.25)",
-    color: "black",
-    padding: "0 2px"
+      width: (density) => `${(density * 12) + 30}px`,
+    },    
   }
-}))(props => <Badge {...props} />);
+}));
+
+
+const FilterTabs = (props) => {
+const classes = useTabsStyles(props?.density);
+return <Tabs classes={classes} {...props} />;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+const useTabStyles = makeStyles(theme => ({
+    root: {
+      [theme.breakpoints.down("xs")]: {
+        minWidth: (density) => `${(density * 15) + 50}px`,
+        padding: (density) => `${theme.spacing(density) / 2}px 0px`,
+      },
+      [theme.breakpoints.up("sm")]: {
+        minWidth: (density) => `${(density * 15) + 65}px`,
+        padding: (density) => `${theme.spacing(density) / 2}px 0px`,
+      },
+      [theme.breakpoints.up("lg")]: {
+        minWidth: (density) => `${(density * 15) + 70}px`,
+        padding: (density) => `${theme.spacing(density) / 2}px 0px`,
+      },
+      textTransform: "none",
+      color: theme.palette.text.primary,
+      "&:hover": {
+        backgroundColor: theme.palette.filters.selected.backgroundColor,
+      },
+    },
+    "selected": {
+      color: theme.palette.filters.selected.color,
+      backgroundColor: theme.palette.filters.selected.backgroundColor,
+    },
+}));
+
+
+const FilterTab = (props) => {
+  const classes = useTabStyles(props?.density);
+  return <Tab classes={classes} {...props} />;
+}
+
+
+
+
+
+
+
+
+
+
+
+const useBadgeStyles = makeStyles(theme => ({
+    root: {
+      position: "absolute",
+      [theme.breakpoints.down("xs")]: {
+        right: (density) => density === 1 ? 10 : (density === 2 ? 15 : 20),
+        top: (density) => density === 1 ? 13 : 15,
+      },
+      [theme.breakpoints.up("sm")]: {
+        right: (density) => density === 1 ? 15 : (density === 2 ? 20 : 28),
+        top: (density) => density === 1 ? 13 : 15,
+      },
+      [theme.breakpoints.up("lg")]: {
+        right: (density) => density === 1 ? 18 : (density === 2 ? 25 : 30),
+        top: (density) => density === 1 ? 13 : 15,
+      }
+    },
+    badge: {
+      backgroundColor: theme.palette.filters.badge.backgroundColor,
+    }
+}));
+
+
+const StyledCountBadge = (props) => {
+  const classes = useBadgeStyles(props?.density);
+  return <Badge classes={classes} {...props} />;
+}
+
+
+
+
+
+
+
 
 function intFilters({
   // From Redux:
   language,
+  density,
   filter,
   categories,
   filterItems,
@@ -139,6 +209,7 @@ function intFilters({
   return (
     <React.Fragment>
       <FilterTabs
+        density={density}
         value={selectedCategory}
         onChange={handleChange}
         variant="scrollable"
@@ -148,24 +219,26 @@ function intFilters({
         <FilterTab
           id="filter.all"
           key={"all"}
+          density={density}
           label={intl.formatMessage({ id: "filter.all" })}
           value={"all"}
           icon={
             <div>
               <IconCategoryAll fontSize="default" />
-              <StyledCountBadge badgeContent={counts["all"]} />
+              <StyledCountBadge density={density} badgeContent={counts["all"]} />
             </div>
           }
         />
         <FilterTab
           id="filter.latest"
           key={"latest"}
+          density={density}
           label={intl.formatMessage({ id: "filter.latest" })}
           value={"latest"}
           icon={
             <div>
               <IconCategoryLatest fontSize="default" />
-              <StyledCountBadge badgeContent={counts["latest"]} />
+              <StyledCountBadge density={density} badgeContent={counts["latest"]} />
             </div>
           }
         />
@@ -175,12 +248,13 @@ function intFilters({
             <FilterTab
               id={"filter." + category.name["en"].toLowerCase()}
               key={category.id2}
+              density={density}
               label={category.name[language]}
               value={category.id2}
               icon={
                 <div>
                   <IconCategory fontSize="default" />
-                  <StyledCountBadge badgeContent={counts[category.id2]} />
+                  <StyledCountBadge density={density} badgeContent={counts[category.id2]} />
                 </div>
               }
             />
@@ -189,24 +263,26 @@ function intFilters({
         <FilterTab
           id="filter.incomplete"
           key={"incomplete"}
+          density={density}
           label={intl.formatMessage({ id: "filter.incomplete" })}
           value={"incomplete"}
           icon={
             <div>
               <IconCategoryIncomplete fontSize="default" />
-              <StyledCountBadge badgeContent={counts["incomplete"]} />
+              <StyledCountBadge density={density} badgeContent={counts["incomplete"]} />
             </div>
           }
         />
         <FilterTab
           id="filter.removed"
           key={"removed"}
+          density={density}
           label={intl.formatMessage({ id: "filter.removed" })}
           value={"removed"}
           icon={
             <div>
               <IconCategoryRemoved fontSize="default" />
-              <StyledCountBadge badgeContent={counts["removed"]} />
+              <StyledCountBadge density={density} badgeContent={counts["removed"]} />
             </div>
           }
         />
@@ -217,7 +293,7 @@ function intFilters({
 
 function mapStateToProps(state) {
   const {
-    user: { language },
+    user: { language, density },
     itemsFilter: { filter },
     characteristics: { categories }
   } = state;
@@ -227,6 +303,7 @@ function mapStateToProps(state) {
 
   return {
     language,
+    density,
     filter,
     categories,
     counts

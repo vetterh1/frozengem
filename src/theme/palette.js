@@ -26,6 +26,7 @@ const chosenColors =  {
     dark: amber[700]
   },
   backgroundColor: {
+    white: "#fff",
     superlight: grey[50],
     light: grey[100],
     medium: grey[200],
@@ -51,22 +52,32 @@ const palette =  {
     main: chosenColors.secondary.main,
     dark: chosenColors.secondary.dark
   },
-  main: {
-      backgroundColor: chosenColors.backgroundColor.light
-  },
+  background: {
+    default: chosenColors.backgroundColor.white
+  },  
   header: {
     color: chosenColors.primary.dark,
+    backgroundColor: chosenColors.backgroundColor.white
+  },
+  footer: {
     backgroundColor: chosenColors.backgroundColor.light
   },
   bottomNavigation: {
-    backgroundColor: chosenColors.backgroundColor.main
+    backgroundColor: chosenColors.backgroundColor.medium
   },
-  detailsCard: {
-    backgroundColor: chosenColors.backgroundColor.main,
-  },
+  filters: {
+    indicator: {
+      backgroundColor: chosenColors.backgroundColor.medium,
+    },
+    selected: {
+      color: chosenColors.primary.dark,
+      backgroundColor: chosenColors.backgroundColor.medium,
+    },
+    badge: {
+      backgroundColor: chosenColors.backgroundColor.main
+    } 
+  },    
   itemCard: {
-    backgroundColor: chosenColors.backgroundColor.main,
-    backgroundColorAlternate: chosenColors.backgroundColor.medium,
     avatarBackgroundColor: {
       expired: red["A700"],
       next_30_days: red[500],
@@ -81,7 +92,8 @@ const palette =  {
     },
   },
   matrixCard: {
-    selected: amber[100]
+    selected: amber[100],
+    backgroundColor: chosenColors.secondary.light,
   },
   text: {
     primary: blueGrey[900],

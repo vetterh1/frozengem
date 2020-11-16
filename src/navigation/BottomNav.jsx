@@ -13,20 +13,26 @@ import CropFreeIcon from '@material-ui/icons/CropFree';
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
+    height: "unset",
     position: '-webkit-sticky', /* Safari */  
     position: 'sticky', 
     bottom: 0,
-    backgroundColor: theme.transparency ? "transparent" : theme.palette.bottomNavigation.backgroundColor,
-    backdropFilter: theme.transparency ? "blur(10px) contrast(0.2) brightness(1.8)" : null,
+    backgroundColor: theme.palette.bottomNavigation.backgroundColor,
     color: theme.palette.text.primary,
     zIndex: 10,
     paddingTop: theme.spacing(1),
   },
 }));
 
-const BottomNav = ({location, intl}) => {
+const BottomNav = ({
+  // From caller:
+  density,
+  // From HOC:
+  location, 
+  intl
+}) => {
 
-  const classes = useStyles();
+  const classes = useStyles(density);
   const [value, setValue] = React.useState(location ? location.pathname : "/");
 
   // External update (from router)
@@ -39,7 +45,7 @@ const BottomNav = ({location, intl}) => {
   }
 
   return (
-    <BottomNavigation value={value} onChange={handleChange} className={classes.root} showLabels>
+    <BottomNavigation value={value} onChange={handleChange} classes={classes} showLabels>
       <BottomNavigationAction disabled={location.pathname === '/dashboard'} label={intl.formatMessage({id: "action.list"})} value="/dashboard" icon={<ViewList />} component={Link} to="/dashboard" className={classes.root} />
       <BottomNavigationAction disabled={location.pathname === '/add'} label={intl.formatMessage({id: "action.add"})} value="/add" icon={<SaveAlt />} component={Link} to="/add" className={classes.root} />
       <BottomNavigationAction disabled={location.pathname === '/addFromBarcode'} label={intl.formatMessage({id: "action.addFromBarcode"})} value="/addFromBarcode" icon={<CropFreeIcon />} component={Link} to="/addFromBarcode" className={classes.root} />

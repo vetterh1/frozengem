@@ -12,10 +12,10 @@ import { Typography } from "@material-ui/core";
 // Components
 import Picture from "pages/utils/Picture";
 import SizeInIcons from "pages/utils/SizeInIcons";
-import { getIconComponent } from "data/Icons";
 // Configuration
 import config from "data/config";
 // Styles
+import { getIconComponent } from "data/Icons";
 import useStyles from "./stylesItemCard";
 
 

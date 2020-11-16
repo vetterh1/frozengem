@@ -10,7 +10,6 @@ import { userActions } from '_actions/userActions';
 // HOC
 import { IntlProvider } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
-import { useTheme } from '@material-ui/core/styles';
 import withMyTheme from 'theme/withMyTheme';
 // MUI
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -90,12 +89,11 @@ const NotFound = () => <h2>404 error - This page has not been found!</h2>;
 
 
 
-const styles = theme => ({
+const styles = () => ({
   divStyle: {
     display: "flex",
     flexDirection: "column",
     minHeight: "100vh",
-    backgroundColor: theme.transparency ? null : theme.palette.main.backgroundColor,
   },
   containerStyle: {
     display: "flex",
@@ -103,51 +101,7 @@ const styles = theme => ({
     flexGrow: 1,
     paddingBottom: 0,
   },
-
-  containerStyleDensity1: {
-    [theme.breakpoints.down('xs')]: {
-      paddingTop: theme.spacing(1),
-    },
-    [theme.breakpoints.up('sm')]: {
-      paddingTop: theme.spacing(1),
-    },
-  },
-
-  containerStyleDensity2: {
-    [theme.breakpoints.down('xs')]: {
-      paddingTop: theme.spacing(2),
-    },
-    [theme.breakpoints.up('sm')]: {
-      paddingTop: theme.spacing(2),
-    },
-  },
-
-  containerStyleDensity3: {
-    [theme.breakpoints.down('xs')]: {
-      paddingTop: theme.spacing(3),
-    },
-    [theme.breakpoints.up('sm')]: {
-      paddingTop: theme.spacing(3),
-    },
-  },
-
   stickToBottom: {
-  },
-
-
-  transparentFixedBackground: {
-    zIndex: -1,
-    position: "fixed",
-    left: 0,
-    top: 0,
-    width: "100%",
-    height: "100%",
-    pointerEvents: "none",
-
-    backgroundImage: "url(bg-snow.jpg)",
-    backgroundSize: "cover",
-    backgroundPosition: "center center",
-    backgroundColor: null,
   },
 });
 
@@ -187,8 +141,6 @@ const App = ({
   
   if(!language){ console.log('[App] No language!');  return null; }
 
-  const theme = useTheme();
-
   console.debug("[App] 0: loggedIn:", loggedIn, ", home: ", home, ", language: ", language);
 
   return (
@@ -204,7 +156,6 @@ const App = ({
             messages={translations[language]}
           >     
             <> 
-              {theme.transparency && <div className={classes.transparentFixedBackground} />}
               <Notifier />
 
               {/* process.env.PUBLIC_URL is defined in package.json / homepage.
@@ -306,7 +257,7 @@ const App = ({
 
                   { !loggedIn && <Footer />}
                   { loggedIn && navigationStyle === NavigationStyle.NAVIGATION_BOTTOMNAV && 
-                    <BottomNav className={classes.stickToBottom} /> }
+                    <BottomNav density={density} className={classes.stickToBottom} /> }
                   { loggedIn && navigationStyle === NavigationStyle.NAVIGATION_FLOATING && 
                     <FloatingNav /> }                              
 

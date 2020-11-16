@@ -24,8 +24,6 @@ const styles = theme => ({
     color: theme.palette.header.color,
     backgroundColor: theme.palette.header.backgroundColor,
     borderBottom: `1px solid ${theme.palette.divider}`,
-    // backgroundColor: fade( theme.palette.primary.dark, 0.8),
-    backdropFilter: theme.transparency ? "blur(8px) contrast(0.4) brightness(1.0)" : null,
     transition: "transform 0.3s",
   },
   toolbar: {
@@ -138,7 +136,7 @@ const Header = ({
           steps={helpSteps}
           callback={handleJoyrideCallback}
           disableScrolling={true}
-          debug={true}
+          debug={false}
           continuous={true}
           // showProgress={true}
           scrollToFirstStep={true}
