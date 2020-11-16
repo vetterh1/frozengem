@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     marginTop: -theme.spacing(2),
     margingBottom: 0,
-    backgroundColor: theme.palette.secondary.light,
+    backgroundColor: theme.palette.footer.backgroundColor,
   },
   footerContainer: {
   },

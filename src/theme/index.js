@@ -15,7 +15,6 @@ const theme = createMuiTheme({
       xl: 1280,
     },
   },  
-  transparency: false,
   image: "url(bg-snow.jpg)",
   palette,
   typography,

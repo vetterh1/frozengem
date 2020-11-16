@@ -5,8 +5,6 @@ const useStyles = makeStyles(theme => {
   return {
 
     card: {
-      backgroundColor: theme.transparency ? "transparent" : null,
-      backdropFilter: theme.transparency ? "blur(10px) contrast(0.2) brightness(1.8)" : null,
     },
 
     details_image_section: {
