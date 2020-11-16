@@ -41,15 +41,11 @@ const useTabsStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.filters.indicator.backgroundColor,
   },
   scrollButtons: {
-    [theme.breakpoints.down("xs")]: {
-      width: (density) => `${(density * 5) + 20}px`,
+
+    width: (density) => theme.spacing(density <= 2 ? 4 : 5),
+    [theme.breakpoints.down('xs')]: {
+      width: (density) => theme.spacing(density === 1 ? 2 : 3),
     },
-    [theme.breakpoints.up("sm")]: {
-      width: (density) => `${(density * 8) + 25}px`,
-    },
-    [theme.breakpoints.up("lg")]: {
-      width: (density) => `${(density * 12) + 30}px`,
-    },    
   }
 }));
 
