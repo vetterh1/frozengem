@@ -71,6 +71,9 @@ const intMenuProfile = ({name, homeCode, language, density, navigationStyle, set
   const enableGtmString = localStorage.getItem('enableGtm');
   const enableGtm = !enableGtmString || enableGtmString === "1";
 
+  const enableDevModeString = localStorage.getItem('enableDevMode');
+  const enableDevMode = !enableDevModeString || enableDevModeString === "1";
+
   return (
 
     <div>
@@ -173,6 +176,14 @@ const intMenuProfile = ({name, homeCode, language, density, navigationStyle, set
 
         <Divider />
         <MenuItem disabled={true}><FormattedMessage id="menu_profile.developer" /></MenuItem>
+
+        <MenuItem>
+          <FormattedMessage id="menu_profile.enableDevMode" />
+          <Switch
+            checked={enableDevMode}
+            onChange={(event) => {localStorage.setItem("enableDevMode", event.target.checked ? 1 : 0); handleClose()}}
+          />
+        </MenuItem>
 
         <MenuItem>
           <FormattedMessage id="menu_profile.enableGtm" />
