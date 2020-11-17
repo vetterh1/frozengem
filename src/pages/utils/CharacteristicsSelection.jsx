@@ -81,11 +81,7 @@ const CharacteristicsSelection = ({
       <DialogContent>
         <div className={"flex-normal-height flex-direction-column"}>
           <WizPageTitle message={title} />
-          <FormControl
-            className={
-              "flex-normal-height flex-direction-column margin-top margin-down"
-            }
-          >
+          <FormControl className={"flex-normal-height flex-direction-column margin-top"}>
             <SelectFromMatrix
               name={name}
               defaultIconName={

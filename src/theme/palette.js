@@ -55,6 +55,10 @@ const palette =  {
   background: {
     default: chosenColors.backgroundColor.white
   },  
+  button: {
+    icon: chosenColors.primary.main,
+    border: chosenColors.backgroundColor.main
+  },
   header: {
     color: chosenColors.primary.dark,
     backgroundColor: chosenColors.backgroundColor.white

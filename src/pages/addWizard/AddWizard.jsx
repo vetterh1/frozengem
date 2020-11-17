@@ -1,53 +1,49 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
-import React from "react";
-import { useEffect } from "react";
-
-import { connect } from "react-redux";
+// React
+import React, { useEffect } from "react";
 import { withRouter } from "react-router";
+import { Redirect } from "react-router";
+// Redux
+import { connect } from "react-redux";
 import { itemsActions } from "_actions/itemsActions";
 import { notifierActions } from "_actions/notifierActions";
 import { characteristicsServices } from "_services/characteristicsServices";
-import { Redirect } from "react-router";
+// HOC
 import { injectIntl } from "react-intl";
-import { withStyles } from "@material-ui/core/styles";
+import { makeStyles } from '@material-ui/core/styles';
+// MUI
+import Container from '@material-ui/core/Container';
+// Components
+import StepWizard from "react-step-wizard";
 import WizCharacteristicsSelection from "pages/utils/WizCharacteristicsSelection";
 import WizTextOrDateSelection from "pages/utils/WizTextOrDateSelection";
 import Stepper from "pages/utils/Stepper";
-import StepWizard from "react-step-wizard";
 
-const styles = theme => ({
-  button: {
-    paddingRight: theme.spacing(1),
-    paddingLeft: theme.spacing(2)
-  },
-  divWizardPage: {
-    marginTop: theme.spacing(2),
+
+
+const useStyles = makeStyles(theme => ({
+  container: {
     display: "flex",
     flexDirection: "column",
-    flex: "1 1 auto"
+    flex: "1 1 auto",
+    padding: (density) => theme.spacing(density <= 2 ? 4 : 5),
+    [theme.breakpoints.down('xs')]: {
+      padding: (density) => theme.spacing(density === 1 ? 2 : 3),
+    },  
   },
-  maxHeight: {
-    display: "flex",
-    flexGrow: 1
-  },
-  normalHeight: {
-    display: "flex",
-    flexGrow: 0
-  }
-});
+}));
 
 const AddWizard = ({
   // From Redux:
-  addItem,
-  savePicture,
-  addIntlNotifier,
+  density,
   loggedIn,
   language,
   characteristics,
+  addItem,
+  addIntlNotifier,
   // From other HOC:
   intl,
-  classes,
   history
 }) => {
   const emptyItem = {
@@ -80,16 +76,14 @@ const AddWizard = ({
   }, [history.location.key]);
 
   const [item, setItemValues] = React.useState(emptyItem);
-  // const [cameraDialogState, setCameraDialogState] = React.useState(false);
 
-  // const _resetState = () => setItemValues(emptyItem);
+  const classes = useStyles(density);
 
   if (returnHome) {
-    console.debug(
-      "[>>> Add #expirationDate ------>>>----- /dashboard >>>] Reason: back from Details not allowed!"
-    );
+    console.debug("[>>> Add #expirationDate ------>>>----- /dashboard >>>] Reason: back from Details not allowed!");
     return <Redirect to="/dashboard" />;
   }
+
 
   const _handleChangeWithServerSave = async updates => {
     // First, save to get the code & id
@@ -116,10 +110,6 @@ const AddWizard = ({
     return 1;
   };
 
-  // const handleBackFromSize = async (updates, updateServer = false) => {
-  //   await handleChange(updates, updateServer);
-  //   return item.containerColors.length > 0 ? 1 : 2;
-  // };
 
   // Set the received value in the state
   // (replacing any existing one)
@@ -139,6 +129,7 @@ const AddWizard = ({
     }
     return 1;
   };
+
 
   const handleMultiselectionChange = name => async (
     updates,
@@ -173,6 +164,7 @@ const AddWizard = ({
     return null;
   };
 
+
   const handleNextFromCategory = async (updates, updateServer = false) => {
     let categoryDetails = [];
     let categoryName = "";
@@ -198,10 +190,12 @@ const AddWizard = ({
     return 1;
   };
 
+
   const handleDetailsChange = async (updates, updateServer = false) => {
     await handleMultiselectionChange("detailsArray")(updates, updateServer);
     return null;
   };
+
 
   //
   // Compute expiration date from now & category & details
@@ -223,12 +217,12 @@ const AddWizard = ({
         ", expirationDateInDateForm:",
       expirationDateInDateForm
     );
-
     return {
       expirationDate: expirationDateInDateForm.getTime(),
       expirationInMonth: defaultExpirationInMonths
     };
   };
+
 
   function monthDiff(d1, d2) {
     var months;
@@ -238,17 +232,20 @@ const AddWizard = ({
     return months <= 0 ? 0 : months;
   }
 
+
   const getMonthsBetweenNowAndDate = dateInMs => {
     const diffInMonths = monthDiff(new Date(), new Date(dateInMs));
     console.debug("getMonthsBetweenNowAndDate diffInMonths:", diffInMonths);
     return diffInMonths;
   };
 
+
   const handleNextFromDetails = async (updateServer = false) => {
     const updatesComputed = computeExpiration();
     await handleChange({ ...updatesComputed }, updateServer);
     return 1;
   };
+
 
   const handleNextFromDateWithServerSave = async updates => {
     const expirationDateInMs = updates["expirationDate"];
@@ -262,64 +259,21 @@ const AddWizard = ({
       });
       history.push(`/new/${id}`);
     }
-
     return null;
   };
 
-  // const handleNextFromContainer = async (updates, updateServer = false) => {
-  //   let containerColors = [];
-  //   let containerName = "";
-
-  //   // If container changes, check if it has a color:
-  //   const container = updates["container"];
-  //   if (container) {
-  //     containerName = !characteristics.containers
-  //       ? "container"
-  //       : characteristics.containers
-  //           .find(oneContainer => oneContainer.id2 === container)
-  //           .name[language].toLowerCase();
-  //     containerColors = characteristics.colors.filter(color =>
-  //       color.parents.find(oneParent => oneParent === container)
-  //     );
-  //   }
-
-  //   await handleChange(
-  //     { ...updates, containerName, containerColors },
-  //     updateServer
-  //   );
-  //   return containerColors.length > 0 ? 1 : 2;
-  // };
-
-  // Set the received value in the state
-  // (replacing any existing one)
-  // const _savePicture = async (pictureData) => {
-  //   try {
-  //     const itemUpdated = await savePicture(
-  //       item.id,
-  //       pictureData
-  //     );
-  //     handleChange(
-  //       {
-  //         pictureName: itemUpdated.pictureName,
-  //       },
-  //       false
-  //     );
-  //     addIntlNotifier("camera.success", "success");
-  //   } catch (error) {
-  //     console.error("AddWizard.handleChange error: ", error);
-  //     addIntlNotifier("camera.error", "error");
-  //   }
-  // };
 
   if (!loggedIn) {
     console.debug("[>>> AddWizard ------>>>----- / >>>] Reason: not logged in");
     return <Redirect to="/" />;
   }
 
+
   console.debug("----------> item : ", item);
 
+  
   return (
-    <div className={classes.divWizardPage}>
+    <Container maxWidth="xl" className={classes.container}>
       <StepWizard
         isHashEnabled
         transitions={{}}
@@ -328,6 +282,7 @@ const AddWizard = ({
         nav={<Stepper />}
       >
         <WizCharacteristicsSelection
+          density={density}
           hashKey={"category"}
           name="category"
           title={intl.formatMessage({ id: "add.category.title" })}
@@ -338,6 +293,7 @@ const AddWizard = ({
           backDisabled
         />
         <WizCharacteristicsSelection
+          density={density}
           hashKey={"details"}
           name="detailsArray"
           title={intl.formatMessage(
@@ -364,6 +320,7 @@ const AddWizard = ({
           showNavigation
         />
         <WizCharacteristicsSelection
+          density={density}
           hashKey={"size"}
           name="size"
           title={intl.formatMessage({ id: "add.size.title" })}
@@ -374,6 +331,7 @@ const AddWizard = ({
           showNavigation
         />
         <WizCharacteristicsSelection
+          density={density}
           hashKey={"container"}
           name="container"
           title={intl.formatMessage({ id: "add.container.title" })}
@@ -384,6 +342,7 @@ const AddWizard = ({
           showNavigation
         />
         {/* <WizCharacteristicsSelection
+          density={density}
           hashKey={'color'}
           name='color'
           title={intl.formatMessage({id: 'add.color.title'}, {container: item.containerName})}
@@ -407,6 +366,7 @@ const AddWizard = ({
         {/* 
 
           <WizCharacteristicsSelection
+          density={density}
             hashKey={'freezer'}
             name='freezer'
             title={intl.formatMessage({id: 'add.freezer.title'})}
@@ -417,6 +377,7 @@ const AddWizard = ({
             showNavigation
           />
           <WizCharacteristicsSelection
+          density={density}
             hashKey={'location'}
             name='location'
             title={intl.formatMessage({id: 'add.location.title'})}
@@ -434,27 +395,27 @@ const AddWizard = ({
         />
       */}
       </StepWizard>
-    </div>
+    </Container>
   );
 };
 
 function mapStateToProps(state, ownProps) {
-  console.debug("Details.mapStateToProps - ownProps, state=", ownProps, state);
+  console.debug("AddWizard.mapStateToProps - ownProps, state=", ownProps, state);
 
   const {
-    user: { loggedIn, language },
+    user: { loggedIn, language, density },
     characteristics
   } = state;
   return {
     loggedIn,
     language,
+    density,
     characteristics
   };
 }
 
 const mapDispatchToProps = {
   addItem: itemsActions.addItem,
-  savePicture: itemsActions.savePicture,
   addIntlNotifier: notifierActions.addIntlNotifier
 };
 
@@ -463,4 +424,4 @@ const connectedAddWizard = connect(
   mapDispatchToProps
 )(AddWizard);
 
-export default withRouter(injectIntl(withStyles(styles, { withTheme: true })(connectedAddWizard)));
+export default withRouter(injectIntl(connectedAddWizard));

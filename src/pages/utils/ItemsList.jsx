@@ -11,29 +11,25 @@ import { FormattedMessage } from "react-intl";
 import Typography from "@material-ui/core/Typography";
 // Components
 import ItemCard from "pages/utils/ItemCard";
-// Utilities
-// import clsx from "clsx";
 
 
-const useStyles = makeStyles(theme => {
-  return {
 
-    itemsList: {
-      display: "flex",
-      flexWrap: "wrap",
+const useStyles = makeStyles(theme => ({
+  itemsList: {
+    display: "flex",
+    flexWrap: "wrap",
 
-      [theme.breakpoints.up('sm')]: {
-        marginRight: (density) => `-${theme.spacing(density)}px`,
-        padding: (density) => `${theme.spacing(density === 1 ? 3 : 5)}px 0`,
-      },
-
-      [theme.breakpoints.down('xs')]: {
-        marginRight: "unset", //  does not work :(
-        padding: (density) => `${theme.spacing(density === 1 ? 2 : 3)}px 0`,
-      },
+    [theme.breakpoints.up('sm')]: {
+      marginRight: (density) => `-${theme.spacing(density)}px`,
+      padding: (density) => `${theme.spacing(density === 1 ? 3 : 5)}px 0`,
     },
-  }
-});
+
+    [theme.breakpoints.down('xs')]: {
+      marginRight: "unset", //  does not work :(
+      padding: (density) => `${theme.spacing(density === 1 ? 2 : 3)}px 0`,
+    },
+  },
+}));
 
 const ItemsList = ({ 
   // From Redux:
@@ -71,8 +67,9 @@ const ItemsList = ({
 
 
 ItemsList.propTypes = {
-  // Props from caller
+  // Props from Redux:
   list: PropTypes.array.isRequired,
+  isFetching: PropTypes.bool.isRequired,
   density: PropTypes.oneOf([1, 2, 3]),
 };
 

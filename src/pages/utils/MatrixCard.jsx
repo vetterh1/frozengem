@@ -1,12 +1,36 @@
+// React
 import React from 'react';
-import clsx from 'clsx';
-import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import Avatar from '@material-ui/core/Avatar';
+import PropTypes from "prop-types";
+// HOC
+import { makeStyles } from '@material-ui/core/styles';
+// Utilities
+import clsx from "clsx";
 
 
-const styles = theme => ({
+
+const useStyles = makeStyles(theme => ({
+
+  button: {
+    border: `1px solid ${theme.palette.button.border}`,
+    cursor: 'pointer',
+    marginBottom: (density) => theme.spacing(density),
+    padding: (density) => theme.spacing(density),
+
+    [theme.breakpoints.down('xs')]: {
+      minWidth: '100%',
+      maxWidth: '100%',
+    },
+    [theme.breakpoints.up('sm')]: {
+      minWidth: 250,
+      maxWidth: 250,
+    },
+  },
+
+  selected: {
+    border: `3px solid ${theme.palette.button.border}`,
+  }
+
+  /*
   layout: {
 
     cursor: 'pointer',
@@ -28,16 +52,44 @@ const styles = theme => ({
   avatar: {
     backgroundColor: theme.palette.matrixCard.backgroundColor,
   }
+  */
 
-});
+}));
 
-const intMatrixCard = ({onClick, selected, name, label, icon = null, classes}) => {
+const MatrixCard = ({density, onClick, selected, name, label, icon = null}) => {
   
+  const classes = useStyles(density);
 
   
   return (
-    <>
-      <Card 
+    <div 
+      className={clsx(
+        classes.button,
+        selected && classes.selected  
+      )}
+      onClick={onClick} 
+      selected={selected}
+    >
+      {name} {selected}
+    </div>
+  );
+}
+
+MatrixCard.propTypes = {
+  // Props from caller:
+  density: PropTypes.oneOf([1, 2, 3]),
+  onClick: PropTypes.func.isRequired,
+  selected: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  icon: PropTypes.object, 
+};
+
+
+export default MatrixCard;
+
+/*
+ <Card 
         className={clsx(classes.layout, {[classes.selected]: selected})} 
         onClick={onClick} 
         raised={selected}
@@ -55,8 +107,4 @@ const intMatrixCard = ({onClick, selected, name, label, icon = null, classes}) =
           subheader={label}
         />
       </Card>
-    </>
-  );
-}
-export default withStyles(styles)(intMatrixCard);
-
+    */

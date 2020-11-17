@@ -1,5 +1,6 @@
 // React
 import React from 'react';
+import PropTypes from "prop-types";
 import { Redirect } from "react-router";
 // Redux
 import { connect } from 'react-redux';
@@ -14,25 +15,22 @@ import Filters from 'pages/Filters'
 
 
 
-const useStyles = makeStyles(theme => {
-  return {
+const useStyles = makeStyles(theme => ({
+  layout: {
+    display: "flex",
+    flexDirection: "column",
+    width: 'auto',
+  },
 
-    layout: {
-      display: "flex",
-      flexDirection: "column",
-      width: 'auto',
+  container: {
+    paddingLeft: (density) => theme.spacing(density <= 2 ? 4 : 5),
+    paddingRight: (density) => theme.spacing(density <= 2 ? 4 : 5),
+    [theme.breakpoints.down('xs')]: {
+      paddingLeft: (density) => theme.spacing(density === 1 ? 2 : 3),
+      paddingRight: (density) => theme.spacing(density === 1 ? 2 : 3),
     },
-
-    container: {
-      paddingLeft: (density) => theme.spacing(density <= 2 ? 4 : 5),
-      paddingRight: (density) => theme.spacing(density <= 2 ? 4 : 5),
-      [theme.breakpoints.down('xs')]: {
-        paddingLeft: (density) => theme.spacing(density === 1 ? 2 : 3),
-        paddingRight: (density) => theme.spacing(density === 1 ? 2 : 3),
-      },
-    },
-  }
-});
+  },
+}));
 
 
 const Dashboard = ({ 
@@ -59,6 +57,12 @@ const Dashboard = ({
   );
 }
 
+
+Dashboard.propTypes = {
+  // Props from redux
+  loggedIn: PropTypes.bool.isRequired,
+  density: PropTypes.oneOf([1, 2, 3]),
+};
 
 
 const mapStateToProps = state => ({

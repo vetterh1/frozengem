@@ -1,7 +1,13 @@
+// React
 import React from "react";
 import PropTypes from "prop-types";
+// HOC
+import { makeStyles } from '@material-ui/core/styles';
+// Components
 import { WizNavBar, WizPageTitle } from "pages/utils/WizUtilComponents";
 import SelectFromMatrix from "pages/utils/SelectFromMatrix";
+
+
 
 //
 // (!) handleBack & handleNext & handleChange are async (!)
@@ -12,23 +18,41 @@ import SelectFromMatrix from "pages/utils/SelectFromMatrix";
 // It's the responsibility of the parent to aggregate the multiple selected
 // and return them as an array in preselectedItems (with multiselection = true)
 
+
+
+
+const useStyles = makeStyles(theme => ({
+  title: {
+    padding: (density) => `${theme.spacing(density)}px 0px`,
+  },
+}));
+
+
 const WizCharacteristicsSelection = ({
+  // From caller:
+  density,
   name,
   title,
   handleChange,
+  items,
+  preselectedItems,
+  showNavigation = false,
+  backDisabled = false,
   secondaryHandleChange,
   handleBack = null,
   handleNext = null,
-  items,
-  preselectedItems,
   multiselection = false,
-  showNavigation = false,
-  backDisabled = false,
   defaultIconName = null,
+  // From caller, for StepWizard:
+  hashKey,
+  // Injected by StepWizard:
   isActive,
   currentStep,
   goToStep
 }) => {
+
+  const classes = useStyles(density);
+
   if (isActive === false) return null;
   if (!items) return null;
 
@@ -59,7 +83,7 @@ const WizCharacteristicsSelection = ({
 
   return (
     <div className={"flex-normal-height flex-direction-column"}>
-      <WizPageTitle message={title} />
+      <WizPageTitle message={title} classes={classes.title}/>
       <SelectFromMatrix
         name={name}
         defaultIconName={defaultIconName ? defaultIconName : name + "Default"}
@@ -80,6 +104,7 @@ const WizCharacteristicsSelection = ({
 };
 
 WizCharacteristicsSelection.propTypes = {
+  // Props from caller:
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   handleChange: PropTypes.func,
