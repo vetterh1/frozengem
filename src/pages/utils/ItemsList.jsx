@@ -12,22 +12,24 @@ import Typography from "@material-ui/core/Typography";
 // Components
 import ItemCard from "pages/utils/ItemCard";
 // Utilities
-import clsx from "clsx";
+// import clsx from "clsx";
 
 
 const useStyles = makeStyles(theme => {
   return {
 
-    layout: {
+    itemsList: {
       display: "flex",
       flexWrap: "wrap",
 
-      [theme.breakpoints.down('xs')]: {
-        padding: (density) => `${theme.spacing(density === 1 ? 2 : 3)}px 0`,
-      },
       [theme.breakpoints.up('sm')]: {
         marginRight: (density) => `-${theme.spacing(density)}px`,
         padding: (density) => `${theme.spacing(density === 1 ? 3 : 5)}px 0`,
+      },
+
+      [theme.breakpoints.down('xs')]: {
+        marginRight: "unset", //  does not work :(
+        padding: (density) => `${theme.spacing(density === 1 ? 2 : 3)}px 0`,
       },
     },
   }
@@ -57,13 +59,7 @@ const ItemsList = ({
 
   return (
     <>
-      {/* <div className={classes.fixedBackground}></div> */}
-      <div className={clsx(
-            classes.layout, 
-            density === 1 && classes.layoutDensity1,
-            density === 2 && classes.layoutDensity2,
-            density === 3 && classes.layoutDensity3,
-      )}>
+      <div className={classes.itemsList}>
         {list.map((item, index) => (
           <ItemCard key={item?item.id:index} item={item} index={index} last={index === list.length + 1} density={density} />
         ))}

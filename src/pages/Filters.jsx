@@ -41,7 +41,6 @@ const useTabsStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.filters.indicator.backgroundColor,
   },
   scrollButtons: {
-
     width: (density) => theme.spacing(density <= 2 ? 4 : 5),
     [theme.breakpoints.down('xs')]: {
       width: (density) => theme.spacing(density === 1 ? 2 : 3),
