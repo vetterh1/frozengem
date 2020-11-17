@@ -41,15 +41,10 @@ const useTabsStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.filters.indicator.backgroundColor,
   },
   scrollButtons: {
-    [theme.breakpoints.down("xs")]: {
-      width: (density) => `${(density * 5) + 20}px`,
+    width: (density) => theme.spacing(density <= 2 ? 4 : 5),
+    [theme.breakpoints.down('xs')]: {
+      width: (density) => theme.spacing(density === 1 ? 2 : 3),
     },
-    [theme.breakpoints.up("sm")]: {
-      width: (density) => `${(density * 8) + 25}px`,
-    },
-    [theme.breakpoints.up("lg")]: {
-      width: (density) => `${(density * 12) + 30}px`,
-    },    
   }
 }));
 
@@ -164,6 +159,10 @@ function intFilters({
 
   const [selectedCategory, setSelectedCategory] = useState(null);
 
+  const enableDevModeString = localStorage.getItem('enableDevMode');
+  const enableDevMode = !enableDevModeString || enableDevModeString === "1";
+  console.debug("[DevMode] enableDevMode (from local storage):", enableDevMode);
+
   // Restore tab used in previous session:
   useLayoutEffect(() => {
     console.debug("[Filters] useLayoutEffect (should run only once!)");
@@ -261,19 +260,6 @@ function intFilters({
           )
         })}
         <FilterTab
-          id="filter.incomplete"
-          key={"incomplete"}
-          density={density}
-          label={intl.formatMessage({ id: "filter.incomplete" })}
-          value={"incomplete"}
-          icon={
-            <div>
-              <IconCategoryIncomplete fontSize="default" />
-              <StyledCountBadge density={density} badgeContent={counts["incomplete"]} />
-            </div>
-          }
-        />
-        <FilterTab
           id="filter.removed"
           key={"removed"}
           density={density}
@@ -286,6 +272,19 @@ function intFilters({
             </div>
           }
         />
+        {enableDevMode && <FilterTab
+          id="filter.incomplete"
+          key={"incomplete"}
+          density={density}
+          label={intl.formatMessage({ id: "filter.incomplete" })}
+          value={"incomplete"}
+          icon={
+            <div>
+              <IconCategoryIncomplete fontSize="default" />
+              <StyledCountBadge density={density} badgeContent={counts["incomplete"]} />
+            </div>
+          }
+        />}
       </FilterTabs>
     </React.Fragment>
   );

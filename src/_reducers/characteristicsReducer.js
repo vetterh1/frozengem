@@ -10,10 +10,10 @@ const initialState = { // define initial state - an empty items list
   isValid: false,
   error: null,
 
-  version: 35,    
+  version: 36,    
   categories: [
     {name: {en: 'Bread', fr: 'Pain'}, label: {en: '', fr: ''}, id2: 'B', expiration: '1', expirationMinusPlus:{} },
-    {name: {en: 'Vegetables', fr: 'Légumes'}, label: {en: '', fr: ''}, id2: 'V',  expiration: '12', expirationMinusPlus:{DRAW: '-6'}},
+    {name: {en: 'Veggies', fr: 'Légumes'}, label: {en: '', fr: ''}, id2: 'V',  expiration: '12', expirationMinusPlus:{DRAW: '-6'}},
     {name: {en: 'Cheese', fr: 'Fromage'}, label: {en: '', fr: ''}, id2: 'R',  expiration: '12', expirationMinusPlus:{DRAW: '-6'}},
     {name: {en: 'Fruits', fr: 'Fruits'}, label: {en: '', fr: ''}, id2: 'F', expiration: '12', expirationMinusPlus:{DRAW: '-6'}},
     {name: {en: 'Soup', fr: 'Soupe'}, label: {en: '', fr: ''}, id2: 'S', expiration: '3', expirationMinusPlus:{}},

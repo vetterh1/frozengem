@@ -24,11 +24,11 @@ const useStyles = makeStyles(theme => {
     },
 
     container: {
-      paddingLeft: (density) => theme.spacing(density === 1 ? 1 : (density === 2 ? 3 : 5)),
-      paddingRight: (density) => theme.spacing(density === 1 ? 1 : (density === 2 ? 3 : 5)),
+      paddingLeft: (density) => theme.spacing(density <= 2 ? 4 : 5),
+      paddingRight: (density) => theme.spacing(density <= 2 ? 4 : 5),
       [theme.breakpoints.down('xs')]: {
-        paddingLeft: (density) => theme.spacing(density === 1 ? 1 : 2),
-        paddingRight: (density) => theme.spacing(density === 1 ? 1 : 2),
+        paddingLeft: (density) => theme.spacing(density === 1 ? 2 : 3),
+        paddingRight: (density) => theme.spacing(density === 1 ? 2 : 3),
       },
     },
   }
