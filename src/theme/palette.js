@@ -55,8 +55,8 @@ const palette =  {
   background: {
     default: chosenColors.backgroundColor.white
   },  
-  button: {
-    icon: chosenColors.backgroundColor.main,
+  buttonCheck: {
+    icon: chosenColors.backgroundColor.light,
     border: chosenColors.backgroundColor.main,
     selected: {
       border: chosenColors.secondary.main,

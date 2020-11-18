@@ -12,11 +12,11 @@ import clsx from "clsx";
 
 const useStyles = makeStyles(theme => ({
 
-  button: {
-    border: `1px solid ${theme.palette.button.border}`,
-    cursor: 'pointer',
-
-
+  buttonCheck: {
+    border: `1px solid ${theme.palette.buttonCheck.border}`,
+    cursor: "pointer",
+    display: "flex",
+    
     [theme.breakpoints.down('sm')]: {
       // (!) Gutter on the right of the element:
       // The container margin right need to be negative to compensate and to have the last element on the row correctly aligned right
@@ -27,6 +27,8 @@ const useStyles = makeStyles(theme => ({
       
       marginBottom: (density) => theme.spacing(density === 1 ? 1 : 2),
       padding: (density) => theme.spacing(0.5 + (density * 0.5)),      
+      // padding: (density, selected) => `${theme.spacing(0.5 + (density * 0.5))} - ${selected ? 1 : 0})px`,      
+
     },
     [theme.breakpoints.up('md')]: {
       minWidth: 200,
@@ -37,17 +39,26 @@ const useStyles = makeStyles(theme => ({
   },
 
   selected: {
-    border: `2px solid ${theme.palette.button.selected.border}`,
+    // Selected: border is 1px thicker
+    border: `2px solid ${theme.palette.buttonCheck.selected.border}`,
+    // But padding is 1px thinner to compensate
+    // (final button should have the same size)
+    [theme.breakpoints.down('sm')]: {
+      padding: (density) => theme.spacing(0.5 + (density * 0.5)) - 1,      
+    },
+    [theme.breakpoints.up('md')]: {
+      padding: (density) => theme.spacing(1 + (density * 0.5)) - 1,
+    },
   },
 
   icon: {
     marginRight: theme.spacing(1),
     cursor: 'pointer',
-    color: theme.palette.button.icon,
+    color: theme.palette.buttonCheck.icon,
   },
 
   iconSelected: {
-    color: theme.palette.button.selected.icon,
+    color: theme.palette.buttonCheck.selected.icon,
   },
 
   /*
@@ -84,13 +95,12 @@ const MatrixCard = ({density, onClick, selected, name, label, icon = null}) => {
   return (
     <div 
       className={clsx(
-        classes.button,
+        classes.buttonCheck,
         selected && classes.selected  
       )}
       onClick={onClick} 
       selected={selected}
     >
-      {/* <input className={classes.radio} name="option" type="radio" value={name} checked={selected ? true : false}></input> */}
       <CheckIcon  className={clsx(classes.icon, selected && classes.iconSelected)}/>
       <Typography component="body2">
         {name}

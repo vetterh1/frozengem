@@ -1,13 +1,29 @@
+// React
 import React from "react";
 import PropTypes from "prop-types";
-import { WizPageTitle } from "pages/utils/WizUtilComponents";
-import SelectFromMatrix from "pages/utils/SelectFromMatrix";
-import FormControl from "@material-ui/core/FormControl";
+// HOC
+import { makeStyles } from '@material-ui/core/styles';
+import { FormattedMessage } from "react-intl";
+// MUI
+import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import { FormattedMessage } from "react-intl";
-import Button from "@material-ui/core/Button";
+import FormControl from "@material-ui/core/FormControl";
+import { WizPageTitle } from "pages/utils/WizUtilComponents";
+// Components
+import SelectFromMatrix from "pages/utils/SelectFromMatrix";
+
+
+
+const useStyles = makeStyles(theme => ({
+  formControl: {
+    display: "flex",
+    flexDirection: "column",
+    paddingTop: theme.spacing(2),
+  },
+}));
+
 
 const CharacteristicsSelection = ({
   id,
@@ -25,6 +41,8 @@ const CharacteristicsSelection = ({
     multiselectionSelectedItems,
     setMultiselectionSelectedItems
   ] = React.useState(initialValue);
+
+  const classes = useStyles();
 
   console.debug(
     "CharacteristicsSelection.init: name, value, initialValue = ",
@@ -81,7 +99,7 @@ const CharacteristicsSelection = ({
       <DialogContent>
         <div className={"flex-normal-height flex-direction-column"}>
           <WizPageTitle message={title} />
-          <FormControl className={"flex-normal-height flex-direction-column margin-top"}>
+          <FormControl className={classes.formControl}>
             <SelectFromMatrix
               name={name}
               defaultIconName={
@@ -112,6 +130,8 @@ const CharacteristicsSelection = ({
 };
 
 CharacteristicsSelection.propTypes = {
+  // Props from Redux:
+  density: PropTypes.oneOf([1, 2, 3]),
   id: PropTypes.string.isRequired, // used for analytics (GTM/GA)
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
