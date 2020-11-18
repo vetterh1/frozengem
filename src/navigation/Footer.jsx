@@ -1,18 +1,22 @@
+// React
 import React from 'react';
 import { withRouter } from "react-router";
+// HOC
 import { FormattedMessage } from "react-intl";
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+// MUI
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
+import Typography from '@material-ui/core/Typography';
+// Configuration
 import config from 'data/config'
+
 
 function WhyFrozenGem() {
   return (
     <React.Fragment>
       <Typography component="h3" gutterBottom>
         <FormattedMessage id="footer.why" />
-        
       </Typography>
       <Typography gutterBottom >
         <FormattedMessage id="footer.whyanswer" />

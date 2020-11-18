@@ -18,7 +18,7 @@ const Stepper = ({totalSteps, currentStep}) => {
     }
 
     return (
-        <div className='text-center small-margin-down'>{dots}</div>
+        <div className='text-center'>{dots}</div>
     );
 };
 

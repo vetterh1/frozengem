@@ -242,8 +242,8 @@ video {
 .stepper_dot {
   color: black;
   cursor: pointer;
-  font-size: 36px;
-  line-height: 1;
+  font-size: 32px;
+  line-height: 0;
   margin: 0 5px;
   opacity: .2;
   text-shadow: none;

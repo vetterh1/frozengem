@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     flex: "1 1 auto",
     padding: (density) => theme.spacing(density <= 2 ? 4 : 5),
     [theme.breakpoints.down('xs')]: {
-      padding: (density) => theme.spacing(density === 1 ? 2 : 3),
+      padding: (density) => theme.spacing(density === 1 ? 1 : 2),
     },  
   },
 }));

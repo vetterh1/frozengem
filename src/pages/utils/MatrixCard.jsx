@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from "prop-types";
 // HOC
 import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 // Utilities
 import clsx from "clsx";
 
@@ -13,16 +14,24 @@ const useStyles = makeStyles(theme => ({
   button: {
     border: `1px solid ${theme.palette.button.border}`,
     cursor: 'pointer',
-    marginBottom: (density) => theme.spacing(density),
-    padding: (density) => theme.spacing(density),
 
-    [theme.breakpoints.down('xs')]: {
-      minWidth: '100%',
-      maxWidth: '100%',
+
+    [theme.breakpoints.down('sm')]: {
+      // (!) Gutter on the right of the element:
+      // The container margin right need to be negative to compensate and to have the last element on the row correctly aligned right
+      marginRight: (density) => theme.spacing(density),
+
+      // 2 columns:
+      width: (density) => `calc(50% - ${theme.spacing(density === 1 ? 1 : 2)}px)`,
+      
+      marginBottom: (density) => theme.spacing(density === 1 ? 1 : 2),
+      padding: (density) => theme.spacing(0.5 + (density * 0.5)),      
     },
-    [theme.breakpoints.up('sm')]: {
-      minWidth: 250,
-      maxWidth: 250,
+    [theme.breakpoints.up('md')]: {
+      minWidth: 200,
+      maxWidth: 200,
+      margin: (density) => theme.spacing(density),
+      padding: (density) => theme.spacing(1 + (density * 0.5)),
     },
   },
 
@@ -70,7 +79,9 @@ const MatrixCard = ({density, onClick, selected, name, label, icon = null}) => {
       onClick={onClick} 
       selected={selected}
     >
-      {name} {selected}
+      <Typography component="body2">
+        {name}
+      </Typography>
     </div>
   );
 }

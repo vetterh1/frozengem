@@ -20,23 +20,29 @@ const useStyles = makeStyles(theme => {
       },
 
       [theme.breakpoints.up('sm')]: {
-        // NOT mobile: add some margin!
+        // NOT mobile: add some bottom margin:
         marginBottom: (density) => theme.spacing(density === 1 ? 3 : 5),
-        // Gutter on the right of the element:
+        // (!) Gutter on the right of the element:
+        // The container margin right need to be negative to compensate and to have the last element on the row correctly aligned right
+        // It applies to 'sm' but also to all larger width
         marginRight: (density) => theme.spacing(density),
 
+        // 2 or 3 columns depending on the density:
         width: (density) => `calc(${density === 1 ? "33.33%" : "50%"} - ${theme.spacing(density)}px)`,
       },      
 
       [theme.breakpoints.up('md')]: {
+        // 2 or 3 or 4 columns depending on the density:
         width: (density) => `calc(${density === 1 ? "25%" : (density === 2 ? "33.33%" : "50%")} - ${theme.spacing(density)}px)`,
       },      
 
       [theme.breakpoints.up('lg')]: {
+        // 3 or 4 or 5 columns depending on the density:
         width: (density) => `calc(${density === 1 ? "20%" : (density === 2 ? "25%" : "33.33%")} - ${theme.spacing(density)}px)`,
       },      
 
       [theme.breakpoints.up('xl')]: {
+        // 4 or 5 columns depending on the density:
         width: (density) => `calc(${density === 1 ? "20%" : "25%"} - ${theme.spacing(density)}px)`,
       },      
   

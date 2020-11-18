@@ -17,11 +17,17 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-around",
-    width: "auto",
+
     // padding: `${theme.spacing(2)}px 0`
     // marginLeft: theme.spacing(1),
     // marginRight: theme.spacing(1),
+
+    [theme.breakpoints.down('sm')]: {
+      // Negative margin to compensate the unnecessary marginRight on the last element of a row:
+      marginRight: (density) => `-${theme.spacing(density === 1 ? 1 : 2)}px`,
+    },      
+    [theme.breakpoints.up('md')]: {
+    },
   }
 }));
 
