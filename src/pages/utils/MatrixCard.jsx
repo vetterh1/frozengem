@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 // HOC
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import CheckIcon from '@material-ui/icons/Check';
 // Utilities
 import clsx from "clsx";
 
@@ -36,8 +37,18 @@ const useStyles = makeStyles(theme => ({
   },
 
   selected: {
-    border: `3px solid ${theme.palette.button.border}`,
-  }
+    border: `2px solid ${theme.palette.button.selected.border}`,
+  },
+
+  icon: {
+    marginRight: theme.spacing(1),
+    cursor: 'pointer',
+    color: theme.palette.button.icon,
+  },
+
+  iconSelected: {
+    color: theme.palette.button.selected.icon,
+  },
 
   /*
   layout: {
@@ -79,6 +90,8 @@ const MatrixCard = ({density, onClick, selected, name, label, icon = null}) => {
       onClick={onClick} 
       selected={selected}
     >
+      {/* <input className={classes.radio} name="option" type="radio" value={name} checked={selected ? true : false}></input> */}
+      <CheckIcon  className={clsx(classes.icon, selected && classes.iconSelected)}/>
       <Typography component="body2">
         {name}
       </Typography>
