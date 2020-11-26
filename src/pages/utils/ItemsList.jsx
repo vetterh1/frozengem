@@ -19,18 +19,18 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexWrap: "wrap",
 
+    [theme.breakpoints.down('xs')]: {
+      // No negative margin on mobile, as the layout is different (see ItemCard)
+      marginRight: "unset",
+
+      padding: (density) => `${theme.spacing(density === 1 ? 2 : 3)}px 0`,
+    },
+
     [theme.breakpoints.up('sm')]: {
       // Negative margin to compensate the unnecessary marginRight on the last element of a row:
       marginRight: (density) => `-${theme.spacing(density)}px`,
 
       padding: (density) => `${theme.spacing(density === 1 ? 3 : 5)}px 0`,
-    },
-
-    [theme.breakpoints.down('xs')]: {
-      // No negative margin on mobile, as the layout is different (see ItemCard)
-      marginRight: "unset",
-      
-      padding: (density) => `${theme.spacing(density === 1 ? 2 : 3)}px 0`,
     },
   },
 }));

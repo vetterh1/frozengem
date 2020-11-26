@@ -42,7 +42,6 @@ const WizCharacteristicsSelection = ({
   handleBack = null,
   handleNext = null,
   multiselection = false,
-  defaultIconName = null,
   // From caller, for StepWizard:
   hashKey,
   // Injected by StepWizard:
@@ -85,8 +84,6 @@ const WizCharacteristicsSelection = ({
     <div className={"flex-normal-height flex-direction-column"}>
       <WizPageTitle message={title} classes={classes.title}/>
       <SelectFromMatrix
-        name={name}
-        defaultIconName={defaultIconName ? defaultIconName : name + "Default"}
         items={items}
         preselectedItems={preselectedItems}
         multiselection={multiselection}

@@ -38,7 +38,6 @@ export function user(state = initialState, action) {
 
     case ACTIONS.LOGOUT:
       return {
-        ...state,
         loggedIn: false,
         language: state.language
       };

@@ -1,14 +1,21 @@
+// React
 import React from 'react';
 import { Redirect } from 'react-router'
-import { TextField, Button } from '@material-ui/core';
-import { injectIntl } from "react-intl";
+// Redux
 import { bindActionCreators } from 'redux';
 import { connect  } from 'react-redux';
 import { userActions } from '_actions/userActions';
-import { WizPageTitle} from "pages/utils/WizUtilComponents";
+// HOC
+import { injectIntl } from "react-intl";
 import { withStyles } from '@material-ui/core/styles';
 import { FormattedMessage } from "react-intl";
 import { withFormik } from "formik";
+// MUI
+import Container from '@material-ui/core/Container';
+import { TextField, Button } from '@material-ui/core';
+// Components
+import { WizPageTitle} from "pages/utils/WizUtilComponents";
+// Utilities
 import * as Yup from 'yup';
 
 
@@ -54,65 +61,68 @@ const LoginForm = props => {
     
   return (
 
-    <div className={classes.divWizardPage}>
+    <Container maxWidth="md" className={classes.container}>
 
-      <div className={"flex-normal-height flex-direction-column"}>
+      <div className={classes.divWizardPage}>
 
-        <WizPageTitle message={intl.formatMessage({id: 'register.title'})} />
+        <div className={"flex-normal-height flex-direction-column"}>
 
-        <form onSubmit={handleSubmit} className={"flex-normal-height flex-direction-column"}>
+          <WizPageTitle message={intl.formatMessage({id: 'register.title'})} />
 
-          <div className={"flex-normal-height flex-direction-column"}>
+          <form onSubmit={handleSubmit} className={"flex-normal-height flex-direction-column"}>
 
-            <div className={"margin-down big-margin-top"}>
+            <div className={"flex-normal-height flex-direction-column"}>
 
-              <TextField
-                  id="email"
-                  autoComplete="email"
-                  value={values.email}
-                  type="email"
+              <div className={"margin-down big-margin-top"}>
+
+                <TextField
+                    id="email"
+                    autoComplete="email"
+                    value={values.email}
+                    type="email"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    label={intl.formatMessage({id: 'register.email.label'})}
+                    helperText={touched.email ? errors.email : ""}
+                    // helperText={intl.formatMessage({ id: Boolean(errors.email) ? 'register.email.error' : 'register.email.help'})} // only for register
+                    error={touched.email && Boolean(errors.email)}
+                    fullWidth
+                />
+        
+              </div>
+              
+              <div className={"margin-down margin-top"}>
+
+                <TextField
+                  id="password"
+                  autoComplete="password"
+                  value={values.password}
+                  type="password"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  label={intl.formatMessage({id: 'register.email.label'})}
-                  helperText={touched.email ? errors.email : ""}
-                  // helperText={intl.formatMessage({ id: Boolean(errors.email) ? 'register.email.error' : 'register.email.help'})} // only for register
-                  error={touched.email && Boolean(errors.email)}
+                  label={props.intl.formatMessage({id: 'register.password.label'})}
+                  helperText={touched.password ? errors.password : ""}
+                  error={touched.password && Boolean(errors.password)}
                   fullWidth
-              />
-      
-            </div>
-            
-            <div className={"margin-down margin-top"}>
+                />
+              
+              </div>
 
-              <TextField
-                id="password"
-                autoComplete="password"
-                value={values.password}
-                type="password"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                label={props.intl.formatMessage({id: 'register.password.label'})}
-                helperText={touched.password ? errors.password : ""}
-                error={touched.password && Boolean(errors.password)}
-                fullWidth
-              />
-            
             </div>
 
-          </div>
+            <div className={"flex-normal-height flex-direction-row-reverse flex-justify-between big-margin-down big-margin-top"}>
+              <Button variant="contained" color="primary" disabled={Boolean(errors.email)} type="submit" name="submit">
+                <FormattedMessage id={"button.ok"} />
+              </Button>
+            </div>
 
-          <div className={"flex-normal-height flex-direction-row-reverse flex-justify-between big-margin-down big-margin-top"}>
-            <Button variant="contained" color="primary" disabled={Boolean(errors.email)} type="submit" name="submit">
-              <FormattedMessage id={"button.ok"} />
-            </Button>
-          </div>
-
-        </form>
+          </form>
 
         </div>
 
       </div>
 
+    </Container>
   );
 }
 

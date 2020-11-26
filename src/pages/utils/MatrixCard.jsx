@@ -87,7 +87,7 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-const MatrixCard = ({density, onClick, selected, name, label, icon = null}) => {
+const MatrixCard = ({density, onClick, selected, name /*, label, icon = null */}) => {
   
   const classes = useStyles(density);
 
@@ -102,7 +102,7 @@ const MatrixCard = ({density, onClick, selected, name, label, icon = null}) => {
       selected={selected}
     >
       <CheckIcon  className={clsx(classes.icon, selected && classes.iconSelected)}/>
-      <Typography component="body2">
+      <Typography variant="body2">
         {name}
       </Typography>
     </div>
@@ -115,8 +115,8 @@ MatrixCard.propTypes = {
   onClick: PropTypes.func.isRequired,
   selected: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
-  label: PropTypes.string,
-  icon: PropTypes.object, 
+  // label: PropTypes.string,
+  // icon: PropTypes.object, 
 };
 
 

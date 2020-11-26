@@ -9,6 +9,8 @@ import StepWizard from 'react-step-wizard';
 import EmailForm from './EmailForm';
 import PasswordForm from './PasswordForm';
 // import stringifyOnce from 'utils/stringifyOnce'
+import Container from '@material-ui/core/Container';
+
 
 const styles = theme => ({
   button: {
@@ -88,6 +90,7 @@ class RegisterWizard extends React.Component {
     };
 
     return (
+      <Container maxWidth="md" className={classes.container}>
           <div className={classes.divWizardPage}>
             <StepWizard isHashEnabled transitions={{}} className={"flex-normal-height flex-direction-column"} classNameWrapper={'flex-normal-height flex-direction-column'}>
               <NameForm hashKey={'name'} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
@@ -95,6 +98,7 @@ class RegisterWizard extends React.Component {
               <PasswordForm hashKey={'password'}  onSubmit={this.register} handleChange={this.handleChange} resetState={this.resetState} state={this.state} />
             </StepWizard>
           </div>
+      </Container>
       );
   }
 }

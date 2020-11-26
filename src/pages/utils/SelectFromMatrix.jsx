@@ -7,8 +7,7 @@ import { connect } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
 // Components
 import MatrixCard from "pages/utils/MatrixCard";
-// Styles
-import { getIconComponent } from "data/Icons";
+
 
 
 
@@ -22,6 +21,10 @@ const useStyles = makeStyles(theme => ({
       // Negative margin to compensate the unnecessary marginRight on the last element of a row:
       marginRight: (density) => `-${theme.spacing(density === 1 ? 1 : 2)}px`,
     },      
+
+    [theme.breakpoints.up('sm')]: {
+      justifyContent: "center",
+    },
   }
 }));
 
@@ -32,8 +35,6 @@ const useStyles = makeStyles(theme => ({
 
 const SelectFromMatrix = ({
   // From caller:
-  name = "",
-  defaultIconName = "",
   items,
   preselectedItems,
   multiselection,
@@ -45,7 +46,7 @@ const SelectFromMatrix = ({
 
   const classes = useStyles(density);
 
-  console.log("SelectFromMatrix items:", items);
+  // console.log("SelectFromMatrix items:", items);
 
   return (
     <div className={classes.itemsList}>
@@ -54,19 +55,17 @@ const SelectFromMatrix = ({
           // console.log("SelectFromMatrix item:", item);
           const nameItem = item.name[language];
           const labelItem = item.label[language];
-          let IconItem = getIconComponent(name + item.id2);
-          if (!IconItem) IconItem = getIconComponent(defaultIconName);
           let selected = false;
 
           if (multiselection) {
-            // console.log("SelectFromMatrix nameItem, labelItem, IconItem, name, defaultIconName, items, preselectedItems:", nameItem, labelItem, IconItem, name, defaultIconName, items, preselectedItems)
+            // console.log("SelectFromMatrix nameItem, labelItem, name, items, preselectedItems:", nameItem, labelItem, items, preselectedItems)
             if (preselectedItems)
               selected =
                 preselectedItems.find(detail => detail === item.id2) !==
                 undefined;
           } else {
             selected = preselectedItems === item.id2;
-            console.log("SelectFromMatrix item.id2, preselectedItems, selected:", item.id2, preselectedItems, selected)
+            // console.log("SelectFromMatrix item.id2, preselectedItems, selected:", item.id2, preselectedItems, selected)
           }
 
           return (
@@ -78,7 +77,6 @@ const SelectFromMatrix = ({
               id={item.id2}
               name={nameItem}
               label={labelItem}
-              icon={IconItem && <IconItem fontSize="default" />}
             />
           );
         })}
@@ -88,8 +86,6 @@ const SelectFromMatrix = ({
 
 SelectFromMatrix.propTypes = {
   // Props from caller:
-  name: PropTypes.string.isRequired,
-  defaultIconName: PropTypes.string.isRequired,
   items: PropTypes.array.isRequired,
   // preselectedItems is a string if NOT multi selection
   // preselectedItems is an array if multi selection

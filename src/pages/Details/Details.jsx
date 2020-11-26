@@ -73,7 +73,7 @@ const Details = ({
   }
   const createNewItem = item ? false : true;
 
-  console.debug("[--- FC ---] Functional component: Details - createNewItem = ", createNewItem, " - item = ", item ? item : "N/A");
+  console.debug("[--- FC ---] Functional component: Details - createNewItem = ", createNewItem, " - item = ", item);
 
   const _handleClose = () => {
     console.debug("[<<< Details ------<<<----- / <<<] Reason: close details");
@@ -527,7 +527,7 @@ const Details = ({
 // }
 
 function mapStateToProps(state, ownProps) {
-  // console.debug("Details.mapStateToProps - ownProps, match, params=", ownProps, ownProps.match, ownProps.match.params );
+  console.debug("Details.mapStateToProps - ownProps, match, params=", ownProps, ownProps.match, ownProps.match.params );
   const id = ownProps.match.params.id;
   const isNew = ownProps.match.path.startsWith("/new/");
   return {

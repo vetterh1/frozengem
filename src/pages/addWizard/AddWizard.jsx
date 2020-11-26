@@ -257,7 +257,13 @@ const AddWizard = ({
         expirationDate: expirationDateInMs,
         expirationInMonth: monthsBetweenNowAndDate
       });
-      history.push(`/new/${id}`);
+      if(!id) {
+        console.error("AddWizard.handleNextFromDateWithServerSave error: could not save item");
+        addIntlNotifier("item.add.error", "error");
+        history.push("/");
+      } else {
+        history.push(`/new/${id}`);
+      }
     }
     return null;
   };
@@ -273,7 +279,7 @@ const AddWizard = ({
 
   
   return (
-    <Container maxWidth="xl" className={classes.container}>
+    <Container maxWidth="lg" className={classes.container}>
       <StepWizard
         isHashEnabled
         transitions={{}}
@@ -307,7 +313,6 @@ const AddWizard = ({
           preselectedItems={item.detailsArray}
           multiselection
           showNavigation
-          defaultIconName={"category" + item.category}
         />
         <WizTextOrDateSelection
           hashKey={"description"}
